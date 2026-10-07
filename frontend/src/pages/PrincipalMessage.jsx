@@ -50,7 +50,7 @@ export default function PrincipalMessage() {
               Our experienced educators nurture each child across three vital developmental milestones: foundational play-based exploration in Pre-Primary (Nursery, Jr. &amp; Sr. KG), strong conceptual mastery in Primary school (Grades 1 to 5), and rigorous analytical inquiry in Secondary school (Grades 6 to 10) leading to distinction in CBSE and State Board examinations.
             </p>
             <p>
-              Furthermore, through expansive sports grounds, athletic training, daily yoga, vibrant cultural festivals, and secure residential hostel facilities accommodating 800 boys and 200 girls at our Shelve campus, we ensure every child thrives in a holistic, protective, and energetic environment.
+              Furthermore, through expansive sports grounds, athletic training, daily yoga, vibrant cultural festivals, and safe GPS-monitored school bus transportation connecting Pandharpur and surrounding regions, we ensure every child thrives in a holistic, protective, and energetic environment.
             </p>
             <p>
               I warmly invite parents to visit our campuses at Isbavi and Shelve, meet our faculty, and partner with us in nurturing the leaders, innovators, and noble citizens of tomorrow.

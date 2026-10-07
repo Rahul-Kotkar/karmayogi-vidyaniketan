@@ -93,7 +93,7 @@ export default function SecondarySchool() {
               { title: "Personalized Remedial Coaching", desc: "Special evening and zero-period support for students needing extra clarity in math and science." },
               { title: "STEM, AI & Robotics Studio", desc: "Hands-on coding, Arduino microcontroller programming, and robotics hardware building." },
               { title: "Career Guidance & Counseling", desc: "Expert seminars on streaming choices (Science, Commerce, Arts) and competitive exam readiness." },
-              { title: "Residential Supervised Study Hours", desc: "Faculty-supervised evening prep hours for hostel students ensuring zero distractions." }
+              { title: "Supervised Study & Doubt-Clearing Hours", desc: "Faculty-supervised prep hours and structured academic support ensuring zero distractions and focused learning." }
             ].map((f, i) => (
               <div key={i} style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
                 <strong style={{ color: 'var(--navy-header)', fontSize: '15px', display: 'block', marginBottom: 4 }}>

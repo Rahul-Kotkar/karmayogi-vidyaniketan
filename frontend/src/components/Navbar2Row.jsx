@@ -112,15 +112,7 @@ export default function Navbar2Row() {
     {
       key: 'about',
       label: 'About Us',
-      path: '/about',
-      children: [
-        { label: 'About the School', path: '/about' },
-        { label: 'Vision & Mission', path: '/vision-mission' },
-        { label: 'Principal\'s Message', path: '/principal-message' },
-        { label: 'Chairman\'s Message', path: '/about#chairman' },
-        { label: 'Shri Pandurang Pratishthan', path: '/about#management' },
-        { label: 'Our Leadership', path: '/about#leadership' }
-      ]
+      path: '/about'
     },
     {
       key: 'academics',

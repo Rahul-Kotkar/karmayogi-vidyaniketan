@@ -3572,8 +3572,10 @@ img, video, iframe, embed, object {
   padding-bottom: 30px;
 }
 
+
 .about-block {
   margin-bottom: 48px;
+  scroll-margin-top: 140px;
 }
 
 .about-section-header {

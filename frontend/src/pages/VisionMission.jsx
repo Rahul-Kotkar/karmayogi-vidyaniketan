@@ -46,7 +46,7 @@ export default function VisionMission() {
               { num: "03", title: "Physical Fitness & Sports", desc: "Cultivate physical endurance, sportsmanship, and teamwork through daily athletics, yoga, cricket, football, and traditional Indian sports." },
               { num: "04", title: "Indian Values & Character", desc: "Inculcate deep respect for Indian culture, self-discipline, honesty, civic duty, and environmental responsibility." },
               { num: "05", title: "Child-Centric Mentorship", desc: "Nurture each learner's unique strengths, curiosity, and emotional confidence through caring teacher-student relationships." },
-              { num: "06", title: "Safe Residential Community", desc: "Maintain secure, well-supervised hostel facilities ensuring a disciplined home-away-from-home for residential students." }
+              { num: "06", title: "Safe Campus & Transport", desc: "Maintain secure, GPS-monitored transportation and CCTV-monitored campuses ensuring a protective environment for all students." }
             ].map((p, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 20, borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--blue-vibrant)' }}>{p.num}</span>

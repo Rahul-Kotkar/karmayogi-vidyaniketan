@@ -58,13 +58,13 @@ export default function Infrastructure() {
             </div>
             <div style={{ padding: 24, flex: 1, display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontSize: '11px', fontWeight: 800, color: '#c9a227', textTransform: 'uppercase' }}>
-                HIGH SCHOOL &bull; RESIDENTIAL HOSTEL CAMPUS
+                HIGH SCHOOL &bull; SENIOR SECONDARY CAMPUS
               </span>
               <h3 style={{ fontSize: '20px', color: 'var(--navy-header)', margin: '4px 0 10px' }}>
-                Main High School &amp; Residential Campus (Shelve)
+                Main High School &amp; Senior Secondary Campus (Shelve)
               </h3>
               <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6, flex: 1 }}>
-                Expansive green campus at Shelve accommodating Middle &amp; Secondary grades (Grade 5 to Grade 10) along with residential hostel wings for 800 boys and 200 girls, science labs, computer center, AI robotics studio, and full-size sports grounds.
+                Expansive green campus at Shelve accommodating Middle &amp; Secondary grades (Grade 5 to Grade 10) along with advanced science labs, computer center, AI robotics studio, and full-size sports grounds.
               </p>
               <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 14, marginTop: 14 }}>
                 <strong style={{ fontSize: '12px', color: 'var(--navy-header)', display: 'block', marginBottom: 4 }}>Address:</strong>
@@ -90,7 +90,7 @@ export default function Infrastructure() {
               { title: "Vast Sports Grounds", desc: "Cricket nets, football field, volleyball, kho-kho, kabaddi courts, and athletic tracks." },
               { title: "Campus Safety & Surveillance", desc: "24/7 CCTV surveillance, boundary walls, security guards, and fire safety systems." },
               { title: "Clean Drinking Water", desc: "Commercial RO water purification plants supplying chilled, potable water." },
-              { title: "Residential Hostels & Mess", desc: "Secure boarding wings for 800 boys and 200 girls with nutritious mess dining." }
+              { title: "Fleet Bus Transport & Safety", desc: "GPS-enabled bus fleet connecting Pandharpur talukas with speed governors and female attendants." }
             ].map((item, idx) => (
               <div key={idx} style={{ background: '#ffffff', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
                 <strong style={{ color: 'var(--navy-header)', fontSize: '14.5px', display: 'block', marginBottom: 4 }}>

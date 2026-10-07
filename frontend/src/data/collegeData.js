@@ -68,18 +68,7 @@ export const SOCIAL_LINKS = [
 // Row 1: Primary Institutional Navigation
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
-  {
-    label: "ABOUT US",
-    path: "/about",
-    children: [
-      { label: "About the School", path: "/about" },
-      { label: "Vision & Mission", path: "/vision-mission" },
-      { label: "Principal's Message", path: "/principal-message" },
-      { label: "Chairman's Message", path: "/about#chairman" },
-      { label: "Shri Pandurang Pratishthan", path: "/about#management" },
-      { label: "Our Leadership", path: "/about#leadership" }
-    ]
-  },
+  { label: "ABOUT US", path: "/about" },
   {
     label: "ACADEMICS",
     path: "/academics",

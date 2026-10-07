@@ -101,8 +101,8 @@ export default function FeeStructure() {
                 a: "Absolutely not. Karmayogi Vidyaniketan has a strict zero-donation policy. All admissions are conducted fairly without any capitation charges."
               },
               {
-                q: "Are hostel and transportation charges included in the tuition fee?",
-                a: "No, hostel residential facilities and school bus transportation are optional services availed according to parent requirements, with separate subsidized charges."
+                q: "Are transportation and uniform charges included in the tuition fee?",
+                a: "No, school bus transportation, uniform, and books are optional or separate services availed according to parent requirements at nominal, subsidized charges."
               },
               {
                 q: "What boards does the school follow?",
