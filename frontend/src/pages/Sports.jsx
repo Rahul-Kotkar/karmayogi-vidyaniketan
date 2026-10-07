@@ -302,26 +302,6 @@ export default function Sports() {
           </div>
         </div>
 
-        {/* 6. Campus Tour & Admission Action CTA */}
-        <div style={{ background: 'linear-gradient(135deg, #071d3a 0%, #0b2545 60%, #0d3b66 100%)', borderRadius: 14, padding: '36px 32px', color: '#ffffff', textAlign: 'center', boxShadow: 'var(--shadow-md)' }}>
-          <span style={{ fontSize: '11px', fontWeight: 800, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            SEE OUR SPORTS ARENAS IN PERSON
-          </span>
-          <h3 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: '#ffffff', margin: '8px 0 12px' }}>
-            Want Your Child to Excel in Academics and Athletics?
-          </h3>
-          <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.85)', maxWidth: 620, margin: '0 auto 22px', lineHeight: 1.65 }}>
-            Admissions are open for Nursery through Grade 10 for the upcoming academic session. We warmly welcome parents to visit our sports grounds, observe physical education classes, and meet our coaching staff.
-          </p>
-          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/contact" className="btn btn-primary" style={{ background: '#0284c7', borderColor: '#0284c7' }}>
-              Schedule a Campus Sports Tour &rarr;
-            </Link>
-            <Link to="/admissions" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.6)' }}>
-              Admission Process &amp; Apply
-            </Link>
-          </div>
-        </div>
 
       </div>
     </PageShell>

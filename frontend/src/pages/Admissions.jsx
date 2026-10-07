@@ -62,28 +62,6 @@ export default function Admissions() {
     <PageShell title="Admissions Open 2026–27" subtitle="Give your child an environment where learning, character and confidence grow together.">
       <div style={{ display: 'grid', gap: 40 }}>
 
-        {/* 1. Header Banner */}
-        <section style={{ background: 'linear-gradient(135deg, #071d3a 0%, #0b2545 100%)', borderRadius: 14, padding: '36px 32px', color: '#ffffff', boxShadow: 'var(--shadow-md)' }}>
-          <div style={{ maxWidth: 840 }}>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#c9a227', textTransform: 'uppercase', letterSpacing: '1.2px' }}>
-              ENROLLMENT FOR ACADEMIC YEAR 2026–27
-            </span>
-            <h1 style={{ fontFamily: 'var(--heading-font)', fontSize: 'clamp(26px, 3vw, 36px)', margin: '8px 0 14px', color: '#ffffff' }}>
-              Admissions Open for Nursery to Grade 10
-            </h1>
-            <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.9)', lineHeight: 1.7, marginBottom: 24 }}>
-              Karmayogi Vidyaniketan / Karmayogi Public School, managed by Shri Pandurang Pratishthan, provides quality English-medium education combining CBSE &amp; State Board tracks, smart classrooms, AI &amp; Robotics labs, sports facilities, and secure residential wings.
-            </p>
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-              <a href="#apply" className="btn btn-primary" style={{ background: 'var(--blue-royal)', borderColor: 'var(--blue-royal)' }}>
-                Fill Admission Enquiry &darr;
-              </a>
-              <Link to="/admission-process" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.5)' }}>
-                Step-by-Step Admission Process &rarr;
-              </Link>
-            </div>
-          </div>
-        </section>
 
         {/* 2. 5-Step Admission Process (Requirement 15) */}
         <section style={{ background: '#ffffff', borderRadius: 12, padding: '36px 30px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
