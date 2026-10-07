@@ -7,61 +7,81 @@ export default function Footer() {
     <footer className="college-footer">
       <div className="footer-top">
         <div className="footer-about">
-          <div className="footer-brand">COLLEGE OF PHYSIOTHERAPY</div>
+          <div className="footer-brand">KARMAYOGI VIDYANIKETAN</div>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#c9a227', marginBottom: '8px' }}>
+            Karmayogi Public School
+          </div>
           <p>
-            {COLLEGE.foundation.replace("'s", '')}<br />
-            {COLLEGE.address}<br />
-            Affiliated to MUHS, Nashik · NAAC Grade 'A' (CGPA 3.02)
+            {COLLEGE.foundation.replace("'s", '')}, Pandharpur<br />
+            English Medium • Co-Educational • Nursery to Grade 10<br />
+            CBSE &amp; State Board Tracks · Pandharpur, Solapur (MS)
           </p>
           <div className="socials">
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="#" aria-label="Instagram">◎</a>
-            <a href="#" aria-label="YouTube">▶</a>
-            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">◎</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
           </div>
         </div>
+
         <div className="footer-links-col footer-col-quick">
           <h4>Quick Links</h4>
           <ul className="footer-quick-links-grid">
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
+            <li><Link to="/about">About Us</Link></li>
             <li><Link to="/academics">Academics</Link></li>
             <li><Link to="/admissions">Admissions</Link></li>
-            <li><Link to="/faculty">Faculty</Link></li>
+            <li><Link to="/infrastructure">Campus</Link></li>
+            <li><Link to="/facilities">Facilities</Link></li>
+            <li><Link to="/labs">Science &amp; STEM Labs</Link></li>
+            <li><Link to="/student-life">Student Life</Link></li>
+            <li><Link to="/transport">Transportation</Link></li>
             <li><Link to="/gallery">Gallery</Link></li>
-            <li><Link to="/notices">Notices</Link></li>
-            <li><Link to="/news">News</Link></li>
             <li><Link to="/events">Events</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
+
         <div className="footer-links-col footer-col-important">
-          <h4>Important Links</h4>
+          <h4>Campuses</h4>
           <ul>
-            <li><a href="https://muhs.ac.in" target="_blank" rel="noreferrer">MUHS, Nashik</a></li>
-            <li><a href="https://ugc.gov.in" target="_blank" rel="noreferrer">UGC</a></li>
-            <li><a href="https://naac.gov.in" target="_blank" rel="noreferrer">NAAC</a></li>
-            <li><a href="https://maharashtra.gov.in" target="_blank" rel="noreferrer">Govt. of Maharashtra</a></li>
-            <li><a href="https://iap.org.in" target="_blank" rel="noreferrer">Indian Association of Physiotherapists</a></li>
+            <li style={{ marginBottom: 12 }}>
+              <strong style={{ color: '#ffffff', display: 'block' }}>Primary / Foundation Campus</strong>
+              <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                Isbavi, behind MSEDCL Division Office, Link Road, Pandharpur.
+              </span>
+            </li>
+            <li style={{ marginBottom: 12 }}>
+              <strong style={{ color: '#ffffff', display: 'block' }}>Main High School Campus</strong>
+              <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304.
+              </span>
+            </li>
+            <li>
+              <Link to="/admission-process" style={{ color: '#38bdf8', fontWeight: 600 }}>Admission Process &rarr;</Link>
+            </li>
           </ul>
         </div>
+
         <div className="footer-links-col footer-col-contact">
-          <h4>Contact</h4>
+          <h4>Contact School Desk</h4>
           <ul>
-            <li><b>Phone:</b> {COLLEGE.phone}</li>
+            <li><b>Phones:</b> {COLLEGE.phone}</li>
+            <li><b>Additional:</b> +91-9527632033, +91-8788642412</li>
             <li><b>Email:</b> <a href={'mailto:' + COLLEGE.email}>{COLLEGE.email}</a></li>
-            <li><b>Website:</b> {COLLEGE.website}</li>
-            <li style={{ marginTop: 8 }}>{COLLEGE.address}</li>
+            <li><b>Hours:</b> Mon – Sat: 8:00 AM – 2:00 PM</li>
+            <li style={{ marginTop: 8 }}>Pandharpur, Solapur, Maharashtra</li>
           </ul>
         </div>
       </div>
+
       <div className="footer-bottom">
         <div className="footer-bottom-container">
           <div className="footer-bottom-left">
-            © 2026 Karmayogi College of Physiotherapy. All Rights Reserved. | Shri Pandurang Pratishthan, Shelve, Pandharpur
+            © 2026 Karmayogi Vidyaniketan. All Rights Reserved. | Shri Pandurang Pratishthan, Pandharpur
           </div>
           <div className="footer-bottom-right">
-            Designed &amp; Developed by <span className="dev-credit-names" style={{ fontWeight: 700, color: '#ffffff' }}>Rahul &amp; Pratik</span>
+            Shri Pandurang Pratishthan, Pandharpur
           </div>
         </div>
       </div>

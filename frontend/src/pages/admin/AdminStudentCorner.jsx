@@ -514,7 +514,7 @@ export default function AdminStudentCorner() {
                 <div>
                   <h3>Campus Spaces & Experiences (Beyond the Classroom)</h3>
                   <span style={{ fontSize: 13, color: '#5c6672' }}>
-                    Total: {data.spaces?.length || 0} spaces and facilities (Laboratories, Library, Hostel, Sports, etc.)
+                    Total: {data.spaces?.length || 0} spaces and facilities (Laboratories, Library, Sports, Transport, etc.)
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -1150,7 +1150,7 @@ export default function AdminStudentCorner() {
                         className="admin-input"
                         value={formValues.title || ''}
                         onChange={e => setFormValues({ ...formValues, title: e.target.value })}
-                        placeholder="e.g. Laboratories, Central Library, Hostel Facilities..."
+                        placeholder="e.g. Laboratories, Central Library, Sports Arena..."
                       />
                     </div>
 
@@ -1161,9 +1161,9 @@ export default function AdminStudentCorner() {
                         value={formValues.icon || 'flask'}
                         onChange={e => setFormValues({ ...formValues, icon: e.target.value })}
                       >
-                        <option value="flask">🧪 Laboratories (Flask / Clinical Labs)</option>
+                        <option value="flask">🧪 Laboratories (Science & Robotics)</option>
                         <option value="book">📖 Central Library (Book / Study Spaces)</option>
-                        <option value="home">🏠 Hostel Facilities (Accommodation)</option>
+                        <option value="home">🏫 Campus Courtyard & Activity Spaces</option>
                         <option value="sports">🎮 Sports (Playgrounds & Fitness)</option>
                         <option value="music">🎵 Cultural Activities (Music & Auditorium)</option>
                         <option value="users">👥 Student Clubs (Clubs & Committees)</option>

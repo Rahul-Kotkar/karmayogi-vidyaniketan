@@ -106,7 +106,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 - **Courses**: Manage BPT, MPT, Ph.D. degrees, approved intake, eligibility, and fee structure.
 - **Departments**: Clinical and academic departments and assigned HODs.
 - **Gallery**: Category filtering and high-resolution photo uploads.
-- **Facilities**: Laboratories, library, clinical postings, hostels, sports, and hospital.
+- **Facilities**: Smart classrooms, STEM and science laboratories, digital library, bus transport, and sports grounds.
 - **Admissions**: Dynamic admission procedures, dates, and eligibility criteria.
 - **Pages (CMS)**: In-browser rich content editor for About, Research, IQAC, Hospital, etc.
 - **Contact Messages**: Live inbox to review and follow-up on public enquiries.

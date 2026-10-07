@@ -2,43 +2,43 @@
   {
     "id": 1,
     "date": "2026-09-22",
-    "title": "Admission Notification – BPT A.Y. 2026–27",
-    "category": "Admission",
-    "body": "Applications are invited for admission to the Bachelor of Physiotherapy program for the academic year 2026–27. Candidates must have qualified NEET-UG. Prospectus and application forms are available at the college office."
+    "title": "Admissions Open for Academic Session 2026–27 (Nursery to Grade 10)",
+    "category": "Admissions",
+    "body": "Applications are invited for admissions into Pre-Primary (Nursery, Jr. & Sr. KG), Primary (Grades 1-5), and Secondary School (Grades 6-10). Prospectus available at both Isbavi and Shelve campus admission desks."
   },
   {
     "id": 2,
     "date": "2026-09-15",
-    "title": "Academic Calendar – Odd Semester 2026",
-    "category": "Academic",
-    "body": "The academic calendar for the odd semester of A.Y. 2026–27 has been released. Classes commence from 1st July 2026. Internal assessments and term-end examinations are scheduled as per the MUHS directives."
+    "title": "Term-1 Evaluation & Continuous Assessment Schedule",
+    "category": "Academics",
+    "body": "The schedule for Term-1 pen-and-paper assessments and internal continuous evaluation (CCE) portfolio checks for Grades 1 to 10 has been finalized. Parents are requested to review datesheets in school diaries."
   },
   {
     "id": 3,
     "date": "2026-09-08",
-    "title": "Examination Notice – MUHS Winter 2026",
-    "category": "Examination",
-    "body": "The examination forms for MUHS Winter 2026 session are open. Last date for form submission without fine is 10th October 2026. Students are advised to confirm their hall ticket details with the examination cell."
+    "title": "Inter-School Science Olympiad & Talent Search Registration",
+    "category": "Competitions",
+    "body": "Students from Grades 3 to 10 interested in participating in the State Science Olympiad can register their names with the STEM wing coordinator before the closing date."
   },
   {
     "id": 4,
     "date": "2026-09-02",
-    "title": "University Circular – Internship Guidelines",
-    "category": "University",
-    "body": "MUHS Nashik has issued updated internship guidelines for BPT students. All final year students must complete a compulsory 6-month rotating internship as per the revised schedule."
+    "title": "School Bus Route Updates & Transport Safety Verification",
+    "category": "Transport",
+    "body": "GPS sensor and speed governor safety audits for all school buses serving Pandharpur, Korti, Gadegaon, and surrounding feeder routes have been certified for the academic year."
   },
   {
     "id": 5,
     "date": "2026-08-25",
-    "title": "Student Notice – Anti-Ragging Committee Formation",
-    "category": "Student",
-    "body": "The Anti-Ragging Committee and Squad for A.Y. 2026–27 have been constituted as per UGC regulations. Students are directed to report any ragging incident to the committee immediately."
+    "title": "Parent-Teacher Association (PTA) General Body Meeting",
+    "category": "PTA",
+    "body": "The executive PTA committee election and quarterly interaction on student academic progress and co-curricular initiatives will be held this Saturday at Shelve Campus auditorium."
   },
   {
     "id": 6,
     "date": "2026-08-18",
-    "title": "Important Announcement – NAAC Peer Team Visit",
-    "category": "Announcement",
-    "body": "The NAAC peer team visit is scheduled for October 2026. All departments are requested to update their records, files and portfolios well in advance."
+    "title": "Science Olympiad & STEM Project Registration",
+    "category": "Competitions",
+    "body": "Registrations are open for students from Grades 3 to 10 for the upcoming National Science Olympiad and district science innovation exhibition."
   }
 ]

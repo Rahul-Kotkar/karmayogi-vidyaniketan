@@ -92,9 +92,9 @@ export default function AdminDashboard() {
       )
     },
     {
-      label: 'BPT SUBJECTS',
+      label: 'CURRICULUM SUBJECTS',
       val: 34,
-      linkText: 'Manage BPT curriculum subjects',
+      linkText: 'Manage school curriculum subjects',
       path: '/admin/academics?tab=subjects',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

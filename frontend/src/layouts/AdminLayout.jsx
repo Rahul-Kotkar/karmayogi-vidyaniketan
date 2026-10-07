@@ -550,12 +550,12 @@ export default function AdminLayout() {
           <div className="admin-brand-icon">
             <img
               src={siteLogo}
-              alt="Karmayogi COP Site Logo"
+              alt="Karmayogi Vidyaniketan Logo"
               className="admin-brand-logo-img"
             />
           </div>
           <div className="admin-brand-text-wrap">
-            <div className="admin-sidebar-title">Karmayogi COP</div>
+            <div className="admin-sidebar-title">Karmayogi School</div>
             <div className="admin-sidebar-subtitle">
               ADMIN CONTROL PANEL
             </div>
@@ -660,7 +660,7 @@ export default function AdminLayout() {
         <header className="admin-topbar">
           <div className="admin-topbar-left">
             <div className="admin-topbar-title">
-              Karmayogi COP - Admin Panel
+              Karmayogi Vidyaniketan - Admin Panel
             </div>
           </div>
 

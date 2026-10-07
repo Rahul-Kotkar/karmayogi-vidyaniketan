@@ -1,6 +1,6 @@
 @echo off
 echo ========================================================
-echo Starting College of Physiotherapy Backend Server...
+echo Starting Karmayogi Vidyaniketan / Public School Backend Server...
 echo API URL: http://localhost:8000/api/info
 echo ========================================================
 cd backend

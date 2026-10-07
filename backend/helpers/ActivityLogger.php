@@ -148,7 +148,7 @@ class ActivityLogger {
                 ':ip'       => $ip,
                 ':ua'       => $ua
             ]);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             error_log("ActivityLogger DB error: " . $e->getMessage());
         }
 

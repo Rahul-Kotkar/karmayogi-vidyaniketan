@@ -81,10 +81,10 @@ export default function AdminLogin() {
             lineHeight: 1.25,
             letterSpacing: '-0.01em'
           }}>
-            Karmayogi College of Physiotherapy
+            Karmayogi Vidyaniketan
           </h2>
           <div style={{ color: '#64748b', fontSize: 13, fontWeight: 500 }}>
-            Shelve, Pandharpur — Administration Command
+            Karmayogi Public School — Administration Portal
           </div>
         </div>
 

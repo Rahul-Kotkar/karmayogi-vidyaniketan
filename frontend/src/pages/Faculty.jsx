@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PageShell from '../components/PageShell.jsx'
+import { DEFAULT_FACULTY } from '../data/collegeData.js'
 import { facultyService, getCachedFaculty } from '../services/endpoints.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 import { SearchIcon } from '../components/Icons.jsx'
@@ -20,22 +21,25 @@ function formatExp(exp) {
 }
 
 export default function Faculty() {
-  const [faculty, setFaculty] = useState(() => getCachedFaculty() || [])
-  const [loading, setLoading] = useState(() => !getCachedFaculty())
+  const [faculty, setFaculty] = useState(() => {
+    const cached = getCachedFaculty()
+    return Array.isArray(cached) && cached.length > 0 ? cached : DEFAULT_FACULTY
+  })
+  const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [selectedDept, setSelectedDept] = useState('ALL')
   const [selectedFaculty, setSelectedFaculty] = useState(null)
 
   useEffect(() => {
     facultyService.getAll().then(res => {
-      if (res && Array.isArray(res)) {
+      if (res && Array.isArray(res) && res.length > 0) {
         setFaculty(res)
         setSelectedFaculty(prev => {
           if (!prev) return null
           return res.find(f => f.id === prev.id) || prev
         })
       }
-    }).catch(() => {}).finally(() => setLoading(false))
+    }).catch(() => {})
   }, [])
 
   // Lock body scroll and handle Escape key when modal is open
@@ -176,8 +180,8 @@ export default function Faculty() {
         <div className="faculty-cards-grid">
           {filtered.map((f, i) => {
             const cardId = f.id || i
-            const programBadge = f.program_badge || 'BPT'
-            const badge2 = (f.specialization || f.department_name || 'PHYSIOTHERAPY').toUpperCase()
+            const programBadge = f.program_badge || 'CBSE'
+            const badge2 = (f.specialization || f.department_name || 'ACADEMICS').toUpperCase()
             const avatarUrl = f.photo ? resolveMediaUrl(f.photo) : null
             const expLabel = formatExp(f.experience)
 
@@ -246,7 +250,7 @@ export default function Faculty() {
 
                   {/* Qualification & Department Context */}
                   <div className="faculty-card-qual">
-                    <span>{f.qualification || 'BPT, MPT'}</span>
+                    <span>{f.qualification || 'M.A., B.Ed.'}</span>
                     {f.department_name && f.department_name.toUpperCase() !== badge2 && (
                       <span className="faculty-card-subdept" style={{ display: 'block', fontSize: 11.5, color: '#64748b', marginTop: 2, fontWeight: 500 }}>
                         {f.department_name}

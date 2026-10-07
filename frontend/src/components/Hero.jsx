@@ -18,30 +18,30 @@ function renderHeroTitle(title) {
   }
 
   // Pre-split known default headlines into two balanced lines
-  if (title.includes('World-Class Hands-on Training & Rehabilitation')) {
+  if (title.includes('Shape Young Minds')) {
     return (
       <>
-        World–Class Hands–on
+        Shape Young Minds.
         <br className="hero-heading-br" />
-        Training &amp; Rehabilitation
+        Build Strong Futures.
       </>
     )
   }
-  if (title.includes('Building Healthier Lives Through Physiotherapy')) {
+  if (title.includes('Nurturing Curiosity')) {
     return (
       <>
-        Building Healthier Lives
+        Nurturing Curiosity,
         <br className="hero-heading-br" />
-        Through Physiotherapy
+        Character &amp; Confidence
       </>
     )
   }
-  if (title.includes('Empowering Next-Gen Healthcare Leaders')) {
+  if (title.includes('Empowering Next-Gen')) {
     return (
       <>
         Empowering Next–Gen
         <br className="hero-heading-br" />
-        Healthcare Leaders
+        Thinkers &amp; Leaders
       </>
     )
   }
@@ -67,11 +67,11 @@ export default function Hero({ data }) {
         description: data.hero_sub || data.hero_tagline || slide.description,
         image: data.hero_image_url || slide.image || defaultHeroBuildingImg,
         primaryBtn: {
-          text: data.hero_btn1_text || slide.primaryBtn?.text || 'Explore Our Programs →',
-          link: data.hero_btn1_link || slide.primaryBtn?.link || '/academics'
+          text: data.hero_btn1_text || slide.primaryBtn?.text || 'Apply for Admission',
+          link: data.hero_btn1_link || slide.primaryBtn?.link || '/admissions'
         },
         secondaryBtn: {
-          text: data.hero_btn2_text || slide.secondaryBtn?.text || 'About Our College',
+          text: data.hero_btn2_text || slide.secondaryBtn?.text || 'Explore Our School',
           link: data.hero_btn2_link || slide.secondaryBtn?.link || '/about'
         }
       }
@@ -79,8 +79,8 @@ export default function Hero({ data }) {
     return {
       ...slide,
       image: slide.image || defaultHeroBuildingImg,
-      primaryBtn: slide.primaryBtn || { text: 'Explore Our Programs →', link: '/academics' },
-      secondaryBtn: slide.secondaryBtn || { text: 'About Our College', link: '/about' }
+      primaryBtn: slide.primaryBtn || { text: 'Apply for Admission', link: '/admissions' },
+      secondaryBtn: slide.secondaryBtn || { text: 'Explore Our School', link: '/about' }
     }
   })
 
@@ -105,7 +105,7 @@ export default function Hero({ data }) {
         <div className="hero-text-pane">
           <div key={safeIdx} className="hero-text-animated-wrap">
             <div className="hero-tag-badge">
-              {current.tag || 'HEAL | LEARN | SERVE | GROW'}
+              {current.tag || 'TRUST | EDUCATION | DISCIPLINE | EXCELLENCE'}
             </div>
 
             <h1 className="hero-main-heading">
@@ -118,11 +118,19 @@ export default function Hero({ data }) {
 
             <div className="hero-actions-group">
               <Link
-                to={current.primaryBtn?.link || '/academics'}
+                to={current.primaryBtn?.link || '/admissions'}
                 className="hero-btn-primary"
               >
-                {current.primaryBtn?.text || 'Explore Our Programs →'}
+                {current.primaryBtn?.text || 'Apply for Admission'}
               </Link>
+              {current.secondaryBtn && (
+                <Link
+                  to={current.secondaryBtn?.link || '/about'}
+                  className="hero-btn-outline"
+                >
+                  {current.secondaryBtn?.text || 'Explore Our School'}
+                </Link>
+              )}
             </div>
 
             {/* Slide Navigation Dots for smooth slide switching */}
@@ -151,7 +159,7 @@ export default function Hero({ data }) {
               <img
                 key={slide.image ? `${slide.image}-${idx}` : idx}
                 src={slide.image}
-                alt={slide.title || 'Karmayogi College of Physiotherapy'}
+                alt={slide.title || 'Karmayogi Vidyaniketan / Karmayogi Public School'}
                 className={`hero-building-image ${idx === safeIdx ? 'is-active' : ''}`}
                 loading={idx === 0 ? 'eager' : 'lazy'}
               />

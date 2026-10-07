@@ -1,7 +1,7 @@
 <?php
 // ========================================================
-// College of Physiotherapy - Database Connection (PDO)
-// Hostinger Shared Hosting & Local Development Compatible
+// Karmayogi Vidyaniketan / Karmayogi Public School - Database Connection (PDO)
+// Shri Pandurang Pratishthan, Pandharpur
 // ========================================================
 
 require_once __DIR__ . '/../../app/Config/Env.php';

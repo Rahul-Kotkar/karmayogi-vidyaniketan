@@ -1,6 +1,7 @@
 <?php
 // ========================================================
-// College of Physiotherapy - Central Front Controller
+// Karmayogi Vidyaniketan / Karmayogi Public School - Central Front Controller
+// Shri Pandurang Pratishthan, Pandharpur
 // Hostinger Shared Hosting & Apache Production Entry Point
 // ========================================================
 
@@ -99,8 +100,8 @@ if (file_exists($spaHtmlFile)) {
 
 // Fallback message if build has not been generated
 http_response_code(200);
-echo "<!DOCTYPE html><html><head><title>Karmayogi College of Physiotherapy</title></head><body>";
-echo "<h1>Karmayogi College of Physiotherapy</h1>";
+echo "<!DOCTYPE html><html><head><title>Karmayogi Vidyaniketan | Karmayogi Public School</title></head><body>";
+echo "<h1>Karmayogi Vidyaniketan / Karmayogi Public School</h1>";
 echo "<p>System is online. Production build is being configured.</p>";
 echo "<p><a href='/admin/migrations'>Open Database Migrations &amp; Git Sync &rarr;</a></p>";
 echo "</body></html>";

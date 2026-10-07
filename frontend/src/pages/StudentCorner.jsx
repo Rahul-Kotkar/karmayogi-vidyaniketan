@@ -6,11 +6,11 @@ import { pagesService } from '../services/endpoints.js'
 import { DEFAULT_STUDENT_CORNER_DATA } from '../data/studentCornerData.js'
 
 const STUDENT_SUBMENUS = [
-  { label: "Student Activities", slug: "activities", path: "/student-corner/activities", desc: "Annual cultural festivals, sports tournaments, community outreach rallies, and World Physiotherapy Day celebrations." },
-  { label: "Student Support & Mentorship", slug: "support", path: "/student-corner/support", desc: "Faculty mentorship system, academic counseling, psychological support, and grievance redressal cells." },
-  { label: "Student Achievements", slug: "achievements", path: "/student-corner/achievements", desc: "MUHS academic rank holders, gold medalists, scientific paper presentation prizes, and athletic honors." },
-  { label: "Scholarships & Freeships", slug: "scholarships", path: "/student-corner/scholarships", desc: "Government of Maharashtra (MahaDBT) scholarships, minority schemes, EBC fee concessions, and institutional aid." },
-  { label: "Student Council", slug: "council", path: "/student-corner/council", desc: "Elected student leadership body, class representatives, and academic/cultural coordination committees." }
+  { label: "Student Activities", slug: "activities", path: "/student-corner/activities", desc: "Annual Karmotsav festival, sports tournaments, community outreach rallies, and science exhibitions." },
+  { label: "Student Support & Mentorship", slug: "support", path: "/student-corner/support", desc: "Teacher mentorship system, academic counseling, psychological support, and student welfare cells." },
+  { label: "Student Achievements", slug: "achievements", path: "/student-corner/achievements", desc: "Board examination rank holders, science Olympiad medals, and district athletic honors." },
+  { label: "Scholarships & Freeships", slug: "scholarships", path: "/student-corner/scholarships", desc: "Government of Maharashtra scholarships, minority schemes, EBC fee concessions, and institutional merit aid." },
+  { label: "Student Council", slug: "council", path: "/student-corner/council", desc: "Elected student leadership body, head boy, head girl, house captains, and club coordinators." }
 ]
 
 export default function StudentCorner() {
@@ -231,8 +231,8 @@ export default function StudentCorner() {
             </div>
 
             <p className="academics-section-intro">
-              Karmayogi College of Physiotherapy facilitates access to all statutory scholarships and tuition fee concessions
-              mandated by the Government of Maharashtra and Directorate of Medical Education and Research (DMER).
+              Karmayogi Vidyaniketan facilitates access to all statutory scholarships and tuition fee concessions
+              mandated by the Government of Maharashtra and education department directives.
             </p>
 
             <div className="academics-notice-box" style={{ marginBottom: 20 }}>

@@ -79,7 +79,7 @@ export default function IQAC() {
             <div className="academics-intro-block">
               <h1 className="academics-page-title">{data.overview?.title || "Internal Quality Assurance Cell (IQAC) & NAAC Accreditation"}</h1>
               <p className="academics-page-lead">
-                {data.overview?.lead || "Developing a systemic mechanism for conscious, consistent, and catalytic quality improvement across all academic, clinical, research, and administrative spheres at Karmayogi College of Physiotherapy."}
+                {data.overview?.lead || "Developing a systemic mechanism for conscious, consistent, and continuous quality improvement across all academic, pedagogical, and administrative spheres at Karmayogi Vidyaniketan."}
               </p>
             </div>
 

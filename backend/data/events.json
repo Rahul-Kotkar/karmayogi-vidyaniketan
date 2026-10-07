@@ -1,50 +1,50 @@
 [
   {
     "id": 1,
-    "date": "2026-10-05",
-    "title": "National Conference on Advances in Physiotherapy",
-    "type": "Conference",
-    "venue": "College Auditorium",
-    "desc": "Two-day national conference on recent advances in physiotherapy and rehabilitation sciences."
+    "date": "2026-10-15",
+    "title": "Karmotsav 2026 - Annual Sports & Athletic Meet",
+    "type": "Sports",
+    "venue": "Shelve Campus Main Athletic Ground",
+    "desc": "Grand annual athletic championship featuring march-past by all four houses, track and field events, kho-kho, kabaddi, and championship trophy ceremony."
   },
   {
     "id": 2,
-    "date": "2026-10-14",
-    "title": "Workshop on Manual Therapy Techniques",
-    "type": "Workshop",
-    "venue": "Exercise Therapy Lab",
-    "desc": "Hands-on workshop on evidence-based manual therapy techniques for musculoskeletal conditions."
+    "date": "2026-11-10",
+    "title": "Science, STEM & Robotics Innovation Expo",
+    "type": "Academic",
+    "venue": "Raman Science & AI Laboratories",
+    "desc": "Hands-on exhibition showcasing working robotics prototypes, electronic sensor projects, and innovative scientific models by students of Grades 3 to 10."
   },
   {
     "id": 3,
-    "date": "2026-10-21",
-    "title": "Guest Lecture: Sports Injury Rehabilitation",
-    "type": "Guest Lecture",
-    "venue": "Seminar Hall",
-    "desc": "Guest lecture by eminent sports physiotherapist on modern rehabilitation protocols."
+    "date": "2026-11-20",
+    "title": "Inter-House Debate & Elocution Competition",
+    "type": "Cultural",
+    "venue": "School Auditorium, Shelve",
+    "desc": "Annual English and Marathi elocution contest fostering public speaking, critical reasoning, and articulate presentation skills."
   },
   {
     "id": 4,
-    "date": "2026-11-02",
-    "title": "World Physiotherapy Day Celebrations",
-    "type": "Event",
-    "venue": "College Campus",
-    "desc": "Awareness rally, free health check-up camp and community physiotherapy drive."
+    "date": "2026-12-05",
+    "title": "Parent-Teacher Progress Forum (PTM)",
+    "type": "Meeting",
+    "venue": "Isbavi (Primary) & Shelve (High School)",
+    "desc": "Comprehensive academic review and developmental consultation between subject educators and parents."
   },
   {
     "id": 5,
-    "date": "2026-11-18",
-    "title": "Inter-Collegiate Physiotherapy Quiz",
-    "type": "Competition",
-    "venue": "College Auditorium",
-    "desc": "Annual inter-collegiate quiz competition on physiotherapy sciences."
+    "date": "2027-01-22",
+    "title": "Annual Gathering & Kalotsav Cultural Showcase",
+    "type": "Cultural",
+    "venue": "Shri Pandurang Pratishthan Cultural Amphitheatre",
+    "desc": "Vibrant celebration featuring classical and folk dances, dramatic plays, musical choir, and annual prize distribution."
   },
   {
     "id": 6,
-    "date": "2026-12-09",
-    "title": "Alumni Meet 2026",
-    "type": "Event",
-    "venue": "College Campus",
-    "desc": "Annual alumni meet to strengthen the bond between alumni and institution."
+    "date": "2027-01-26",
+    "title": "Republic Day Celebration & Scout March-Past",
+    "type": "National Day",
+    "venue": "Shelve & Isbavi Campuses",
+    "desc": "National tricolor unfurling, patriotic songs, and ceremonial parade honoring India's constitutional heritage."
   }
 ]

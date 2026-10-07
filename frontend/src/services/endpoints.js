@@ -15,7 +15,7 @@ import {
 // LocalStorage & In-Memory Cache Layer (Zero-Flicker Prehydration)
 // --------------------------------------------------------
 const memoryCache = new Map()
-const CACHE_PREFIX = 'cop_cache_'
+const CACHE_PREFIX = 'kvn_cache_'
 
 export function getLocalCache(key, fallback = null) {
   if (memoryCache.has(key)) {

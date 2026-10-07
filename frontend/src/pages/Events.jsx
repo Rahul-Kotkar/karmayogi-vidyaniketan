@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PageShell from '../components/PageShell.jsx'
+import { DEFAULT_EVENTS } from '../data/collegeData.js'
 import { eventsService, getCachedEvents, setCachedEvents } from '../services/endpoints.js'
 import { SearchIcon } from '../components/Icons.jsx'
 import EventCard from '../components/EventCard.jsx'
@@ -20,10 +21,13 @@ function parseEventDate(rawDate) {
 }
 
 export default function Events() {
-  const [events, setEvents] = useState(() => getCachedEvents() || [])
+  const [events, setEvents] = useState(() => {
+    const cached = getCachedEvents()
+    return Array.isArray(cached) && cached.length > 0 ? cached : DEFAULT_EVENTS
+  })
   const [search, setSearch] = useState('')
   const [selectedType, setSelectedType] = useState('ALL')
-  const [loading, setLoading] = useState(() => !getCachedEvents())
+  const [loading, setLoading] = useState(false)
   const [expandedEvents, setExpandedEvents] = useState({})
 
   const toggleEvent = (id) => {

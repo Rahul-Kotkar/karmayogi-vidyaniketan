@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import NoticeCard from '../components/NoticeCard.jsx'
+import { DEFAULT_NOTICES } from '../data/collegeData.js'
 import { noticesService, getCachedNotices, setCachedNotices } from '../services/endpoints.js'
 import { FilePdfIcon } from '../components/Icons.jsx'
 
 export default function Notices() {
-  const [notices, setNotices] = useState(() => getCachedNotices() || [])
-  const [loading, setLoading] = useState(() => !getCachedNotices())
+  const [notices, setNotices] = useState(() => {
+    const cached = getCachedNotices()
+    return Array.isArray(cached) && cached.length > 0 ? cached : DEFAULT_NOTICES
+  })
+  const [loading, setLoading] = useState(false)
   const [params] = useSearchParams()
   const openId = params.get('n')
 

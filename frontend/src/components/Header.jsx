@@ -100,17 +100,22 @@ export default function Header() {
         <div className="header-inner-grid">
           {/* Left: Logo */}
           <div className="header-brand-logo">
-            <Link to="/" aria-label="College Home">
+            <Link to="/" aria-label="Karmayogi Vidyaniketan Home">
               <CollegeLogo src={college.college_logo_url} />
             </Link>
           </div>
 
-          {/* Center-Left: Foundation & College Name + Affiliation */}
+          {/* Center-Left: Foundation & School Name + Affiliation */}
           <div className="header-center-info">
             <div className="header-foundation-name">{college.foundation}</div>
             <h1 className="header-college-title">
               <Link to="/">{college.name}</Link>
             </h1>
+            {college.subname && (
+              <div className="header-school-subname" style={{ fontSize: '14.5px', fontWeight: 700, color: 'var(--gold, #c9a227)', letterSpacing: '0.6px', marginTop: '1px', marginBottom: '3px' }}>
+                {college.subname}
+              </div>
+            )}
             <div className="header-affiliations">
               {college.lines.map((line, idx) => (
                 <p key={idx} className="affiliation-line">{line}</p>

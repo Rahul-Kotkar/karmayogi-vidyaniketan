@@ -110,7 +110,7 @@ export default function CampusActivitiesSection({ activities = DEFAULT_CAMPUS_AC
           <span className="campus-activities-tag">BEYOND THE CLASSROOM</span>
           <h2 className="campus-activities-title">Campus Activities & Student Life</h2>
           <p className="campus-activities-lead">
-            Life at Karmayogi College of Physiotherapy extends far beyond classroom lectures. From World Physiotherapy Day symposiums and scientific exhibits to vibrant annual cultural fests, athletics, community medical outreach, and student clubs, our campus offers a vibrant environment for comprehensive personality and leadership development.
+            Life at Karmayogi Vidyaniketan extends far beyond classroom lectures. From Science and STEM exhibitions and annual sports meets to vibrant cultural fests, athletics, tree plantation drives, and student clubs, our campus offers an inspiring environment for comprehensive personality and leadership development.
           </p>
           <div className="campus-gallery-hint">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

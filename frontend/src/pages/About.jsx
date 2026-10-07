@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import instituteBuildingImg from '../assets/hero_building.png'
 import { pagesService, getCachedAboutData } from '../services/endpoints.js'
-import { DEFAULT_ABOUT_DATA } from '../data/collegeData.js'
+import { DEFAULT_ABOUT_DATA, COLLEGE } from '../data/collegeData.js'
 
 export default function About() {
   const [data, setData] = useState(() => {
@@ -33,25 +33,21 @@ export default function About() {
               council_members: Array.isArray(parsed.council_members) && parsed.council_members.length > 0 ? parsed.council_members : prev.council_members,
               approvals: Array.isArray(parsed.approvals) && parsed.approvals.length > 0 ? parsed.approvals : prev.approvals
             }))
-          } catch {
-            // content_html was plain HTML in legacy seed; fallback to DEFAULT_ABOUT_DATA
-          }
+          } catch {}
         }
-      } catch {
-        // Fallback
-      }
+      } catch {}
     }
     load()
   }, [])
 
   return (
-    <PageShell title="About Us">
+    <PageShell title="About Karmayogi Vidyaniketan" subtitle="Karmayogi Public School | Shri Pandurang Pratishthan, Pandharpur">
       <div className="about-single-page">
 
         {/* ========================================================
-            1. ABOUT INSTITUTE (Visual Split & Feature Highlights)
+            1. ABOUT THE SCHOOL (Visual Split & Feature Highlights)
             ======================================================== */}
-        <section id="about-institute" className="about-block">
+        <section id="about-school" className="about-block">
           <div className="about-section-header">
             <h2 className="about-section-title">{data.institute_title}</h2>
             {data.institute_subtitle && (
@@ -65,7 +61,7 @@ export default function About() {
               <div className="about-institute-photo-card">
                 <img
                   src={data.institute_photo_url || instituteBuildingImg}
-                  alt="Karmayogi Institute of Physiotherapy Campus Building"
+                  alt="Karmayogi Vidyaniketan School Campus Building"
                   className="about-institute-photo"
                 />
               </div>
@@ -85,29 +81,32 @@ export default function About() {
             </div>
           </div>
 
-          {/* 3 Quick Highlight Boxes - Full width across container in one line */}
+          {/* 3 Quick Highlight Boxes */}
           <div className="about-features-grid">
             <div className="about-feature-box">
               <div className="about-feature-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                 </svg>
               </div>
               <div>
-                <div className="about-feature-title">Clinical Postings</div>
-                <p className="about-feature-desc">Direct hands-on bedside patient training from foundational years.</p>
+                <div className="about-feature-title">Academic Excellence</div>
+                <p className="about-feature-desc">Nursery to Grade 10 education combining CBSE and State Board tracks.</p>
               </div>
             </div>
 
             <div className="about-feature-box">
               <div className="about-feature-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
                 </svg>
               </div>
               <div>
-                <div className="about-feature-title">Modern Modalities</div>
-                <p className="about-feature-desc">State-of-the-art electrotherapy & biomechanics gymnasiums.</p>
+                <div className="about-feature-title">Smart Labs &amp; STEM</div>
+                <p className="about-feature-desc">Interactive smart classrooms, science labs, computer lab, and AI &amp; Robotics.</p>
               </div>
             </div>
 
@@ -121,15 +120,33 @@ export default function About() {
                 </svg>
               </div>
               <div>
-                <div className="about-feature-title">Community Service</div>
-                <p className="about-feature-desc">Active rural health camps & clinical rehabilitation outreach.</p>
+                <div className="about-feature-title">Values &amp; Student Care</div>
+                <p className="about-feature-desc">Indian values, discipline, sportsmanship, and holistic child mentorship.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ========================================================
-            2. VISION & MISSION (High-Impact Showcase Cards)
+            2. PARENT TRUST / SHRI PANDURANG PRATISHTHAN
+            ======================================================== */}
+        <section id="management" className="about-block">
+          <div className="about-section-header">
+            <h2 className="about-section-title">Shri Pandurang Pratishthan, Pandharpur</h2>
+            <p className="about-section-subtitle">Parent Governance Organization &amp; Legacy of Service</p>
+          </div>
+          <div style={{ background: '#f8fafc', padding: 28, borderRadius: 12, border: '1px solid #e2e8f0', lineHeight: 1.8, fontSize: '15.5px', color: '#334155' }}>
+            <p style={{ marginBottom: 14 }}>
+              Shri Pandurang Pratishthan is a renowned charitable trust based in the holy pilgrimage town of Pandharpur, Solapur district, Maharashtra. Founded with the inspiring motto of selfless service, rural empowerment, and holistic education, the trust manages premier educational campuses nurturing thousands of students.
+            </p>
+            <p style={{ margin: 0 }}>
+              Under the benevolent stewardship of late founder <strong>स्व. सुधाकरपंत परिचारक</strong> and the governing body, Karmayogi Vidyaniketan / Karmayogi Public School stands as a model institution imparting quality English-medium schooling to children from Pandharpur and neighboring regions.
+            </p>
+          </div>
+        </section>
+
+        {/* ========================================================
+            3. VISION & MISSION
             ======================================================== */}
         <section id="vision-mission" className="about-block">
           <div className="about-section-header">
@@ -188,11 +205,11 @@ export default function About() {
         </section>
 
         {/* ========================================================
-            3. QUALITY POLICY (Executive Assurance Emblem)
+            4. QUALITY COMMITMENT
             ======================================================== */}
         <section id="quality-policy" className="about-block">
           <div className="about-section-header">
-            <h2 className="about-section-title">{data.qp_title || 'Quality Policy'}</h2>
+            <h2 className="about-section-title">{data.qp_title || 'Commitment to Quality Education'}</h2>
           </div>
 
           <div className="quality-policy-card">
@@ -206,32 +223,32 @@ export default function About() {
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
-                <span>Global Academic Standards</span>
+                <span>National Educational Standards</span>
               </div>
               <div className="quality-badge-item">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
-                <span>Regular Stakeholder Feedback</span>
+                <span>Regular Parent Feedback</span>
               </div>
               <div className="quality-badge-item">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
-                <span>Continuous Clinical Evolution</span>
+                <span>Continuous Faculty Growth</span>
               </div>
             </div>
           </div>
         </section>
 
         {/* ========================================================
-            4. GOVERNING COUNCIL (Refined Executive Presentation)
+            5. GOVERNING COUNCIL / LEADERSHIP
             ======================================================== */}
-        <section id="governing-council" className="about-block">
+        <section id="leadership" className="about-block">
           <div className="about-section-header">
-            <h2 className="about-section-title">{data.council_title || 'Governing Council & Advisory Board'}</h2>
+            <h2 className="about-section-title">{data.council_title || 'Management & School Leadership'}</h2>
             {data.council_subtitle && <p className="about-section-subtitle">{data.council_subtitle}</p>}
           </div>
 
@@ -246,9 +263,9 @@ export default function About() {
               <thead>
                 <tr>
                   <th style={{ width: '8%', textAlign: 'center' }}>Sr.</th>
-                  <th style={{ width: '34%' }}>Member Name</th>
+                  <th style={{ width: '34%' }}>Name / Body</th>
                   <th style={{ width: '28%' }}>Designation</th>
-                  <th style={{ width: '30%' }}>Representation</th>
+                  <th style={{ width: '30%' }}>Role</th>
                 </tr>
               </thead>
               <tbody>
@@ -267,7 +284,7 @@ export default function About() {
                         {member.designation}
                       </span>
                     </td>
-                    <td className="council-col-rep" data-label="Representation" style={{ color: '#475569', fontWeight: 500 }}>
+                    <td className="council-col-rep" data-label="Role" style={{ color: '#475569', fontWeight: 500 }}>
                       <span className="council-rep-text">{member.representation}</span>
                     </td>
                   </tr>
@@ -278,11 +295,11 @@ export default function About() {
         </section>
 
         {/* ========================================================
-            5. AFFILIATIONS & REGULATORY APPROVALS
+            6. CURRICULUM & BOARD RECOGNITIONS
             ======================================================== */}
         <section id="approvals" className="about-block" style={{ marginBottom: 0 }}>
           <div className="about-section-header">
-            <h2 className="about-section-title">{data.approvals_title || 'Affiliations & Government Approvals'}</h2>
+            <h2 className="about-section-title">{data.approvals_title || 'Curriculum Pathways & Boards'}</h2>
             {data.approvals_subtitle && (
               <p className="about-section-subtitle">{data.approvals_subtitle}</p>
             )}
@@ -302,4 +319,3 @@ export default function About() {
     </PageShell>
   )
 }
-

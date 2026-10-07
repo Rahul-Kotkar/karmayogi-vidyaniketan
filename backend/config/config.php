@@ -1,6 +1,7 @@
 <?php
 // ========================================================
-// College of Physiotherapy - Central Configuration & CORS
+// Karmayogi Vidyaniketan / Karmayogi Public School - Central Configuration & CORS
+// Shri Pandurang Pratishthan, Pandharpur
 // ========================================================
 
 // Error reporting for production / dev
@@ -8,8 +9,8 @@ ini_set('display_errors', '0');
 error_reporting(E_ALL);
 
 // Security Secret Key for Auth Token Signing (Change this for production)
-define('APP_SECRET', 'cop_ahilyanagar_secure_jwt_token_secret_2026_salt_9981');
-define('APP_NAME', 'College of Physiotherapy');
+define('APP_SECRET', 'karmayogi_vidyaniketan_pandharpur_secure_jwt_token_2026');
+define('APP_NAME', 'Karmayogi Vidyaniketan');
 
 // Upload directories
 define('UPLOAD_BASE_DIR', dirname(__DIR__, 2) . '/public/uploads');

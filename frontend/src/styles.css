@@ -518,62 +518,81 @@ img, video, iframe, embed, object {
 }
 
 /* =====================================================
-   2. MAIN INSTITUTIONAL BRANDING HEADER (White)
+   2. MAIN INSTITUTIONAL BRANDING HEADER (White - Centered)
    ===================================================== */
 .main-college-header {
   background: #ffffff;
   border-bottom: 1px solid var(--line);
-  padding: 14px 0;
+  padding: 16px 0;
 }
 .header-inner-grid {
-  max-width: 1340px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 120px auto 1fr;
+  padding: 0 24px;
+  display: flex;
   align-items: center;
-  gap: 28px;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 54px);
+  text-align: center;
 }
 .header-brand-logo {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 .college-crest-img {
-  max-height: 108px;
+  max-height: 110px;
   width: auto;
   max-width: 140px;
   object-fit: contain;
 }
 .header-center-info {
   min-width: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .header-foundation-name {
   color: #c2410c;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
   margin-bottom: 2px;
+  text-align: center;
 }
 .header-college-title {
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   line-height: 1.15;
+  text-align: center;
 }
 .header-college-title a {
   font-family: var(--heading-font);
   color: var(--navy-header);
-  font-size: clamp(20px, 2.4vw, 30px);
+  font-size: clamp(22px, 2.6vw, 32px);
   font-weight: 900;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
   text-decoration: none;
   display: inline-block;
+  text-align: center;
 }
 .header-college-title a:hover {
   color: var(--blue-vibrant);
 }
+.header-school-subname {
+  font-size: 15px;
+  font-weight: 700;
+  color: #c9a227;
+  letter-spacing: 0.6px;
+  margin-top: 1px;
+  margin-bottom: 4px;
+  text-align: center;
+}
 .header-affiliations {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 2px;
 }
 .affiliation-line {
@@ -581,6 +600,7 @@ img, video, iframe, embed, object {
   font-size: clamp(11.5px, 0.95vw, 13px);
   line-height: 1.4;
   margin: 0;
+  text-align: center;
 }
 .header-founder-section {
   display: flex;
@@ -588,8 +608,8 @@ img, video, iframe, embed, object {
   justify-content: center;
   border-left: none;
   padding-left: 0;
-  justify-self: start;
-  margin-left: clamp(32px, 5vw, 75px);
+  margin-left: 0;
+  flex-shrink: 0;
 }
 .founder-card-wrap {
   display: flex;
@@ -680,15 +700,16 @@ img, video, iframe, embed, object {
 .nav-deck-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .nav-items-list {
   list-style: none;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 3px;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -1347,21 +1368,21 @@ img, video, iframe, embed, object {
   padding: 0 20px;
 }
 .home-highlights-card {
-  max-width: 1240px;
+  max-width: 1340px;
   margin: 0 auto;
   background: #ffffff;
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: 0 6px 24px rgba(11, 37, 69, 0.08);
   border: 1px solid #e2e8f0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   overflow: hidden;
 }
 .home-highlight-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 24px;
+  gap: 12px;
+  padding: 14px 16px;
   border-right: 1px solid #edf2f7;
   transition: background-color 0.2s ease;
 }
@@ -2334,7 +2355,8 @@ img, video, iframe, embed, object {
 /* Breakpoint 1: Small Laptops / Tablets (max-width: 1100px) */
 @media (max-width: 1100px) {
   .header-inner-grid {
-    grid-template-columns: 95px 1fr auto;
+    display: flex;
+    justify-content: center;
     gap: 18px;
   }
   .college-crest-img {
@@ -2342,7 +2364,7 @@ img, video, iframe, embed, object {
     max-width: 105px;
   }
   .header-founder-section {
-    margin-left: 16px;
+    margin-left: 0;
   }
   .founder-portrait-img {
     width: 68px;
@@ -2373,7 +2395,8 @@ img, video, iframe, embed, object {
     padding: 10px 0;
   }
   .header-inner-grid {
-    grid-template-columns: 75px 1fr auto;
+    display: flex;
+    justify-content: center;
     gap: 14px;
     padding: 0 16px;
     align-items: center;
@@ -2882,7 +2905,7 @@ img, video, iframe, embed, object {
   }
   .home-highlights-card {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     overflow: hidden;
   }
   .home-highlight-item {
@@ -3045,20 +3068,16 @@ img, video, iframe, embed, object {
     padding: 11px 12px !important;
     box-sizing: border-box !important;
   }
-  .home-highlight-item:nth-child(1),
-  .home-highlight-item:nth-child(3) {
+  .home-highlight-item:nth-child(odd) {
     border-right: 1px solid #edf2f7 !important;
   }
-  .home-highlight-item:nth-child(2),
-  .home-highlight-item:nth-child(4) {
+  .home-highlight-item:nth-child(even) {
     border-right: none !important;
   }
-  .home-highlight-item:nth-child(1),
-  .home-highlight-item:nth-child(2) {
+  .home-highlight-item:not(:nth-last-child(-n+2)) {
     border-bottom: 1px solid #edf2f7 !important;
   }
-  .home-highlight-item:nth-child(3),
-  .home-highlight-item:nth-child(4) {
+  .home-highlight-item:nth-last-child(-n+2) {
     border-bottom: none !important;
   }
   .home-highlight-icon {

@@ -7,15 +7,24 @@ import AdminLayout from './layouts/AdminLayout.jsx'
 // Public Pages
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
+import VisionMission from './pages/VisionMission.jsx'
+import PrincipalMessage from './pages/PrincipalMessage.jsx'
 import Academics from './pages/Academics.jsx'
+import PrePrimary from './pages/PrePrimary.jsx'
+import PrimarySchool from './pages/PrimarySchool.jsx'
+import SecondarySchool from './pages/SecondarySchool.jsx'
+import Curriculum from './pages/Curriculum.jsx'
 import AcademicsSubjects from './pages/AcademicsSubjects.jsx'
 import Admissions from './pages/Admissions.jsx'
-import Departments from './pages/Departments.jsx'
-import DepartmentDetail from './pages/DepartmentDetail.jsx'
-import Faculty from './pages/Faculty.jsx'
+import AdmissionProcess from './pages/AdmissionProcess.jsx'
+import FeeStructure from './pages/FeeStructure.jsx'
 import Facilities from './pages/Facilities.jsx'
-import Research from './pages/Research.jsx'
-import TrainingPlacement from './pages/TrainingPlacement.jsx'
+import Infrastructure from './pages/Infrastructure.jsx'
+import Labs from './pages/Labs.jsx'
+import Sports from './pages/Sports.jsx'
+import StudentLife from './pages/StudentLife.jsx'
+import Transportation from './pages/Transportation.jsx'
+import Faculty from './pages/Faculty.jsx'
 import StudentCorner from './pages/StudentCorner.jsx'
 import GalleryPage from './pages/GalleryPage.jsx'
 import Notices from './pages/Notices.jsx'
@@ -23,7 +32,6 @@ import News from './pages/News.jsx'
 import Events from './pages/Events.jsx'
 import Contact from './pages/Contact.jsx'
 import IQAC from './pages/IQAC.jsx'
-import Hospital from './pages/Hospital.jsx'
 import MandatoryDisclosures from './pages/MandatoryDisclosures.jsx'
 import Committees from './pages/Committees.jsx'
 
@@ -124,39 +132,64 @@ export default function App() {
           <Route path="settings" element={<AdminAccessGuard permissionId="settings"><AdminSettings /></AdminAccessGuard>} />
         </Route>
 
-        {/* Public Website Routes (with College Header & Two-Level Nav) */}
+        {/* Public Website Routes */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/vision-mission" element={<VisionMission />} />
+          <Route path="/principal-message" element={<PrincipalMessage />} />
+          
+          {/* Academic Routes */}
           <Route path="/academics" element={<Academics />} />
           <Route path="/academics/subjects" element={<AcademicsSubjects />} />
           <Route path="/academics/:subpage" element={<Academics />} />
+          <Route path="/pre-primary" element={<PrePrimary />} />
+          <Route path="/primary" element={<PrimarySchool />} />
+          <Route path="/secondary" element={<SecondarySchool />} />
+          <Route path="/curriculum" element={<Curriculum />} />
+
+          {/* Admissions Routes */}
           <Route path="/admissions" element={<Admissions />} />
-          <Route path="/departments" element={<Departments />} />
-          <Route path="/departments/:slug" element={<Navigate to="/departments" replace />} />
-          <Route path="/faculty" element={<Faculty />} />
+          <Route path="/admission-process" element={<AdmissionProcess />} />
+          <Route path="/fees" element={<FeeStructure />} />
+
+          {/* Facilities & Infrastructure Routes */}
           <Route path="/facilities" element={<Facilities />} />
           <Route path="/facilities/:subpage" element={<Facilities />} />
-          <Route path="/research" element={<Research />} />
-          <Route path="/research/:subpage" element={<Research />} />
-          <Route path="/r-and-d" element={<Research />} />
-          <Route path="/r-and-d/:subpage" element={<Research />} />
-          <Route path="/training-placement" element={<TrainingPlacement />} />
-          <Route path="/training-placement/:subpage" element={<TrainingPlacement />} />
+          <Route path="/infrastructure" element={<Infrastructure />} />
+          <Route path="/labs" element={<Labs />} />
+          <Route path="/sports" element={<Sports />} />
+          <Route path="/student-life" element={<StudentLife />} />
+          <Route path="/hostel" element={<Navigate to="/facilities" replace />} />
+          <Route path="/transport" element={<Transportation />} />
+
+          {/* Faculty, Student & Community */}
+          <Route path="/faculty" element={<Faculty />} />
           <Route path="/committees" element={<Committees />} />
           <Route path="/committees/:subpage" element={<Committees />} />
-          <Route path="/student-corner" element={<StudentCorner />} />
-          <Route path="/student-corner/:subpage" element={<StudentCorner />} />
+          <Route path="/student-corner" element={<StudentLife />} />
+          <Route path="/student-corner/:subpage" element={<StudentLife />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/notices" element={<Notices />} />
           <Route path="/news" element={<News />} />
           <Route path="/events" element={<Events />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/iqac-naac" element={<IQAC />} />
-          <Route path="/iqac-naac/:subpage" element={<IQAC />} />
-          <Route path="/hospital" element={<Hospital />} />
           <Route path="/mandatory-disclosures" element={<MandatoryDisclosures />} />
           <Route path="/mandatory-disclosures/:subpage" element={<MandatoryDisclosures />} />
+
+          {/* Legacy Medical / Physiotherapy Route Redirects to School Equivalents */}
+          <Route path="/departments" element={<Navigate to="/academics" replace />} />
+          <Route path="/departments/:slug" element={<Navigate to="/academics" replace />} />
+          <Route path="/hospital" element={<Navigate to="/facilities" replace />} />
+          <Route path="/research" element={<Navigate to="/labs" replace />} />
+          <Route path="/research/:subpage" element={<Navigate to="/labs" replace />} />
+          <Route path="/r-and-d" element={<Navigate to="/labs" replace />} />
+          <Route path="/r-and-d/:subpage" element={<Navigate to="/labs" replace />} />
+          <Route path="/training-placement" element={<Navigate to="/student-life" replace />} />
+          <Route path="/training-placement/:subpage" element={<Navigate to="/student-life" replace />} />
+          <Route path="/iqac-naac" element={<Navigate to="/about" replace />} />
+          <Route path="/iqac-naac/:subpage" element={<Navigate to="/about" replace />} />
+
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>

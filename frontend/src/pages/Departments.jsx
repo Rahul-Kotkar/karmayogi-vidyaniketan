@@ -134,13 +134,13 @@ export default function Departments() {
             <div className="dept-filter-bar" style={{ marginBottom: '36px' }}>
               <div>
                 <p className="dept-section-lead" style={{ margin: 0, fontSize: 15 }}>
-                  Explore our specialized academic departments across clinical and core physiotherapy disciplines.
+                  Explore our academic wings, science & STEM labs, sports, and language faculties.
                 </p>
               </div>
             <div className="dept-search-wrap">
               <input
                 type="text"
-                placeholder="Search departments or clinical areas..."
+                placeholder="Search academic wings or subjects..."
                 value={filterQuery}
                 onChange={(e) => setFilterQuery(e.target.value)}
                 className="dept-search-input"

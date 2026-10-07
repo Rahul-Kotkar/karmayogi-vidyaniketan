@@ -25,12 +25,14 @@ export function CollegeLogo({ src, className = "college-crest-img", style = {} }
   return (
     <img
       src={src || pandharpurLogoImg || trustLogoImg}
-      alt="Karmayogi College of Physiotherapy Emblem"
+      alt="Karmayogi Vidyaniketan / Karmayogi Public School Emblem"
       style={{ ...LOGO_STYLE, ...style }}
       className={className}
     />
   )
 }
+
+export const SchoolLogo = CollegeLogo
 
 export function FounderPortrait({ src }) {
   return (

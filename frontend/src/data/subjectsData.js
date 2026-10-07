@@ -1,735 +1,451 @@
-// BPT Curriculum & Subjects Dataset
-// 34 Subjects prescribed under the Bachelor of Physiotherapy curriculum
-// Grouped into First Year (10), Second Year (9), Third Year (8), and Final Year (7)
+// School Curriculum & Academic Subjects Dataset for Karmayogi Vidyaniketan / Karmayogi Public School
+// Comprehensive education from Nursery to Grade 10 (CBSE & State Board Tracks)
+// Shri Pandurang Pratishthan, Pandharpur
 
-export const BPT_YEARS = [
+export const SCHOOL_LEVELS = [
   {
     key: "all",
-    label: "All Years",
+    label: "All Levels (Nursery to Grade 10)",
     shortLabel: "All",
-    count: 34,
-    description: "Complete 4-Year Bachelor of Physiotherapy didactic and clinical subjects catalogue."
+    count: 24,
+    description: "Complete continuum of child development from early childhood foundational learning through Grade 10 board tracks."
   },
   {
-    key: "year-1",
-    label: "First Year BPT",
-    shortLabel: "1st Year",
-    count: 10,
-    academicYear: "Year I",
-    description: "Foundational human anatomy, physiology, biochemistry, introductory exercise modalities, electro physical agents, and clinical orientation."
+    key: "pre-primary",
+    label: "Pre-Primary Wing (Nursery, Jr. KG, Sr. KG)",
+    shortLabel: "Pre-Primary",
+    count: 5,
+    academicYear: "Foundational Stage",
+    description: "Activity-based, play-way foundational learning focusing on curiosity, motor coordination, early phonics, and socialization."
   },
   {
-    key: "year-2",
-    label: "Second Year BPT",
-    shortLabel: "2nd Year",
-    count: 9,
-    academicYear: "Year II",
-    description: "Pathological processes, pharmacology, public health, therapeutic exercise, electrotherapy modalities, and applied biomechanics."
-  },
-  {
-    key: "year-3",
-    label: "Third Year BPT",
-    shortLabel: "3rd Year",
-    count: 8,
-    academicYear: "Year III",
-    description: "General medicine, pediatric illnesses, general surgery, orthopedics, physical diagnosis, research methodology, and clinical education."
-  },
-  {
-    key: "year-4",
-    label: "Final Year BPT",
-    shortLabel: "Final Year",
+    key: "primary",
+    label: "Primary School (Grades 1 to 5)",
+    shortLabel: "Primary (1-5)",
     count: 7,
-    academicYear: "Year IV",
-    description: "Advanced clinical physiotherapy in neurological, cardiothoracic, sports conditions, healthcare ethics, and community rehabilitation."
+    academicYear: "Preparatory Stage",
+    description: "Focus on strong reading, writing, mathematical fundamentals, environmental curiosity, communication, and creative expression."
+  },
+  {
+    key: "middle",
+    label: "Middle School (Grades 6 to 8)",
+    shortLabel: "Middle (6-8)",
+    count: 6,
+    academicYear: "Middle Stage",
+    description: "Experiential science, mathematics, social studies, computational thinking, and multilingual learning across English, Marathi & Hindi."
+  },
+  {
+    key: "secondary",
+    label: "Secondary School (Grades 9 & 10)",
+    shortLabel: "Secondary (9-10)",
+    count: 6,
+    academicYear: "Secondary Stage",
+    description: "Structured academic preparation for CBSE & State Board examinations, lab investigations, AI & Robotics, and leadership development."
   }
 ];
 
-export const BPT_SUBJECTS = [
+export const SCHOOL_SUBJECTS = [
   // ==========================================
-  // FIRST YEAR BPT (10 SUBJECTS)
+  // PRE-PRIMARY WING (FOUNDATIONAL LEARNING)
   // ==========================================
   {
-    id: "ha",
+    id: "early-phonics",
     order: 1,
-    name: "Human Anatomy",
-    abbr: "HA",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Introduces the structure and organization of the human body, including bones, muscles, joints, organs, nerves, and anatomical relationships. Explains their relevance to movement and rehabilitation.",
+    name: "Early English Literacy & Phonics",
+    abbr: "ENG-PP",
+    yearKey: "pre-primary",
+    yearLabel: "Pre-Primary Wing",
+    description: "Introduces letter sounds, sight words, storytelling, and phonemic awareness through rhymes, flashcards, and interactive oral activities.",
     keyTopics: [
-      "Skeletal system",
-      "Muscular system",
-      "Joints",
-      "Organs",
-      "Nervous system"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Essential for surface anatomy palpation, musculoskeletal palpation, nerve distribution assessment, and functional kinesiology.",
-    verificationNote: "Introductory subject overview. Confirm exact syllabus code, hours, and practical evaluation scheme against official college syllabus."
+      "Phonic sounds & alphabet recognition",
+      "Story listening & picture comprehension",
+      "Vocabulary building & nursery rhymes",
+      "Pre-writing patterns & fine-motor coordination",
+      "Expressive communication & daily greetings"
+    ]
   },
   {
-    id: "hp",
+    id: "early-math",
     order: 2,
-    name: "Human Physiology",
-    abbr: "HP",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Explains how the body's systems function, including the nervous, cardiovascular, respiratory, muscular, and endocrine systems.",
+    name: "Foundational Numeracy & Logic",
+    abbr: "NUM-PP",
+    yearKey: "pre-primary",
+    yearLabel: "Pre-Primary Wing",
+    description: "Builds number sense, counting, spatial relations, shapes, and sorting through Montessori-inspired manipulative kits and interactive games.",
     keyTopics: [
-      "Body systems",
-      "Muscle function",
-      "Circulation",
-      "Respiration",
-      "Homeostasis"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Establishes vital physiological benchmarks for exercise tolerance, autonomic control, cardiac output, and neuromuscular physiology.",
-    verificationNote: "Introductory subject overview. Confirm exact syllabus code, hours, and practical evaluation scheme against official college syllabus."
+      "Number recognition & counting 1 to 50",
+      "Shapes, patterns, and color sorting",
+      "Concept of size, weight, and comparison",
+      "Basic spatial relations (in/out, up/down)",
+      "Hands-on counting beads and block puzzles"
+    ]
   },
   {
-    id: "bc",
+    id: "discovery-evs",
     order: 3,
-    name: "Biochemistry",
-    abbr: "BC",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Covers biomolecules, enzymes, metabolism, and biochemical processes involved in normal health and disease.",
+    name: "World Around Us & Nature Discovery",
+    abbr: "EVS-PP",
+    yearKey: "pre-primary",
+    yearLabel: "Pre-Primary Wing",
+    description: "Fosters keen observation of nature, animals, plants, seasons, community helpers, and good personal hygiene in an engaging format.",
     keyTopics: [
-      "Proteins",
-      "Carbohydrates",
-      "Lipids",
-      "Enzymes",
-      "Metabolism"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Provides biochemical understanding of energy pathways during muscular exertion, muscle fatigue, lactate accumulation, and inflammatory markers.",
-    verificationNote: "Introductory subject overview. Confirm exact syllabus code, hours, and practical evaluation scheme against official college syllabus."
+      "My self, family, and home environment",
+      "Plants, animals, and natural surroundings",
+      "Weather, seasons, and day/night cycle",
+      "Community helpers & safety awareness",
+      "Healthy habits, clean food, and handwashing"
+    ]
   },
   {
-    id: "foem",
+    id: "creative-arts-pp",
     order: 4,
-    name: "Fundamentals of Exercise Modalities",
-    abbr: "FoEM",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Introduces foundational exercise approaches and physical modalities used in rehabilitation. Confirm the exact terminology against the approved syllabus.",
+    name: "Visual Arts, Craft & Sensory Play",
+    abbr: "ART-PP",
+    yearKey: "pre-primary",
+    yearLabel: "Pre-Primary Wing",
+    description: "Encourages creative exploration and sensory integration through clay modeling, finger painting, paper origami, and tactile play.",
     keyTopics: [
-      "Basic exercise principles",
-      "Therapeutic movement",
-      "Introductory rehabilitation techniques"
-    ],
-    departmentSlug: "kinesiotherapy-biomechanics",
-    departmentName: "Department of Kinesiotherapy & Biomechanics",
-    clinicalRelevance: "Foundational training in starting positions, active, passive, and resisted joint movements, stretching fundamentals, and basic therapeutic handling.",
-    verificationNote: "Flagged for college review: Confirm exact terminology (e.g. Fundamentals of Kinesiotherapy / Exercise Modalities) against the approved MUHS syllabus."
+      "Color recognition & freehand drawing",
+      "Clay modeling & paper folding (origami)",
+      "Sensory sand, water, and texture play",
+      "Scissor skills & paper tearing collage",
+      "Rhythm, dance movements, and action songs"
+    ]
   },
   {
-    id: "foea",
+    id: "physical-motor-pp",
     order: 5,
-    name: "Fundamentals of Electro Physical Agents",
-    abbr: "FoEA",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Introduces the principles, therapeutic applications, precautions, and safety of electro physical agents.",
+    name: "Gross Motor Development & Yoga",
+    abbr: "PE-PP",
+    yearKey: "pre-primary",
+    yearLabel: "Pre-Primary Wing",
+    description: "Daily outdoor play, balance beam navigation, fundamental movement skills, and kid-friendly yoga stretches to build strength and posture.",
     keyTopics: [
-      "Physical agents",
-      "Basic principles",
-      "Indications",
-      "Contraindications",
-      "Safety"
-    ],
-    departmentSlug: "electrotherapy-physical-agents",
-    departmentName: "Department of Electrotherapy & Physical Agents",
-    clinicalRelevance: "Covers electrical currents, light therapy, thermotherapy, cryotherapy safety, circuit safety, and skin sensation testing.",
-    verificationNote: "Introductory subject overview. Confirm exact abbreviation and syllabus nomenclature against official college documentation."
+      "Running, hopping, skipping, and balancing",
+      "Ball throwing, catching, and kicking",
+      "Fun kids' yoga and breathing exercises",
+      "Team games and turn-taking socialization",
+      "Body posture and spatial awareness"
+    ]
   },
+
+  // ==========================================
+  // PRIMARY SCHOOL (GRADES 1 TO 5)
+  // ==========================================
   {
-    id: "ps",
+    id: "english-primary",
     order: 6,
-    name: "Psychology and Sociology",
-    abbr: "PS",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Explores human behaviour, psychological wellbeing, social influences, and their effects on illness and rehabilitation.",
+    name: "English Language & Literature",
+    abbr: "ENG-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "Comprehensive English language proficiency encompassing grammar, reading comprehension, creative writing, poetry appreciation, and spoken fluency.",
     keyTopics: [
-      "Behaviour",
-      "Motivation",
-      "Communication",
-      "Social factors",
-      "Patient care"
-    ],
-    departmentSlug: "community-physiotherapy",
-    departmentName: "Department of Community Physiotherapy and Rehabilitation",
-    clinicalRelevance: "Essential for establishing patient rapport, addressing chronic pain behaviors, emotional distress, and societal barriers to rehabilitation.",
-    verificationNote: "Introductory subject overview. Verify combined vs separate examination scheme with college academic office."
+      "Grammar essentials, tenses, and parts of speech",
+      "Prose and poetry reading with intonation",
+      "Creative paragraph writing, diary entries & letters",
+      "Vocabulary building, antonyms, synonyms & idioms",
+      "Public speaking, recitation & storytelling"
+    ]
   },
   {
-    id: "fohs",
+    id: "mathematics-primary",
     order: 7,
-    name: "Fundamentals of Healthcare Delivery System in India",
-    abbr: "FoHS",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Introduces India's healthcare structure, levels of care, healthcare services, and the role of physiotherapy.",
+    name: "Primary Mathematics & Mental Math",
+    abbr: "MATH-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "Core arithmetic operations, geometry, measurement, fractions, data handling, and mental calculation techniques developing sharp problem-solving skills.",
     keyTopics: [
-      "Healthcare delivery",
-      "Health services",
-      "Primary care",
-      "Healthcare system in India"
-    ],
-    departmentSlug: "community-physiotherapy",
-    departmentName: "Department of Community Physiotherapy and Rehabilitation",
-    clinicalRelevance: "Provides an orientation to rural and urban health missions, PHCs, district hospitals, Ayushman Bharat, and physical therapy outreach.",
-    verificationNote: "Introductory subject overview. Confirm official curriculum module title and credits."
+      "Addition, subtraction, multiplication & division",
+      "Fractions, decimals, and place value systems",
+      "Measurement of length, weight, capacity & time",
+      "2D and 3D shapes, perimeter, and area basics",
+      "Mental math speed calculations and word problems"
+    ]
   },
   {
-    id: "eg",
+    id: "evs-primary",
     order: 8,
-    name: "English",
-    abbr: "EG",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Develops professional communication, reading, writing, comprehension, and language skills for healthcare and academic settings.",
+    name: "Environmental Studies & General Science",
+    abbr: "EVS-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "Integrated study of biological and physical science concepts, ecological balance, energy conservation, health, water conservation, and community life.",
     keyTopics: [
-      "Communication",
-      "Grammar",
-      "Writing",
-      "Comprehension",
-      "Professional English"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Refines clinical note-taking, discharge summaries, formal doctor-physiotherapist communication, and medical presentation skills.",
-    verificationNote: "Institutional requirement / qualifying subject. Confirm syllabus guidelines."
+      "Plant and animal life cycles and habitats",
+      "Human body systems, nutrition, and wellness",
+      "Natural resources, air, water, and soil conservation",
+      "Solar system, weather patterns, and landforms",
+      "Hands-on junior science experiments"
+    ]
   },
   {
-    id: "it",
+    id: "marathi-primary",
     order: 9,
-    name: "Information Technology",
-    abbr: "IT",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Covers basic computer skills, digital tools, information management, and technology used in healthcare and education.",
+    name: "Marathi Language (मातृभाषा व राज्यभाषा)",
+    abbr: "MAR-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "Rigorous training in the state language of Maharashtra covering Devanagari script, Marathi grammar, classical stories, poetry, and conversation.",
     keyTopics: [
-      "Computer fundamentals",
-      "Digital literacy",
-      "Software",
-      "Information management"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Supports electronic medical records (EMR), telehealth applications, digital health documentation, and medical literature search.",
-    verificationNote: "Institutional practical subject. Confirm exam/evaluation module details."
+      "मराठी वर्णमाला, बाराखडी व शुद्धलेखन",
+      "व्याकरण (नाम, सर्वनाम, क्रियापद, लिंग, वचन)",
+      "गोष्टी, कविता व सुविचार वाचन",
+      "संभाषण कौशल्य व दैनंदिन संवाद",
+      "निबंधलेखन व पत्रलेखनाचा सराव"
+    ]
   },
   {
-    id: "cor",
+    id: "hindi-primary",
     order: 10,
-    name: "Clinical Orientation",
-    abbr: "Cor",
-    yearKey: "year-1",
-    yearLabel: "First Year BPT",
-    description: "Introduces clinical environments, professional conduct, patient interaction, observation, confidentiality, and basic healthcare procedures.",
+    name: "Hindi Language (हिंदी भाषा)",
+    abbr: "HIN-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "National language study fostering fluent reading, writing, comprehension, grammar, and rich cultural appreciation of Hindi literature.",
     keyTopics: [
-      "Clinical settings",
-      "Communication",
-      "Professional behaviour",
-      "Patient safety"
-    ],
-    departmentSlug: "kinesiotherapy-biomechanics",
-    departmentName: "Department of Kinesiotherapy & Biomechanics",
-    clinicalRelevance: "Early hospital and physiotherapy OPD exposure, emphasizing hospital etiquette, hygiene precautions, and patient comfort.",
-    verificationNote: "Introductory subject overview. Confirm practical logbook and evaluation structure."
+      "हिंदी वर्णमाला, मात्रा ज्ञान व वर्तनी",
+      "व्याकरण के मूलभूत नियम व शब्द भंडार",
+      "गद्य व पद्य पाठों का सस्वर वाचन",
+      "सरल निबंध, संवाद व चित्र वर्णन",
+      "नैतिक कथाएं व राष्ट्रभक्ति कविताएं"
+    ]
   },
-
-  // ==========================================
-  // SECOND YEAR BPT (9 SUBJECTS)
-  // ==========================================
   {
-    id: "pm",
+    id: "computer-primary",
     order: 11,
-    name: "Pathology and Microbiology",
-    abbr: "PM",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Introduces disease processes, tissue changes, microorganisms, infection, and infection prevention.",
+    name: "Computer Science & Digital Literacy",
+    abbr: "CS-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "Introduces computer components, operating systems, MS Office tools, touch typing, digital citizenship, and foundational block-based coding.",
     keyTopics: [
-      "Pathological changes",
-      "Microorganisms",
-      "Infection control",
-      "Disease processes"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Helps therapists understand inflammatory phases, wound healing, tissue repair, nosocomial infections, and sterilization in clinical OPDs.",
-    verificationNote: "Introductory subject overview. Confirm subject division and exam marks with MUHS syllabus."
+      "Computer hardware, keyboard, and mouse mastery",
+      "MS Paint, Word processing, and presentation slides",
+      "Safe internet browsing and digital ethics",
+      "Introduction to Scratch block coding",
+      "Logical reasoning, algorithms, and flowcharts"
+    ]
   },
   {
-    id: "pc",
+    id: "pe-arts-primary",
     order: 12,
-    name: "Pharmacology",
-    abbr: "PC",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Explains medicines, their actions, therapeutic uses, side effects, and precautions relevant to physiotherapy practice.",
+    name: "Physical Education, Yoga & Fine Arts",
+    abbr: "PE-ART-PRI",
+    yearKey: "primary",
+    yearLabel: "Primary School (Grades 1-5)",
+    description: "Structured athletics, team sports (kho-kho, kabaddi, football), classical & folk music, dance, drawing, and daily Surya Namaskar.",
     keyTopics: [
-      "Drug actions",
-      "Drug classes",
-      "Adverse effects",
-      "Medication precautions"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Essential for recognizing drug-exercise interactions, timing therapy around analgesics/muscle relaxants, and observing autonomic side effects.",
-    verificationNote: "Introductory subject overview. Verify university exam pattern."
+      "Athletics running, jumping, and relay races",
+      "Traditional Indian sports: Kabaddi & Kho-Kho",
+      "Football, badminton, and cricket basics",
+      "Classical Surya Namaskar and Pranayama",
+      "Drawing, watercolor painting & craft exhibitions"
+    ]
   },
+
+  // ==========================================
+  // MIDDLE SCHOOL (GRADES 6 TO 8)
+  // ==========================================
   {
-    id: "ph",
+    id: "science-middle",
     order: 13,
-    name: "Public Health and Health Promotion",
-    abbr: "PH",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Covers disease prevention, health education, community health, and strategies to promote wellbeing.",
+    name: "General Science (Physics, Chemistry, Biology)",
+    abbr: "SCI-MID",
+    yearKey: "middle",
+    yearLabel: "Middle School (Grades 6-8)",
+    description: "Laboratory-based experiential learning covering mechanics, light, electricity, chemical reactions, cell biology, plant physiology, and ecosystem dynamics.",
     keyTopics: [
-      "Public health",
-      "Prevention",
-      "Health education",
-      "Health promotion"
-    ],
-    departmentSlug: "community-physiotherapy",
-    departmentName: "Department of Community Physiotherapy and Rehabilitation",
-    clinicalRelevance: "Trains students to organize ergonomic awareness drives, workplace health interventions, and primary disability prevention.",
-    verificationNote: "Introductory subject overview. Confirm syllabus credit hours."
+      "Matter, chemical reactions, acids, bases & salts",
+      "Motion, force, pressure, light, and electricity",
+      "Cell structure, plant reproduction & human organs",
+      "Microorganisms, food production, and conservation",
+      "Weekly hands-on science laboratory experiments"
+    ]
   },
   {
-    id: "ecls",
+    id: "math-middle",
     order: 14,
-    name: "Emergency Care and Life Support Skills",
-    abbr: "ECLS",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Introduces emergency assessment, first aid, basic life support, and appropriate responses to medical emergencies.",
+    name: "Mathematics & Pre-Algebra",
+    abbr: "MATH-MID",
+    yearKey: "middle",
+    yearLabel: "Middle School (Grades 6-8)",
+    description: "Deductive geometric proofs, algebraic equations, integers, ratios, percentages, statistics, probability, and mensuration.",
     keyTopics: [
-      "Emergency response",
-      "First aid",
-      "Basic life support",
-      "Patient safety"
-    ],
-    departmentSlug: "cardiopulmonary-physiotherapy",
-    departmentName: "Department of Cardiopulmonary Physiotherapy",
-    clinicalRelevance: "Prepares physiotherapists for cardiopulmonary resuscitation (CPR), AED operation, handling syncope, and managing acute clinic emergencies.",
-    verificationNote: "Introductory subject overview. Confirm certification and practical assessment details."
+      "Integers, rational numbers & exponents",
+      "Linear equations and algebraic expressions",
+      "Triangles, quadrilaterals, circles & geometric constructions",
+      "Commercial mathematics: profit, loss & simple interest",
+      "Data handling, bar graphs, and probability basics"
+    ]
   },
   {
-    id: "ext",
+    id: "social-science-middle",
     order: 15,
-    name: "Exercise Therapy",
-    abbr: "ExT",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Studies therapeutic exercises for improving strength, flexibility, range of motion, balance, coordination, mobility, and function.",
+    name: "Social Science (History, Civics, Geography)",
+    abbr: "SST-MID",
+    yearKey: "middle",
+    yearLabel: "Middle School (Grades 6-8)",
+    description: "Explores ancient & medieval Indian history, national freedom movement, Indian constitution, parliamentary governance, world geography, and resources.",
     keyTopics: [
-      "Strengthening",
-      "Stretching",
-      "Mobility",
-      "Balance",
-      "Posture",
-      "Functional exercises"
-    ],
-    departmentSlug: "kinesiotherapy-biomechanics",
-    departmentName: "Department of Kinesiotherapy & Biomechanics",
-    clinicalRelevance: "Core clinical pillar involving manual resistance, suspension therapy, hydrotherapy, group exercises, and functional restoration.",
-    verificationNote: "Core practical subject. Confirm exact syllabus curriculum wording."
+      "Ancient, Medieval & Modern Indian History",
+      "Maratha Empire and the vision of Chhatrapati Shivaji Maharaj",
+      "Indian Constitution, Fundamental Rights, and Parliament",
+      "Physical geography of India & Maharashtra",
+      "Resources, agriculture, industries & environmental management"
+    ]
   },
   {
-    id: "et",
+    id: "stem-robotics-middle",
     order: 16,
-    name: "Electrotherapy",
-    abbr: "ET",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Covers therapeutic electrical and physical agents, their principles, clinical applications, precautions, and safety.",
+    name: "STEM, AI & Robotics Foundation",
+    abbr: "STEM-MID",
+    yearKey: "middle",
+    yearLabel: "Middle School (Grades 6-8)",
+    description: "Hands-on engineering projects using Arduino microcontrollers, sensors, 3D spatial thinking, basic Python programming, and robotic car assemblies.",
     keyTopics: [
-      "Electrotherapy principles",
-      "Treatment applications",
-      "Indications",
-      "Contraindications",
-      "Safety"
-    ],
-    departmentSlug: "electrotherapy-physical-agents",
-    departmentName: "Department of Electrotherapy & Physical Agents",
-    clinicalRelevance: "Hands-on application of TENS, IFT, ultrasound, shortwave diathermy, laser, and electrical stimulation for pain and muscle re-education.",
-    verificationNote: "Core practical subject. Verify university theory and practical examination scheme."
+      "Introduction to robotics, sensors, and actuators",
+      "Block & text-based Python programming",
+      "Arduino circuit building and LED/buzzer logic",
+      "Design thinking and STEM project prototypes",
+      "Introduction to Artificial Intelligence concepts"
+    ]
   },
   {
-    id: "bk",
+    id: "english-literature-middle",
     order: 17,
-    name: "Biomechanics and Kinesiology",
-    abbr: "BK",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Examines forces acting on the body, joint movement, posture, gait, muscle action, and functional movement.",
+    name: "English Language & Communicative Arts",
+    abbr: "ENG-MID",
+    yearKey: "middle",
+    yearLabel: "Middle School (Grades 6-8)",
+    description: "Formal essay writing, debate, speech presentation, comprehension analysis, report writing, and appreciation of world literature classics.",
     keyTopics: [
-      "Mechanics",
-      "Joint motion",
-      "Muscle function",
-      "Posture",
-      "Gait"
-    ],
-    departmentSlug: "kinesiotherapy-biomechanics",
-    departmentName: "Department of Kinesiotherapy & Biomechanics",
-    clinicalRelevance: "Detailed mechanical analysis of normal and pathological gait, spinal loads, lever systems, and joint kinematics.",
-    verificationNote: "Core subject. Confirm curriculum hours and practical evaluation details."
+      "Advanced grammar, clauses, voice & direct-indirect speech",
+      "Formal letter writing, notice drafting, and news reports",
+      "Literary analysis of short stories and poems",
+      "Extempore speaking, parliamentary debates & MUN orientation",
+      "Creative writing and book review competitions"
+    ]
   },
   {
-    id: "yog",
+    id: "languages-middle",
     order: 18,
-    name: "Yoga and Systems of Medicine",
-    abbr: "YoG",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Introduces yoga practices and relevant systems of medicine, including their principles and potential role in health and wellbeing.",
+    name: "Regional & Classical Languages (Marathi & Hindi)",
+    abbr: "LANG-MID",
+    yearKey: "middle",
+    yearLabel: "Middle School (Grades 6-8)",
+    description: "In-depth study of regional literature, poetry recitation, formal letter writing, grammar, and cultural traditions of Maharashtra and India.",
     keyTopics: [
-      "Yoga principles",
-      "Postures",
-      "Breathing practices",
-      "Systems of medicine"
-    ],
-    departmentSlug: "kinesiotherapy-biomechanics",
-    departmentName: "Department of Kinesiotherapy & Biomechanics",
-    clinicalRelevance: "Integrates therapeutic asanas, pranayama breathing, and holistic postural hygiene into physical rehabilitation programs.",
-    verificationNote: "Introductory subject overview. Confirm syllabus module boundaries."
+      "संत साहित्य (संत ज्ञानेश्वर, संत तुकाराम महाराज)",
+      "प्रगत मराठी व्याकरण, अलंकार व वाक्यप्रचार",
+      "हिंदी गद्य-पद्य साहित्य व मुहावरे",
+      "वैचारिक निबंध, संवाद व पत्रलेखन",
+      "नाट्य अभिवाचन व वक्तृत्व स्पर्धा"
+    ]
   },
+
+  // ==========================================
+  // SECONDARY SCHOOL (GRADES 9 & 10)
+  // ==========================================
   {
-    id: "co",
+    id: "science-secondary",
     order: 19,
-    name: "Clinical Observation",
-    abbr: "CO",
-    yearKey: "year-2",
-    yearLabel: "Second Year BPT",
-    description: "Develops observational skills through supervised exposure to clinical environments, patient care, and physiotherapy practice.",
+    name: "Science & Technology (Physics, Chemistry, Biology)",
+    abbr: "SCI-SEC",
+    yearKey: "secondary",
+    yearLabel: "Secondary School (Grades 9-10)",
+    description: "Rigorous curriculum aligned with CBSE and Maharashtra State Board standards. Complete laboratory practicals, chemical titration, optics, mechanics, and genetics.",
     keyTopics: [
-      "Clinical observation",
-      "Patient interaction",
-      "Professional conduct",
-      "Clinical settings"
-    ],
-    departmentSlug: "musculoskeletal-physiotherapy",
-    departmentName: "Department of Musculoskeletal Physiotherapy",
-    clinicalRelevance: "Hands-on clinical posting in hospital OPD and in-patient wards, building clinical case history taking and observational skills.",
-    verificationNote: "Clinical posting subject. Confirm mandatory clinical hours and logbook verification."
+      "Chemical reactions, periodic classification & carbon compounds",
+      "Electricity, magnetic effects of current, light reflection & refraction",
+      "Life processes, control & coordination, heredity & evolution",
+      "Sources of energy, management of natural resources",
+      "Comprehensive lab practicals, viva & project record books"
+    ]
   },
-
-  // ==========================================
-  // THIRD YEAR BPT (8 SUBJECTS)
-  // ==========================================
   {
-    id: "gmp",
+    id: "mathematics-secondary",
     order: 20,
-    name: "General Medicine and Pediatrics",
-    abbr: "GMP",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Introduces common medical conditions and childhood illnesses relevant to patient assessment, treatment precautions, and rehabilitation.",
+    name: "Mathematics (Algebra & Geometry)",
+    abbr: "MATH-SEC",
+    yearKey: "secondary",
+    yearLabel: "Secondary School (Grades 9-10)",
+    description: "Advanced algebraic formulations, quadratic equations, trigonometry, coordinate geometry, surface areas, volumes, statistics, and circles.",
     keyTopics: [
-      "General medical conditions",
-      "Pediatric illnesses",
-      "Clinical signs",
-      "Precautions"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Understanding systemic pathologies (diabetes, hypertension, rheumatoid diseases, pediatric developmental delays) for safe therapy planning.",
-    verificationNote: "Introductory subject overview. Confirm syllabus distribution between adult medicine and pediatrics."
+      "Real numbers, polynomials & quadratic equations",
+      "Arithmetic progressions (AP) & linear equations in two variables",
+      "Introduction to trigonometry and applications of trigonometry",
+      "Circles, coordinate geometry & geometric constructions",
+      "Surface areas and volumes of combinations of solids & statistics"
+    ]
   },
   {
-    id: "gs",
+    id: "social-science-secondary",
     order: 21,
-    name: "General Surgery",
-    abbr: "GS",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Covers surgical conditions, basic surgical principles, postoperative recovery, and physiotherapy considerations.",
+    name: "Social Science (History, Civics, Geography, Economics)",
+    abbr: "SST-SEC",
+    yearKey: "secondary",
+    yearLabel: "Secondary School (Grades 9-10)",
+    description: "Critical inquiry into modern Indian nationalism, world wars, democratic politics, federalism, economic development, money and credit, and sustainable geography.",
     keyTopics: [
-      "Surgical conditions",
-      "Postoperative care",
-      "Recovery",
-      "Rehabilitation precautions"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Post-operative chest clearance, preventing deep vein thrombosis (DVT), early mobilization after abdominal and thoracic surgeries.",
-    verificationNote: "Introductory subject overview. Confirm university exam pattern with academic office."
+      "Nationalism in Europe & Nationalism in India",
+      "Power sharing, federalism, gender, religion & caste in politics",
+      "Resources and development, agriculture, manufacturing industries",
+      "Development economics, sectors of the Indian economy, globalization",
+      "Map pointing skills, case studies & project dossiers"
+    ]
   },
   {
-    id: "or",
+    id: "english-secondary",
     order: 22,
-    name: "Orthopedics",
-    abbr: "OR",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Introduces musculoskeletal disorders, fractures, joint conditions, spinal disorders, and orthopedic assessment and management.",
+    name: "English Language & Literature",
+    abbr: "ENG-SEC",
+    yearKey: "secondary",
+    yearLabel: "Secondary School (Grades 9-10)",
+    description: "High-order reading comprehension, discursive essays, analytical paragraph writing, formal editorial letters, and classical drama appreciation.",
     keyTopics: [
-      "Bone and joint disorders",
-      "Fractures",
-      "Spinal conditions",
-      "Orthopedic care"
-    ],
-    departmentSlug: "musculoskeletal-physiotherapy",
-    departmentName: "Department of Musculoskeletal Physiotherapy",
-    clinicalRelevance: "Clinical pathology and medical management of fractures, dislocations, arthroplasty, ligament reconstructions, and degenerative spine.",
-    verificationNote: "Core medical subject. Confirm syllabus guidelines."
+      "Board-pattern reading comprehension (factual & discursive passages)",
+      "Analytical paragraph writing based on charts, graphs & cues",
+      "Formal letters to editors, business enquiries & complaints",
+      "In-depth analysis of prose, drama & poetry texts",
+      "Oral listening and speaking assessments (ASL)"
+    ]
   },
   {
-    id: "tpms",
+    id: "regional-language-secondary",
     order: 23,
-    name: "Physiotherapy in Adult and Pediatric Medical and Surgical Conditions",
-    abbr: "TPMS",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Covers physiotherapy assessment and rehabilitation for adults and children with relevant medical and surgical conditions.",
+    name: "Second Language (Marathi / Hindi)",
+    abbr: "LANG-SEC",
+    yearKey: "secondary",
+    yearLabel: "Secondary School (Grades 9-10)",
+    description: "Thorough board examination preparation with extensive grammar drills, unread passages, prose, poetry, and expressive essay compositions.",
     keyTopics: [
-      "Patient assessment",
-      "Treatment planning",
-      "Rehabilitation",
-      "Precautions"
-    ],
-    departmentSlug: "cardiopulmonary-physiotherapy",
-    departmentName: "Department of Cardiopulmonary Physiotherapy",
-    clinicalRelevance: "Design and execution of therapeutic protocols for post-surgical recovery, burns, intensive care mobilization, and pediatric medical cases.",
-    verificationNote: "Core clinical PT subject. Confirm exact nomenclature and syllabus code in MUHS documents."
+      "बोर्ड परीक्षा आधारित गद्य, पद्य व स्थूलवाचन",
+      "व्याकरण (समास, वृत्त, शब्दसिद्धी, वाक्प्रचार)",
+      "उपयोजित लेखन (निबंध, बातमी लेखन, जाहिरात लेखन)",
+      "कथालेखन, संवाद लेखन व सारांश लेखन",
+      "मागील वर्षांच्या प्रश्नपत्रिकांचा सराव"
+    ]
   },
   {
-    id: "pto",
+    id: "it-robotics-secondary",
     order: 24,
-    name: "Physiotherapy in Adult and Pediatric Orthopedic Conditions",
-    abbr: "PTO",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Focuses on assessment, treatment planning, and rehabilitation for orthopedic conditions across age groups.",
+    name: "Information Technology & AI Applications",
+    abbr: "IT-AI-SEC",
+    yearKey: "secondary",
+    yearLabel: "Secondary School (Grades 9-10)",
+    description: "Advanced digital skills including RDBMS database management, HTML/CSS web design, Python programming, AI computer vision models, and cybersecurity.",
     keyTopics: [
-      "Orthopedic assessment",
-      "Therapeutic interventions",
-      "Functional recovery",
-      "Rehabilitation"
-    ],
-    departmentSlug: "musculoskeletal-physiotherapy",
-    departmentName: "Department of Musculoskeletal Physiotherapy",
-    clinicalRelevance: "Application of manual therapy, joint mobilizations, functional exercise regimes, and post-fracture rehabilitation protocols.",
-    verificationNote: "Core clinical PT subject. Verify university practical examination pattern."
-  },
-  {
-    id: "pfp",
-    order: 25,
-    name: "Physical and Functional Diagnosis and Prescription",
-    abbr: "PFP",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Develops skills in physical examination, functional assessment, identifying movement limitations, and planning appropriate physiotherapy interventions.",
-    keyTopics: [
-      "Physical examination",
-      "Functional assessment",
-      "Clinical reasoning",
-      "Treatment prescription"
-    ],
-    departmentSlug: "kinesiotherapy-biomechanics",
-    departmentName: "Department of Kinesiotherapy & Biomechanics",
-    clinicalRelevance: "Comprehensive diagnostic framework covering special orthopedic tests, neurological screening, goniometry, muscle testing, and exercise dosage.",
-    verificationNote: "Core diagnostic subject. Confirm exact curriculum wording."
-  },
-  {
-    id: "rmb",
-    order: 26,
-    name: "Research Methodology, Biostatistics and Evidence-Based Practice",
-    abbr: "RMB",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Introduces research design, biostatistics, critical appraisal, and applying scientific evidence to physiotherapy practice.",
-    keyTopics: [
-      "Research methods",
-      "Study design",
-      "Statistics",
-      "Literature review",
-      "Evidence-based practice"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Prepares undergraduate students for clinical audit, literature critique, dissertation methodology, and evidence-informed therapy.",
-    verificationNote: "Introductory subject overview. Confirm dissertation requirements."
-  },
-  {
-    id: "ed",
-    order: 27,
-    name: "Clinical Education",
-    abbr: "Ed",
-    yearKey: "year-3",
-    yearLabel: "Third Year BPT",
-    description: "Supports supervised clinical learning, patient assessment, professional communication, documentation, and application of theoretical knowledge.",
-    keyTopics: [
-      "Clinical skills",
-      "Patient interaction",
-      "Documentation",
-      "Supervised practice"
-    ],
-    departmentSlug: "musculoskeletal-physiotherapy",
-    departmentName: "Department of Musculoskeletal Physiotherapy",
-    clinicalRelevance: "Supervised in-patient ward postings, bedside case presentations, clinical problem-solving, and logbook evaluation.",
-    verificationNote: "Clinical posting subject. Confirm mandatory clinical hours and evaluation rubric."
-  },
-
-  // ==========================================
-  // FINAL YEAR BPT (7 SUBJECTS)
-  // ==========================================
-  {
-    id: "npns",
-    order: 28,
-    name: "Neurology, Psychiatry and Neurosurgery",
-    abbr: "NPNS",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Introduces neurological, psychiatric, and neurosurgical conditions relevant to function, disability, assessment, and rehabilitation.",
-    keyTopics: [
-      "Neurological disorders",
-      "Psychiatric conditions",
-      "Neurosurgical conditions",
-      "Functional impact"
-    ],
-    departmentSlug: "neurological-physiotherapy",
-    departmentName: "Department of Neurological Physiotherapy",
-    clinicalRelevance: "In-depth understanding of stroke, traumatic brain injury, spinal cord injury, Parkinson's disease, and post-craniotomy care.",
-    verificationNote: "Core medical specialty subject. Confirm university exam pattern."
-  },
-  {
-    id: "ptn",
-    order: 29,
-    name: "Physiotherapy in Adult and Pediatric Neurological and Neurosurgical Conditions",
-    abbr: "PTN",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Focuses on neurological assessment and rehabilitation for adults and children with movement, balance, coordination, and functional difficulties.",
-    keyTopics: [
-      "Neurological assessment",
-      "Motor control",
-      "Balance",
-      "Coordination",
-      "Functional rehabilitation"
-    ],
-    departmentSlug: "neurological-physiotherapy",
-    departmentName: "Department of Neurological Physiotherapy",
-    clinicalRelevance: "Advanced neuro-rehabilitation techniques: NDT/Bobath, PNF, MRP, gait retraining, balance platforms, and pediatric cerebral palsy management.",
-    verificationNote: "Core final-year practical subject. Verify university theory and practical examination pattern."
-  },
-  {
-    id: "ctd",
-    order: 30,
-    name: "Cardiothoracic Diseases and Surgeries",
-    abbr: "CTD",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Covers cardiac and respiratory diseases, cardiothoracic surgery, clinical presentation, and relevant precautions.",
-    keyTopics: [
-      "Cardiovascular disorders",
-      "Respiratory disorders",
-      "Surgery",
-      "Clinical assessment"
-    ],
-    departmentSlug: "cardiopulmonary-physiotherapy",
-    departmentName: "Department of Cardiopulmonary Physiotherapy",
-    clinicalRelevance: "Pathology and medical-surgical interventions in CABG, valve replacements, COPD, bronchiectasis, and chest trauma.",
-    verificationNote: "Core medical specialty subject. Confirm university exam scheme."
-  },
-  {
-    id: "ptc",
-    order: 31,
-    name: "Physiotherapy in Adult and Pediatric Cardiothoracic Conditions and Surgical Conditions",
-    abbr: "PTC",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Covers cardiac and respiratory assessment, breathing techniques, exercise-based rehabilitation, and recovery after relevant surgery.",
-    keyTopics: [
-      "Respiratory physiotherapy",
-      "Breathing exercises",
-      "Cardiac rehabilitation",
-      "Postoperative recovery"
-    ],
-    departmentSlug: "cardiopulmonary-physiotherapy",
-    departmentName: "Department of Cardiopulmonary Physiotherapy",
-    clinicalRelevance: "ICU chest physiotherapy, airway clearance, mechanical ventilation weaning, phase-I & phase-II cardiac rehabilitation protocols.",
-    verificationNote: "Core clinical PT subject. Verify university practical assessment scheme."
-  },
-  {
-    id: "pts",
-    order: 32,
-    name: "Sports Physiotherapy and Exercise Prescription",
-    abbr: "PTS",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Focuses on sports injury management, injury prevention, physical conditioning, exercise prescription, and return-to-sport planning.",
-    keyTopics: [
-      "Sports injuries",
-      "Prevention",
-      "Conditioning",
-      "Rehabilitation",
-      "Exercise prescription"
-    ],
-    departmentSlug: "sports-physiotherapy",
-    departmentName: "Department of Sports Physiotherapy",
-    clinicalRelevance: "On-field emergency triage, kinesio taping, functional movement screening (FMS), plyometrics, and athletic return-to-play testing.",
-    verificationNote: "Core specialty subject. Confirm syllabus code and practical guidelines."
-  },
-  {
-    id: "ptlm",
-    order: 33,
-    name: "Ethics, Medico-Legal Aspects, Management and Administration",
-    abbr: "PTLM",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Introduces professional ethics, patient rights, legal responsibilities, healthcare management, and administration.",
-    keyTopics: [
-      "Ethics",
-      "Medico-legal responsibilities",
-      "Healthcare management",
-      "Administration"
-    ],
-    departmentSlug: "foundational-medical-sciences",
-    departmentName: "Department of Foundational Medical Sciences",
-    clinicalRelevance: "Professional code of conduct, informed consent, clinical clinic setup, consumer protection act, and biomedical waste management.",
-    verificationNote: "Introductory subject overview. Confirm statutory examination requirements."
-  },
-  {
-    id: "cptr",
-    order: 34,
-    name: "Community Physiotherapy and Rehabilitation",
-    abbr: "CPTR",
-    yearKey: "year-4",
-    yearLabel: "Final Year BPT",
-    description: "Covers community-based rehabilitation, disability prevention, health promotion, accessibility, and rehabilitation in community settings.",
-    keyTopics: [
-      "Community rehabilitation",
-      "Disability prevention",
-      "Health promotion",
-      "Outreach"
-    ],
-    departmentSlug: "community-physiotherapy",
-    departmentName: "Department of Community Physiotherapy and Rehabilitation",
-    clinicalRelevance: "Community disability surveys, rural outreach camps, industrial ergonomics, geriatric balance screening, and assistive device prescription.",
-    verificationNote: "Core practical subject. Verify community field posting and university exam pattern."
+      "Database management with LibreOffice Base / MySQL",
+      "Web development fundamentals (HTML5 & CSS)",
+      "Python programming fundamentals and automation scripts",
+      "Computer vision and Natural Language Processing concepts",
+      "Cyber safety, digital footprints, and ethical hacking basics"
+    ]
   }
 ];
 
-// Helper functions for subjects
-export function getSubjectsByYear(yearKey) {
-  if (!yearKey || yearKey === 'all') return BPT_SUBJECTS;
-  return BPT_SUBJECTS.filter(s => s.yearKey === yearKey);
-}
-
-export function getSubjectById(id) {
-  return BPT_SUBJECTS.find(s => s.id === id);
-}
-
-export function getSubjectsByDepartment(deptSlug) {
-  return BPT_SUBJECTS.filter(s => s.departmentSlug === deptSlug);
-}
+// Backwards compatibility aliases
+export const BPT_YEARS = SCHOOL_LEVELS;
+export const BPT_SUBJECTS = SCHOOL_SUBJECTS;

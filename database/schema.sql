@@ -1,5 +1,6 @@
 -- ========================================================
--- College of Physiotherapy - MySQL Database Schema
+-- Karmayogi Vidyaniketan / Karmayogi Public School - MySQL Database Schema
+-- Shri Pandurang Pratishthan, Pandharpur
 -- Database Target: MySQL 5.7+ / 8.0+ / MariaDB 10.3+
 -- Character Set: utf8mb4 / Collation: utf8mb4_unicode_ci
 -- ========================================================

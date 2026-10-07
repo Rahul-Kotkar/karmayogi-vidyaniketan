@@ -111,7 +111,7 @@ export default function AdminFacilities() {
             <span className="admin-page-badge">Campus Amenities</span>
           </h1>
           <p>
-            Manage campus infrastructure: laboratories, central library, clinical units, hostels, and sports grounds.
+            Manage campus infrastructure: smart classrooms, science labs, STEM studios, library, and sports grounds.
           </p>
         </div>
         <div className="admin-page-actions">

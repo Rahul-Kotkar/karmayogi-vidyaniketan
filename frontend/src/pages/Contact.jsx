@@ -5,16 +5,16 @@ import { contactService, settingsService } from '../services/endpoints.js'
 import { MapPinIcon, PhoneIcon, SendIcon, LockIcon, ClockIcon } from '../components/Icons.jsx'
 
 const QUICK_TOPICS = [
-  'BPT Admission 2026-27',
-  'MPT Specializations',
-  'Clinical Training & Hospital',
-  'Campus Visit Appointment',
-  'Scholarships & Fees',
+  'Nursery & Pre-Primary Admission',
+  'Primary School (Grades 1-5)',
+  'Secondary School (Grades 6-10)',
+  'Sports & Extracurricular Activities',
+  'School Bus Transportation',
   'General Enquiry'
 ]
 
 export default function Contact() {
-  const [collegeInfo, setCollegeInfo] = useState(COLLEGE)
+  const [schoolInfo, setSchoolInfo] = useState(COLLEGE)
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -29,7 +29,7 @@ export default function Contact() {
   useEffect(() => {
     settingsService.get().then(data => {
       if (data) {
-        setCollegeInfo(prev => ({
+        setSchoolInfo(prev => ({
           ...prev,
           foundation: data.foundation_name || prev.foundation,
           name: data.college_name || prev.name,
@@ -55,7 +55,7 @@ export default function Contact() {
     try {
       await contactService.submit(form)
       setFeedback({
-        text: 'Thank you for reaching out! Your enquiry has been safely received. Our admissions / administration desk will contact you within 1 business day.',
+        text: 'Thank you for reaching out! Your enquiry has been safely received. Our school admissions & administration desk will contact you within 1 business day.',
         type: 'success'
       })
       setForm({ name: '', email: '', phone: '', subject: '', message: '' })
@@ -71,45 +71,62 @@ export default function Contact() {
   }
 
   const mapSearchQuery = encodeURIComponent(
-    `${collegeInfo.name || 'Karmayogi College of Physiotherapy'}, Shelve, Pandharpur, Maharashtra`
+    'Karmayogi Vidyaniketan, Shelve, Pandharpur, Maharashtra'
   )
 
   return (
     <PageShell
-      title="Contact Our Campus"
+      title="Contact Our School"
     >
       <div className="contact-grid-wrapper">
         {/* ================= LEFT COLUMN: CONTACT CARDS ================= */}
         <div className="contact-info-column">
-          {/* 1. College Location Card */}
+          {/* 1. School Campuses Card */}
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
-                <MapPinIcon size={18} color="#1d4ed8" />
+                <MapPinIcon size={18} color="#071d3a" />
               </div>
               <div>
-                <h4 className="contact-card-title">Campus Location</h4>
-                <span className="contact-card-sub">Main Academic &amp; Hospital Complex</span>
+                <h4 className="contact-card-title">School Campuses</h4>
+                <span className="contact-card-sub">Pandharpur, Maharashtra</span>
               </div>
             </div>
 
             <div className="contact-card-content">
               <div className="contact-card-foundation">
-                {collegeInfo.foundation}
+                {schoolInfo.foundation}
               </div>
               <strong className="contact-card-college">
-                {collegeInfo.name}
+                {schoolInfo.name}
               </strong>
-              <p className="contact-card-address">
-                {collegeInfo.address}
-              </p>
+
+              <div style={{ marginTop: '12px', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#071d3a', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  1. Foundation / Primary Campus:
+                </span>
+                <p style={{ fontSize: '13px', color: '#475569', marginTop: '4px', lineHeight: 1.4 }}>
+                  Behind MSEDCL Division Office, Link Road, Isbavi, Pandharpur - 413304
+                </p>
+              </div>
+
+              <div style={{ marginTop: '10px', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#071d3a', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  2. High School &amp; Residential Campus:
+                </span>
+                <p style={{ fontSize: '13px', color: '#475569', marginTop: '4px', lineHeight: 1.4 }}>
+                  Shelve, Pandharpur, Dist. Solapur, Maharashtra - 413304
+                </p>
+              </div>
+
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${mapSearchQuery}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-card-map-link"
+                style={{ marginTop: '14px' }}
               >
-                <span>View on Google Maps</span>
+                <span>View Campus on Google Maps</span>
                 <span>↗</span>
               </a>
             </div>
@@ -119,25 +136,30 @@ export default function Contact() {
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
-                <PhoneIcon size={18} color="#1d4ed8" />
+                <PhoneIcon size={18} color="#071d3a" />
               </div>
               <div>
                 <h4 className="contact-card-title">Phone &amp; Email Inquiries</h4>
-                <span className="contact-card-sub">Direct Institutional Lines</span>
+                <span className="contact-card-sub">Direct School Admission Desk</span>
               </div>
             </div>
 
             <div className="contact-info-list">
               <div>
                 <span className="contact-info-label">
-                  Central Office Phone
+                  Admission &amp; Office Helplines
                 </span>
-                <a
-                  href={`tel:${collegeInfo.phone}`}
-                  className="contact-info-phone"
-                >
-                  {collegeInfo.phone}
-                </a>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '4px' }}>
+                  <a href="tel:+918459863477" className="contact-info-phone">
+                    +91 84598 63477
+                  </a>
+                  <a href="tel:+919527632033" className="contact-info-phone">
+                    +91 95276 32033
+                  </a>
+                  <a href="tel:+918788642412" className="contact-info-phone">
+                    +91 87886 42412
+                  </a>
+                </div>
               </div>
 
               <div>
@@ -145,19 +167,19 @@ export default function Contact() {
                   Official Email Address
                 </span>
                 <a
-                  href={`mailto:${collegeInfo.email}`}
+                  href="mailto:vijaymadane3@gmail.com"
                   className="contact-info-link"
                 >
-                  {collegeInfo.email}
+                  vijaymadane3@gmail.com
                 </a>
               </div>
 
               <div>
                 <span className="contact-info-label">
-                  Institutional Website
+                  Affiliation &amp; Medium
                 </span>
                 <span className="contact-info-text">
-                  {collegeInfo.website}
+                  English Medium | Nursery to Grade 10 | Co-Ed
                 </span>
               </div>
             </div>
@@ -167,22 +189,22 @@ export default function Contact() {
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
-                <ClockIcon size={18} color="#1d4ed8" />
+                <ClockIcon size={18} color="#071d3a" />
               </div>
               <div>
-                <h4 className="contact-card-title">Office &amp; Counseling Hours</h4>
-                <span className="contact-card-sub">Administration Schedule</span>
+                <h4 className="contact-card-title">Office &amp; Visiting Hours</h4>
+                <span className="contact-card-sub">School Administration Schedule</span>
               </div>
             </div>
 
             <div className="contact-hours-list">
               <div className="contact-hours-row bordered">
                 <span style={{ fontWeight: 600 }}>Monday – Saturday:</span>
-                <span style={{ color: '#0f172a', fontWeight: 700 }}>10:00 AM – 5:00 PM</span>
+                <span style={{ color: '#0f172a', fontWeight: 700 }}>8:00 AM – 2:00 PM</span>
               </div>
               <div className="contact-hours-row">
                 <span style={{ fontWeight: 600, color: '#dc2626' }}>Sunday:</span>
-                <span style={{ color: '#64748b' }}>Closed (Admin Desk)</span>
+                <span style={{ color: '#64748b' }}>Closed</span>
               </div>
               <div className="contact-hours-note">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -190,7 +212,7 @@ export default function Contact() {
                   <line x1="12" y1="16" x2="12" y2="12"></line>
                   <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
-                <em>Attached Hospital Emergency &amp; Trauma services are available 24/7.</em>
+                <em>Campus visits &amp; parent counseling available during office hours by prior appointment.</em>
               </div>
             </div>
           </div>
@@ -199,9 +221,9 @@ export default function Contact() {
         {/* ================= RIGHT COLUMN: INTERACTIVE FORM ================= */}
         <div>
           <div className="contact-form-card">
-            <h3 className="contact-form-title">Send Us an Online Enquiry</h3>
+            <h3 className="contact-form-title">Send Us a School Enquiry</h3>
             <p className="contact-form-subtitle">
-              Please share your questions or admission inquiries. Our administration desk will review and contact you promptly.
+              Have questions regarding student admission, syllabus, sports, or transport? Fill out this enquiry form and our counselors will assist you promptly.
             </p>
 
             {/* Quick Topic Selector Chips */}
@@ -278,7 +300,7 @@ export default function Contact() {
               <div className="contact-form-row">
                 <div className="contact-form-group">
                   <label className="contact-label">
-                    Full Name <span className="required-star">*</span>
+                    Parent / Guardian Name <span className="required-star">*</span>
                   </label>
                   <input
                     required
@@ -286,7 +308,7 @@ export default function Contact() {
                     className="contact-input-field"
                     value={form.name}
                     onChange={e => setForm({ ...form, name: e.target.value })}
-                    placeholder="e.g. Rahul Sharma"
+                    placeholder="e.g. Ramesh Patil"
                   />
                 </div>
 
@@ -300,7 +322,7 @@ export default function Contact() {
                     className="contact-input-field"
                     value={form.email}
                     onChange={e => setForm({ ...form, email: e.target.value })}
-                    placeholder="name@example.com"
+                    placeholder="parent@example.com"
                   />
                 </div>
               </div>
@@ -309,9 +331,10 @@ export default function Contact() {
               <div className="contact-form-row">
                 <div className="contact-form-group">
                   <label className="contact-label">
-                    Contact Phone <span style={{ fontWeight: 400, color: '#64748b', fontSize: 12 }}>(Optional)</span>
+                    Contact Phone Number <span className="required-star">*</span>
                   </label>
                   <input
+                    required
                     type="tel"
                     className="contact-input-field"
                     value={form.phone}
@@ -322,7 +345,7 @@ export default function Contact() {
 
                 <div className="contact-form-group">
                   <label className="contact-label">
-                    Subject / Program
+                    Grade / Subject of Enquiry
                   </label>
                   <input
                     type="text"
@@ -332,7 +355,7 @@ export default function Contact() {
                       setForm({ ...form, subject: e.target.value })
                       setActiveTopic('')
                     }}
-                    placeholder="e.g. Admission / Course Inquiry"
+                    placeholder="e.g. Grade 5 Admission / Bus Transport Inquiry"
                   />
                 </div>
               </div>
@@ -340,7 +363,7 @@ export default function Contact() {
               {/* Row 3: Message Textarea */}
               <div className="contact-form-group" style={{ marginBottom: 20 }}>
                 <label className="contact-label">
-                  Your Message or Inquiry <span className="required-star">*</span>
+                  Your Message or Inquiry Details <span className="required-star">*</span>
                 </label>
                 <textarea
                   required
@@ -348,7 +371,7 @@ export default function Contact() {
                   className="contact-input-field contact-textarea"
                   value={form.message}
                   onChange={e => setForm({ ...form, message: e.target.value })}
-                  placeholder="Please write your questions regarding course admission, eligibility, hospital training, or campus facilities..."
+                  placeholder="Please write your questions regarding school admission, student age eligibility, or bus transport routes..."
                 />
               </div>
 
@@ -363,7 +386,7 @@ export default function Contact() {
                 ) : (
                   <>
                     <SendIcon size={14} color="#ffffff" />
-                    <span>Submit Online Enquiry</span>
+                    <span>Submit School Enquiry</span>
                     <span style={{ fontSize: 16 }}>→</span>
                   </>
                 )}
@@ -381,7 +404,7 @@ export default function Contact() {
       {/* ================= INTERACTIVE CAMPUS MAP SECTION ================= */}
       <div className="contact-map-container">
         <iframe
-          title="College Campus Location Map"
+          title="School Campus Location Map"
           width="100%"
           height="320"
           style={{ border: 0, display: 'block' }}
@@ -394,4 +417,3 @@ export default function Contact() {
     </PageShell>
   )
 }
-

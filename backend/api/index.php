@@ -14,9 +14,14 @@ require_once __DIR__ . '/../middleware/AuthMiddleware.php';
 // Safe input body parser
 function get_json_body(): array {
     $input = file_get_contents('php://input');
-    if (empty($input)) return [];
-    $data = json_decode($input, true);
-    return is_array($data) ? $data : [];
+    if (!empty($input)) {
+        // Strip UTF-8 BOM if present
+        $input = preg_replace('/^\xEF\xBB\xBF/', '', $input);
+        $data = json_decode($input, true);
+        if (is_array($data)) return $data;
+    }
+    if (!empty($_POST)) return $_POST;
+    return [];
 }
 
 // Extract path after /api or from query param
@@ -45,7 +50,7 @@ $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $db = null;
 try {
     $db = Database::getConnection();
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     $db = null; // Will fallback to local data for public GET requests where applicable
 }
 
@@ -54,11 +59,11 @@ try {
 // --------------------------------------------------------
 if ($resource === 'info' || empty($resource)) {
     Response::success([
-        'name' => 'College of Physiotherapy REST API',
+        'name' => 'Karmayogi Vidyaniketan / Karmayogi Public School REST API',
         'status' => 'online',
         'version' => '1.0.0',
         'database' => $db ? 'connected' : 'disconnected'
-    ], 'College of Physiotherapy API is operational');
+    ], 'Karmayogi Vidyaniketan API is operational');
 }
 
 // --------------------------------------------------------
@@ -368,16 +373,20 @@ if ($resource === 'notices') {
         $showAll = isset($_GET['all']); // admin view
 
         if ($db) {
-            if ($id) {
-                $stmt = $db->prepare("SELECT * FROM notices WHERE id = :id LIMIT 1");
-                $stmt->execute([':id' => $id]);
-                $item = $stmt->fetch();
-                if ($item) Response::success($item);
-                Response::notFound('Notice not found');
-            } else {
-                $sql = "SELECT * FROM notices " . ($showAll ? "" : "WHERE is_published = 1") . " ORDER BY notice_date DESC, id DESC";
-                $items = $db->query($sql)->fetchAll();
-                Response::success($items);
+            try {
+                if ($id) {
+                    $stmt = $db->prepare("SELECT * FROM notices WHERE id = :id LIMIT 1");
+                    $stmt->execute([':id' => $id]);
+                    $item = $stmt->fetch();
+                    if ($item) Response::success($item);
+                    Response::notFound('Notice not found');
+                } else {
+                    $sql = "SELECT * FROM notices " . ($showAll ? "" : "WHERE is_published = 1") . " ORDER BY notice_date DESC, id DESC";
+                    $items = $db->query($sql)->fetchAll();
+                    Response::success($items);
+                }
+            } catch (\Throwable $eDbNotices) {
+                // Table missing or DB error; fall back to JSON file below
             }
         }
 
@@ -478,16 +487,20 @@ if ($resource === 'events') {
         $showAll = isset($_GET['all']);
 
         if ($db) {
-            if ($id) {
-                $stmt = $db->prepare("SELECT * FROM events WHERE id = :id LIMIT 1");
-                $stmt->execute([':id' => $id]);
-                $item = $stmt->fetch();
-                if ($item) Response::success($item);
-                Response::notFound('Event not found');
-            } else {
-                $sql = "SELECT * FROM events " . ($showAll ? "" : "WHERE is_published = 1") . " ORDER BY date ASC, id DESC";
-                $items = $db->query($sql)->fetchAll();
-                Response::success($items);
+            try {
+                if ($id) {
+                    $stmt = $db->prepare("SELECT * FROM events WHERE id = :id LIMIT 1");
+                    $stmt->execute([':id' => $id]);
+                    $item = $stmt->fetch();
+                    if ($item) Response::success($item);
+                    Response::notFound('Event not found');
+                } else {
+                    $sql = "SELECT * FROM events " . ($showAll ? "" : "WHERE is_published = 1") . " ORDER BY date ASC, id DESC";
+                    $items = $db->query($sql)->fetchAll();
+                    Response::success($items);
+                }
+            } catch (\Throwable $eDbEvents) {
+                // Table missing or DB error; fall back to JSON file below
             }
         }
 
@@ -597,16 +610,20 @@ if ($resource === 'faculty') {
         $showAll = isset($_GET['all']);
 
         if ($db) {
-            if ($id) {
-                $stmt = $db->prepare("SELECT f.*, d.name AS department_name FROM faculty f LEFT JOIN departments d ON f.department_id = d.id WHERE f.id = :id LIMIT 1");
-                $stmt->execute([':id' => $id]);
-                $item = $stmt->fetch();
-                if ($item) Response::success($item);
-                Response::notFound('Faculty member not found');
-            } else {
-                $sql = "SELECT f.*, d.name AS department_name FROM faculty f LEFT JOIN departments d ON f.department_id = d.id " . ($showAll ? "" : "WHERE (f.is_active = 1 OR f.is_active IS NULL)") . " ORDER BY f.order_index ASC, f.id ASC";
-                $items = $db->query($sql)->fetchAll();
-                Response::success($items);
+            try {
+                if ($id) {
+                    $stmt = $db->prepare("SELECT f.*, d.name AS department_name FROM faculty f LEFT JOIN departments d ON f.department_id = d.id WHERE f.id = :id LIMIT 1");
+                    $stmt->execute([':id' => $id]);
+                    $item = $stmt->fetch();
+                    if ($item) Response::success($item);
+                    Response::notFound('Faculty member not found');
+                } else {
+                    $sql = "SELECT f.*, d.name AS department_name FROM faculty f LEFT JOIN departments d ON f.department_id = d.id " . ($showAll ? "" : "WHERE (f.is_active = 1 OR f.is_active IS NULL)") . " ORDER BY f.order_index ASC, f.id ASC";
+                    $items = $db->query($sql)->fetchAll();
+                    Response::success($items);
+                }
+            } catch (\Throwable $eDbFaculty) {
+                // Ignore DB error and return fallback
             }
         }
         Response::success([]);
@@ -753,17 +770,19 @@ if ($resource === 'departments') {
 
     if ($method === 'GET') {
         if ($db) {
-            $items = $db->query("SELECT * FROM departments ORDER BY order_index ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($items as &$item) {
-                if (!empty($item['specializations'])) {
-                    $decoded = json_decode($item['specializations'], true);
-                    if (is_array($decoded)) $item['specializations'] = $decoded;
+            try {
+                $items = $db->query("SELECT * FROM departments ORDER BY order_index ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($items as &$item) {
+                    if (!empty($item['specializations'])) {
+                        $decoded = json_decode($item['specializations'], true);
+                        if (is_array($decoded)) $item['specializations'] = $decoded;
+                    }
+                    if (!empty($item['academic_year'])) {
+                        $item['yearKey'] = $item['academic_year'];
+                    }
                 }
-                if (!empty($item['academic_year'])) {
-                    $item['yearKey'] = $item['academic_year'];
-                }
-            }
-            Response::success($items);
+                Response::success($items);
+            } catch (\Throwable $eDbDept) {}
         }
         Response::success([]);
     }
@@ -937,8 +956,10 @@ if ($resource === 'departments') {
 if ($resource === 'courses') {
     if ($method === 'GET') {
         if ($db) {
-            $items = $db->query("SELECT * FROM courses ORDER BY order_index ASC, id ASC")->fetchAll();
-            Response::success($items);
+            try {
+                $items = $db->query("SELECT * FROM courses ORDER BY order_index ASC, id ASC")->fetchAll();
+                Response::success($items);
+            } catch (\Throwable $eDbCourses) {}
         }
         Response::success([]);
     }
@@ -1026,8 +1047,10 @@ if ($resource === 'courses') {
 if ($resource === 'facilities') {
     if ($method === 'GET') {
         if ($db) {
-            $items = $db->query("SELECT * FROM facilities ORDER BY order_index ASC, id ASC")->fetchAll();
-            Response::success($items);
+            try {
+                $items = $db->query("SELECT * FROM facilities ORDER BY order_index ASC, id ASC")->fetchAll();
+                Response::success($items);
+            } catch (\Throwable $eDbFac) {}
         }
         Response::success([]);
     }
@@ -1905,12 +1928,14 @@ if ($resource === 'users') {
 if ($resource === 'settings') {
     if ($method === 'GET') {
         if ($db) {
-            $rows = $db->query("SELECT setting_key, setting_value FROM settings")->fetchAll();
-            $map = [];
-            foreach ($rows as $r) {
-                $map[$r['setting_key']] = $r['setting_value'];
-            }
-            Response::success($map);
+            try {
+                $rows = $db->query("SELECT setting_key, setting_value FROM settings")->fetchAll();
+                $map = [];
+                foreach ($rows as $r) {
+                    $map[$r['setting_key']] = $r['setting_value'];
+                }
+                Response::success($map);
+            } catch (\Throwable $eDbSettings) {}
         }
         Response::success([]);
     }

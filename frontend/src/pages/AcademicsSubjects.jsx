@@ -128,7 +128,7 @@ export default function AcademicsSubjects() {
                       <tbody>
                         {group.subjects.map((subject, idx) => {
                           const isExpanded = Boolean(expandedSubjectIds[subject.id])
-                          const deptDisplay = subject.departmentName || subject.department || 'Department of Physiotherapy'
+                          const deptDisplay = subject.departmentName || subject.department || 'Academic Curriculum Wing'
                           const topicsList = Array.isArray(subject.keyTopics)
                             ? subject.keyTopics
                             : (Array.isArray(subject.topics) ? subject.topics : [])
@@ -211,10 +211,10 @@ export default function AcademicsSubjects() {
                                           </div>
                                         )}
 
-                                        {/* Clinical Relevance */}
+                                        {/* Clinical / Practical Relevance */}
                                         {subject.clinicalRelevance && (
                                           <div className="bpt-dropdown-section">
-                                            <h4 className="bpt-dropdown-heading">Clinical Relevance in Physiotherapy Practice</h4>
+                                            <h4 className="bpt-dropdown-heading">Practical Relevance & Real-World Application</h4>
                                             <div className="bpt-dropdown-clinical">
                                               {subject.clinicalRelevance}
                                             </div>

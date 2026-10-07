@@ -1,32 +1,61 @@
-// Central data for the College of Physiotherapy website.
-// All content is editable here — pages render from this data.
-import { DEPARTMENTS_DATA } from './departmentsData.js';
-import { BPT_SUBJECTS, BPT_YEARS } from './subjectsData.js';
+// Central data for Karmayogi Vidyaniketan / Karmayogi Public School
+// Shri Pandurang Pratishthan, Pandharpur
+// All content is editable here — public pages render from this authoritative dataset.
 
-export { DEPARTMENTS_DATA, BPT_SUBJECTS, BPT_YEARS };
+import { DEPARTMENTS_DATA } from './departmentsData.js';
+import { SCHOOL_SUBJECTS, SCHOOL_LEVELS, BPT_SUBJECTS, BPT_YEARS } from './subjectsData.js';
+import { DEFAULT_CAMPUS_ACTIVITIES, DEFAULT_STUDENT_HOUSES, DEFAULT_STUDENT_CLUBS } from './studentCornerData.js';
+import { DEFAULT_IQAC_DATA } from './iqacData.js';
+
+export {
+  DEPARTMENTS_DATA,
+  SCHOOL_SUBJECTS,
+  SCHOOL_LEVELS,
+  BPT_SUBJECTS,
+  BPT_YEARS,
+  DEFAULT_CAMPUS_ACTIVITIES,
+  DEFAULT_STUDENT_HOUSES,
+  DEFAULT_STUDENT_CLUBS,
+  DEFAULT_IQAC_DATA
+};
 
 export const COLLEGE = {
   foundation: "Shri Pandurang Pratishthan's",
-  name: "KARMAYOGI COLLEGE OF PHYSIOTHERAPY",
+  name: "KARMAYOGI VIDYANIKETAN",
+  subname: "Karmayogi Public School",
   founder_name: "स्व. सुधाकरपंत परिचारक",
-  motto: "Service to humanity is service to God",
-  mottoAuthor: "Shri Pandurang Pratishthan",
+  motto: "Shape Young Minds. Build Strong Futures.",
+  mottoAuthor: "Shri Pandurang Pratishthan, Pandharpur",
   lines: [
-    "Affiliated to Maharashtra University of Health Sciences, Nashik, Approved by Govt. of Maharashtra",
-    "Approved by Directorate of Medical Education and Research (DMER), Mumbai",
-    "Gat No. 124, 125, A/P: Shelve, Taluka: Pandharpur, Dist: Solapur (MS) - 413304."
+    "English Medium • Co-Educational School • Nursery to Grade 10",
+    "CBSE & State Board Tracks • Shri Pandurang Pratishthan, Pandharpur",
+    "Primary Campus: Isbavi | High School Campus: Shelve, Pandharpur (MS)"
   ],
-  address: "Shelve, Pandharpur, Taluka: Pandharpur, Dist: Solapur - 413304",
-  phone: "+91 02186 272345",
-  email: "info@karmayogiphysiotherapy.edu.in",
-  website: "www.karmayogiphysiotherapy.edu.in"
+  address: "Isbavi & Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304",
+  primary_campus: {
+    name: "Primary / Foundation Campus",
+    address: "Isbavi, behind MSEDCL Division Office, Link Road, Pandharpur, Maharashtra",
+    grades: "Nursery to Grade 4"
+  },
+  main_campus: {
+    name: "Main High School Campus",
+    address: "Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304",
+    grades: "Grade 5 to Grade 10"
+  },
+  phone: "+91-8459863477",
+  phones: ["+91-8459863477", "+91-9527632033", "+91-8788642412"],
+  email: "vijaymadane3@gmail.com",
+  website: "www.karmayogividyaniketan.edu.in",
+  working_hours: "Monday to Saturday: 8:00 AM – 2:00 PM (Sunday: Closed)",
+  campus_features: "Smart classrooms, advanced science & robotics labs, sports arena, and transportation"
 };
 
 export const QUICK_LINKS = [
-  { label: "BPT Subjects", path: "/academics/subjects" },
-  { label: "Student Login", path: "/student-corner#login" },
-  { label: "ERP", path: "/student-corner#erp" },
-  { label: "Contact Us", path: "/contact" }
+  { label: "Admissions Open", path: "/admissions" },
+  { label: "Curriculum", path: "/curriculum" },
+  { label: "School Facilities", path: "/facilities" },
+  { label: "Transportation", path: "/transport" },
+  { label: "Contact School", path: "/contact" }
 ];
 
 export const SOCIAL_LINKS = [
@@ -36,159 +65,218 @@ export const SOCIAL_LINKS = [
   { platform: "linkedin", url: "https://linkedin.com", icon: "li" }
 ];
 
-// Row 1 Menu (Institutional Navigation: Home, About, Admissions, Faculty, Notices, Gallery, Contact)
+// Row 1: Primary Institutional Navigation
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
-  { label: "ABOUT", path: "/about" },
-  { label: "ADMISSIONS", path: "/admissions" },
-  { label: "FACULTY", path: "/faculty" },
-  { label: "NOTICES", path: "/notices" },
-  { label: "NEWS", path: "/news" },
-  { label: "EVENTS", path: "/events" },
+  {
+    label: "ABOUT US",
+    path: "/about",
+    children: [
+      { label: "About the School", path: "/about" },
+      { label: "Vision & Mission", path: "/vision-mission" },
+      { label: "Principal's Message", path: "/principal-message" },
+      { label: "Chairman's Message", path: "/about#chairman" },
+      { label: "Shri Pandurang Pratishthan", path: "/about#management" },
+      { label: "Our Leadership", path: "/about#leadership" }
+    ]
+  },
+  {
+    label: "ACADEMICS",
+    path: "/academics",
+    children: [
+      { label: "Academic Overview", path: "/academics" },
+      { label: "Pre-Primary (Nursery, Jr/Sr KG)", path: "/pre-primary" },
+      { label: "Primary School (Grades 1-5)", path: "/primary" },
+      { label: "Secondary School (Grades 6-10)", path: "/secondary" },
+      { label: "Curriculum & Boards", path: "/curriculum" },
+      { label: "Teaching Methodology", path: "/academics#methodology" },
+      { label: "Examination & Assessment", path: "/academics#examination" }
+    ]
+  },
+  {
+    label: "ADMISSIONS",
+    path: "/admissions",
+    children: [
+      { label: "Admission Overview", path: "/admissions" },
+      { label: "Admission Process", path: "/admission-process" },
+      { label: "Eligibility Criteria", path: "/admission-process#eligibility" },
+      { label: "Documents Required", path: "/admission-process#documents" },
+      { label: "Fee Structure", path: "/fees" },
+      { label: "Enquiry / Apply Now", path: "/admissions#apply" },
+      { label: "Admission FAQs", path: "/fees#faqs" }
+    ]
+  },
+  {
+    label: "CAMPUS",
+    path: "/infrastructure",
+    children: [
+      { label: "Infrastructure Overview", path: "/infrastructure" },
+      { label: "Smart Classrooms", path: "/facilities#smart-classrooms" },
+      { label: "Science Laboratories", path: "/labs#science" },
+      { label: "Computer Laboratory", path: "/labs#computer" },
+      { label: "STEM Laboratory", path: "/labs#stem" },
+      { label: "AI & Robotics Lab", path: "/labs#robotics" },
+      { label: "Digital Library", path: "/facilities#library" },
+      { label: "Transportation Fleet", path: "/transport" },
+      { label: "Sports Facilities", path: "/sports" }
+    ]
+  },
+  {
+    label: "STUDENT LIFE",
+    path: "/student-life",
+    children: [
+      { label: "Sports & Athletics", path: "/sports" },
+      { label: "Cultural Activities", path: "/student-life#cultural" },
+      { label: "Clubs & Activities", path: "/student-life#clubs" },
+      { label: "Events & Celebrations", path: "/events" },
+      { label: "Field Trips & Excursions", path: "/student-life#field-trips" },
+      { label: "Competitions & Olympiads", path: "/student-life#competitions" },
+      { label: "Student Achievements", path: "/student-life#achievements" }
+    ]
+  },
+  { label: "FACILITIES", path: "/facilities" },
   { label: "GALLERY", path: "/gallery" },
-  { label: "CONTACT", path: "/contact" }
+  { label: "CONTACT US", path: "/contact" }
 ];
 
-// Row 2 Menu (Academics, Departments, Student Corner, Research, Facilities, Placement, Committees, IQAC/NAAC, Disclosures)
+// Row 2: Secondary Quick-Access School Explorer Strip
 export const ROW_2_NAV = [
-  { 
-    label: "ACADEMICS", 
-    path: "/academics/subjects", 
-    children: [
-      { label: "Subjects", path: "/academics/subjects", slug: "subjects" },
-      { label: "Academic Calendar", path: "/academics/academic-calendar", slug: "academic-calendar" },
-      { label: "Timetable", path: "/academics/timetable", slug: "timetable" },
-      { label: "Examination", path: "/academics/examination", slug: "examination" },
-      { label: "Results", path: "/academics/results", slug: "results" },
-      { label: "Academic Policies", path: "/academics/academic-policies", slug: "academic-policies" },
-      { label: "Student Handbook", path: "/academics/student-handbook", slug: "student-handbook" }
-    ]
-  },
-  { 
-    label: "DEPARTMENTS", 
-    path: "/departments" 
-  },
-  { 
-    label: "STUDENT CORNER", 
-    path: "/student-corner", 
-    children: [
-      { label: "Student Activities", path: "/student-corner/activities", slug: "activities" },
-      { label: "Student Support & Mentorship", path: "/student-corner/support", slug: "support" },
-      { label: "Student Achievements", path: "/student-corner/achievements", slug: "achievements" },
-      { label: "Scholarships & Freeships", path: "/student-corner/scholarships", slug: "scholarships" },
-      { label: "Student Council", path: "/student-corner/council", slug: "council" }
-    ]
-  },
-  { 
-    label: "RESEARCH", 
-    path: "/research", 
-    children: [
-      { label: "Research Overview", path: "/research/overview", slug: "overview" },
-      { label: "Research Centers", path: "/research/centers", slug: "centers" },
-      { label: "Research Projects", path: "/research/projects", slug: "projects" },
-      { label: "Publications", path: "/research/publications", slug: "publications" },
-      { label: "Patents", path: "/research/patents", slug: "patents" },
-      { label: "Research Scholars", path: "/research/scholars", slug: "scholars" },
-      { label: "Funded Projects", path: "/research/funded-projects", slug: "funded-projects" },
-      { label: "Conferences", path: "/research/conferences", slug: "conferences" },
-      { label: "Journals", path: "/research/journals", slug: "journals" },
-      { label: "Research Achievements", path: "/research/achievements", slug: "achievements" }
-    ]
-  },
-  { 
-    label: "FACILITIES", 
-    path: "/facilities", 
-    children: [
-      { label: "Physiotherapy Labs", path: "/facilities/labs", slug: "labs" },
-      { label: "Central Library", path: "/facilities/library", slug: "library" },
-      { label: "Classrooms & AV Halls", path: "/facilities/classrooms", slug: "classrooms" },
-      { label: "Computer Lab & IT", path: "/facilities/computer-lab", slug: "computer-lab" },
-      { label: "Hostel & Mess", path: "/facilities/hostel", slug: "hostel" },
-      { label: "Sports & Fitness Center", path: "/facilities/sports", slug: "sports" }
-    ]
-  },
-  { 
-    label: "PLACEMENT", 
-    path: "/training-placement" 
-  },
-  { 
-    label: "COMMITTEES", 
-    path: "/committees", 
-    children: [
-      { label: "Overview of Committees", path: "/committees", slug: "overview" },
-      { label: "Anti-Ragging Committee", path: "/committees/anti-ragging", slug: "anti-ragging" },
-      { label: "Internal Complaints Committee (ICC)", path: "/committees/icc", slug: "icc" },
-      { label: "College Council", path: "/committees/college-council", slug: "college-council" },
-      { label: "Grievance Redressal Committee", path: "/committees/grievance", slug: "grievance" },
-      { label: "Institutional Ethics Committee (IEC)", path: "/committees/ethics", slug: "ethics" },
-      { label: "Student Welfare & Mentorship", path: "/committees/student-welfare", slug: "student-welfare" },
-      { label: "Library Committee", path: "/committees/library", slug: "library" }
-    ]
-  },
-  { 
-    label: "IQAC / NAAC", 
-    path: "/iqac-naac", 
-    children: [
-      { label: "Internal Quality Assurance Cell", path: "/iqac-naac/iqac", slug: "iqac" },
-      { label: "NAAC Accreditation", path: "/iqac-naac/naac", slug: "naac" },
-      { label: "Minutes of IQAC", path: "/iqac-naac/minutes", slug: "minutes" },
-      { label: "Quality Initiatives", path: "/iqac-naac/initiatives", slug: "initiatives" },
-      { label: "Annual Quality Reports (AQAR)", path: "/iqac-naac/aqar", slug: "aqar" }
-    ]
-  },
-  { 
-    label: "MANDATORY DISCLOSURES", 
-    path: "/mandatory-disclosures", 
-    children: [
-      { label: "MUHS Mandated Disclosures", path: "/mandatory-disclosures/muhs", slug: "muhs" },
-      { label: "Institutional Policies", path: "/mandatory-disclosures/policies", slug: "policies" },
-      { label: "Government Approvals", path: "/mandatory-disclosures/approvals", slug: "approvals" },
-      { label: "Annual Financial Audit", path: "/mandatory-disclosures/reports", slug: "reports" }
-    ]
-  }
+  { label: "PRE-PRIMARY", path: "/pre-primary" },
+  { label: "PRIMARY SCHOOL", path: "/primary" },
+  { label: "SECONDARY SCHOOL", path: "/secondary" },
+  { label: "CURRICULUM", path: "/curriculum" },
+  { label: "SCIENCE & STEM LABS", path: "/labs" },
+  { label: "TRANSPORTATION", path: "/transport" },
+  { label: "SPORTS FACILITIES", path: "/sports" },
+  { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },
+  { label: "NEWS & EVENTS", path: "/events" },
+  { label: "ADMISSION ENQUIRY", path: "/admissions#apply" }
 ];
 
 export const TOP_NAV = ROW_1_NAV;
 export const SECOND_NAV = ROW_2_NAV;
 
+// School Quick Information Facts
+export const QUICK_INFO_FACTS = [
+  {
+    title: "Nursery to Grade 10",
+    icon: "grad"
+  },
+  {
+    title: "English Medium",
+    icon: "book"
+  },
+  {
+    title: "Co-Educational School",
+    icon: "users"
+  },
+  {
+    title: "CBSE & State Board Tracks",
+    icon: "curriculum"
+  },
+  {
+    title: "Modern Campus",
+    icon: "infrastructure"
+  },
+  {
+    title: "Safe Transportation",
+    icon: "transport"
+  }
+];
+
+// School Courses / Grade Offerings
 export const COURSES = [
   {
-    id: "bpt",
-    code: "BPT",
-    name: "Bachelor of Physiotherapy (BPT)",
-    degree_level: "UG",
-    duration: "4.5 Years (including 6-month compulsory internship)",
-    intake: "60 Seats",
-    eligibility: "10+2 (PCB) with NEET-UG qualification",
-    fees: "As per FRA norms (₹ 88,000 / year)",
-    description: "A comprehensive undergraduate program covering musculoskeletal, neurological, cardiopulmonary and community physiotherapy with extensive clinical exposure.",
+    id: "pre-primary",
+    code: "PRE-PRIMARY",
+    name: "Pre-Primary Wing (Nursery, Jr. KG, Sr. KG)",
+    degree_level: "Foundational Stage",
+    duration: "3 Years (Ages 3 to 6)",
+    intake: "Activity-Based Small Batches",
+    eligibility: "Age 3+ for Nursery as on 31st December",
+    fees: "Transparent & Affordable",
+    description: "Activity-based, play-way foundational learning developing sensory, cognitive, language, fine motor and socialization skills.",
     status: "Active",
     order_index: 1
   },
   {
-    id: "mpt",
-    code: "MPT",
-    name: "Master of Physiotherapy (MPT)",
-    degree_level: "PG",
-    duration: "2 Years",
-    intake: "20 Seats",
-    eligibility: "BPT from MUHS / recognized university with PGP-CET qualification",
-    fees: "As per FRA norms (₹ 88,000 / year)",
-    description: "A specialized postgraduate program offering advanced clinical competencies in musculoskeletal, neurological, and sports rehabilitation.",
+    id: "primary",
+    code: "PRIMARY",
+    name: "Primary School (Grades 1 to 5)",
+    degree_level: "Preparatory Stage",
+    duration: "5 Years (Grades 1 to 5)",
+    intake: "Multiple Sections",
+    eligibility: "Successful completion of prior grade / Age 6+ for Grade 1",
+    fees: "Transparent & Affordable",
+    description: "Strong fundamentals in reading, writing, mathematical fluency, environmental curiosity, multilingual competence and creative arts.",
     status: "Active",
     order_index: 2
+  },
+  {
+    id: "secondary",
+    code: "SECONDARY",
+    name: "Secondary School (Grades 6 to 10)",
+    degree_level: "Middle & Secondary Stage",
+    duration: "5 Years (Grades 6 to 10)",
+    intake: "Multiple Sections",
+    eligibility: "Promotion / Transfer Certificate from recognized school",
+    fees: "Transparent & Affordable",
+    description: "Structured academic learning, laboratory inquiry, computer science, STEM, AI & Robotics, preparing students for board examination distinction.",
+    status: "Active",
+    order_index: 3
   }
 ];
 
+// School Facilities
 export const FACILITIES = [
-  { id: "labs", title: "Physiotherapy Laboratories", desc: "Well-equipped electrotherapy, exercise therapy and hydrotherapy labs with modern physiotherapy equipment.", img: "https://picsum.photos/seed/coplab/640/420" },
-  { id: "library", title: "Central Library", desc: "Rich collection of physiotherapy and medical textbooks, national and international journals with digital access.", img: "https://picsum.photos/seed/coplib/640/420" },
-  { id: "clinical", title: "Clinical Training Facilities", desc: "Clinical postings at Dr. Vithalrao Vikhe Patil Hospital and affiliated hospitals for hands-on patient care.", img: "https://picsum.photos/seed/copclin/640/420" },
-  { id: "classrooms", title: "Classrooms", desc: "Spacious, ventilated lecture halls with audio-visual aids for effective teaching-learning.", img: "https://picsum.photos/seed/copclass/640/420" },
-  { id: "computer", title: "Computer Laboratory", desc: "Computer lab with internet facility, e-learning resources and research software support.", img: "https://picsum.photos/seed/copcomp/640/420" },
-  { id: "sports", title: "Sports Facilities", desc: "Indoor and outdoor sports facilities promoting physical fitness and all-round development.", img: "https://picsum.photos/seed/copsport/640/420" },
-  { id: "hostel", title: "Hostel", desc: "Separate, secure hostel accommodation for boys and girls with mess and recreational facilities.", img: "https://picsum.photos/seed/cophostel/640/420" },
-  { id: "hospital", title: "Hospital / Clinical Facilities", desc: "Attached hospital with OPD, IPD and specialized physiotherapy services for community care.", img: "https://picsum.photos/seed/cophosp/640/420" }
+  {
+    id: "smart-classrooms",
+    title: "Smart Classrooms",
+    desc: "Technology-enabled classrooms equipped with interactive smart boards, multimedia projectors, and digital audio-visual resources supporting interactive, visual learning.",
+    img: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "science-labs",
+    title: "Science Laboratories",
+    desc: "Well-equipped, spacious laboratories for Physics, Chemistry, and Biology designed for hands-on practical experiments, scientific inquiry, and board exam practicals.",
+    img: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "computer-lab",
+    title: "Computer Laboratory",
+    desc: "Modern computer facilities equipped with high-speed internet, dedicated workstations, educational software, and foundational coding platforms for digital literacy.",
+    img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "stem-lab",
+    title: "STEM Laboratory",
+    desc: "Hands-on science, technology, engineering, and mathematics learning space where students build mechanical prototypes, conduct experiments, and test innovative ideas.",
+    img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "ai-robotics",
+    title: "AI & Robotics Lab",
+    desc: "Introduces students to emerging technologies, Arduino microcontrollers, sensory robotics kits, and artificial intelligence applications to cultivate futuristic problem-solving.",
+    img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "digital-library",
+    title: "Digital Library",
+    desc: "Extensive repository of age-appropriate literature, encyclopedias, academic reference books, periodicals, e-books, and language learning resources in a quiet study ambiance.",
+    img: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "sports-facilities",
+    title: "Sports Facilities",
+    desc: "Expansive outdoor playgrounds and indoor arenas supporting athletics, cricket, football, volleyball, kabaddi, kho-kho, badminton, and daily yogic physical fitness.",
+    img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "transportation",
+    title: "Transportation",
+    desc: "Dedicated fleet of safe school buses covering Pandharpur town and surrounding rural routes, equipped with trained staff, emergency first-aid, and safety protocols.",
+    img: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80"
+  }
 ];
 
 export const DEPARTMENTS = DEPARTMENTS_DATA.map(d => ({
@@ -200,1610 +288,977 @@ export const DEPARTMENTS = DEPARTMENTS_DATA.map(d => ({
   desc: d.tagline || d.overview,
   description: d.overview,
   overview: d.overview,
-  academic_year: d.academic_year || d.yearKey || 'year-1',
-  yearKey: d.yearKey || d.academic_year || 'year-1',
-  yearLabel: d.yearLabel || 'First Year BPT',
-  subject_count: d.subject_count || (d.relatedSubjectIds?.length || 0),
+  academic_year: d.academic_year || d.yearKey || 'all',
+  yearKey: d.yearKey || d.academic_year || 'all',
+  yearLabel: d.yearLabel || 'School Department',
+  subject_count: d.subject_count || 5,
   relatedSubjectIds: d.relatedSubjectIds || [],
   specializations: d.specializations || []
 }));
 
-export const FACULTY = [];
+export const FACULTY = [
+  {
+    id: 1,
+    name: "Mr. Vijay Madane",
+    designation: "Principal / Academic Director",
+    department: "School Administration & Secondary Wing",
+    qualification: "M.Sc., M.Ed., Ph.D. (Pursuing)",
+    experience: "18 Years in Academic Leadership",
+    photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    id: 2,
+    name: "Mrs. Sunita S. Kadam",
+    designation: "Head - Pre-Primary Wing",
+    department: "Early Childhood Care & Education",
+    qualification: "M.A., B.Ed., ECCE",
+    experience: "14 Years in Foundational Education",
+    photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    id: 3,
+    name: "Mr. Ramesh D. More",
+    designation: "Coordinator - Primary School Wing",
+    department: "Primary Mathematics & Pedagogy",
+    qualification: "M.Sc. (Maths), B.Ed.",
+    experience: "16 Years in School Teaching",
+    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    id: 4,
+    name: "Mr. Prakash T. Kulkarni",
+    designation: "HOD - Science & STEM Laboratories",
+    department: "Science (Physics & Chemistry)",
+    qualification: "M.Sc. (Chemistry), B.Ed.",
+    experience: "15 Years in Science Education",
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    id: 5,
+    name: "Mr. Amit S. Bhosale",
+    designation: "HOD - Computer Science & Robotics",
+    department: "Information Technology & AI",
+    qualification: "M.C.A., B.Ed., Certified AI Educator",
+    experience: "11 Years in Educational Technology",
+    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    id: 6,
+    name: "Mr. Sunil B. Shinde",
+    designation: "Director - Physical Education & Sports",
+    department: "Physical Education & Athletics",
+    qualification: "M.P.Ed., NIS (Athletics)",
+    experience: "14 Years in Youth Sports Coaching",
+    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
+  }
+];
 
-export const NOTICES = [];
+export const NOTICES = [
+  {
+    id: "not-1",
+    title: "Admissions Open for Academic Year 2026–27 (Nursery to Grade 10)",
+    date: "2026-09-15",
+    category: "Admissions",
+    desc: "Admission forms are available at both Isbavi (Primary) and Shelve (Main) campus administrative offices and through online enquiry. Early interaction slots available."
+  },
+  {
+    id: "not-2",
+    title: "Karmayogi Science Exhibition & Working Model Competition Scheduled",
+    date: "2026-09-22",
+    category: "Academic Events",
+    desc: "All students from Grade 4 to Grade 10 are invited to submit their innovative project abstracts to the STEM department coordinator."
+  },
+  {
+    id: "not-3",
+    title: "School Bus Transport Route & Safety Protocol Notice",
+    date: "2026-09-28",
+    category: "Transport",
+    desc: "Bus routes for Pandharpur urban zones and feeder areas have been finalized. Parents requesting stop updates can submit forms at the office."
+  },
+  {
+    id: "not-4",
+    title: "Parent-Teacher Association (PTA) Open House Schedule Announced",
+    date: "2026-10-02",
+    category: "Administration",
+    desc: "Quarterly progress review meetings for Primary and Secondary sections will be conducted on Saturday between 8:30 AM and 1:00 PM."
+  }
+];
 
-export const EVENTS = [];
+export const EVENTS = [
+  {
+    id: "ev-1",
+    title: "Annual Day Extravaganza 'Karmotsav 2026'",
+    date: "2026-11-20",
+    category: "Cultural",
+    location: "Main Campus Auditorium, Shelve",
+    time: "4:30 PM Onwards",
+    desc: "A gala evening of student theatrical plays, classical dances, orchestral music, and annual felicitation of academic and sporting achievers."
+  },
+  {
+    id: "ev-2",
+    title: "Annual Inter-House Athletics & Sports Gala",
+    date: "2026-12-05",
+    category: "Sports",
+    location: "Karmayogi Sports Grounds, Shelve",
+    time: "8:00 AM – 4:00 PM",
+    desc: "Three days of track events, relay races, kabaddi, kho-kho, cricket matches, and march past ceremonies celebrating athletic spirit."
+  },
+  {
+    id: "ev-3",
+    title: "Grand Science Exhibition & AI Robotics Fair",
+    date: "2026-12-18",
+    category: "Innovation",
+    location: "STEM Innovation Lab & Central Quadrangle",
+    time: "9:00 AM – 3:00 PM",
+    desc: "Over 100 working models in clean energy, agricultural automation, space science, and smart city prototypes on public display."
+  },
+  {
+    id: "ev-4",
+    title: "Educational Heritage Trip to Historical Forts",
+    date: "2027-01-12",
+    category: "Field Trip",
+    location: "Historical Heritage Circuit, Maharashtra",
+    time: "Full Day Tour",
+    desc: "Experiential history and geography field trip for secondary students studying Maratha architecture, water harvesting, and conservation."
+  }
+];
 
 export const GALLERY = [
-  { src: "https://picsum.photos/seed/campus1/800/600", cat: "Campus", cap: "Main Building" },
-  { src: "https://picsum.photos/seed/acad1/800/600", cat: "Academic Activities", cap: "Lecture Session" },
-  { src: "https://picsum.photos/seed/clin1/800/600", cat: "Clinical Training", cap: "Clinical Posting" },
-  { src: "https://picsum.photos/seed/event1/800/600", cat: "Events", cap: "Annual Day" },
-  { src: "https://picsum.photos/seed/stud1/800/600", cat: "Students", cap: "Student Volunteers" },
-  { src: "https://picsum.photos/seed/wksp1/800/600", cat: "Workshops", cap: "Manual Therapy Workshop" },
-  { src: "https://picsum.photos/seed/sport1/800/600", cat: "Sports", cap: "Annual Sports Meet" },
-  { src: "https://picsum.photos/seed/campus2/800/600", cat: "Campus", cap: "Library Block" },
-  { src: "https://picsum.photos/seed/acad2/800/600", cat: "Academic Activities", cap: "Seminar Presentation" },
-  { src: "https://picsum.photos/seed/clin2/800/600", cat: "Clinical Training", cap: "OPD Training" },
-  { src: "https://picsum.photos/seed/event2/800/600", cat: "Events", cap: "Convocation" },
-  { src: "https://picsum.photos/seed/wksp2/800/600", cat: "Workshops", cap: "Electrotherapy Demo" }
+  { src: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80", cat: "Campus", cap: "Main Academic School Building" },
+  { src: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80", cat: "Classrooms", cap: "Interactive Smart Classroom Learning" },
+  { src: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80", cat: "Laboratories", cap: "Senior Science Chemistry Practical" },
+  { src: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80", cat: "Laboratories", cap: "AI & Robotics Laboratory Workshop" },
+  { src: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80", cat: "Sports", cap: "Annual Sports Day Athletics Track" },
+  { src: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80", cat: "Cultural Activities", cap: "Annual Day Cultural Dance Performance" },
+  { src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80", cat: "Students", cap: "Students Collaborating on Projects" },
+  { src: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80", cat: "Infrastructure", cap: "Main Campus Green Grounds & Courtyard" },
+  { src: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80", cat: "Classrooms", cap: "Central Digital Library Reading Hall" },
+  { src: "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80", cat: "Students", cap: "Pre-Primary Foundational Activity Room" },
+  { src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80", cat: "Sports", cap: "Outdoor Football and Cricket Grounds" },
+  { src: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80", cat: "Infrastructure", cap: "School Bus Transportation Fleet" }
 ];
 
 export const ALBUMS = [
   {
     id: 1,
-    title: "Campus & Infrastructure",
+    title: "Campus & Modern Infrastructure",
     category_name: "Campus",
-    description: "State-of-the-art campus buildings, lecture halls, and central library.",
-    cover_image: "https://picsum.photos/seed/campus1/800/600",
+    description: "State-of-the-art academic buildings, smart classrooms, library, and green surroundings.",
+    cover_image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80",
     photo_count: 2,
     photos: [
-      { id: 101, image_url: "https://picsum.photos/seed/campus1/800/600", caption: "Main Academic Building" },
-      { id: 102, image_url: "https://picsum.photos/seed/campus2/800/600", caption: "Central Library Block" }
+      { id: 101, image_url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80", caption: "Main Academic High School Block" },
+      { id: 102, image_url: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80", caption: "Campus Green Grounds & Outdoor Spaces" }
     ]
   },
   {
     id: 2,
-    title: "Academic Activities & Sessions",
-    category_name: "Academic Activities",
-    description: "Interactive lectures, clinical case presentations, and seminar sessions.",
-    cover_image: "https://picsum.photos/seed/acad1/800/600",
+    title: "Smart Classrooms & Foundational Learning",
+    category_name: "Classrooms",
+    description: "Technology-enabled multimedia teaching and activity-based pre-primary rooms.",
+    cover_image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80",
     photo_count: 2,
     photos: [
-      { id: 201, image_url: "https://picsum.photos/seed/acad1/800/600", caption: "Smart Classroom Lecture" },
-      { id: 202, image_url: "https://picsum.photos/seed/acad2/800/600", caption: "Student Seminar Presentation" }
+      { id: 201, image_url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80", caption: "Interactive Smart Board Session" },
+      { id: 202, image_url: "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80", caption: "Pre-Primary Activity Corner" }
     ]
   },
   {
     id: 3,
-    title: "Clinical & Hospital Training",
-    category_name: "Clinical Training",
-    description: "Hands-on patient assessment, rehabilitation postings, and OPD clinical rotations.",
-    cover_image: "https://picsum.photos/seed/clin1/800/600",
+    title: "Science, STEM & Robotics Laboratories",
+    category_name: "Laboratories",
+    description: "Hands-on experiments in Physics, Chemistry, Biology, and AI Robotics.",
+    cover_image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
     photo_count: 2,
     photos: [
-      { id: 301, image_url: "https://picsum.photos/seed/clin1/800/600", caption: "Hospital Clinical Posting" },
-      { id: 302, image_url: "https://picsum.photos/seed/clin2/800/600", caption: "OPD Patient Rehabilitation" }
+      { id: 301, image_url: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80", caption: "Science Laboratory Experiment" },
+      { id: 302, image_url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80", caption: "Robotics Kit Assembly & Coding" }
     ]
   },
   {
     id: 4,
-    title: "Annual Events & Celebrations",
-    category_name: "Events",
-    description: "Convocation ceremony, annual day festivities, and institutional achievements.",
-    cover_image: "https://picsum.photos/seed/event1/800/600",
+    title: "Sports Meet, Athletics & Fitness",
+    category_name: "Sports",
+    description: "Athletics tournaments, cricket, football, kabaddi, and fitness sessions.",
+    cover_image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
     photo_count: 2,
     photos: [
-      { id: 401, image_url: "https://picsum.photos/seed/event1/800/600", caption: "Annual College Gathering" },
-      { id: 402, image_url: "https://picsum.photos/seed/event2/800/600", caption: "Convocation Degree Ceremony" }
+      { id: 401, image_url: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80", caption: "Annual Track and Field Sprint Races" },
+      { id: 402, image_url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80", caption: "Football & Cricket Training Grounds" }
     ]
   },
   {
     id: 5,
-    title: "Hands-on Workshops & Demos",
-    category_name: "Workshops",
-    description: "Practical manual therapy workshops, electrotherapy apparatus demonstrations, and camps.",
-    cover_image: "https://picsum.photos/seed/wksp1/800/600",
+    title: "Annual Day 'Karmotsav' & Cultural Vibrance",
+    category_name: "Cultural Activities",
+    description: "Theatrical plays, classical and folk dance, music, and stage performances.",
+    cover_image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
     photo_count: 2,
     photos: [
-      { id: 501, image_url: "https://picsum.photos/seed/wksp1/800/600", caption: "Manual Therapy Clinical Workshop" },
-      { id: 502, image_url: "https://picsum.photos/seed/wksp2/800/600", caption: "Electrotherapy Equipment Demonstration" }
-    ]
-  },
-  {
-    id: 6,
-    title: "Annual Sports Meet & Athletics",
-    category_name: "Sports",
-    description: "Inter-collegiate sports tournament, athletics meet, and fitness activities.",
-    cover_image: "https://picsum.photos/seed/sport1/800/600",
-    photo_count: 2,
-    photos: [
-      { id: 601, image_url: "https://picsum.photos/seed/sport1/800/600", caption: "Annual Sports Track & Field" },
-      { id: 602, image_url: "https://picsum.photos/seed/stud1/800/600", caption: "Student Sports Volunteers" }
+      { id: 501, image_url: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80", caption: "Karmotsav Thematic Dance Presentation" },
+      { id: 502, image_url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80", caption: "Student Achievers Felicitation" }
     ]
   }
 ];
 
-export const NEWS = [];
+export const NEWS = [
+  {
+    id: 1,
+    title: "100% Board Exam Results Achieved with Record Distinctions",
+    date: "2026-06-12",
+    tag: "ACADEMICS",
+    desc: "Karmayogi Vidyaniketan students once again set high benchmarks in Grade 10 Board Examinations, with numerous students securing distinction marks across all subjects.",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 2,
+    title: "New Advanced AI & Robotics Laboratory Inaugurated",
+    date: "2026-07-25",
+    tag: "INNOVATION",
+    desc: "The state-of-the-art lab brings hands-on robotics, drone basics, and computer vision training to students from Grade 5 upwards under expert engineering mentors.",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 3,
+    title: "School Sports Contingent Wins Medals at District Athletic Meet",
+    date: "2026-08-30",
+    tag: "SPORTS",
+    desc: "Athletes from Karmayogi Vidyaniketan clinched gold and silver medals in 100m, 400m relay, and long jump competitions at the Solapur District School Games.",
+    image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80"
+  }
+];
 
-export const ACHIEVEMENTS = [];
+export const ACHIEVEMENTS = [
+  {
+    title: "100% Board Examination Pass Record",
+    subtitle: "Excellence in Grade 10 Board Results with exceptional distinctions."
+  },
+  {
+    title: "District Champions in Kabaddi & Kho-Kho",
+    subtitle: "Consecutive podium finishes across Solapur District Inter-School Games."
+  },
+  {
+    title: "National Science Olympiad Medals",
+    subtitle: "Multiple students recognized with gold and merit ranks in STEM Olympiads."
+  },
+  {
+    title: "State Level Kala Utsav Cultural Honors",
+    subtitle: "First prize in folk drama and group classical singing at the divisional level."
+  }
+];
 
-export const HERO_IMAGE = "https://picsum.photos/seed/cophero/1600/700";
-export const PRINCIPAL_PHOTO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 480' width='400' height='480'%3E%3Crect width='100%25' height='100%25' fill='%230b2545'/%3E%3Ccircle cx='200' cy='180' r='75' fill='%231e3a8a'/%3E%3Cpath d='M90 420 C90 290, 310 290, 310 420 Z' fill='%231e3a8a'/%3E%3Ccircle cx='200' cy='175' r='55' fill='%2338bdf8' opacity='0.3'/%3E%3Ctext x='50%25' y='450' text-anchor='middle' fill='%23cbd5e1' font-family='sans-serif' font-size='15' font-weight='600'%3EDr. S. P. Deshmukh%3C/text%3E%3C/svg%3E";
+export const HERO_IMAGE = "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1600&q=80";
+
+export const PRINCIPAL_PHOTO = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80";
 
 export const HERO_SLIDES = [
   {
     id: 1,
-    tag: "HEAL | LEARN | SERVE | GROW",
-    title: "Building Healthier Lives\nThrough Physiotherapy",
-    description: "Karmayogi College of Physiotherapy is dedicated to excellence in physiotherapy education, research and community service.",
-    quote: "Movement for a Better Tomorrow",
-    image: null, // will use imported hero_building.png
-    primaryBtn: { text: "Explore Our Programs →", link: "/academics" },
-    secondaryBtn: { text: "About Our College", link: "/about" }
+    tag: "TRUST | ACADEMICS | DISCIPLINE | VALUES",
+    title: "Shape Young Minds.\nBuild Strong Futures.",
+    description: "Karmayogi Vidyaniketan is committed to providing quality education that combines academic excellence, modern learning, discipline and strong Indian values.",
+    quote: "Education with Values & Purpose",
+    image: null,
+    primaryBtn: { text: "Apply for Admission", link: "/admissions" },
+    secondaryBtn: { text: "Explore Our School", link: "/about" }
   },
   {
     id: 2,
-    tag: "CLINICAL EXCELLENCE | MODERN LABS",
-    title: "World-Class Hands-on\nTraining & Rehabilitation",
-    description: "Comprehensive practical exposure in electrotherapy, kinesiology, neurology and multi-specialty clinical postings.",
-    quote: "Excellence in Physical Healthcare",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80",
-    primaryBtn: { text: "View Facilities →", link: "/facilities" },
-    secondaryBtn: { text: "Hospital & OPD", link: "/hospital" }
+    tag: "NURSERY TO GRADE 10 | ENGLISH MEDIUM",
+    title: "Nurturing Curiosity,\nCharacter & Confidence",
+    description: "A balanced educational experience that develops academic ability, creativity, physical fitness, and responsible citizenship across CBSE & State Board tracks.",
+    quote: "Holistic Child Development",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1400&q=80",
+    primaryBtn: { text: "Academic Curriculum →", link: "/academics" },
+    secondaryBtn: { text: "View Facilities", link: "/facilities" }
   },
   {
     id: 3,
-    tag: "RESEARCH | INNOVATION | DEDICATION",
-    title: "Empowering Next-Gen\nHealthcare Leaders",
-    description: "Affiliated to MUHS Nashik with state-of-the-art campus, dedicated faculty mentors and outstanding career placement track records.",
-    quote: "Service to Humanity is Service to God",
-    image: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1400&q=80",
-    primaryBtn: { text: "Admissions 2026–27 →", link: "/admissions" },
-    secondaryBtn: { text: "Student Corner", link: "/student-corner" }
+    tag: "STEM | ROBOTICS | SPORTS | TRANSPORT",
+    title: "Empowering Next-Gen\nThinkers & Leaders",
+    description: "Modern smart classrooms, AI & Robotics laboratory, expansive sports grounds, and safe GPS-monitored school bus transportation.",
+    quote: "Modern Infrastructure & Care",
+    image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1400&q=80",
+    primaryBtn: { text: "Campus & Labs →", link: "/labs" },
+    secondaryBtn: { text: "Transportation", link: "/transport" }
   }
 ];
 
 export const DEFAULT_WHY_ITEMS = [
   {
     id: 1,
-    icon: 'faculty',
-    title: 'Experienced Faculty',
-    description: 'Approachable mentors support academic progress and practical understanding.'
+    icon: 'curriculum',
+    title: 'Strong Academic Foundation',
+    description: 'Rigorous conceptual mastery from early literacy and numeracy up to board examination distinction.'
   },
   {
     id: 2,
     icon: 'infrastructure',
     title: 'Modern Infrastructure',
-    description: 'Purpose-built spaces support focused learning and student collaboration.'
+    description: 'Spacious campuses at Isbavi and Shelve equipped with well-ventilated classrooms, labs, and play areas.'
   },
   {
     id: 3,
-    icon: 'curriculum',
-    title: 'Industry-Oriented Curriculum',
-    description: 'Learning connects engineering fundamentals with evolving professional practice.'
+    icon: 'faculty',
+    title: 'Experienced Teaching Environment',
+    description: 'Dedicated educators who mentor each child with care, patience, individualized attention, and discipline.'
   },
   {
     id: 4,
     icon: 'research',
-    title: 'Innovation & Research',
-    description: 'Projects and technical activities encourage inquiry and experimentation.'
+    title: 'Smart Classrooms',
+    description: 'Interactive digital boards and multimedia learning tools making complex concepts vivid and engaging.'
   },
   {
     id: 5,
-    icon: 'development',
-    title: 'Student Development',
-    description: 'Communication, teamwork, and leadership complement technical learning.'
+    icon: 'lightbulb',
+    title: 'STEM, AI & Robotics Exposure',
+    description: 'Hands-on experiential laboratories fostering coding, robotics assembly, and inventive 21st-century problem solving.'
   },
   {
     id: 6,
-    icon: 'placement',
-    title: 'Placement Support',
-    description: 'Career preparation helps students approach professional opportunities confidently.'
+    icon: 'development',
+    title: 'Sports & Extracurricular Development',
+    description: 'Daily athletic training, team sports, music, dance, debates, and vibrant cultural celebrations.'
+  },
+  {
+    id: 7,
+    icon: 'building',
+    title: 'Safe Student Transportation',
+    description: 'Dedicated fleet of GPS-equipped school buses with female attendants serving Pandharpur and nearby rural routes.'
+  },
+  {
+    id: 8,
+    icon: 'briefcase',
+    title: 'Focus on Values and Discipline',
+    description: 'Deep grounding in Indian cultural values, integrity, respect, civic responsibility, and moral character.'
+  },
+  {
+    id: 9,
+    icon: 'student',
+    title: 'Holistic Child Development',
+    description: 'Harmonious growth of intellect, emotional resilience, physical vigor, and artistic self-expression.'
+  },
+  {
+    id: 10,
+    icon: 'book',
+    title: 'English-Medium Education',
+    description: 'Comprehensive English fluency combined with deep appreciation of Marathi and Hindi languages.'
   }
 ];
 
 export const DEFAULT_TESTIMONIALS = [
   {
     id: 1,
-    quote: "The project-based learning environment helped me become more confident in applying engineering concepts.",
-    name: "Sample Student",
-    role: "Student testimonial placeholder"
+    quote: "Karmayogi Vidyaniketan provides the perfect balance of academic seriousness and joyful extracurricular activities. My daughter has become so confident in speaking and expressing her ideas.",
+    name: "Parent of Grade 5 Student",
+    role: "Primary School Parent"
   },
   {
     id: 2,
-    quote: "Faculty guidance and practical sessions encouraged our team to explore ideas beyond the classroom.",
-    name: "Sample Alumnus",
-    role: "Alumni testimonial placeholder"
+    quote: "The STEM and Robotics lab has sparked a genuine interest in science for my son. The teachers are approachable, caring, and deeply invested in each child's character.",
+    name: "Parent of Grade 8 Student",
+    role: "Secondary School Parent"
   },
   {
     id: 3,
-    quote: "Campus activities gave me opportunities to collaborate, communicate, and grow as an individual.",
-    name: "Sample Student",
-    role: "Student testimonial placeholder"
+    quote: "The school bus transport network and campus safety protocols give working parents complete confidence. The school staff is always attentive and caring.",
+    name: "Parent of Grade 9 Student",
+    role: "Secondary School Parent"
   }
 ];
 
 export const DEFAULT_ABOUT_DATA = {
-  // 1. Institute Info
-  institute_tag: 'Shri Pandurang Pratishthan',
-  institute_title: 'About Karmayogi Institute of Physiotherapy',
-  institute_subtitle: 'Shelve, Pandharpur, Dist: Solapur (MS) — 413304 | Approved by Govt. of Maharashtra & DMER Mumbai, Affiliated to MUHS Nashik',
+  institute_tag: 'Shri Pandurang Pratishthan, Pandharpur',
+  institute_title: 'About Karmayogi Vidyaniketan',
+  institute_subtitle: 'Widely known as Karmayogi Public School | English Medium • Co-Educational • Nursery to Grade 10',
   institute_photo_url: '',
-  institute_photo_caption: 'Campus & Teaching Hospital Building, Pandharpur',
-  institute_p1: "Shri Pandurang Pratishthan's Karmayogi Institute of Physiotherapy was founded with an enduring commitment to bring world-class physical healthcare education and clinical rehabilitation to rural and semi-urban communities across Maharashtra. Located in the sacred temple town of Pandharpur, the institution is built upon the philanthropic ethos of holistic community empowerment through education, compassionate medical care, and professional excellence.",
-  institute_p2: 'The institute provides the comprehensive Bachelor of Physiotherapy (BPT) degree program, equipped with modern lecture halls, digital anatomy software, advanced electrotherapy modalities, kinesiology gymnasiums, biomechanics laboratories, and specialized cardiopulmonary assessment units. Attached to a multi-specialty teaching hospital, students gain intensive hands-on bedside clinical posting experience right from the foundational years, nurturing their confidence, empathy, and evidence-based diagnostic abilities.',
+  institute_photo_caption: 'Main Academic Campus & Sports Grounds, Pandharpur',
+  institute_p1: "Karmayogi Vidyaniketan, widely known as Karmayogi Public School, is a co-educational institution located in Pandharpur, Solapur district, Maharashtra. The school operates under the visionary management of Shri Pandurang Pratishthan, Pandharpur.",
+  institute_p2: "The school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship. Combining modern educational tools, smart classrooms, experiential science and robotics laboratories with strong Indian values, we prepare students to excel in higher education and life.",
 
-  // 2. Vision & Mission
-  vm_tag: 'Institutional Blueprint',
+  // Vision & Mission
+  vm_tag: 'School Philosophy',
   vm_title: 'Vision & Mission',
-  vm_subtitle: 'Guiding principles shaping future leaders in healthcare and clinical rehabilitation',
+  vm_subtitle: 'Guiding values shaping curious, confident, and conscientious young citizens',
   vision_title: 'Our Vision',
-  vision_text: 'Excellence and Innovation in Medical Education, clinical practice and research in physiotherapy, through strong academic, health care & Community partnership',
+  vision_text: 'To be an institution of educational excellence that nurtures young minds with intellectual vigor, moral strength, creative curiosity, and holistic life skills, empowering them to become responsible global citizens rooted in Indian values.',
   mission_title: 'Our Mission',
   mission_points: [
-    'To Prepare the Students to face the Global health Care Needs.',
-    'To identify the Current Needs for Research promotion.',
-    'To inculcate Professional Competence in Students through Education.',
-    'To Foster social engagement and development through relationship.',
-    'To Provide quality Physiotherapist well Equipped with Cognitive, psychomotor and effective skills.',
-    'To Develop Future Leaders Committed to Accountable Patient Care.'
+    'To provide quality English-medium education accessible to students across Pandharpur and surrounding regions.',
+    'To foster a learning environment combining academic rigor with hands-on STEM, digital learning, and arts.',
+    'To cultivate physical fitness, sportsmanship, and teamwork through regular sports and athletics.',
+    'To instill character, self-discipline, empathy, and reverence for Indian culture, heritage, and social harmony.',
+    'To maintain state-of-the-art infrastructure, safe residential facilities, and a supportive educator-student partnership.',
+    'To nurture every child’s unique potential through individualized guidance and encouraging mentorship.'
   ],
 
-  // 3. Quality Policy
-  qp_tag: 'Quality Assurance',
-  qp_title: 'Quality Policy',
-  qp_text: 'Karmayogi institute of physiotherapy is committed to impart quality education and training which aims to pursue global standards of excellence in all our endeavors like teaching, research clinical training and continue education we measure quality process through feedback from various stake holders to remain accountable in line with our vision mission of the Institution.',
+  // Quality Policy
+  qp_tag: 'Educational Standards',
+  qp_title: 'Our Commitment to Quality Education',
+  qp_text: 'Karmayogi Vidyaniketan is dedicated to delivering learner-centric education aligned with CBSE and State Board standards. We continually evaluate our teaching methodologies, teacher development programs, classroom facilities, and safety standards through systematic feedback and constructive parent-teacher collaboration.',
 
-  // 4. Governing Council
-  council_tag: 'Institutional Administration',
-  council_title: 'Governing Council & Advisory Board',
-  council_subtitle: 'Constituent management body responsible for statutory compliance, academic strategy, and quality monitoring',
-  council_description: 'The Governing Council of Karmayogi Institute of Physiotherapy functions in full alignment with the statutory norms established by the Maharashtra University of Health Sciences (MUHS), Nashik, and the Directorate of Medical Education and Research (DMER), Mumbai.',
+  // Governing Council / Management
+  council_tag: 'School Governance',
+  council_title: 'Management & School Leadership',
+  council_subtitle: 'Governed by Shri Pandurang Pratishthan, Pandharpur',
+  council_description: 'Under the benevolent leadership of Shri Pandurang Pratishthan, Karmayogi Vidyaniketan functions with clear educational vision, statutory compliance, student safety priorities, and continuous infrastructure modernization.',
   council_members: [
-    { sr_no: '1', name: 'Hon. Shri Rohan R. Patil', designation: 'President / Chairman', representation: 'Management Representative' },
-    { sr_no: '2', name: 'Trust Nominee Member', designation: 'Secretary / Trustee', representation: 'Shri Pandurang Pratishthan' },
-    { sr_no: '3', name: 'Principal', designation: 'Member Secretary', representation: 'Head of the Institution' },
-    { sr_no: '4', name: 'Senior Professor / Academic Dean', designation: 'Member', representation: 'Teaching Faculty Representative' },
-    { sr_no: '5', name: 'MUHS University Nominee', designation: 'Member', representation: 'Affiliating University Representative' },
-    { sr_no: '6', name: 'Medical Director / Superintendent', designation: 'Member', representation: 'Attached Hospital Representative' },
-    { sr_no: '7', name: 'Healthcare Industry / Community Expert', designation: 'Member', representation: 'Public Health & Clinical Expert' }
+    { sr_no: '1', name: 'Shri Pandurang Pratishthan Management', designation: 'Parent Trust', representation: 'Founding Organization' },
+    { sr_no: '2', name: 'Mr. Vijay Madane', designation: 'Principal / Academic Director', representation: 'Head of the School' },
+    { sr_no: '3', name: 'Mrs. Sunita S. Kadam', designation: 'Pre-Primary Coordinator', representation: 'Foundational Stage Head' },
+    { sr_no: '4', name: 'Mr. Ramesh D. More', designation: 'Primary School Coordinator', representation: 'Preparatory Stage Head' },
+    { sr_no: '5', name: 'Senior Faculty Representatives', designation: 'Teachers Council', representation: 'Faculty Representation' },
+    { sr_no: '6', name: 'Parent-Teacher Association (PTA) Members', designation: 'Parent Representatives', representation: 'PTA Committee' }
   ],
 
-  // 5. Affiliations & Statutory Approvals
-  approvals_tag: 'Statutory Recognitions',
-  approvals_title: 'Affiliations & Government Approvals',
-  approvals_subtitle: 'Recognized educational credentials ensuring statutory validity and clinical licensing eligibility',
+  // Statutory Recognitions
+  approvals_tag: 'Curriculum & Boards',
+  approvals_title: 'Educational Tracks & Affiliations',
+  approvals_subtitle: 'Recognized educational curricula ensuring seamless higher secondary transitions',
   approvals: [
     {
-      badge: 'Affiliating University',
-      title: 'Maharashtra University of Health Sciences (MUHS)',
-      description: 'Affiliated to MUHS, Nashik for conducting the Bachelor of Physiotherapy (BPT) degree program.'
+      badge: 'Parent Organization',
+      title: 'Shri Pandurang Pratishthan, Pandharpur',
+      description: 'Established trust managing prestigious educational institutions across Solapur district with a commitment to excellence.'
     },
     {
-      badge: 'State Regulatory Authority',
-      title: 'DMER Mumbai',
-      description: 'Approved by Directorate of Medical Education and Research, Government of Maharashtra, Mumbai.'
+      badge: 'Academic Boards',
+      title: 'CBSE & Maharashtra State Board Tracks',
+      description: 'Comprehensive curriculum pathways adhering to national pedagogical standards and state educational board frameworks.'
     },
     {
-      badge: 'State Government Approval',
-      title: 'Government of Maharashtra',
-      description: 'Approved and sanctioned by the Department of Medical Education and Drugs, Govt. of Maharashtra.'
+      badge: 'Medium & Level',
+      title: 'English Medium • Co-Educational',
+      description: 'Full educational spectrum from Nursery foundational years through Grade 10 secondary board certification.'
     }
   ]
 };
 
-// ========================================================
-// Dynamic Course-Specific Admissions Builder & Fallback Helpers
-// ========================================================
-export function createDefaultCourseAdmission(course = {}) {
-  const code = (course.code || course.id || 'bpt').toLowerCase();
-  const name = course.name || 'Bachelor of Physiotherapy (BPT)';
-  const isUG = (course.degree_level || 'UG').toUpperCase() === 'UG';
-  const duration = course.duration || (isUG ? "4.5 Years (including 6-month compulsory internship)" : "2 Years");
-  const intake = course.intake || "60 Seats";
-
-  return {
-    course_id: course.id || code,
-    course_code: (course.code || code).toUpperCase(),
-    course_name: name,
-    degree_level: course.degree_level || (isUG ? 'UG' : 'PG'),
-    duration: duration,
-    intake: intake,
-
-    // 1. Admission Process Guidelines
-    process_intro: isUG
-      ? `Admissions to the ${name} program are conducted strictly through the Centralized Admission Process (CAP) governed by the State Common Entrance Test Cell, Maharashtra, based on NEET-UG merit scores.`
-      : `Admissions to the ${name} program are conducted strictly through the Centralized Counseling Process governed by the State CET Cell, Maharashtra, based on entrance merit rankings.`,
-    process_steps: isUG ? [
-      { num: "Step 1", title: "NEET-UG Qualification", desc: "Candidates must appear and secure a qualifying score in the NEET-UG examination conducted by the National Testing Agency (NTA)." },
-      { num: "Step 2", title: "State CET Cell Registration", desc: "Complete online counseling registration on the official portal (cetcell.mahacet.org) under Health Science courses and pay registration fees." },
-      { num: "Step 3", title: "Document Verification", desc: "Participate in physical or online document verification as mandated by DMER to secure placement in the Maharashtra State Merit List." },
-      { num: "Step 4", title: "Preference Choice Filling", desc: "Submit college preferences online, selecting Karmayogi College of Physiotherapy, Shelve, Pandharpur, as the preferred institution code." },
-      { num: "Step 5", title: "College Reporting & Admission", desc: "Report to the college campus with all original documents, status retention form, and prescribed fees to confirm the allotted seat." }
-    ] : [
-      { num: "Step 1", title: "PG Entrance Qualification", desc: "Appear and qualify in the relevant state post-graduate entrance test (PGP-CET)." },
-      { num: "Step 2", title: "State CET Cell Registration", desc: "Register online on the State CET Cell Maharashtra portal for postgraduate medical counseling." },
-      { num: "Step 3", title: "Document Verification", desc: "Verify BPT degree certificate, internship completion certificate, and state council registration." },
-      { num: "Step 4", title: "Option Form Filling", desc: "Submit branch and institution preferences in centralized CAP rounds." },
-      { num: "Step 5", title: "Reporting & Seat Confirmation", desc: "Report to Karmayogi College of Physiotherapy with original documents and prescribed tuition fees." }
-    ],
-
-    // 2. Eligibility Criteria
-    eligibility_intro: `Candidates seeking admission to ${name} must fulfill all statutory eligibility norms framed by MUHS Nashik, DMER Mumbai, and the Government of Maharashtra:`,
-    eligibility_points: isUG ? [
-      "Passed Higher Secondary Certificate (10+2 / HSC) or equivalent examination from a recognized board.",
-      "Passed with English, Physics, Chemistry, and Biology (PCB) subjects.",
-      "Minimum 50% aggregate marks in PCB for Open/General category candidates (40% for SC, ST, VJ, NT, OBC).",
-      "Qualified in NEET-UG of the current academic year.",
-      "Completed 17 years of age on or before 31st December of the admission year.",
-      "Indian Nationality with valid Maharashtra State Domicile (for state quota seats)."
-    ] : [
-      "Passed Bachelor of Physiotherapy (BPT) degree from a university recognized by MUHS / UGC with minimum 50% aggregate marks.",
-      "Satisfactory completion of 6-month compulsory rotating internship before the cutoff date prescribed by State CET Cell.",
-      "Valid permanent or provisional registration with the Maharashtra State OT/PT Council.",
-      "Valid merit rank in the PGP-CET entrance examination conducted by State CET Cell."
-    ],
-
-    // 3. Application Form & Submission Procedure
-    app_form_intro: `Information regarding the acquisition, completion, and submission of admission applications for ${name} for Centralized Counseling and Institutional Round quotas:`,
-    app_cap_title: "Centralized CAP Application (State CET Cell)",
-    app_cap_points: [
-      "Official Portal: https://cetcell.mahacet.org/",
-      "Registration Window: As declared post-entrance exam results by the State CET Cell.",
-      "Process: Online registration, uploading scanned certificates, payment of counseling processing fee, and verification.",
-      "Allotment: Seat allotment letters are downloaded directly from the candidate login."
-    ],
-    app_college_title: "College Institutional & Vacant Quota Application",
-    app_college_points: [
-      "Offline Application Form: Available at the College Admission Office, Karmayogi College of Physiotherapy, Shelve, Pandharpur.",
-      "Office Timings: Monday to Saturday, 9:00 AM – 5:00 PM.",
-      "Required Attachments: NEET/Entrance Scorecard, 10th & 12th marksheets, Leaving Certificate, Domicile, Caste Validity (if applicable), and 3 passport size photos.",
-      "Submission: Duly completed forms must be submitted with original documents before the notified institutional cutoff date."
-    ],
-    app_form_download_url: "",
-
-    // 4. Fee Structure Table
-    fees_intro: `The fee structure for ${name} is approved and regulated annually by the Fee Regulating Authority (FRA), Government of Maharashtra. No capitation fee or donation is accepted under any circumstances.`,
-    fees_table: [
-      { category: "Open / General Category", tuition_fee: "₹ 80,000", dev_fee: "₹ 8,000", total_fee: "₹ 88,000", scholarship: "Nil", payable: "₹ 88,000" },
-      { category: "EBC / EWS (Income <= 8 Lakh)", tuition_fee: "₹ 80,000", dev_fee: "₹ 8,000", total_fee: "₹ 88,000", scholarship: "50% Tuition Fee Concession (MahaDBT)", payable: "₹ 48,000" },
-      { category: "OBC Category (Income <= 8 Lakh)", tuition_fee: "₹ 80,000", dev_fee: "₹ 8,000", total_fee: "₹ 88,000", scholarship: "50% Tuition Fee Concession (MahaDBT)", payable: "₹ 48,000" },
-      { category: "VJNT / SBC Category", tuition_fee: "₹ 80,000", dev_fee: "₹ 8,000", total_fee: "₹ 88,000", scholarship: "100% Tuition Fee Concession (MahaDBT)", payable: "₹ 8,000" },
-      { category: "SC / ST Category", tuition_fee: "₹ 80,000", dev_fee: "₹ 8,000", total_fee: "₹ 88,000", scholarship: "100% Tuition & Dev Fee Waiver (MahaDBT)", payable: "Nil" },
-      { category: "Institutional / Management Quota", tuition_fee: "As per FRA norms", dev_fee: "As per FRA norms", total_fee: "As per FRA approved quota", scholarship: "Not applicable", payable: "As per FRA notification" }
-    ],
-    fees_notes: "Fees are payable via Demand Draft (DD) in favor of 'Karmayogi College of Physiotherapy' payable at Pandharpur, or via direct RTGS/NEFT to the college bank account. Refundable caution money and library deposits are applicable as per university norms.",
-
-    // 5. Scholarships (MahaDBT)
-    scholarships_intro: `Eligible candidates admitted to ${name} through the Centralized Admission Process (CAP) are entitled to state and central scholarship / freeship benefits processed via the Government of Maharashtra MahaDBT portal (https://mahadbt.maharashtra.gov.in/):`,
-    scholarships_list: [
-      {
-        title: "Social Welfare Department (SC / ST Schemes)",
-        desc: "100% Tuition Fee and Development Fee waiver for Scheduled Caste (SC) and Scheduled Tribe (ST) candidates admitted through CAP rounds with valid Caste and Validity certificates."
-      },
-      {
-        title: "VJNT, SBC & OBC Welfare Department Schemes",
-        desc: "Tuition fee concessions (50% to 100%) for VJNT, SBC, and OBC students with annual family income up to ₹8,00,000 having valid Non-Creamy Layer (NCL) certificate."
-      },
-      {
-        title: "Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti Yojna (EBC / EWS)",
-        desc: "50% Tuition Fee and 50% Exam Fee concession provided to Open/General category candidates from economically weaker backgrounds with family income up to ₹8,00,000 certified by Tahsildar."
-      },
-      {
-        title: "Dr. Panjabrao Deshmukh Vasatigruh Nirvah Bhatta Yojna",
-        desc: "Hostel maintenance allowance for children of registered marginal farmers (Alpabhudharak) and agricultural registered laborers pursuing higher professional medical education."
-      },
-      {
-        title: "Minority Development Department Schemes",
-        desc: "Financial assistance provided by the State Minority Development Department and Central Government for students belonging to Muslim, Christian, Buddhist, Sikh, Parsi, and Jain communities."
-      }
-    ],
-
-    // 6. Important Dates & Admission Schedule
-    dates_intro: `Academic calendar and critical dates for centralized admission counseling rounds and college commencement for ${name}:`,
-    dates_list: [
-      { title: "Online CET Cell Registration", desc: "As per official State CET Cell announcement schedule." },
-      { title: "State Merit List Release", desc: "Provisional & final state merit ranks declared by DMER." },
-      { title: "CAP Round Allotments", desc: "Round 1, Round 2, and Mop-Up rounds seat allocations." },
-      { title: "College Reporting Window", desc: "Reporting to campus within 5 working days from allotment date." },
-      { title: "Commencement of Classes", desc: "As notified by MUHS academic calendar." }
-    ],
-
-    // 7. Course Intake & Helpdesk
-    intake_approved: intake,
-    intake_description: `Approved by Government of Maharashtra, DMER Mumbai, and affiliated with Maharashtra University of Health Sciences (MUHS), Nashik.`,
-    helpdesk_title: `${name} Admission Helpdesk`,
-    helpdesk_phone: "+91 02186 272345, +91 94235 34567",
-    helpdesk_email: "admissions@karmayogiphysiotherapy.edu.in",
-    helpdesk_hours: "Monday – Saturday, 9:00 AM to 5:00 PM",
-    helpdesk_address: "Gat No. 124, 125, A/P: Shelve, Taluka: Pandharpur, Dist: Solapur (MS) - 413304.",
-    helpdesk_contact_persons: [
-      { name: "Dr. Admission In-Charge", designation: "Admission Officer", phone: "+91 94235 34567" }
-    ]
-  };
-}
-
-export function getCourseAdmissionData(admissionsData, course) {
-  if (!course) return null;
-  const code = (course.code || '').toLowerCase().trim();
-  const id = String(course.id || '').toLowerCase().trim();
-  const name = (course.name || '').toLowerCase().trim();
-  const key = code || id || 'bpt';
-  const isUG = (course.degree_level || 'UG').toUpperCase() === 'UG';
-
-  const defaultCourseData = createDefaultCourseAdmission(course);
-  
-  if (admissionsData?.courses_admissions && typeof admissionsData.courses_admissions === 'object') {
-    const map = admissionsData.courses_admissions;
-    
-    // 1. Direct key match
-    if (map[key]) {
-      return { ...defaultCourseData, ...map[key] };
-    }
-    // 2. Direct code or id match
-    if (code && map[code]) {
-      return { ...defaultCourseData, ...map[code] };
-    }
-    if (id && map[id]) {
-      return { ...defaultCourseData, ...map[id] };
-    }
-
-    // 3. Case-insensitive key search
-    const foundKey = Object.keys(map).find(k => {
-      const kl = k.toLowerCase().trim();
-      return (
-        kl === key ||
-        (code && kl === code) ||
-        (id && kl === id) ||
-        (name && (name.includes(kl) || kl.includes(name)))
-      );
-    });
-
-    if (foundKey && map[foundKey]) {
-      return { ...defaultCourseData, ...map[foundKey] };
-    }
-  }
-
-  // Fallback to legacy root keys ONLY for primary / UG course (e.g. BPT)
-  const fallback = { ...defaultCourseData };
-  if (admissionsData) {
-    if (isUG || key === 'bpt') {
-      if (Array.isArray(admissionsData.fees_table) && admissionsData.fees_table.length > 0) {
-        fallback.fees_table = admissionsData.fees_table;
-      }
-      if (admissionsData.fees_intro) fallback.fees_intro = admissionsData.fees_intro;
-      if (admissionsData.fees_notes) fallback.fees_notes = admissionsData.fees_notes;
-      if (Array.isArray(admissionsData.process_steps) && admissionsData.process_steps.length > 0) {
-        fallback.process_steps = admissionsData.process_steps;
-      }
-      if (admissionsData.process_intro) fallback.process_intro = admissionsData.process_intro;
-      if (Array.isArray(admissionsData.scholarships_list) && admissionsData.scholarships_list.length > 0) {
-        fallback.scholarships_list = admissionsData.scholarships_list;
-      }
-      if (Array.isArray(admissionsData.dates_list) && admissionsData.dates_list.length > 0) {
-        fallback.dates_list = admissionsData.dates_list;
-      }
-      if (admissionsData.app_cap_title) fallback.app_cap_title = admissionsData.app_cap_title;
-      if (Array.isArray(admissionsData.app_cap_points)) fallback.app_cap_points = admissionsData.app_cap_points;
-      if (admissionsData.app_college_title) fallback.app_college_title = admissionsData.app_college_title;
-      if (Array.isArray(admissionsData.app_college_points)) fallback.app_college_points = admissionsData.app_college_points;
-    }
-
-    // Specific eligibility program matching by name/code
-    if (Array.isArray(admissionsData.eligibility_programs)) {
-      const match = admissionsData.eligibility_programs.find(p => {
-        const d = (p.degree || '').toLowerCase();
-        return (key && d.includes(key)) || (code && d.includes(code)) || (name && (d.includes(name) || name.includes(d)));
-      });
-      if (match && Array.isArray(match.points)) {
-        fallback.eligibility_points = match.points;
-        if (match.duration) fallback.duration = match.duration;
-      }
-    }
-  }
-  return fallback;
-}
-
-const defaultBptAdmission = createDefaultCourseAdmission({
-  id: "bpt",
-  code: "BPT",
-  name: "Bachelor of Physiotherapy (BPT)",
-  degree_level: "UG",
-  duration: "4.5 Years (including 6-month compulsory internship)",
-  intake: "60 Seats"
-});
-
-const defaultMptAdmission = createDefaultCourseAdmission({
-  id: "mpt",
-  code: "MPT",
-  name: "Master of Physiotherapy (MPT)",
-  degree_level: "PG",
-  duration: "2 Years",
-  intake: "20 Seats"
-});
-
-// Default Admissions Data (Baseline Fallback)
+// Default Admissions Data for the School
 export const DEFAULT_ADMISSIONS_DATA = {
-  intro_title: "Admissions 2026–27",
-  intro_lead: "Admissions to professional degree programs at Karmayogi College of Physiotherapy, Shelve, Pandharpur, are conducted in accordance with the regulations prescribed by the State Common Entrance Test Cell (State CET Cell), Government of Maharashtra, Directorate of Medical Education and Research (DMER), Mumbai, and Maharashtra University of Health Sciences (MUHS), Nashik.",
+  intro_title: "Admissions Open 2026–27",
+  intro_lead: "Give your child an environment where learning, character and confidence grow together. Karmayogi Vidyaniketan invites applications for Nursery to Grade 10 for the upcoming academic year.",
 
-  // Course-specific admissions map (keyed by lowercase course code or id)
-  courses_admissions: {
-    bpt: defaultBptAdmission,
-    mpt: defaultMptAdmission
-  },
+  process_intro: "We follow a transparent, child-friendly 5-step admission process designed to understand each learner and ensure a welcoming transition into our school family:",
+  process_steps: [
+    {
+      num: "Step 1",
+      title: "Submit Enquiry",
+      desc: "Fill in the simple online enquiry form or visit our school admission desks at Isbavi (Primary) or Shelve (Main) campus to collect the prospectus."
+    },
+    {
+      num: "Step 2",
+      title: "Application Submission",
+      desc: "Submit the completed school admission application form along with candidate photographs and previous academic progress records."
+    },
+    {
+      num: "Step 3",
+      title: "Document Verification",
+      desc: "Our admission desk verifies original birth certificate, transfer certificate (TC), Aadhaar card, and previous progress report cards."
+    },
+    {
+      num: "Step 4",
+      title: "Interaction / Assessment",
+      desc: "A warm, informal interaction for early learners or a foundational readiness assessment for senior grades to identify learning strengths."
+    },
+    {
+      num: "Step 5",
+      title: "Admission Confirmation",
+      desc: "Upon successful interaction, complete the enrollment formalities and fee remittance to confirm your child's seat."
+    }
+  ],
 
-  // Legacy root keys for backwards compatibility with any unmigrated components
-  process_intro: defaultBptAdmission.process_intro,
-  process_steps: defaultBptAdmission.process_steps,
-  eligibility_intro: defaultBptAdmission.eligibility_intro,
+  eligibility_intro: "Age and academic criteria for admission across school levels as per educational guidelines:",
   eligibility_programs: [
     {
-      degree: "Bachelor of Physiotherapy (BPT)",
-      duration: "4.5 Years (including 6-month compulsory internship)",
-      points: defaultBptAdmission.eligibility_points
+      degree: "Pre-Primary Wing (Nursery, Jr. KG, Sr. KG)",
+      duration: "Nursery, Jr. KG, Sr. KG",
+      points: [
+        "Nursery: Minimum 3 years of age as of 31st December of the admission year.",
+        "Junior KG: Minimum 4 years of age as of 31st December.",
+        "Senior KG: Minimum 5 years of age as of 31st December.",
+        "Original Birth Certificate from Municipal Corporation / Gram Panchayat.",
+        "Child-friendly informal interaction with parents."
+      ]
     },
     {
-      degree: "Master of Physiotherapy (MPT)",
-      duration: "2 Years",
-      points: defaultMptAdmission.eligibility_points
+      degree: "Primary School (Grades 1 to 5)",
+      duration: "Grades 1 to 5",
+      points: [
+        "Grade 1: Minimum 6 years of age completed as of 31st December.",
+        "Grades 2 to 5: Successful completion and promotion from the preceding grade in a recognized school.",
+        "Original School Leaving Certificate / Transfer Certificate (TC) countersigned as applicable.",
+        "Progress report card of previous academic year."
+      ]
+    },
+    {
+      degree: "Secondary School (Grades 6 to 10)",
+      duration: "Grades 6 to 10",
+      points: [
+        "Successful completion and pass certificate of preceding grade from recognized CBSE / State / ICSE school.",
+        "Original School Leaving Certificate / Transfer Certificate (TC).",
+        "Marksheet / Cumulative Progress Report Card.",
+        "Readiness assessment in English, Mathematics, and Science."
+      ]
     }
   ],
-  app_form_intro: defaultBptAdmission.app_form_intro,
-  app_cap_title: defaultBptAdmission.app_cap_title,
-  app_cap_points: defaultBptAdmission.app_cap_points,
-  app_college_title: defaultBptAdmission.app_college_title,
-  app_college_points: defaultBptAdmission.app_college_points,
-  fees_intro: defaultBptAdmission.fees_intro,
-  fees_table: defaultBptAdmission.fees_table,
-  fees_notes: defaultBptAdmission.fees_notes,
-  scholarships_intro: defaultBptAdmission.scholarships_intro,
-  scholarships_list: defaultBptAdmission.scholarships_list,
-  dates_intro: defaultBptAdmission.dates_intro,
-  dates_list: defaultBptAdmission.dates_list,
 
-  documents_intro: "Candidates must submit original certificates along with 3 sets of self-attested photocopies at the time of admission:",
+  documents_intro: "Parents are requested to submit the following documents at the time of admission:",
   documents_categories: [
     {
-      title: "Academic & Entrance Records",
+      title: "Student Identification & Birth Records",
       items: [
-        "NEET-UG Admit Card & Scorecard",
-        "State CET Cell Online Application Form & Registration Receipt",
-        "Provisional Seat Allotment Letter",
-        "SSC (10th) Passing Certificate & Statement of Marks",
-        "HSC (12th) Passing Certificate & Statement of Marks"
+        "Original Birth Certificate (for Pre-Primary & Grade 1 admission)",
+        "Student Aadhaar Card copy",
+        "Original School Leaving Certificate / Transfer Certificate (TC) for Grades 2 to 10",
+        "Previous School Marksheet / Progress Report Card",
+        "5 recent passport-size color photographs of the student"
       ]
     },
     {
-      title: "Identity & Domicile Documents",
+      title: "Parent & Address Verification",
       items: [
-        "Nationality Certificate & Domicile Certificate of Maharashtra",
-        "College Leaving Certificate / Transfer Certificate (TC)",
-        "Migration Certificate (if qualifying examination is outside Maharashtra State Board)",
-        "Aadhaar Card Copy",
-        "Affidavit / Gap Certificate on stamp paper (if applicable)"
+        "Parents' Aadhaar Card copies (Father & Mother / Guardian)",
+        "Proof of Residence (Electricity bill, Ration card, or Domicile certificate)",
+        "2 passport-size photographs of each parent / guardian",
+        "Caste Certificate (if claiming reserved category scholarship / records)"
       ]
     },
     {
-      title: "Caste, Category & Medical",
+      title: "Medical & Transport Documents (If Applicable)",
       items: [
-        "Caste Certificate (for Reserved category candidates)",
-        "Caste Validity Certificate (Mandatory for SC/ST/VJ/NT/OBC)",
-        "Non-Creamy Layer Certificate (valid up to 31st March of current financial year for VJNT/SBC/OBC)",
-        "EWS Certificate / PwD Certificate (if claiming quota)",
-        "Medical Fitness Certificate in prescribed format (Annexure-H)",
-        "4 recent passport-size color photographs"
+        "Student blood group and basic medical fitness declaration",
+        "Immunization record copy for Pre-Primary admissions",
+        "Bus transport registration form (for opting school transportation)",
+        "Special medical diet / emergency contacts disclosure"
       ]
     }
   ],
 
-  helpdesk_phone: "+91 02186 272345, +91 94235 34567",
-  helpdesk_email: "info@karmayogiphysiotherapy.edu.in",
-  helpdesk_hours: "Monday – Saturday, 9:00 AM to 5:00 PM",
-  helpdesk_address: "Gat No. 124, 125, A/P: Shelve, Taluka: Pandharpur, Dist: Solapur (MS) - 413304."
+  fees_intro: "Karmayogi Vidyaniketan maintains an affordable, transparent fee structure approved by school management without capitation fees or hidden charges:",
+  fees_table: [
+    { category: "Pre-Primary (Nursery, Jr. & Sr. KG)", tuition_fee: "Affordable", dev_fee: "Included", total_fee: "As per Prospectus", scholarship: "Available for eligible wards", payable: "Term-wise installments" },
+    { category: "Primary School (Grades 1 to 5)", tuition_fee: "Affordable", dev_fee: "Included", total_fee: "As per Prospectus", scholarship: "Available for eligible wards", payable: "Term-wise installments" },
+    { category: "Secondary School (Grades 6 to 10)", tuition_fee: "Affordable", dev_fee: "Included", total_fee: "As per Prospectus", scholarship: "Available for eligible wards", payable: "Term-wise installments" },
+    { category: "School Bus Transport (Optional)", tuition_fee: "Based on distance", dev_fee: "Safety equipped", total_fee: "Route-wise charges", scholarship: "Subsidized routes", payable: "Term-wise installments" }
+  ],
+  fees_notes: "Fees are payable via Net Banking, UPI, Demand Draft, or at the school cash counter against an official receipt. Term-wise installments are facilitated for parents.",
+
+  helpdesk_title: "School Admission & Enquiry Desk",
+  helpdesk_phone: "+91-8459863477, +91-9527632033",
+  helpdesk_email: "vijaymadane3@gmail.com",
+  helpdesk_hours: "Monday to Saturday: 8:00 AM – 2:00 PM (Sunday Closed)",
+  helpdesk_address: "Isbavi Campus (Link Road) & Shelve Campus, Pandharpur, Maharashtra."
 };
 
-// ========================================================
-// DEFAULT RESEARCH & DEVELOPMENT DATA (10 SUBMENUS)
-// ========================================================
-export const DEFAULT_RESEARCH_DATA = {
-  overview: {
-    intro_title: "Research & Development (R&D)",
-    intro_lead: "Karmayogi Institute of Physiotherapy actively promotes evidence-based clinical investigation, rehabilitative innovation, and interdisciplinary research. Operating under the research protocols of Maharashtra University of Health Sciences (MUHS) and the ethical frameworks of the Indian Council of Medical Research (ICMR), our institution bridges academic clinical therapy and translational rehabilitation science.",
-    vision: "To be recognized as a leading center of excellence for clinical physiotherapy research and rehabilitation technology, translating scientific insights into accessible, high-impact patient care.",
-    mission: "Cultivate an inquisitive, ethical research environment among faculty and students; facilitate funded translational clinical projects; and pioneer indigenous therapeutic solutions for community and musculoskeletal rehabilitation.",
-    iec_statement: "All clinical trials and human investigations require mandatory review and written approval by the Institutional Ethics Committee (IEC). Ethical clearances, informed consent protocols, and participant safety follow national biomedical standards.",
-    stats: [
-      { label: "Active Research Projects", value: "18+" },
-      { label: "Peer-Reviewed Publications", value: "48+" },
-      { label: "Patents Filed / Granted", value: "05" },
-      { label: "Approved Research Guides", value: "08" },
-      { label: "Sanctioned Research Grants", value: "₹24.5 L" }
-    ],
-    thrust_areas: [
-      "Musculoskeletal Biomechanics & Postural Ergonomics",
-      "Neuro-Rehabilitation & Motor Recovery Pathways",
-      "Cardiorespiratory Fitness & Critical Care Rehabilitation",
-      "Sports Kinesiology & Injury Prevention",
-      "Geriatric Balance & Fall Risk Mitigation",
-      "Community & Occupational Health in Rural Populations"
-    ]
-  },
-
-  centers: [
-    {
-      id: 1,
-      name: "Center for Biomechanics & Motion Analysis",
-      scope: "Quantitative 3D motion tracking, force plate ground reaction analysis, kinematic modeling, and dynamic surface electromyography (sEMG) for pathological gait and sports movement.",
-      lead_faculty: "Dr. P. Deshmukh, MPT (Musculoskeletal)",
-      equipment: "3D Optical Motion Capture System, Dual Ground Reaction Force Plates, 16-Channel Wireless sEMG Unit"
-    },
-    {
-      id: 2,
-      name: "Advanced Neuro-Rehabilitation & Motor Recovery Lab",
-      scope: "Investigating neuroplasticity protocols, body-weight supported treadmill training, robotic balance perturbation, and virtual reality biofeedback in stroke, spinal cord injury, and Parkinson's rehabilitation.",
-      lead_faculty: "Dr. S. Patil, MPT (Neurosciences)",
-      equipment: "Dynamic Balance Master Platform, Immersive VR Rehabilitation Suite, Transcranial Electrical Neuromodulation"
-    },
-    {
-      id: 3,
-      name: "Cardiopulmonary Assessment & Exercise Physiology Unit",
-      scope: "Cardiorespiratory fitness evaluation, pulmonary function testing, automated spirometry, and submaximal exercise tolerance testing in post-CABG and COPD clinical cohorts.",
-      lead_faculty: "Dr. A. Kulkarni, MPT (Cardiovascular & Respiratory)",
-      equipment: "Computerized Diagnostic Spirometer, Cosmed Ergometer, 12-Lead Wireless Stress ECG Monitor"
-    },
-    {
-      id: 4,
-      name: "Ergonomics & Community Health Research Unit",
-      scope: "Work-related musculoskeletal disorder (WMSD) screening, postural load analysis, occupational rehabilitation, and rural health surveys across agricultural workers in Solapur district.",
-      lead_faculty: "Dr. M. Shinde, MPT (Community Physiotherapy)",
-      equipment: "Digital Inclinometers, Hand Grip & Pinch Dynamometers, REBA/RULA Occupational Assessment Software"
-    }
-  ],
-
-  projects: [
-    {
-      id: 1,
-      title: "Efficacy of Proprioceptive Neuromuscular Training on Dynamic Balance and Fall Risk in Rural Elderly Cohort",
-      investigators: "Dr. P. Deshmukh (PI), Dr. A. Joshi (Co-PI)",
-      dept: "Musculoskeletal Physiotherapy",
-      duration: "2023 - 2025",
-      status: "Ongoing",
-      summary: "Evaluating balance perturbation and dual-task neuromuscular training protocols in 120 rural senior citizens in Pandharpur taluka."
-    },
-    {
-      id: 2,
-      title: "Comparative Evaluation of Virtual Reality-Assisted vs. Conventional Task-Specific Training in Post-Stroke Upper Limb Function",
-      investigators: "Dr. S. Patil (PI), Dr. N. More (Co-PI)",
-      dept: "Neuro-Physiotherapy",
-      duration: "2022 - 2024",
-      status: "Completed",
-      summary: "Assessed Fugl-Meyer scores and action research arm tests; showed statistically significant acceleration in functional grasp recovery."
-    },
-    {
-      id: 3,
-      title: "Impact of Inspiratory Muscle Training on Functional Exercise Capacity in Post-ICU Convalescent Patients",
-      investigators: "Dr. A. Kulkarni (PI)",
-      dept: "Cardiorespiratory Physiotherapy",
-      duration: "2023 - 2024",
-      status: "Ongoing",
-      summary: "Targeting diaphragm conditioning and 6-minute walk distance enhancement in patients recovering from critical respiratory distress."
-    },
-    {
-      id: 4,
-      title: "Prevalence of Work-Related Musculoskeletal Disorders and Ergonomic Assessment among Handloom and Powerloom Workers",
-      investigators: "Dr. M. Shinde (PI)",
-      dept: "Community Physiotherapy",
-      duration: "2023 - 2025",
-      status: "Ongoing",
-      summary: "Field-based occupational posture analysis using REBA and RULA frameworks to design low-cost ergonomic workstations."
-    }
-  ],
-
-  publications: [
-    {
-      id: 1,
-      title: "Immediate effects of Maitland mobilization versus Mulligan's mobilization with movement in chronic mechanical neck pain: A randomized clinical study",
-      authors: "Deshmukh P., Shinde M., Kulkarni A.",
-      journal: "International Journal of Health & Rehabilitation Sciences",
-      year: "2024",
-      volume: "Vol. 13, Issue 2, pp. 45-52",
-      indexing: "Scopus / UGC CARE",
-      doi: "10.15520/ijhrs.v13i2.812"
-    },
-    {
-      id: 2,
-      title: "Effectiveness of high-intensity interval training vs. moderate-intensity continuous training on aerobic capacity in Phase-II cardiac rehabilitation",
-      authors: "Kulkarni A., Patil S.",
-      journal: "Journal of Clinical & Diagnostic Research",
-      year: "2023",
-      volume: "Vol. 17, Issue 8, pp. KC01-KC06",
-      indexing: "PubMed / Web of Science",
-      doi: "10.7860/JCDR/2023/58914.16789"
-    },
-    {
-      id: 3,
-      title: "Predictors of functional ambulation recovery following early rehabilitation in acute ischaemic stroke: A prospective hospital registry study",
-      authors: "Patil S., Joshi A., More N.",
-      journal: "Indian Journal of Physiotherapy and Occupational Therapy",
-      year: "2023",
-      volume: "Vol. 17, Issue 3, pp. 112-118",
-      indexing: "UGC CARE",
-      doi: "10.37506/ijpot.v17i3.19045"
-    },
-    {
-      id: 4,
-      title: "Ergonomic risk exposure and prevalence of musculoskeletal discomfort among agricultural farmers in Western Maharashtra",
-      authors: "Shinde M., Deshmukh P.",
-      journal: "Bulletin of Faculty of Physical Therapy",
-      year: "2022",
-      volume: "Vol. 27, Issue 1, Article 34",
-      indexing: "Scopus / SpringerOpen",
-      doi: "10.1186/s43161-022-00094-1"
-    }
-  ],
-
-  patents: [
-    {
-      id: 1,
-      title: "Ergonomic Dynamic Ankle-Foot Orthosis with Variable Resistance Dampener",
-      app_no: "202321045812 A",
-      status: "Published",
-      filing_date: "14/08/2023",
-      inventors: "Dr. P. Deshmukh, Dr. S. Patil",
-      authority: "Indian Patent Office (IPO)",
-      category: "Assistive Device Patent"
-    },
-    {
-      id: 2,
-      title: "Portable Multi-Axis Cervical Range of Motion Digital Inclinometer",
-      app_no: "202221038901 A",
-      status: "Published",
-      filing_date: "22/06/2022",
-      inventors: "Dr. M. Shinde, Dr. A. Kulkarni",
-      authority: "Indian Patent Office (IPO)",
-      category: "Diagnostic Innovation"
-    },
-    {
-      id: 3,
-      title: "Adjustable Postural Biofeedback Device for Pediatric Cerebral Palsy Sitting Alignment",
-      app_no: "Design No. 389201-001",
-      status: "Registered / Granted",
-      filing_date: "05/11/2021",
-      inventors: "Dr. S. Patil, Karmayogi Institute",
-      authority: "Patent & Design Office, Govt. of India",
-      category: "Design Registration"
-    }
-  ],
-
-  scholars: [
-    {
-      id: 1,
-      name: "Dr. Pooja S. Salunkhe",
-      guide: "Dr. P. Deshmukh",
-      topic: "Neuromuscular biomechanics of knee osteoarthritis and efficacy of kinetic chain stabilization protocols",
-      dept: "Musculoskeletal Physiotherapy",
-      reg_year: "2022",
-      status: "Ph.D. Scholar (Pursuing)"
-    },
-    {
-      id: 2,
-      name: "Dr. Rohan M. Gaikwad",
-      guide: "Dr. S. Patil",
-      topic: "Task-oriented dual-task training on executive function and postural control in subacute stroke survivors",
-      dept: "Neuro-Physiotherapy",
-      reg_year: "2023",
-      status: "Ph.D. Scholar (Pursuing)"
-    },
-    {
-      id: 3,
-      name: "Dr. Neha V. Joshi",
-      guide: "Dr. A. Kulkarni",
-      topic: "Comparative efficacy of inspiratory muscle training vs incentive spirometry in post-cardiac surgery recovery",
-      dept: "Cardiorespiratory Physiotherapy",
-      reg_year: "2023",
-      status: "Postgraduate Fellow"
-    },
-    {
-      id: 4,
-      name: "Dr. Amit R. Bansode",
-      guide: "Dr. M. Shinde",
-      topic: "Ergonomic interventions and health literacy program in farm laborers suffering from chronic lower back syndromes",
-      dept: "Community Physiotherapy",
-      reg_year: "2024",
-      status: "Ph.D. Scholar (Registered)"
-    }
-  ],
-
-  funded_projects: [
-    {
-      id: 1,
-      title: "Establishment of Advanced Motion Biomechanics and Clinical Movement Analysis Center for Rural Athletes and Patients",
-      agency: "MUHS Research Grant & Institutional Development Scheme",
-      pi: "Dr. P. Deshmukh",
-      amount: "₹ 8,50,000",
-      tenure: "2023 - 2025",
-      status: "Sanctioned & Ongoing"
-    },
-    {
-      id: 2,
-      title: "Community-Based Stroke Early Rehabilitation & Caregiver Training Model in Rural Maharashtra",
-      agency: "State Health Sciences Research Assistance Scheme",
-      pi: "Dr. S. Patil",
-      amount: "₹ 5,20,000",
-      tenure: "2022 - 2024",
-      status: "Completed"
-    },
-    {
-      id: 3,
-      title: "Workplace Ergonomic Risk Mitigation and Musculoskeletal Health Program for Powerloom Industrial Workers",
-      agency: "Institutional Research Seed Grant",
-      pi: "Dr. M. Shinde",
-      amount: "₹ 3,80,000",
-      tenure: "2023 - 2024",
-      status: "Ongoing"
-    },
-    {
-      id: 4,
-      title: "Pulmonary Rehabilitation Outcomes in Post-Infectious Chronic Lung Disease in Semi-Urban Populations",
-      agency: "Karmayogi Trust Healthcare Research Fund",
-      pi: "Dr. A. Kulkarni",
-      amount: "₹ 4,00,000",
-      tenure: "2024 - 2026",
-      status: "Sanctioned & Initiated"
-    }
-  ],
-
-  conferences: [
-    {
-      id: 1,
-      title: "61st Annual National Conference of Indian Association of Physiotherapists (IAPCON)",
-      paper_title: "Kinematic evaluation of gait asymmetry following total knee arthroplasty",
-      presenter: "Dr. P. Deshmukh",
-      date: "Jan 2024",
-      venue: "Kolkata, India",
-      type: "Oral Presentation"
-    },
-    {
-      id: 2,
-      title: "MUHS State Physiotherapy Research Colloquium",
-      paper_title: "Correlation between trunk muscle endurance and dynamic balance in Parkinson's Disease",
-      presenter: "Dr. S. Patil",
-      date: "Oct 2023",
-      venue: "Nashik, Maharashtra",
-      type: "Keynote & Paper"
-    },
-    {
-      id: 3,
-      title: "International Conference on Cardiopulmonary Physical Therapy & Rehabilitation",
-      paper_title: "Role of early bedside active cycling in preventing intensive care acquired weakness",
-      presenter: "Dr. A. Kulkarni",
-      date: "Mar 2023",
-      venue: "New Delhi, India",
-      type: "Poster Presentation"
-    },
-    {
-      id: 4,
-      title: "National Sports Physiotherapy Summit",
-      paper_title: "Return-to-sport testing protocols post-ACL reconstruction: Clinical guidelines vs practical execution",
-      presenter: "Dr. M. Shinde",
-      date: "Dec 2023",
-      venue: "Pune, Maharashtra",
-      type: "Oral Presentation"
-    }
-  ],
-
-  journals: {
-    name: "Karmayogi Journal of Physiotherapy & Rehabilitation Sciences (KJPRS)",
-    issn: "ISSN: 2582-9424 (Online - Approved Series)",
-    frequency: "Bi-Annual (June & December Editions)",
-    peer_review: "Double-blind peer-reviewed scientific medical publication",
-    scope: "Welcoming original research papers, systematic reviews, randomized controlled trials, clinical case reports, and short communications spanning Musculoskeletal, Neurological, Cardiopulmonary, Sports, and Community Physiotherapy.",
-    editorial_board: [
-      { role: "Editor-in-Chief", name: "Dr. P. Deshmukh, Principal & Professor (Musculoskeletal)" },
-      { role: "Associate Editor", name: "Dr. S. Patil, Professor (Neuro-Physiotherapy)" },
-      { role: "Managing Editor", name: "Dr. A. Kulkarni, Associate Professor (Cardiopulmonary)" },
-      { role: "Executive Member", name: "Dr. M. Shinde, Associate Professor (Community Physiotherapy)" },
-      { role: "Advisory Panel", name: "Senior Clinical Specialists & MUHS Board of Studies Experts" }
-    ],
-    guidelines: "Manuscripts must strictly conform to ICMJE recommendations, include Institutional Ethics Committee (IEC) clearance references, and provide structured abstracts with clinical registration details.",
-    submission_email: "research@karmayogi.org.in"
-  },
-
-  achievements: [
-    {
-      id: 1,
-      title: "Best Scientific Paper Presentation Award",
-      awardee: "Dr. P. Deshmukh",
-      event: "60th National Conference of the Indian Association of Physiotherapists",
-      year: "2023",
-      details: "Awarded 1st Prize in Senior Musculoskeletal Research Category for work on biomechanical gait retraining."
-    },
-    {
-      id: 2,
-      title: "MUHS Young Researcher Appreciation Award",
-      awardee: "Dr. S. Patil",
-      event: "Maharashtra University of Health Sciences Annual Convocation",
-      year: "2023",
-      details: "Recognized for exceptional translational neuro-rehabilitation publications in indexed international journals."
-    },
-    {
-      id: 3,
-      title: "Best Clinical Innovation in Assistive Technology",
-      awardee: "Faculty Research Cell, Karmayogi Institute",
-      event: "State Healthcare Innovation Conclave",
-      year: "2022",
-      details: "Honored for indigenous low-cost portable cervical inclinometer design patent."
-    },
-    {
-      id: 4,
-      title: "International Travel Fellowship Grant",
-      awardee: "Dr. A. Kulkarni",
-      event: "World Physiotherapy Congress",
-      year: "2023",
-      details: "Awarded travel sponsorship for presenting research on pulmonary rehabilitation protocols in rural centers."
-    }
-  ]
-};
-
-// ========================================================
-// DEFAULT COMMITTEES DATA (DYNAMIC STATUTORY & ACADEMIC COMMITTEES)
-// ========================================================
 export const DEFAULT_COMMITTEES_DATA = [
   {
-    id: "anti-ragging",
-    name: "Anti-Ragging Committee & Squad",
-    designation: "Statutory Mandatory Body (UGC & MUHS Mandated)",
-    responsibilities: "1. Enforce strict zero-tolerance anti-ragging measures on college campus, attached teaching hospital, and student hostels.\n2. Formulate and deploy surprise anti-ragging squad patrols during admission periods, canteen hours, and evening clinic shifts.\n3. Conduct mandatory orientation programs and collect anti-ragging undertakings from all newly enrolled students and parents.\n4. Promptly investigate any reported ragging or intimidation incidents in strict accordance with the Maharashtra Prohibition of Ragging Act, 1999 and UGC Anti-Ragging Regulations.",
-    contact_details: "Convenor: Dr. P. Deshmukh (Principal) | Phone: +91 02186 272345 / +91 94220 12345 | Email: antiragging@karmayogi.org.in | 24x7 National Helpline: 1800-180-5522 | Office: Principal's Secretariat, Ground Floor",
+    id: 'smc',
+    name: 'School Managing Committee (SMC)',
+    designation: 'Apex School Governance Body',
+    responsibilities: 'Oversees institutional policy, academic quality assurance, annual budgets, infrastructure safety, and overall direction under Shri Pandurang Pratishthan.',
     members: [
-      { name: "Dr. P. Deshmukh", designation: "Principal & Professor", role: "Chairperson", contact: "principal@karmayogi.org.in" },
-      { name: "Dr. S. Patil", designation: "Professor (Neurosciences)", role: "Member Secretary", contact: "+91 98221 44556" },
-      { name: "Dr. A. Kulkarni", designation: "Associate Professor (Cardiopulmonary)", role: "Faculty Member", contact: "+91 97665 11223" },
-      { name: "Dr. M. Shinde", designation: "Associate Professor (Community)", role: "Hostel Warden / Member", contact: "+91 98901 22334" },
-      { name: "Adv. R. K. Joshi", designation: "Advocate, Pandharpur Bar", role: "Legal Expert Member", contact: "Pandharpur Civil Court" },
-      { name: "Shri S. V. Gaikwad", designation: "Police Sub-Inspector", role: "Civil Police Administration", contact: "Pandharpur Rural Station" },
-      { name: "Mr. Rohan Salunkhe", designation: "IV BPT Student", role: "Student Representative (Senior)", contact: "Student Council" },
-      { name: "Ms. Snehal More", designation: "I BPT Student", role: "Student Representative (Fresher)", contact: "Class Representative" }
-    ],
-    documents: [
-      { title: "Anti-Ragging Committee Notification & Office Order 2024-25", url: "#", date: "July 2024", type: "Office Order" },
-      { title: "MUHS Anti-Ragging Directives & Undertaking Proforma", url: "#", date: "2024", type: "University Guidelines" }
+      { name: 'President / Trustee Nominee', role: 'Chairman', contact: 'management@karmayogividyaniketan.com' },
+      { name: 'Mr. Vijay Madane', role: 'Member Secretary & Principal', contact: 'vijaymadane3@gmail.com' },
+      { name: 'Senior Teacher Representative', role: 'Teacher Member', contact: 'academics@karmayogividyaniketan.com' },
+      { name: 'Parent Representative (Elected)', role: 'Parent Member', contact: 'pta@karmayogividyaniketan.com' },
+      { name: 'Educationist / CBSE Advisor', role: 'Nominated Member', contact: 'advisor@karmayogividyaniketan.com' }
     ]
   },
   {
-    id: "icc",
-    name: "Internal Complaints Committee (ICC) & Gender Sensitization Cell",
-    designation: "Statutory Cell under POSH Act, 2013 & UGC Regulations",
-    responsibilities: "1. Foster a secure, gender-equitable working and educational environment free from gender discrimination or sexual harassment.\n2. Facilitate confidential inquiry proceedings for grievances filed by female students, teaching faculty, or administrative staff.\n3. Conduct periodic legal literacy seminars, POSH awareness workshops, and self-defense training clinics.\n4. Recommend disciplinary and preventive actions to college administration within stipulated statutory timelines.",
-    contact_details: "Presiding Officer: Dr. S. Patil | Phone: +91 02186 272346 | Email: icc@karmayogi.org.in | Office: College Council Room, First Floor",
+    id: 'pta',
+    name: 'Parent-Teacher Association (PTA) Executive Committee',
+    designation: 'Parent & Educator Collaboration',
+    responsibilities: 'Fosters active dialogue between parents and school administration, coordinates parent workshops, cultural fests, sports events, and student welfare.',
     members: [
-      { name: "Dr. S. Patil", designation: "Professor & HOD (Neurosciences)", role: "Presiding Officer", contact: "icc@karmayogi.org.in" },
-      { name: "Dr. M. Shinde", designation: "Associate Professor (Community)", role: "Faculty Member", contact: "+91 98901 22334" },
-      { name: "Mrs. V. R. Kulkarni", designation: "Office Superintendent", role: "Non-Teaching Staff Member", contact: "admin@karmayogi.org.in" },
-      { name: "Mrs. Sunita Jadhav", designation: "Social Worker / NGO Representative", role: "External Member (NGO)", contact: "Solapur Mahila Vikas Kendra" },
-      { name: "Ms. Pooja Kale", designation: "MPT Post-Graduate Scholar", role: "Student Representative", contact: "PG Scholar" }
-    ],
-    documents: [
-      { title: "ICC Constitution Office Order 2024-25", url: "#", date: "June 2024", type: "Office Order" },
-      { title: "Handbook on Sexual Harassment of Women at Workplace (POSH)", url: "#", date: "2023", type: "Policy Handbook" }
+      { name: 'Mr. Vijay Madane', role: 'Principal / Ex-Officio Chairperson', contact: 'vijaymadane3@gmail.com' },
+      { name: 'Parent Representative (Grade 10)', role: 'Vice Chairperson', contact: 'pta@karmayogividyaniketan.com' },
+      { name: 'Senior Primary Coordinator', role: 'Secretary', contact: 'primary@karmayogividyaniketan.com' },
+      { name: 'Parent Representatives (Grades 1-10)', role: 'Executive Members', contact: 'pta@karmayogividyaniketan.com' }
     ]
   },
   {
-    id: "college-council",
-    name: "College Council & Academic Advisory Board",
-    designation: "Apex Academic & Administrative Advisory Body",
-    responsibilities: "1. Supervise general academic administration, clinical postings, and university examination schedules.\n2. Review departmental teaching curricula, logbooks, continuous internal evaluations (CIE), and student attendance records.\n3. Formulate annual institutional budget priorities for lab modernization, library books, and research infrastructure.\n4. Coordinate with MUHS and DMER regarding academic approvals, faculty roasters, and college affiliations.",
-    contact_details: "Chairman: Dr. P. Deshmukh | Phone: +91 02186 272345 | Email: council@karmayogi.org.in | Office: Board Room, 2nd Floor",
+    id: 'pocso-safety',
+    name: 'Child Safety & Protection (POCSO) Committee',
+    designation: 'Child Welfare & Protection Under Law',
+    responsibilities: 'Ensures strict compliance with POCSO guidelines, CCTV surveillance standards, safe school transport, background verification of staff, and zero tolerance for harassment.',
     members: [
-      { name: "Dr. P. Deshmukh", designation: "Principal & Professor", role: "Chairperson", contact: "principal@karmayogi.org.in" },
-      { name: "Dr. S. Patil", designation: "HOD, Neurosciences Physiotherapy", role: "Member Secretary", contact: "+91 98221 44556" },
-      { name: "Dr. A. Kulkarni", designation: "HOD, Cardiopulmonary Physiotherapy", role: "Member", contact: "+91 97665 11223" },
-      { name: "Dr. M. Shinde", designation: "HOD, Community Physiotherapy", role: "Member", contact: "+91 98901 22334" },
-      { name: "Mr. B. T. Pawar", designation: "Registrar / Administrative Officer", role: "Administrative Member", contact: "registrar@karmayogi.org.in" }
-    ],
-    documents: [
-      { title: "College Council Minutes of Meeting (Q1 2024-25)", url: "#", date: "August 2024", type: "Minutes of Meeting" },
-      { title: "Academic Calendar & Council Guidelines 2024-25", url: "#", date: "June 2024", type: "Academic Policy" }
+      { name: 'Principal / Child Welfare Lead', role: 'Chairperson', contact: 'safety@karmayogividyaniketan.com' },
+      { name: 'School Counselor / Wellness Educator', role: 'Convener', contact: 'counselor@karmayogividyaniketan.com' },
+      { name: 'Female Faculty Representative', role: 'Member', contact: 'preprimary@karmayogividyaniketan.com' },
+      { name: 'Legal / Police Liaison Officer', role: 'External Advisor', contact: 'pandharpur.police@mahapolice.gov.in' }
     ]
   },
   {
-    id: "grievance",
-    name: "Student Grievance Redressal Committee (SGRC)",
-    designation: "Statutory Student Welfare Body (MUHS Regulated)",
-    responsibilities: "1. Provide an accessible, transparent, and fair portal for redressing student academic, infrastructural, and campus grievances.\n2. Address concerns related to examination evaluations, hall tickets, hostel amenities, or library resources without prejudice.\n3. Maintain complete confidentiality and ensure resolution within 15 working days from formal submission.\n4. Recommend systemic improvements to college administration based on recurring grievance patterns.",
-    contact_details: "Convenor: Dr. A. Kulkarni | Phone: +91 02186 272348 | Email: grievance@karmayogi.org.in | Drop-box: Outside Student Section, Ground Floor",
+    id: 'anti-bullying',
+    name: 'Anti-Bullying & Disciplinary Committee',
+    designation: 'Positive School Culture & Discipline',
+    responsibilities: 'Monitors student discipline, promotes empathy and peer respect, investigates student grievances, and maintains a nurturing, fear-free campus environment.',
     members: [
-      { name: "Dr. P. Deshmukh", designation: "Principal", role: "Ombudsman / Head", contact: "principal@karmayogi.org.in" },
-      { name: "Dr. A. Kulkarni", designation: "Associate Professor", role: "Convenor", contact: "grievance@karmayogi.org.in" },
-      { name: "Dr. S. Patil", designation: "Professor", role: "Faculty Member", contact: "+91 98221 44556" },
-      { name: "Mr. Amit Shinde", designation: "General Secretary (Student Council)", role: "Special Invitee (Student)", contact: "Student Rep" }
-    ],
-    documents: [
-      { title: "Student Grievance Redressal Mechanism & Policy", url: "#", date: "2024", type: "Institutional Policy" },
-      { title: "Grievance Submission Form (PDF Format)", url: "#", date: "2024", type: "Proforma" }
+      { name: 'Head of Student Welfare', role: 'Convener', contact: 'welfare@karmayogividyaniketan.com' },
+      { name: 'House Masters (Prithvi, Agni, Jal, Vayu)', role: 'Members', contact: 'houses@karmayogividyaniketan.com' },
+      { name: 'Sports Director / PE Head', role: 'Member', contact: 'sports@karmayogividyaniketan.com' }
     ]
   },
   {
-    id: "ethics",
-    name: "Institutional Ethics Committee (IEC)",
-    designation: "Bio-Medical & Clinical Research Ethical Oversight Body",
-    responsibilities: "1. Review all research projects, clinical trials, and postgraduate theses involving human participants.\n2. Ensure full compliance with ICMR ethical guidelines and MUHS scientific standards.\n3. Verify participant informed consent processes, confidentiality safeguards, and risk-benefit ratios.\n4. Issue formal IEC clearance certificates required for scientific publication and thesis submissions.",
-    contact_details: "Member Secretary: Dr. S. Patil | Email: iec@karmayogi.org.in | Meeting Frequency: Quarterly / On-Demand | Office: Clinical Research Wing",
+    id: 'academic-council',
+    name: 'Academic Quality & Examination Council',
+    designation: 'Curriculum & CCE Continuous Evaluation',
+    responsibilities: 'Coordinates lesson plans, quarterly assessments, board exam prep drills, teacher training workshops, STEM expo initiatives, and student remedial sessions.',
     members: [
-      { name: "Dr. R. M. Chidgupkar", designation: "Senior Medical Specialist (MD)", role: "External Chairperson", contact: "External Expert" },
-      { name: "Dr. S. Patil", designation: "Professor (Neurosciences)", role: "Member Secretary", contact: "iec@karmayogi.org.in" },
-      { name: "Dr. P. Deshmukh", designation: "Principal & Professor", role: "Clinician Member", contact: "principal@karmayogi.org.in" },
-      { name: "Dr. A. Kulkarni", designation: "Associate Professor", role: "Basic Medical Scientist", contact: "+91 97665 11223" },
-      { name: "Adv. R. K. Joshi", designation: "Legal Expert", role: "Legal Member", contact: "Civil Bar" },
-      { name: "Mrs. S. Jadhav", designation: "Social Scientist", role: "Lay Person / Community Rep", contact: "NGO" }
-    ],
-    documents: [
-      { title: "IEC Standard Operating Procedures (SOP)", url: "#", date: "2024", type: "SOP Document" },
-      { title: "Clinical Research Ethics Proposal Proforma (Annexure A)", url: "#", date: "2024", type: "Application Form" }
-    ]
-  },
-  {
-    id: "student-welfare",
-    name: "Student Welfare, Mentorship & Guidance Committee",
-    designation: "Student Mentorship & Psychosocial Support Cell",
-    responsibilities: "1. Oversee faculty-to-student mentorship programs (1:15 mentor-mentee ratio).\n2. Coordinate psychiatric, psychological counseling, and stress-management clinics for exam preparedness.\n3. Administer government (MahaDBT) and trust scholarships for socio-economically disadvantaged students.\n4. Facilitate student co-curricular opportunities and hostel well-being.",
-    contact_details: "Coordinator: Dr. M. Shinde | Phone: +91 02186 272349 | Email: mentorship@karmayogi.org.in | Office: Student Support Center, 1st Floor",
-    members: [
-      { name: "Dr. M. Shinde", designation: "Associate Professor", role: "Coordinator & Senior Mentor", contact: "+91 98901 22334" },
-      { name: "Dr. A. Joshi", designation: "Assistant Professor", role: "Faculty Mentor", contact: "+91 94234 55667" },
-      { name: "Dr. N. More", designation: "Assistant Professor", role: "Faculty Mentor", contact: "+91 98600 11223" },
-      { name: "Mrs. Rekha Patil", designation: "Professional Clinical Psychologist", role: "Consultant Counselor", contact: "By Appointment" }
-    ],
-    documents: [
-      { title: "Mentor-Mentee Framework & Student Handbook 2024-25", url: "#", date: "2024", type: "Guidelines" }
-    ]
-  },
-  {
-    id: "library",
-    name: "Library & Learning Resource Committee",
-    designation: "Institutional Learning Infrastructure Committee",
-    responsibilities: "1. Plan the annual acquisition of medical & physiotherapy textbooks, reference treatises, and e-journal subscriptions.\n2. Ensure digital library facilities, MUHS Digital Library Consortium access, and remote database connectivity.\n3. Formulate library borrowing rules, book bank schemes for reserved category students, and reading room hours.\n4. Conduct user-satisfaction audits and recommend modern ergonomic reading room enhancements.",
-    contact_details: "Convener: Librarian / Dr. A. Kulkarni | Phone: +91 02186 272340 | Email: library@karmayogi.org.in | Central Library, 2nd Floor",
-    members: [
-      { name: "Dr. P. Deshmukh", designation: "Principal", role: "Chairman", contact: "principal@karmayogi.org.in" },
-      { name: "Mr. K. S. Shinde", designation: "Chief Librarian (M.Lib.Sc)", role: "Member Secretary", contact: "library@karmayogi.org.in" },
-      { name: "Dr. A. Kulkarni", designation: "Associate Professor", role: "Faculty Member", contact: "+91 97665 11223" },
-      { name: "Dr. S. Patil", designation: "Professor", role: "Faculty Member", contact: "+91 98221 44556" },
-      { name: "Mr. Pranav Mane", designation: "III BPT Student", role: "Student Member", contact: "Library Representative" }
-    ],
-    documents: [
-      { title: "Central Library Rules & Book Bank Policy", url: "#", date: "2024", type: "Library Policy" }
+      { name: 'Academic Director', role: 'Head', contact: 'academics@karmayogividyaniketan.com' },
+      { name: 'Science & STEM Coordinator', role: 'Member', contact: 'stem@karmayogividyaniketan.com' },
+      { name: 'Languages Department Head', role: 'Member', contact: 'languages@karmayogividyaniketan.com' },
+      { name: 'Mathematics Department Head', role: 'Member', contact: 'maths@karmayogividyaniketan.com' }
     ]
   }
 ];
 
-// ========================================================
-// DEFAULT TRAINING & PLACEMENT DATA (8 SUBMENUS)
-// ========================================================
-export const DEFAULT_PLACEMENT_DATA = {
-  cell_info: {
-    intro_title: "Connecting Talent with Healthcare Leaders",
-    intro_lead: "Our active Training and Placement Cell conducts mock clinical interviews, bedside rehabilitation workshops, resume building sessions, and on-campus recruitment drives with Maharashtra's and India's top hospitals and healthcare networks.",
-    vision: "To be a leader in clinical physiotherapy placements by nurturing compassionate, evidence-based physical therapists who deliver world-class rehabilitation across healthcare networks globally.",
-    mission: "Facilitate seamless transition from academic learning to professional clinical practice through structured pre-placement clinical postings, soft skill seminars, hospital partnerships, and continuous career guidance.",
-    top_stats: [
-      { label: "Highest Package", value: "₹ 8.40 LPA" },
-      { label: "Average Package", value: "₹ 4.20 LPA" },
-      { label: "Hospital & Recruiter Partners", value: "45+" },
-      { label: "Clinical Placement Support", value: "100%" }
-    ],
-    key_highlights: [
-      { label: "Placement & Clinical Postings Track Record", value: "92%+" },
-      { label: "Hospital & Healthcare Recruiter Partners", value: "45+" },
-      { label: "Highest Package Offered", value: "₹ 8.40 LPA" },
-      { label: "Average Package Range", value: "₹ 4.20 LPA" },
-      { label: "Compulsory Rotatory Internship", value: "6 Months" }
-    ]
+export const DEFAULT_FACULTY = [
+  {
+    id: 1,
+    name: 'Mr. Vijay Madane',
+    designation: 'Principal & Director of Academics',
+    qualification: 'M.Sc., M.Ed., Ph.D. (Pursuing)',
+    experience: '18+ Years',
+    department_name: 'School Administration & Leadership',
+    specialization: 'School Governance, Mathematics & Pedagogical Science',
+    program_badge: 'CBSE / State',
+    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'An inspiring educational leader with nearly two decades of commitment to experiential learning, student leadership, and moral character development in Maharashtra.'
   },
-
-  officer: {
-    name: "Dr. Nitin More",
-    designation: "Training & Placement Officer (TPO) & Associate Professor",
-    designation_short: "Training and Placement Officer (Ph.D)",
-    qualification: "MPT (Musculoskeletal Sciences), Ph.D. Scholar",
-    experience: "12+ Years in Clinical Physiotherapy & Academic Placement Coordination",
-    photo_url: "",
-    message: "It gives me immense pleasure to welcome you to the Training and Placement Cell of Karmayogi College of Physiotherapy, Pandharpur. Our primary objective is to bridge the gap between academic learning and professional requirements by providing students with meaningful opportunities for career development. The Training and Placement Cell works continuously to facilitate campus recruitment drives, hospital bedside postings, rotatory clinical internships, skill-development programmes, career guidance, aptitude training, interview preparation, and industry-academia interactions. We strive to connect our students with reputed multi-specialty hospitals and healthcare organizations while helping them identify career opportunities aligned with their knowledge, skills, and aspirations.\n\nOur dedicated efforts focus not only on securing employment but also on developing clinical competence, bedside communication skills, professional medical ethics, leadership qualities, and confidence among students. We encourage students to actively participate in training programmes, clinical interactions, seminars, workshops, and placement activities to become industry-ready healthcare professionals.\n\nI sincerely appreciate the cooperation of our management, Principal, faculty members, hospital partners, recruiters, alumni, and students in making our placement initiatives successful. Together, we are committed to creating a strong platform where every student can transform their knowledge into professional excellence and career opportunities.",
-    quote: "Empowering Healthcare Leaders Today for a Successful Physiotherapy Career Tomorrow.",
-    email: "placement@karmayogi.org.in",
-    phone: "+91 02186 272347 / +91 98600 11223",
-    office: "T&P Cell, Room No. 104, Administrative Wing, 1st Floor",
-    hours: "Monday to Saturday: 9:30 AM – 5:00 PM",
-    linkedin: "https://www.linkedin.com"
+  {
+    id: 2,
+    name: 'Mrs. Sunita S. Kadam',
+    designation: 'Pre-Primary Wing Coordinator',
+    qualification: 'M.A., B.Ed., ECCEd (Montessori)',
+    experience: '12+ Years',
+    department_name: 'Pre-Primary Wing',
+    specialization: 'Early Childhood Care, Phonics & Play-Way Learning',
+    program_badge: 'Nursery - KG',
+    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Specializes in early literacy development, emotional resilience in young children, sensory play, and creating warm, encouraging foundational classrooms.'
   },
-
-  recruiter_network: [
-    { name: "Apollo Hospitals", category: "Multi-Specialty Network", initials: "AH" },
-    { name: "Fortis Healthcare", category: "Super-Specialty Tertiary", initials: "FH" },
-    { name: "Manipal Hospitals", category: "Tertiary Care & Rehab", initials: "MH" },
-    { name: "Max Healthcare", category: "Multi-Specialty Chain", initials: "MX" },
-    { name: "Ruby Hall Clinic", category: "Critical Care & Neuro", initials: "RH" },
-    { name: "Sancheti Hospital", category: "Orthopaedics & Joint Care", initials: "SH" },
-    { name: "Sahyadri Hospitals", category: "Trauma & Neurosciences", initials: "SY" },
-    { name: "DY Patil Hospital", category: "Medical Foundation", initials: "DY" },
-    { name: "KEM Hospital", category: "Teaching & Tertiary Care", initials: "KM" },
-    { name: "Jupiter Hospital", category: "Super-Specialty", initials: "JH" },
-    { name: "Nanavati Hospital", category: "Super Speciality", initials: "NH" },
-    { name: "Narayana Health", category: "Cardiac & General Care", initials: "NHD" },
-    { name: "Aster DM Healthcare", category: "Healthcare Network", initials: "AST" },
-    { name: "Columbia Asia", category: "Multi-Specialty", initials: "CA" },
-    { name: "Kokilaben Hospital", category: "Center for Bone & Joint", initials: "KDA" },
-    { name: "Care Hospitals", category: "Tertiary Care", initials: "CH" },
-    { name: "Qi Spine Clinics", category: "Spine Rehabilitation", initials: "QS" },
-    { name: "Portea Medical", category: "Home Healthcare", initials: "PM" },
-    { name: "HCAH Healthcare", category: "Long-Term Rehabilitation", initials: "HCH" },
-    { name: "Ashwini Rugnalaya", category: "Solapur Tertiary Care", initials: "ASH" }
-  ],
-
-  yearly_placements: [
-    {
-      year: "2024-25",
-      eligible: 60,
-      placed: 53,
-      ratio: "88.3%",
-      ratioNum: 88.3,
-      highest: "₹ 8.40 LPA",
-      average: "₹ 4.20 LPA",
-      partners: ["Apollo Hospitals", "Fortis Healthcare", "Sancheti Orthopaedic", "Ruby Hall Clinic", "Qi Spine"]
-    },
-    {
-      year: "2023-24",
-      eligible: 60,
-      placed: 55,
-      ratio: "91.6%",
-      ratioNum: 91.6,
-      highest: "₹ 7.50 LPA",
-      average: "₹ 3.90 LPA",
-      partners: ["Manipal Hospitals", "Sahyadri Hospitals", "DY Patil Hospital", "HCAH", "Portea Medical"]
-    },
-    {
-      year: "2022-23",
-      eligible: 50,
-      placed: 44,
-      ratio: "88.0%",
-      ratioNum: 88.0,
-      highest: "₹ 6.80 LPA",
-      average: "₹ 3.60 LPA",
-      partners: ["Jupiter Hospital", "KEM Hospital", "Nanavati Super Speciality", "Sancheti"]
-    },
-    {
-      year: "2021-22",
-      eligible: 50,
-      placed: 43,
-      ratio: "86.0%",
-      ratioNum: 86.0,
-      highest: "₹ 6.00 LPA",
-      average: "₹ 3.40 LPA",
-      partners: ["Apollo Hospitals", "Ruby Hall Clinic", "Aster DM Healthcare", "Ashwini Rugnalaya"]
-    }
-  ],
-
-  coursewise_outcomes: {
-    bpt: {
-      program: "B.P.T (Bachelor of Physiotherapy)",
-      duration: "4.5 Years Degree (Incl. 6 Months Internship)",
-      level: "Undergraduate",
-      placed_pct: 76,
-      higher_studies_pct: 18,
-      private_practice_pct: 6,
-      note: "100% Productive Track"
-    },
-    mpt: {
-      program: "M.P.T (Master of Physiotherapy)",
-      duration: "2 Years Specialized Clinical Masters",
-      level: "Postgraduate",
-      placed_pct: 82,
-      higher_studies_pct: 12,
-      private_practice_pct: 6,
-      note: "100% Productive Track"
-    }
+  {
+    id: 3,
+    name: 'Mr. Ramesh D. More',
+    designation: 'Primary School Coordinator & Senior Mathematics Teacher',
+    qualification: 'M.Sc. Mathematics, B.Ed.',
+    experience: '14+ Years',
+    department_name: 'Primary Wing',
+    specialization: 'Vedic & Modern Mathematics, Mental Math & Olympiads',
+    program_badge: 'Grades 1-5',
+    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Passionate about demystifying mathematics through hands-on manipulatives, math labs, puzzles, and building solid conceptual foundations.'
   },
-
-  prep_program: [
-    {
-      step: "01",
-      title: "Clinical Assessment",
-      desc: "Evaluating clinical acumen, physical therapy diagnostic foundations, and patient bedside communication to identify key focus areas."
-    },
-    {
-      step: "02",
-      title: "Specialized Workshops",
-      desc: "Pre-placement mock tests, ICU mobility simulations, kinesio-taping certifications, and profile enhancement matching real hospital parameters."
-    },
-    {
-      step: "03",
-      title: "Guest Seminars",
-      desc: "Interactive CME sessions led by hospital medical superintendents, chief physiotherapists, and successful clinical alumni."
-    },
-    {
-      step: "04",
-      title: "Recruitment Drives",
-      desc: "Direct on-campus recruitment drives, multi-center pool placement interviews, and final clinical offer letter confirmation."
-    }
-  ],
-
-  testimonials: [
-    {
-      name: "Dr. Priya Deshmukh",
-      program: "B.P.T",
-      batch: "Batch 2023-24",
-      packageAmt: "₹ 8.40 LPA",
-      company: "Apollo Super-Specialty Hospitals",
-      designation: "Clinical Musculoskeletal Specialist",
-      location: "Pune, Maharashtra"
-    },
-    {
-      name: "Dr. Rohan Kulkarni",
-      program: "B.P.T",
-      batch: "Batch 2023-24",
-      packageAmt: "₹ 6.80 LPA",
-      company: "Sancheti Orthopaedic & Rehabilitation",
-      designation: "Sports Rehab & Post-Op Physical Therapist",
-      location: "Pune, Maharashtra"
-    },
-    {
-      name: "Dr. Sneha Jadhav",
-      program: "B.P.T",
-      batch: "Batch 2022-23",
-      packageAmt: "₹ 5.50 LPA",
-      company: "Ruby Hall Clinic Critical Care",
-      designation: "ICU & Cardiopulmonary Physiotherapist",
-      location: "Pune, Maharashtra"
-    },
-    {
-      name: "Dr. Amit Shinde",
-      program: "B.P.T",
-      batch: "Batch 2023-24",
-      packageAmt: "₹ 5.20 LPA",
-      company: "Qi Spine Advanced Rehabilitation",
-      designation: "Spine & Postural Consultant",
-      location: "Mumbai, Maharashtra"
-    },
-    {
-      name: "Dr. Pooja Patil",
-      program: "B.P.T",
-      batch: "Batch 2022-23",
-      packageAmt: "₹ 4.80 LPA",
-      company: "Sahyadri Super Speciality Hospital",
-      designation: "Neurological Physiotherapist",
-      location: "Western Maharashtra"
-    },
-    {
-      name: "Dr. Rahul Bhosale",
-      program: "B.P.T",
-      batch: "Batch 2021-22",
-      packageAmt: "₹ 4.50 LPA",
-      company: "HealthCare at Home (HCAH)",
-      designation: "Clinical Home Care Lead",
-      location: "Solapur / Pandharpur"
-    },
-    {
-      name: "Dr. Aarti More",
-      program: "M.P.T",
-      batch: "Batch 2023-24",
-      packageAmt: "₹ 7.20 LPA",
-      company: "Manipal Comprehensive Rehab Center",
-      designation: "Senior Neuro Physiotherapist",
-      location: "Bengaluru, Karnataka"
-    },
-    {
-      name: "Dr. Vishal Sawant",
-      program: "M.P.T",
-      batch: "Batch 2022-23",
-      packageAmt: "₹ 6.50 LPA",
-      company: "DY Patil Hospital & Research Institute",
-      designation: "Assistant Professor & Clinical Lead",
-      location: "Kolhapur, Maharashtra"
-    }
-  ],
-
-  // Legacy mappings for backwards compatibility
-  process: [
-    { step: "01", title: "Clinical Assessment", desc: "Evaluating clinical acumen, physical therapy diagnostic foundations, and patient bedside communication." },
-    { step: "02", title: "Specialized Workshops", desc: "Pre-placement mock tests, ICU mobility simulations, and kinesio-taping certifications." },
-    { step: "03", title: "Guest Seminars", desc: "Interactive CME sessions led by hospital medical superintendents and chief physiotherapists." },
-    { step: "04", title: "Recruitment Drives", desc: "Direct on-campus recruitment drives, pool placement interviews, and clinical offer letter confirmation." }
-  ],
-  recruiters: [
-    { name: "Apollo Hospitals", category: "Multi-Specialty Network", location: "Pan-India" },
-    { name: "Fortis Healthcare", category: "Super-Specialty Tertiary", location: "Mumbai / Pune / NCR" },
-    { name: "Manipal Hospitals", category: "Tertiary Care & Rehab", location: "Bangalore / Pune" },
-    { name: "Sancheti Hospital", category: "Orthopaedics & Joint Care", location: "Pune" },
-    { name: "Ruby Hall Clinic", category: "Critical Care & Neuro", location: "Pune" }
-  ],
-  statistics: [
-    { year: "2024 - 2025", total_students: 60, placed: 53, higher_studies: 5, success_rate: "88.3%" },
-    { year: "2023 - 2024", total_students: 60, placed: 55, higher_studies: 4, success_rate: "91.6%" },
-    { year: "2022 - 2023", total_students: 50, placed: 44, higher_studies: 4, success_rate: "88.0%" },
-    { year: "2021 - 2022", total_students: 50, placed: 43, higher_studies: 5, success_rate: "86.0%" }
-  ],
-  highest_package: {
-    amount: "₹ 8.40 LPA",
-    role: "Clinical Musculoskeletal Specialist",
-    description: "Awarded to graduating physiotherapy candidates securing specialized clinical and sports rehabilitation roles.",
-    records: [
-      { year: "2024 - 2025", amount: "₹ 8.40 LPA", company: "Apollo Super-Specialty Hospitals", role: "Clinical Musculoskeletal Specialist" },
-      { year: "2023 - 2024", amount: "₹ 7.50 LPA", company: "Super-Specialty Spine & Sports Rehabilitation Network", role: "Clinical Specialist Associate" },
-      { year: "2022 - 2023", amount: "₹ 6.80 LPA", company: "Multi-Specialty Corporate Hospital Group", role: "Intensive Care Physiotherapist" }
-    ]
+  {
+    id: 4,
+    name: 'Mrs. Anita P. Patil',
+    designation: 'Secondary Science & STEM Laboratory Head',
+    qualification: 'M.Sc. Physics, B.Ed.',
+    experience: '10+ Years',
+    department_name: 'Secondary Wing',
+    specialization: 'Applied Physics, STEM Experiments & Robotics Mentorship',
+    program_badge: 'Grades 6-10',
+    photo: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Leads our active Science, AI and Robotics labs, preparing students for National Science Congress, state science exhibitions, and Olympiad ranks.'
   },
-  average_package: {
-    overall_average: "₹ 4.20 LPA",
-    median_package: "₹ 3.90 LPA",
-    fresher_range: "₹ 3.40 LPA – ₹ 5.40 LPA",
-    description: "Reflects the average annual remuneration offered across clinical hospital postings and institutional partnerships.",
-    breakdown: [
-      { domain: "Multi-Specialty Hospital Physiotherapist", range: "₹ 3.60 – 4.80 LPA" },
-      { domain: "Sports & Athletic Rehabilitation Specialist", range: "₹ 4.50 – 6.50 LPA" },
-      { domain: "Neuro-Pediatric Rehabilitation Clinician", range: "₹ 3.80 – 5.20 LPA" }
-    ]
+  {
+    id: 5,
+    name: 'Mr. Sachin B. Shinde',
+    designation: 'Head of English & Communicative Skills',
+    qualification: 'M.A. English Literature, B.Ed., CELTA',
+    experience: '11+ Years',
+    department_name: 'Languages & Literature',
+    specialization: 'English Grammar, Debating, Elocution & Creative Writing',
+    program_badge: 'CBSE / State',
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Inspires confidence and fluency in English through reader’s theater, inter-school elocution championships, creative journals, and debating tournaments.'
   },
-  recruiter_logos: [
-    { name: "Apollo Hospitals", category: "Hospital Network", logo_url: "" },
-    { name: "Fortis Healthcare", category: "Tertiary Care", logo_url: "" },
-    { name: "Manipal Hospitals", category: "Healthcare Chain", logo_url: "" },
-    { name: "Sahyadri Hospitals", category: "Neuro & Trauma", logo_url: "" },
-    { name: "Ruby Hall Clinic", category: "Multi-Specialty", logo_url: "" },
-    { name: "Sancheti Hospital", category: "Orthopaedics", logo_url: "" }
-  ]
-};
-
-// ========================================================
-// DEFAULT ACADEMICS DATASET (7 Submenus)
-// ========================================================
-export const DEFAULT_ACADEMICS_DATA = {
-  overview: {
-    title: "Academic Programs & Curriculum Administration",
-    lead: "Comprehensive academic calendars, weekly didactic and clinical timetables, statutory examination ordinances, university results verification, institutional policies, and student conduct guidelines governed in affiliation with Maharashtra University of Health Sciences (MUHS), Nashik.",
-    session_year: "Academic Year 2024 - 2025",
-    affiliation: "Affiliated to MUHS, Nashik | Approved by Govt. of Maharashtra & DMER Mumbai",
-    highlights: [
-      { value: "4.5 Yrs", label: "BPT Degree (Incl. 6 Mos Rotatory Internship)" },
-      { value: "100%", label: "MUHS Prescribed Curriculum Compliance" },
-      { value: "75% / 80%", label: "Mandatory Attendance (Theory / Clinical)" },
-      { value: "1200+ Hrs", label: "Hospital Bedside Clinical Postings" }
-    ]
+  {
+    id: 6,
+    name: 'Mr. Pravin K. Jadhav',
+    designation: 'Director of Physical Education & Sports',
+    qualification: 'M.P.Ed., NIS Certified Athletic Coach',
+    experience: '13+ Years',
+    department_name: 'Sports & Physical Education',
+    specialization: 'Athletics, Football, Kabaddi & Kho-Kho Coaching',
+    program_badge: 'Sports & PE',
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Former state athlete dedicated to grooming disciplined, high-endurance young athletes and fostering house pride and sportsmanship across all age groups.'
   },
-
-  // 1. Subjects (Curriculum)
-  subjects: {
-    title: "BPT Curriculum & Subjects",
-    lead: "Complete 4-Year Bachelor of Physiotherapy didactic and clinical subjects catalogue prescribed under Maharashtra University of Health Sciences (MUHS), Nashik.",
-    years: BPT_YEARS,
-    list: BPT_SUBJECTS
+  {
+    id: 7,
+    name: 'Mrs. Manisha V. Kulkarni',
+    designation: 'Computer Science, AI & Robotics Teacher',
+    qualification: 'MCA, B.Ed., Certified AI Educator',
+    experience: '9+ Years',
+    department_name: 'Computer & AI Lab',
+    specialization: 'Python, Scratch Coding, Web Technologies & Cyber Safety',
+    program_badge: 'Tech & AI',
+    photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Equips students with modern coding literacy, safe digital navigation, algorithmic problem solving, and hands-on microcontroller robotics.'
   },
-
-  // 2. Academic Calendar
-  calendar: {
-    title: "Academic Calendar",
-    lead: "Official institutional schedule specifying term commencement, clinical postings, continuous sessional evaluations, vacation recesses, and MUHS university examinations.",
-    current_year: "Academic Session 2024 - 2025",
-    pdf_url: "",
-    events: [
-      { date: "01 Aug 2024", activity: "Commencement of Academic Term - Odd Semesters (II, III & IV BPT)", batch: "II, III, IV BPT", category: "Term Start" },
-      { date: "16 Sep 2024", activity: "Orientation Program & Induction for Fresh Batch (I BPT)", batch: "I BPT", category: "Induction" },
-      { date: "14 Oct - 19 Oct 2024", activity: "First Periodic Internal Sessional Assessment (Theory & Practical)", batch: "All Batches", category: "Assessment" },
-      { date: "28 Oct - 09 Nov 2024", activity: "Diwali Vacation & Mid-Term Recess", batch: "All Batches", category: "Vacation" },
-      { date: "16 Dec - 21 Dec 2024", activity: "Second Sessional Assessment & Clinical Logbook Review", batch: "II, III, IV BPT", category: "Assessment" },
-      { date: "06 Jan - 18 Jan 2025", activity: "MUHS Winter University Practical & Theory Examinations", batch: "Eligible Batches", category: "University Exam" },
-      { date: "27 Jan 2025", activity: "Commencement of Academic Term - Even Semesters", batch: "All Batches", category: "Term Start" },
-      { date: "17 Mar - 22 Mar 2025", activity: "Preliminary / Pre-University Examination (Theory & Practical)", batch: "All Batches", category: "Prelim Exam" },
-      { date: "15 Apr - 30 May 2025", activity: "MUHS Summer University Theory & Practical Examinations", batch: "All Batches", category: "University Exam" },
-      { date: "01 Jun - 15 Jul 2025", activity: "Summer Clinical Rotations & Preparatory Term Break", batch: "All Batches", category: "Clinical Vacation" }
-    ]
-  },
-
-  // 2. Timetable
-  timetable: {
-    title: "Timetable & Clinical Rosters",
-    lead: "Weekly operational schedules coordinating classroom lectures, biomechanics laboratory sessions, and multi-specialty hospital bedside postings.",
-    note: "Students must report punctually in prescribed clinical uniforms with stethoscopes, reflex hammers, and validated logbooks during all clinical posting hours.",
-    years: [
-      {
-        year_name: "I BPT (First Year)",
-        timing: "08:30 AM - 04:30 PM",
-        theory_subjects: "Human Anatomy, Human Physiology, Biochemistry, Fundamental of Exercise Therapy & Electrotherapy",
-        clinical_focus: "Clinical Observation, Fundamental Kinesiology & Biomechanics Lab",
-        pdf_url: ""
-      },
-      {
-        year_name: "II BPT (Second Year)",
-        timing: "08:30 AM - 04:30 PM",
-        theory_subjects: "Pathology, Microbiology, Pharmacology, Exercise Therapy, Electrotherapy",
-        clinical_focus: "OPD Patient Evaluation, Electrotherapy Modality Application & Exercise Lab",
-        pdf_url: ""
-      },
-      {
-        year_name: "III BPT (Third Year)",
-        timing: "08:30 AM - 04:30 PM",
-        theory_subjects: "Surgery, Orthopaedics, Medicine, Paediatrics, Community Health & Sociology",
-        clinical_focus: "Orthopaedic In-patient Wards, Surgical ICU, Neurological OPD & Trauma Postings",
-        pdf_url: ""
-      },
-      {
-        year_name: "IV BPT (Final Year)",
-        timing: "08:30 AM - 04:30 PM",
-        theory_subjects: "Musculoskeletal PT, Neuro PT, Cardio-Respiratory PT, Community PT, Bioengineering & Ethics",
-        clinical_focus: "ICU Management, Cardiopulmonary Rehab, Neuro-rehab OPD & Community Camps",
-        pdf_url: ""
-      }
-    ],
-    schedule_rows: [
-      { day: "Monday", time: "08:30 AM - 12:30 PM", slot1: "Hospital Clinical Postings (Rotational Wards)", slot2: "Didactic Lectures (Major Medical Specialties)", slot3: "Practical / Lab Demonstration" },
-      { day: "Tuesday", time: "08:30 AM - 12:30 PM", slot1: "Hospital Clinical Postings (Rotational Wards)", slot2: "Physiotherapy Core Theory", slot3: "Hands-on Clinical Skill Training" },
-      { day: "Wednesday", time: "08:30 AM - 12:30 PM", slot1: "Hospital Clinical Postings (Rotational Wards)", slot2: "Didactic Lectures (Pathology / Medicine)", slot3: "Case Presentations & Seminar" },
-      { day: "Thursday", time: "08:30 AM - 12:30 PM", slot1: "Hospital Clinical Postings (Rotational Wards)", slot2: "Physiotherapy Core Theory", slot3: "Remedial Coaching / Mentorship" },
-      { day: "Friday", time: "08:30 AM - 12:30 PM", slot1: "Hospital Clinical Postings (Rotational Wards)", slot2: "Applied Biomechanics & Research", slot3: "Practical Examination Practice" },
-      { day: "Saturday", time: "08:30 AM - 01:30 PM", slot1: "Specialized OPD Postings & Community Outreach", slot2: "Journal Club / Guest Lectures", slot3: "Library & Self-Study Hours" }
-    ]
-  },
-
-  // 3. Examination
-  examination: {
-    title: "Examination Cell & Evaluation Framework",
-    lead: "Statutory assessment ordinances prescribed by Maharashtra University of Health Sciences (MUHS), Nashik ensuring clinical competence, objectivity, and academic integrity.",
-    attendance_rules: {
-      theory_min: "75%",
-      practical_min: "80%",
-      clinical_min: "85%",
-      note: "Candidate failing to fulfill required minimum attendance percentage in theory or practicals shall not be eligible to appear for MUHS University Examinations under any circumstances as per University Ordinance."
-    },
-    weightage: [
-      { component: "Continuous Internal Assessment (CIA)", weight: "20%", description: "Derived from periodic terminal sessional exams, day-to-day practical performance, clinical case presentations, and discipline." },
-      { component: "MUHS University Theory Examination", weight: "50%", description: "Centrally administered descriptive and MCQ examination conducted by MUHS at appointed regional examination centres." },
-      { component: "MUHS University Practical & Clinical Viva", weight: "30%", description: "Evaluation by one internal and one external university-appointed examiner on real patients, objective viva, and logbook viva." }
-    ],
-    passing_criteria: "A candidate must secure a minimum of 50% marks in Theory (University Exam + Internal) and 50% marks in Practical/Clinical examination separately to be declared successful.",
-    notices: [
-      { title: "Notification for MUHS Winter Examination Form Submission", date: "15 Oct 2024", batch: "II, III & IV BPT", file_url: "" },
-      { title: "Schedule for Second Internal Sessional Theory & Practical Exams", date: "02 Dec 2024", batch: "All Batches", file_url: "" },
-      { title: "Standard Operating Procedure for Clinical Case Logbook Submission", date: "10 Jan 2025", batch: "IV BPT & Interns", file_url: "" },
-      { title: "Preliminary Examination Time Table - Summer Academic Session", date: "25 Feb 2025", batch: "All Batches", file_url: "" }
-    ]
-  },
-
-  // 4. Results
-  results: {
-    title: "University Examination Results",
-    lead: "Official university performance statistics and verification guidelines for students of Karmayogi Institute of Physiotherapy affiliated with MUHS, Nashik.",
-    portal_url: "https://www.muhs.ac.in",
-    portal_notice: "MUHS publishes official individual student grade sheets directly on the university results portal. Consolidated college statement of marks are received by the college Examination Cell within 15 days of online declaration.",
-    records: [
-      { year: "2023 - 2024", exam_session: "Summer 2024 (Final Year BPT)", appeared: 58, passed: 56, distinction: 9, first_class: 38, pass_percentage: "96.55%" },
-      { year: "2023 - 2024", exam_session: "Winter 2023 (Supplementary & Regular)", appeared: 24, passed: 22, distinction: 3, first_class: 15, pass_percentage: "91.66%" },
-      { year: "2022 - 2023", exam_session: "Summer 2023 (Final Year BPT)", appeared: 60, passed: 57, distinction: 11, first_class: 39, pass_percentage: "95.00%" },
-      { year: "2021 - 2022", exam_session: "Summer 2022 (Final Year BPT)", appeared: 55, passed: 52, distinction: 8, first_class: 36, pass_percentage: "94.54%" }
-    ],
-    revaluation_rules: "Students seeking verification of marks or photocopy of answer books must submit the prescribed MUHS application along with fees to the College Examination Cell within 7 days from the online result declaration."
-  },
-
-  // 5. Academic Policies
-  policies: {
-    title: "Academic Policies & Regulations",
-    lead: "Institutional codes, regulatory statutes, and operational guidelines governing academic progress, clinical postings, and ethical medical education.",
-    items: [
-      {
-        title: "Attendance & Condonation Policy",
-        summary: "Mandates 75% attendance in theory and 80% attendance in clinical/practical sessions. Biometric and daily register tracking ensure compliance. Medical leave condonation requires Medical Board certification.",
-        category: "Attendance & Discipline",
-        pdf_url: ""
-      },
-      {
-        title: "Compulsory Rotatory Clinical Internship Policy",
-        summary: "Detailed 6-month continuous rotatory hospital posting guidelines following successful completion of IV BPT. Covers mandatory rotations in Orthopaedics, Neurology, Cardio-respiratory, ICU, and Community Rehab.",
-        category: "Clinical Internship",
-        pdf_url: ""
-      },
-      {
-        title: "Continuous Internal Assessment (CIA) Policy",
-        summary: "Prescribes the scheduling of two periodic sessional exams and one preliminary exam per academic year. Mandates transparent grievance redressal and display of internal marks prior to university submission.",
-        category: "Evaluation",
-        pdf_url: ""
-      },
-      {
-        title: "Code of Academic Integrity & Clinical Ethics",
-        summary: "Defines ethical responsibilities during patient interaction, strict confidentiality of medical records (HIPAA/NMC compliance), prohibition of academic dishonesty, and professional decorum.",
-        category: "Ethics & Integrity",
-        pdf_url: ""
-      },
-      {
-        title: "Remedial Teaching & Mentorship Policy",
-        summary: "Systematic identification of slow learners through diagnostic tests and periodic evaluations, followed by structured tutorial sessions, bilingual clarifications, and individual faculty mentor allocation.",
-        category: "Student Support",
-        pdf_url: ""
-      }
-    ]
-  },
-
-  // 6. Student Handbook
-  handbook: {
-    title: "Student Handbook & Code of Conduct",
-    lead: "Comprehensive institutional manual providing orientation guidelines, hospital etiquette, campus regulations, student support services, and disciplinary codes for all enrolled students.",
-    current_edition: "Academic Edition 2024 - 2025",
-    pdf_url: "",
-    chapters: [
-      {
-        num: "01",
-        title: "Introduction & Institutional Ethos",
-        desc: "Overview of Karmayogi Institute of Physiotherapy, vision, mission, leadership, and our pledge to humanitarian rehabilitation."
-      },
-      {
-        num: "02",
-        title: "Academic Structure & Curriculum Navigation",
-        desc: "Breakdown of BPT syllabus prescribed by MUHS, examination schedules, credit structure, and prerequisite criteria."
-      },
-      {
-        num: "03",
-        title: "Clinical Hospital Protocol & Dress Code",
-        desc: "Standards for white aprons, clean institutional uniforms, nametags, patient communication etiquette, and hygiene protocols."
-      },
-      {
-        num: "04",
-        title: "Campus Facilities & Library Rules",
-        desc: "Guidelines for laboratory safety, electrotherapy equipment care, central library lending rules, and IT / Wi-Fi policy."
-      },
-      {
-        num: "05",
-        title: "Student Welfare, Mentorship & Health Support",
-        desc: "Proctorial mentorship system, counseling support, campus medical health insurance, and remedial coaching schemes."
-      },
-      {
-        num: "06",
-        title: "Disciplinary Codes & Statutory Committees",
-        desc: "Zero-tolerance anti-ragging policy, gender sensitization (ICC), grievance redressal protocols, and disciplinary penalties."
-      }
-    ],
-    contact_support: {
-      dean_office: "principal@karmayogiphysio.edu.in",
-      exam_cell: "examcell@karmayogiphysio.edu.in",
-      student_welfare: "studentwelfare@karmayogiphysio.edu.in"
-    }
+  {
+    id: 8,
+    name: 'Mr. Anand G. Deshmukh',
+    designation: 'Social Sciences & Heritage Studies Teacher',
+    qualification: 'M.A. History, B.Ed.',
+    experience: '12+ Years',
+    department_name: 'Social Sciences',
+    specialization: 'Indian History, Civics, Geography & Environmental Studies',
+    program_badge: 'Grades 6-10',
+    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+    profile_description: 'Brings history and geography alive through field visits, map mastery, historical enactments, and fostering deep appreciation for Indian heritage.'
   }
-};
+];
 
-// ========================================================
-// DEFAULT MANDATORY DISCLOSURES DATASET
-// ========================================================
-export const DEFAULT_MANDATORY_DISCLOSURES = {
-  overview: {
-    title: "Statutory Mandatory Disclosures & Public Compliance",
-    lead: "In strict adherence to statutory regulatory mandates issued by Maharashtra University of Health Sciences (MUHS), the Directorate of Medical Education and Research (DMER), Mumbai, UGC, and the Government of Maharashtra, institutional documentation, affiliations, and audit reports are placed in the public domain."
+export const DEFAULT_EVENTS = [
+  {
+    id: 1,
+    title: 'Karmotsav 2026 - Annual Sports & Athletic Meet',
+    type: 'Sports',
+    start_date: '2026-12-18',
+    end_date: '2026-12-20',
+    venue: 'Shelve Campus Main Athletic Ground',
+    desc: 'Grand 3-day annual athletic championship featuring march-past by all four houses, track and field finals, and championship trophy award ceremony.'
   },
-  // Year-wise sorted MUHS Mandated Disclosures
+  {
+    id: 2,
+    title: 'Science, STEM & Robotics Innovation Expo',
+    type: 'Academic',
+    start_date: '2026-11-10',
+    end_date: '2026-11-10',
+    venue: 'Raman Science & AI Laboratories, Both Campuses',
+    desc: 'Showcase of inventive student projects, working robotics models, DIY sensor circuits, and eco-friendly technological solutions by Grades 3 to 10.'
+  },
+  {
+    id: 3,
+    title: 'Student Council Investiture Ceremony',
+    type: 'Leadership',
+    start_date: '2026-07-15',
+    end_date: '2026-07-15',
+    venue: 'Main School Auditorium, Shelve',
+    desc: 'Formal swearing-in ceremony of Head Boy, Head Girl, House Captains, and student prefects, handing over official badges and house flags.'
+  },
+  {
+    id: 4,
+    title: 'Parent-Teacher Orientation & Progress Forum (PTM)',
+    type: 'Meeting',
+    start_date: '2026-09-05',
+    end_date: '2026-09-05',
+    venue: 'Isbavi (Primary) & Shelve (High School)',
+    desc: 'Collaborative parent-teacher consultation to review student learning growth, developmental milestones, and individualized academic goals.'
+  },
+  {
+    id: 5,
+    title: 'Annual Cultural Gathering & Kalotsav Prize Distribution',
+    type: 'Cultural',
+    start_date: '2027-01-22',
+    end_date: '2027-01-23',
+    venue: 'Shri Pandurang Pratishthan Cultural Amphitheatre',
+    desc: 'Enthralling multi-cultural stage presentations including traditional folk dances, theatrical plays, orchestral music, and academic awards.'
+  }
+];
+
+export const DEFAULT_NOTICES = [
+  {
+    id: 1,
+    title: 'Admissions Open for Academic Session 2026–27 (Nursery to Grade 10)',
+    category: 'Admissions',
+    notice_date: '2026-02-01',
+    body: 'Applications are invited for admissions into Pre-Primary (Nursery, Jr. & Sr. KG), Primary (Grades 1-5), and Secondary School (Grades 6-10). Prospectus available at both Isbavi and Shelve campus admission desks.'
+  },
+  {
+    id: 2,
+    title: 'Term-1 Evaluation & Continuous Assessment Schedule',
+    category: 'Academics',
+    notice_date: '2026-09-12',
+    body: 'The schedule for Term-1 pen-and-paper assessments and internal continuous evaluation (CCE) portfolio checks for Grades 1 to 10 has been finalized. Parents are requested to review datesheets in school diaries.'
+  },
+  {
+    id: 3,
+    title: 'Inter-School Science Olympiad & Talent Search Registration',
+    category: 'Competitions',
+    notice_date: '2026-06-08',
+    body: 'Students from Grades 3 to 10 interested in participating in the State Science Olympiad can register their names with the STEM wing coordinator before the closing date.'
+  },
+  {
+    id: 4,
+    title: 'School Bus Route Updates & Transport Safety Verification',
+    category: 'Transport',
+    notice_date: '2026-06-01',
+    body: 'GPS sensor and speed governor safety audits for all school buses serving Pandharpur, Korti, Gadegaon, and surrounding feeder routes have been certified for the academic year.'
+  },
+  {
+    id: 5,
+    title: 'Celebration of International Yoga Day & Morning Wellness Drill',
+    category: 'Events',
+    notice_date: '2026-06-20',
+    body: 'Students from Kindergarten through Grade 10 along with faculty will participate in the mass Yoga & Surya Namaskar demonstration on 21st June from 07:00 AM at the sports arena.'
+  }
+];
+
+export const DEFAULT_MANDATORY_DISCLOSURES = {
   muhs: [
     {
-      year: "2026–27",
+      year: '2025-26',
       documents: [
-        { id: 1, title: "MUHS Continuation of Affiliation Order (A.Y. 2026–27)", file_url: "" },
-        { id: 2, title: "Sanctioned Annual Intake Capacity (60 Seats BPT)", file_url: "" },
-        { id: 3, title: "Local Inquiry Committee (LIC) Inspection & Compliance Report", file_url: "" },
-        { id: 4, title: "Teaching Hospital Clinical Bed Strength & MOU Verification", file_url: "" },
-        { id: 5, title: "Faculty & Staff Declaration Compliance Undertaking", file_url: "" }
+        { id: 1, title: 'School Affiliation Certificate & CBSE/State Board Registration Orders', file_url: null },
+        { id: 2, title: 'Self-Certification / Proforma of Mandatory Public Disclosure', file_url: null },
+        { id: 3, title: 'School Managing Committee (SMC) Constitution Order', file_url: null },
+        { id: 4, title: 'Parent-Teacher Association (PTA) Registration & Office Bearers', file_url: null },
+        { id: 5, title: 'Building Safety & Structural Stability Certificate', file_url: null },
+        { id: 6, title: 'Fire Safety Certificate from Competent Authority', file_url: null },
+        { id: 7, title: 'Safe Drinking Water and Sanitary Condition Certificate', file_url: null }
       ]
     },
     {
-      year: "2025–26",
+      year: '2024-25',
       documents: [
-        { id: 1, title: "MUHS Continuation of Affiliation Order (A.Y. 2025–26)", file_url: "" },
-        { id: 2, title: "LIC Compliance Certificate & Inspection Note", file_url: "" },
-        { id: 3, title: "Approved Teaching Staff & Examiner Eligibility Roster", file_url: "" },
-        { id: 4, title: "Annual Academic Audit & Infrastructure Verification", file_url: "" }
-      ]
-    },
-    {
-      year: "2024–25",
-      documents: [
-        { id: 1, title: "MUHS Continuation of Affiliation Order (A.Y. 2024–25)", file_url: "" },
-        { id: 2, title: "MUHS Annual Academic Inspection Compliance Report", file_url: "" },
-        { id: 3, title: "MUHS Affiliation Sanction & Intake Regularization Order", file_url: "" }
+        { id: 8, title: 'School Renewal of Affiliation Orders', file_url: null },
+        { id: 9, title: 'Annual Land & Campus Infrastructure Certificate', file_url: null },
+        { id: 10, title: 'District Education Officer (DEO) Inspection Report', file_url: null }
       ]
     }
   ],
   policies: [
-    { id: 1, title: "Student & Faculty Code of Conduct", desc: "Rules on attendance, clinical attire, hospital patient communication etiquette, and campus discipline.", file_url: "" },
-    { id: 2, title: "Anti-Ragging Regulatory Policy", desc: "Comprehensive statutory policy in accordance with Supreme Court rulings and UGC 2009 Regulations.", file_url: "" },
-    { id: 3, title: "Internal Complaints Committee (POSH)", desc: "Zero tolerance guidelines for prevention of sexual harassment of women at the workplace.", file_url: "" },
-    { id: 4, title: "Research & Bioethics Policy", desc: "ICMR compliant ethical guidelines for human participant clinical trials and patient consent protocols.", file_url: "" }
+    {
+      id: 1,
+      title: 'Student Code of Conduct & Campus Discipline Policy',
+      desc: 'Standards of punctuality, uniform adherence, mutual respect, device regulation, and zero tolerance for bullying or harassment.',
+      file_url: null
+    },
+    {
+      id: 2,
+      title: 'Child Protection & POCSO Compliance Policy',
+      desc: 'Mandatory guidelines for student physical and emotional safety, background verification of staff, and immediate reporting mechanisms.',
+      file_url: null
+    },
+    {
+      id: 3,
+      title: 'Internal Complaints & Anti-Harassment Bylaws',
+      desc: 'Formal grievance redressal procedure ensuring dignified, fair, and prompt inquiry into any safety or workplace concern.',
+      file_url: null
+    },
+    {
+      id: 4,
+      title: 'Parent-Teacher Communication & Grievance Guidelines',
+      desc: 'Transparent avenues for parent feedback, grievance escalation, visiting protocols, and constructive collaboration.',
+      file_url: null
+    }
   ],
   approvals: [
-    { id: 1, authority: "Government of Maharashtra", title: "Medical Education & Drugs Department Gazette Sanction", file_url: "" },
-    { id: 2, authority: "DMER, Mumbai", title: "Directorate of Medical Education and Research Permission", file_url: "" },
-    { id: 3, authority: "UGC Recognition", title: "Recognized under Section 2(f) of the UGC Act, 1956", file_url: "" },
-    { id: 4, authority: "NAAC, Bengaluru", title: "Institutional Accreditation Grade 'A' Certificate", file_url: "" }
+    {
+      id: 1,
+      authority: 'Government of Maharashtra / School Education Dept.',
+      title: 'No Objection Certificate (NOC) and School Recognition Order',
+      file_url: null
+    },
+    {
+      id: 2,
+      authority: 'Shri Pandurang Pratishthan, Pandharpur',
+      title: 'Trust Registration & Institutional Governance Charter',
+      file_url: null
+    },
+    {
+      id: 3,
+      authority: 'Municipal Corporation / Town Planning Pandharpur',
+      title: 'Campus Land & Building Completion Certification',
+      file_url: null
+    },
+    {
+      id: 4,
+      authority: 'Fire Safety & Disaster Management Dept.',
+      title: 'Annual Fire Safety & Emergency Evacuation Clearance',
+      file_url: null
+    }
   ],
   reports: [
-    { id: 1, year: "F.Y. 2025–26", title: "Audited Balance Sheet & Income-Expenditure Account", status: "Audited", file_url: "" },
-    { id: 2, year: "F.Y. 2024–25", title: "Audited Balance Sheet & Fee Regulating Authority (FRA) Review", status: "Approved by FRA", file_url: "" },
-    { id: 3, year: "F.Y. 2023–24", title: "Statutory Annual Audit & Academic Infrastructure Expenditure", status: "Certified", file_url: "" }
+    {
+      id: 1,
+      year: '2024-25',
+      title: 'Annual Audited Financial Statement & Balance Sheet',
+      status: 'Audited',
+      file_url: null
+    },
+    {
+      id: 2,
+      year: '2023-24',
+      title: 'Annual Audited Financial Statement & Compliance Report',
+      status: 'Audited',
+      file_url: null
+    },
+    {
+      id: 3,
+      year: '2022-23',
+      title: 'Institutional Audit & Utilization Statement',
+      status: 'Audited',
+      file_url: null
+    }
   ]
 };
+
+export const DEFAULT_ACADEMICS_DATA = {
+  overview: {
+    title: 'Academic Programs & Curriculum Framework',
+    lead: 'Holistic curriculum aligned with CBSE and Maharashtra State Board standards from Pre-Primary to Grade 10.'
+  },
+  years: [
+    { key: 'pre-primary', label: 'Pre-Primary Wing (Nursery - Sr. KG)', description: 'Early childhood foundational stage focusing on phonics, motor skills, sensory play, and joyful socialization.' },
+    { key: 'primary', label: 'Primary School (Grades 1 to 5)', description: 'Preparatory stage building strong foundations in literacy, numeracy, environmental science, and creative arts.' },
+    { key: 'secondary', label: 'Secondary School (Grades 6 to 10)', description: 'Middle and secondary stage emphasizing analytical reasoning, science practicals, advanced mathematics, and board exam distinction.' }
+  ],
+  subjects: [],
+  events: [],
+  notices: [],
+  results: [],
+  policies: []
+};
+
+export const DEFAULT_RESEARCH_DATA = {
+  overview: {
+    title: 'Science, STEM & Innovation Hub',
+    lead: 'Promoting scientific inquiry, hands-on experiments, and robotics tinkering across all school grades.'
+  },
+  centers: [],
+  projects: [],
+  publications: [],
+  patents: [],
+  scholars: [],
+  funded_projects: [],
+  conferences: [],
+  journals: {},
+  achievements: []
+};
+
+export const DEFAULT_PLACEMENT_DATA = {
+  cell_info: {
+    title: 'Career Guidance & Higher Education Cell',
+    lead: 'Guiding students toward prestigious higher secondary colleges, competitive examinations, and career choices.'
+  },
+  officer: {
+    name: 'Career Counseling Desk',
+    designation: 'Student Guidance Counselor',
+    email: 'vijaymadane3@gmail.com',
+    phone: '+91-8459863477'
+  }
+};
+
+export function createDefaultCourseAdmission(course) {
+  return {
+    overview: `Admission guidelines for ${course?.name || 'Academic Program'}.`,
+    eligibility: ['Age criteria as per norms', 'Previous academic progress records'],
+    process: ['Submit enquiry', 'Verification', 'Interaction', 'Enrollment'],
+    documents: ['Birth certificate / TC', 'Report card', 'Aadhaar copy'],
+    fees: 'As per school prospectus'
+  };
+}
+
+export function getCourseAdmissionData(course) {
+  return createDefaultCourseAdmission(course);
+}
 
 
 
