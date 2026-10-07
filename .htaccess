@@ -1,0 +1,27 @@
+# =====================================================
+# Karmayogi College of Physiotherapy
+# Hostinger Shared Hosting Apache Root Configuration
+# Routes all incoming requests into /public/ securely
+# =====================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct browser access to sensitive files and folders
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^database/(.*)\.sql$ - [F,L]
+    RewriteRule ^persistent_storage/ - [F,L]
+    RewriteRule ^app/ - [F,L]
+
+    # Seamlessly rewrite all incoming requests into the public/ directory
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

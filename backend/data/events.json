@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "date": "2026-10-05",
+    "title": "National Conference on Advances in Physiotherapy",
+    "type": "Conference",
+    "venue": "College Auditorium",
+    "desc": "Two-day national conference on recent advances in physiotherapy and rehabilitation sciences."
+  },
+  {
+    "id": 2,
+    "date": "2026-10-14",
+    "title": "Workshop on Manual Therapy Techniques",
+    "type": "Workshop",
+    "venue": "Exercise Therapy Lab",
+    "desc": "Hands-on workshop on evidence-based manual therapy techniques for musculoskeletal conditions."
+  },
+  {
+    "id": 3,
+    "date": "2026-10-21",
+    "title": "Guest Lecture: Sports Injury Rehabilitation",
+    "type": "Guest Lecture",
+    "venue": "Seminar Hall",
+    "desc": "Guest lecture by eminent sports physiotherapist on modern rehabilitation protocols."
+  },
+  {
+    "id": 4,
+    "date": "2026-11-02",
+    "title": "World Physiotherapy Day Celebrations",
+    "type": "Event",
+    "venue": "College Campus",
+    "desc": "Awareness rally, free health check-up camp and community physiotherapy drive."
+  },
+  {
+    "id": 5,
+    "date": "2026-11-18",
+    "title": "Inter-Collegiate Physiotherapy Quiz",
+    "type": "Competition",
+    "venue": "College Auditorium",
+    "desc": "Annual inter-collegiate quiz competition on physiotherapy sciences."
+  },
+  {
+    "id": 6,
+    "date": "2026-12-09",
+    "title": "Alumni Meet 2026",
+    "type": "Event",
+    "venue": "College Campus",
+    "desc": "Annual alumni meet to strengthen the bond between alumni and institution."
+  }
+]

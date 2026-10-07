@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Administrator",
+    "email": "devkarma",
+    "password": "devkarma@123",
+    "role": "superadmin",
+    "permissions": ["*"],
+    "is_active": 1,
+    "created_at": "2026-09-27 22:30:00"
+  },
+  {
+    "id": 1,
+    "name": "Administrator",
+    "email": "devkarma@gmail.com",
+    "password": "devkarma@123",
+    "role": "superadmin",
+    "permissions": ["*"],
+    "is_active": 1,
+    "created_at": "2026-09-27 22:30:00"
+  },
+  {
+    "id": 2,
+    "name": "Local Administrator",
+    "email": "admin@test.com",
+    "password": "admin",
+    "role": "superadmin",
+    "permissions": ["*"],
+    "is_active": 1,
+    "created_at": "2026-10-06 23:00:00"
+  }
+]

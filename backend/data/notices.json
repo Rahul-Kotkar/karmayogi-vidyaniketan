@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "date": "2026-09-22",
+    "title": "Admission Notification – BPT A.Y. 2026–27",
+    "category": "Admission",
+    "body": "Applications are invited for admission to the Bachelor of Physiotherapy program for the academic year 2026–27. Candidates must have qualified NEET-UG. Prospectus and application forms are available at the college office."
+  },
+  {
+    "id": 2,
+    "date": "2026-09-15",
+    "title": "Academic Calendar – Odd Semester 2026",
+    "category": "Academic",
+    "body": "The academic calendar for the odd semester of A.Y. 2026–27 has been released. Classes commence from 1st July 2026. Internal assessments and term-end examinations are scheduled as per the MUHS directives."
+  },
+  {
+    "id": 3,
+    "date": "2026-09-08",
+    "title": "Examination Notice – MUHS Winter 2026",
+    "category": "Examination",
+    "body": "The examination forms for MUHS Winter 2026 session are open. Last date for form submission without fine is 10th October 2026. Students are advised to confirm their hall ticket details with the examination cell."
+  },
+  {
+    "id": 4,
+    "date": "2026-09-02",
+    "title": "University Circular – Internship Guidelines",
+    "category": "University",
+    "body": "MUHS Nashik has issued updated internship guidelines for BPT students. All final year students must complete a compulsory 6-month rotating internship as per the revised schedule."
+  },
+  {
+    "id": 5,
+    "date": "2026-08-25",
+    "title": "Student Notice – Anti-Ragging Committee Formation",
+    "category": "Student",
+    "body": "The Anti-Ragging Committee and Squad for A.Y. 2026–27 have been constituted as per UGC regulations. Students are directed to report any ragging incident to the committee immediately."
+  },
+  {
+    "id": 6,
+    "date": "2026-08-18",
+    "title": "Important Announcement – NAAC Peer Team Visit",
+    "category": "Announcement",
+    "body": "The NAAC peer team visit is scheduled for October 2026. All departments are requested to update their records, files and portfolios well in advance."
+  }
+]
