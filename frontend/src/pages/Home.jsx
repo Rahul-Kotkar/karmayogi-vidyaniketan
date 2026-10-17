@@ -143,41 +143,105 @@ export default function Home() {
   }, [cleanedPrincipalMessage, principalExpanded])
 
   useEffect(() => {
-    noticesService.getAll().then(data => {
-      if (Array.isArray(data) && data.length > 0) setNotices(data)
-    }).catch(() => {})
+    const loadNotices = () => {
+      noticesService.getAll().then(data => {
+        if (Array.isArray(data) && data.length > 0) setNotices(data)
+      }).catch(() => {})
+    }
 
-    eventsService.getAll().then(data => {
-      if (Array.isArray(data) && data.length > 0) setEvents(data)
-    }).catch(() => {})
+    const loadEvents = () => {
+      eventsService.getAll().then(data => {
+        if (Array.isArray(data) && data.length > 0) setEvents(data)
+      }).catch(() => {})
+    }
 
-    facilitiesService.getAll().then(data => {
-      if (Array.isArray(data) && data.length > 0) setFacilities(data)
-    }).catch(() => {})
+    const loadFacilities = () => {
+      facilitiesService.getAll().then(data => {
+        if (Array.isArray(data) && data.length > 0) setFacilities(data)
+      }).catch(() => {})
+    }
 
-    pagesService.getBySlug('about').then(page => {
-      if (page && page.content_html) {
+    const loadAbout = () => {
+      pagesService.getBySlug('about').then(page => {
+        if (page && page.content_html) {
+          try {
+            const parsed = JSON.parse(page.content_html)
+            setAboutData(parsed)
+            setCachedAboutData(parsed)
+          } catch {}
+        }
+      }).catch(() => {})
+    }
+
+    const loadHome = () => {
+      pagesService.getBySlug('home').then(page => {
+        if (page && page.content_html) {
+          try {
+            const parsed = JSON.parse(page.content_html)
+            setHomeData(parsed)
+            setCachedHomeData(parsed)
+          } catch {}
+        }
+        setIsHomeLoading(false)
+      }).catch(() => {
+        setIsHomeLoading(false)
+      })
+    }
+
+    loadNotices()
+    loadEvents()
+    loadFacilities()
+    loadAbout()
+    loadHome()
+
+    const onHomeUpdated = (e) => {
+      if (e?.detail?.content_html) {
         try {
-          const parsed = JSON.parse(page.content_html)
-          setAboutData(parsed)
-          setCachedAboutData(parsed)
-        } catch {}
-      }
-    }).catch(() => {})
-
-    pagesService.getBySlug('home').then(page => {
-      if (page && page.content_html) {
-        try {
-          const parsed = JSON.parse(page.content_html)
+          const parsed = JSON.parse(e.detail.content_html)
           setHomeData(parsed)
-          setCachedHomeData(parsed)
         } catch {}
+      } else {
+        loadHome()
       }
-      setIsHomeLoading(false)
-    }).catch(() => {
-      setIsHomeLoading(false)
-    })
+    }
+
+    const onAboutUpdated = (e) => {
+      if (e?.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          setAboutData(parsed)
+        } catch {}
+      } else {
+        loadAbout()
+      }
+    }
+
+    window.addEventListener('page_home_updated', onHomeUpdated)
+    window.addEventListener('page_about_updated', onAboutUpdated)
+    window.addEventListener('notices_updated', loadNotices)
+    window.addEventListener('events_updated', loadEvents)
+    window.addEventListener('facilities_updated', loadFacilities)
+
+    return () => {
+      window.removeEventListener('page_home_updated', onHomeUpdated)
+      window.removeEventListener('page_about_updated', onAboutUpdated)
+      window.removeEventListener('notices_updated', loadNotices)
+      window.removeEventListener('events_updated', loadEvents)
+      window.removeEventListener('facilities_updated', loadFacilities)
+    }
   }, [])
+
+  const quickHighlights = useMemo(() => {
+    if (homeData?.highlight_1 || homeData?.highlight_2 || homeData?.highlight_3 || homeData?.highlight_4) {
+      const items = []
+      if (homeData.highlight_1) items.push({ icon: 'target', title: homeData.highlight_1 })
+      if (homeData.highlight_2) items.push({ icon: 'shield', title: homeData.highlight_2 })
+      if (homeData.highlight_3) items.push({ icon: 'sparkles', title: homeData.highlight_3 })
+      if (homeData.highlight_4) items.push({ icon: 'faculty', title: homeData.highlight_4 })
+      return items.length > 0 ? items : QUICK_INFO_FACTS
+    }
+    return QUICK_INFO_FACTS
+  }, [homeData])
 
   const newsList = (homeData?.news_list && Array.isArray(homeData.news_list) && homeData.news_list.length > 0)
     ? homeData.news_list
@@ -218,16 +282,16 @@ export default function Home() {
       <Hero data={homeData} />
 
       {/* =====================================================
-          2. QUICK INFORMATION SECTION (6 Core School Highlights)
+          2. QUICK INFORMATION SECTION (3 Core School Highlights)
           ===================================================== */}
       <div className="home-highlights-wrap">
-        <div className="home-highlights-card" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', alignItems: 'center' }}>
-          {QUICK_INFO_FACTS.map((fact, idx) => (
-            <div key={idx} className="home-highlight-item" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span className="home-highlight-icon" style={{ flexShrink: 0 }}>
+        <div className="home-highlights-card">
+          {quickHighlights.map((fact, idx) => (
+            <div key={idx} className="home-highlight-item">
+              <span className="home-highlight-icon">
                 {renderWhyIcon(fact.icon)}
               </span>
-              <strong className="home-highlight-text" style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: 'var(--navy-header)', lineHeight: 1.25 }}>
+              <strong className="home-highlight-text">
                 {fact.title}
               </strong>
             </div>
@@ -250,22 +314,22 @@ export default function Home() {
             </div>
             <div className="home-about-text-col">
               <span className="home-about-tag">
-                {aboutData?.institute_tag || 'ABOUT KARMAYOGI VIDYANIKETAN'}
+                {aboutData?.institute_tag || homeData?.about_sub || 'ABOUT KARMAYOGI VIDYANIKETAN'}
               </span>
               <h2 className="home-about-heading">
-                {aboutData?.institute_title || 'Nurturing Intellect, Character & Indian Values'}
+                {aboutData?.institute_title || homeData?.about_title || 'Nurturing Intellect, Character & Indian Values'}
               </h2>
               <p className="home-about-desc">
-                {aboutData?.institute_p1 || 'Karmayogi Vidyaniketan, widely known as Karmayogi Public School, is a co-educational institution located in Pandharpur, Solapur district, Maharashtra. The school operates under the management of Shri Pandurang Pratishthan, Pandharpur.'}
+                {aboutData?.institute_p1 || homeData?.about_p1 || 'Karmayogi Vidyaniketan, widely known as Karmayogi Public School, is a co-educational institution located in Pandharpur, Solapur district, Maharashtra. The school operates under the management of Shri Pandurang Pratishthan, Pandharpur.'}
               </p>
               <p className="home-about-desc" style={{ marginTop: '-8px' }}>
-                {aboutData?.institute_p2 || 'The school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship.'}
+                {aboutData?.institute_p2 || homeData?.about_p2 || 'The school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship.'}
               </p>
               <Link
-                to="/about"
+                to={homeData?.about_btn_link || "/about"}
                 className="home-about-btn"
               >
-                Know More About Us →
+                {homeData?.about_btn_text || 'Know More About Us →'}
               </Link>
             </div>
           </div>
@@ -288,9 +352,9 @@ export default function Home() {
                 alt="Principal, Karmayogi Vidyaniketan"
               />
               <figcaption>
-                Mr. Vijay Madane<br />
+                {homeData?.principal_name || 'Mr. Vijay Madane'}<br />
                 <small style={{ whiteSpace: 'pre-line' }}>
-                  Principal / Academic Director{'\n'}Karmayogi Vidyaniketan / Karmayogi Public School
+                  {homeData?.principal_designation || 'Principal / Academic Director\nKarmayogi Vidyaniketan / Karmayogi Public School'}
                 </small>
               </figcaption>
             </figure>
@@ -338,7 +402,7 @@ export default function Home() {
                   Principal / Head of School
                 </span>
                 <h4 style={{ fontSize: '17px', color: 'var(--navy-header)', margin: '6px 0 4px' }}>
-                  Mr. Vijay Madane
+                  {homeData?.principal_name || 'Mr. Vijay Madane'}
                 </h4>
                 <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
                   Leading academic administration, teacher mentorship, CBSE &amp; State board curriculum integration.
@@ -509,56 +573,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =====================================================
-          7. DEDICATED TRANSPORT & CAMPUS SAFETY SECTION
-          ===================================================== */}
-      <section className="section" id="transport">
-        <div className="container">
-          <div style={{ background: 'linear-gradient(135deg, #071d3a 0%, #0b2545 60%, #0d3b66 100%)', borderRadius: 14, color: '#ffffff', padding: 'clamp(28px, 4vw, 52px)', boxShadow: 'var(--shadow-lg)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 36, alignItems: 'center' }}>
-              <div>
-                <span style={{ color: '#c9a227', fontSize: '12px', fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-                  CAMPUS FLEET &amp; STUDENT SAFETY
-                </span>
-                <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: 'clamp(24px, 2.5vw, 34px)', margin: '10px 0 16px', color: '#ffffff', lineHeight: 1.3 }}>
-                  Safe, Punctual &amp; GPS-Monitored School Bus Transport
-                </h2>
-                <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.88)', lineHeight: 1.7, marginBottom: 20 }}>
-                  Karmayogi Vidyaniketan operates a dedicated fleet of GPS-equipped yellow school buses connecting Pandharpur town, Isbavi, Shelve, and neighboring rural feeder routes. With trained drivers, female attendants, and speed governors, we ensure safe and punctual commutes for every child.
-                </p>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 26 }}>
-                  <div style={{ background: 'rgba(255, 255, 255, 0.08)', padding: 14, borderRadius: 8, border: '1px solid rgba(255, 255, 255, 0.15)' }}>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: '#38bdf8' }}>15+</div>
-                    <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)' }}>Feeder Routes Covered</div>
-                  </div>
-                  <div style={{ background: 'rgba(255, 255, 255, 0.08)', padding: 14, borderRadius: 8, border: '1px solid rgba(255, 255, 255, 0.15)' }}>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: '#38bdf8' }}>100%</div>
-                    <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)' }}>GPS &amp; Attendant Monitored</div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                  <Link to="/transport" className="btn btn-primary" style={{ background: '#0284c7', borderColor: '#0284c7' }}>
-                    Explore Transport Fleet →
-                  </Link>
-                  <Link to="/contact" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.6)' }}>
-                    Enquire Bus Routes
-                  </Link>
-                </div>
-              </div>
-
-              <div>
-                <img
-                  src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80"
-                  alt="Karmayogi School Bus Fleet"
-                  style={{ width: '100%', borderRadius: 10, border: '2px solid rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)' }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* =====================================================
           8. WHY CHOOSE KARMAYOGI VIDYANIKETAN (10 Points)
@@ -567,14 +581,14 @@ export default function Home() {
         <div className="container">
           <div className="why-karmayogi-header">
             <span className="why-karmayogi-tag">
-              EXCELLENCE IN SCHOOLING
+              {homeData?.why_tag || 'EXCELLENCE IN SCHOOLING'}
             </span>
             <h2 className="why-karmayogi-heading">
-              Why Choose Karmayogi Vidyaniketan?
+              {homeData?.why_title || 'Why Choose Karmayogi Vidyaniketan?'}
             </h2>
           </div>
           <div className="why-karmayogi-grid">
-            {DEFAULT_WHY_ITEMS.map((item, idx) => (
+            {(homeData?.why_items && Array.isArray(homeData.why_items) && homeData.why_items.length > 0 ? homeData.why_items : DEFAULT_WHY_ITEMS).map((item, idx) => (
               <div key={item.id || idx} className="why-card">
                 <div className="why-card-icon-wrap">
                   {renderWhyIcon(item.icon)}
@@ -649,20 +663,20 @@ export default function Home() {
           <div className="home-campus-life-grid">
             <div className="home-campus-life-text-col">
               <span className="home-campus-life-eyebrow">
-                STUDENT LIFE &amp; ACTIVITY
+                {homeData?.campus_life_eyebrow || 'STUDENT LIFE & ACTIVITY'}
               </span>
               <h2 className="home-campus-life-heading">
-                Sports, Creativity &amp; Child Development
+                {homeData?.campus_life_title || 'Sports, Creativity & Child Development'}
               </h2>
               <p className="home-campus-life-desc">
-                From daily physical education and cricket practice to robotics bootcamps, annual day dramatics, and educational field trips, student life at Karmayogi Vidyaniketan is energetic, engaging, and purposeful.
+                {homeData?.campus_life_desc || 'From daily physical education and cricket practice to robotics bootcamps, annual day dramatics, and educational field trips, student life at Karmayogi Vidyaniketan is energetic, engaging, and purposeful.'}
               </p>
               <Link
-                to="/student-life"
+                to={homeData?.campus_life_btn_link || '/student-life'}
                 className="home-campus-life-btn"
                 title="Explore Student Life"
               >
-                <span>Discover Student Life</span>
+                <span>{homeData?.campus_life_btn_text || 'Discover Student Life'}</span>
                 <span className="arrow-icon">→</span>
               </Link>
             </div>
@@ -671,7 +685,7 @@ export default function Home() {
               <div className="home-campus-life-card">
                 <div className="home-campus-life-photo-box">
                   <img
-                    src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80"
+                    src={resolveMediaUrl(homeData?.campus_life_image, 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80')}
                     alt="Students enjoying sports on school grounds"
                     className="home-campus-life-img"
                   />

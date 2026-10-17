@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { FACILITIES as FALLBACK_FACILITIES, COLLEGE } from '../data/collegeData.js'
-import { facilitiesService } from '../services/endpoints.js'
+import { facilitiesService, getCachedFacilities, setCachedFacilities } from '../services/endpoints.js'
+import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 const SCHOOL_FACILITY_METADATA = {
   'smart-classrooms': {
@@ -98,54 +99,81 @@ const SCHOOL_FACILITY_METADATA = {
   'sports': {
     aliases: ['sports-facilities', 'playground'],
     title: 'Sports Facilities',
-    badge: 'Athletics, Fitness & Games',
+    badge: 'Expansive Athletic Fields',
     img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
-    lead: 'Facilities supporting physical fitness, teamwork and competitive sports with expansive outdoor grounds and dedicated training courts.',
+    lead: 'Expansive playgrounds and courts supporting cricket, football, athletics track, badminton, volleyball, and traditional Indian sports.',
     features: [
-      'Multi-sport outdoor grounds with cricket pitch, practice nets, and full-size football field.',
-      'Dedicated training courts for traditional Indian sports: Kabaddi and Kho-Kho with floodlights.',
-      'Volleyball, badminton, and table tennis facilities with specialized equipment.',
-      'Daily morning yoga, Surya Namaskar, and NIS-certified athletic coaching.'
+      'Standard 400-meter clay athletic track and cricket practice nets.',
+      'Full-size football ground and outdoor volleyball courts.',
+      'Dedicated courts for traditional Indian games: Kho-Kho and Kabaddi.',
+      'Indoor sports arena for chess, carrom, table tennis, and yoga routines.'
     ],
-    incharge: 'Mr. Sunil B. Shinde (Director of Physical Education)',
-    hours: '6:30 AM to 6:00 PM'
+    incharge: 'Mr. Pravin K. Jadhav (Sports Director)',
+    hours: '7:00 AM to 5:00 PM'
   },
-
-  'transportation': {
-    aliases: ['school-bus', 'transport'],
-    title: 'Transportation Fleet',
-    badge: 'Safe & Punctual School Commute',
-    img: 'https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80',
-    lead: 'School bus transportation for students across Pandharpur town and surrounding rural areas with experienced drivers and attendants.',
+  'transport': {
+    aliases: ['school-bus', 'bus-transportation', 'transportation'],
+    title: 'Safe Bus Transport',
+    badge: 'Safe & GPS-Monitored Fleet',
+    img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+    lead: 'Dedicated school bus service with GPS tracking, CCTV cameras, speed governors, and trained female attendants covering Pandharpur and rural routes.',
     features: [
-      'Dedicated fleet of well-maintained school buses covering major routes in Pandharpur taluka.',
-      'Trained drivers, bus conductors, and female attendants ensuring student safety onboard.',
-      'Equipped with first-aid kits, fire extinguishers, and speed governors adhering to RTO norms.',
-      'Punctual pickup and drop schedules aligned with school bell timings.'
+      'Fleet of modern yellow school buses complying with all RTO school transport safety standards.',
+      'Real-time GPS vehicle tracking enabling punctual pickup and drop schedules.',
+      'On-board female attendants and first-aid kits on every individual bus route.',
+      'Extensive route network covering Pandharpur city, Isbavi, Shelve, and neighboring taluka villages.'
     ],
-    incharge: 'Transport Supervisor',
-    hours: '6:30 AM to 4:00 PM'
+    incharge: 'Transport Safety Officer',
+    hours: '6:30 AM to 6:00 PM'
   }
 }
 
 export default function Facilities() {
   const { subpage } = useParams()
-  const [facilities, setFacilities] = useState(FALLBACK_FACILITIES)
+  const [facilities, setFacilities] = useState(() => getCachedFacilities() || FALLBACK_FACILITIES)
+
+  const loadFacilities = () => {
+    facilitiesService.getAll().then(list => {
+      if (Array.isArray(list) && list.length > 0) {
+        setFacilities(list)
+        setCachedFacilities(list)
+      }
+    }).catch(() => {})
+  }
 
   useEffect(() => {
-    facilitiesService.getAll().then(list => {
-      if (Array.isArray(list) && list.length > 0) setFacilities(list)
-    }).catch(() => {})
+    loadFacilities()
+    window.addEventListener('facilities_updated', loadFacilities)
+    return () => window.removeEventListener('facilities_updated', loadFacilities)
   }, [])
 
   // If viewing a specific facility subpage
   let activeDetail = null
   if (subpage) {
     const rawKey = subpage.toLowerCase().trim()
-    for (const [key, meta] of Object.entries(SCHOOL_FACILITY_METADATA)) {
-      if (key === rawKey || meta.aliases.includes(rawKey)) {
-        activeDetail = meta
-        break
+    // First check database facilities
+    const dbMatch = facilities.find(f => (f.slug && f.slug.toLowerCase() === rawKey) || String(f.id) === rawKey)
+    if (dbMatch) {
+      activeDetail = {
+        title: dbMatch.title,
+        badge: 'Campus Facility',
+        img: resolveMediaUrl(dbMatch.image_url || dbMatch.image || dbMatch.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+        lead: dbMatch.description || dbMatch.desc || '',
+        features: dbMatch.features || [
+          'High-standard facility built to modern educational specifications.',
+          'Safe and supportive environment supervised by qualified staff.',
+          'Regular maintenance and hygienic standards.'
+        ],
+        incharge: dbMatch.incharge || 'Campus Administration',
+        hours: dbMatch.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
+      }
+    } else {
+      // Fallback to metadata
+      for (const [key, meta] of Object.entries(SCHOOL_FACILITY_METADATA)) {
+        if (key === rawKey || meta.aliases.includes(rawKey)) {
+          activeDetail = meta
+          break
+        }
       }
     }
   }
@@ -156,7 +184,7 @@ export default function Facilities() {
         <div style={{ display: 'grid', gap: 32 }}>
           <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-md)' }}>
             <img
-              src={activeDetail.img}
+              src={resolveMediaUrl(activeDetail.img)}
               alt={activeDetail.title}
               style={{ width: '100%', height: 360, objectFit: 'cover' }}
             />
@@ -167,7 +195,7 @@ export default function Facilities() {
               <h1 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 14px' }}>
                 {activeDetail.title}
               </h1>
-              <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.75, marginBottom: 24 }}>
+              <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.75, marginBottom: 24, whiteSpace: 'pre-line' }}>
                 {activeDetail.lead}
               </p>
 
@@ -195,6 +223,24 @@ export default function Facilities() {
     )
   }
 
+  // Display items: combine database facilities with metadata
+  const displayItems = (facilities && facilities.length > 0)
+    ? facilities.map(f => {
+        const metaKey = Object.keys(SCHOOL_FACILITY_METADATA).find(k => k === f.slug || SCHOOL_FACILITY_METADATA[k].aliases.includes(f.slug))
+        const meta = metaKey ? SCHOOL_FACILITY_METADATA[metaKey] : null
+        return {
+          key: f.slug || f.id,
+          title: f.title || meta?.title || 'School Facility',
+          badge: meta?.badge || 'Campus Infrastructure',
+          img: resolveMediaUrl(f.image_url || f.image || f.img || meta?.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+          lead: f.description || f.desc || meta?.lead || ''
+        }
+      })
+    : Object.entries(SCHOOL_FACILITY_METADATA).map(([key, item]) => ({
+        key,
+        ...item
+      }))
+
   return (
     <PageShell title="School Facilities &amp; Infrastructure" subtitle="State-of-the-Art Learning Spaces, Labs, Sports &amp; Student Transport | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -211,13 +257,14 @@ export default function Facilities() {
 
         {/* Facilities Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
-          {Object.entries(SCHOOL_FACILITY_METADATA).map(([key, item]) => (
-            <div key={key} id={key} style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column' }}>
+          {displayItems.map((item) => (
+            <div key={item.key} id={String(item.key)} style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ height: 200, overflow: 'hidden' }}>
                 <img
                   src={item.img}
                   alt={item.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  loading="lazy"
                 />
               </div>
               <div style={{ padding: 22, flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -230,7 +277,7 @@ export default function Facilities() {
                 <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, flex: 1, marginBottom: 14 }}>
                   {item.lead}
                 </p>
-                <Link to={`/facilities/${key}`} className="btn btn-secondary" style={{ textAlign: 'center', fontSize: '13.5px', padding: '10px 16px' }}>
+                <Link to={`/facilities/${item.key}`} className="btn btn-secondary" style={{ textAlign: 'center', fontSize: '13.5px', padding: '10px 16px' }}>
                   View Facility Details &rarr;
                 </Link>
               </div>

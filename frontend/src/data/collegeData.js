@@ -68,20 +68,7 @@ export const SOCIAL_LINKS = [
 // Row 1: Primary Institutional Navigation
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
-  { label: "ABOUT US", path: "/about" },
-  {
-    label: "ACADEMICS",
-    path: "/academics",
-    children: [
-      { label: "Academic Overview", path: "/academics" },
-      { label: "Pre-Primary (Nursery, Jr/Sr KG)", path: "/pre-primary" },
-      { label: "Primary School (Grades 1-5)", path: "/primary" },
-      { label: "Secondary School (Grades 6-10)", path: "/secondary" },
-      { label: "Curriculum & Boards", path: "/curriculum" },
-      { label: "Teaching Methodology", path: "/academics#methodology" },
-      { label: "Examination & Assessment", path: "/academics#examination" }
-    ]
-  },
+  { label: "ABOUT", path: "/about" },
   {
     label: "ADMISSIONS",
     path: "/admissions",
@@ -95,6 +82,30 @@ export const ROW_1_NAV = [
       { label: "Admission FAQs", path: "/fees#faqs" }
     ]
   },
+  { label: "FACULTY", path: "/faculty" },
+  { label: "NOTICES", path: "/notices" },
+  { label: "NEWS", path: "/news" },
+  { label: "EVENTS", path: "/events" },
+  { label: "GALLERY", path: "/gallery" },
+  { label: "CONTACT", path: "/contact" }
+];
+
+// Row 2: Secondary Quick-Access School Explorer Strip (Moved down from Row 1)
+export const ROW_2_NAV = [
+  {
+    label: "ACADEMICS",
+    path: "/academics",
+    children: [
+      { label: "Academic Overview", path: "/academics" },
+      { label: "Pre-Primary (Nursery, Jr/Sr KG)", path: "/pre-primary" },
+      { label: "Primary School (Grades 1-5)", path: "/primary" },
+      { label: "Secondary School (Grades 6-10)", path: "/secondary" },
+      { label: "Curriculum & Boards", path: "/curriculum" },
+      { label: "Teaching Methodology", path: "/academics#methodology" },
+      { label: "Examination & Assessment", path: "/academics#examination" }
+    ]
+  },
+  { label: "CURRICULUM", path: "/curriculum" },
   {
     label: "CAMPUS",
     path: "/infrastructure",
@@ -110,6 +121,7 @@ export const ROW_1_NAV = [
       { label: "Sports Facilities", path: "/sports" }
     ]
   },
+  { label: "FACILITIES", path: "/facilities" },
   {
     label: "STUDENT LIFE",
     path: "/student-life",
@@ -117,28 +129,15 @@ export const ROW_1_NAV = [
       { label: "Sports & Athletics", path: "/sports" },
       { label: "Cultural Activities", path: "/student-life#cultural" },
       { label: "Clubs & Activities", path: "/student-life#clubs" },
-      { label: "Events & Celebrations", path: "/events" },
       { label: "Field Trips & Excursions", path: "/student-life#field-trips" },
       { label: "Competitions & Olympiads", path: "/student-life#competitions" },
       { label: "Student Achievements", path: "/student-life#achievements" }
     ]
   },
-  { label: "FACILITIES", path: "/facilities" },
-  { label: "GALLERY", path: "/gallery" },
-  { label: "CONTACT US", path: "/contact" }
-];
-
-// Row 2: Secondary Quick-Access School Explorer Strip
-export const ROW_2_NAV = [
-  { label: "PRE-PRIMARY", path: "/pre-primary" },
-  { label: "PRIMARY SCHOOL", path: "/primary" },
-  { label: "SECONDARY SCHOOL", path: "/secondary" },
-  { label: "CURRICULUM", path: "/curriculum" },
   { label: "SCIENCE & STEM LABS", path: "/labs" },
   { label: "TRANSPORTATION", path: "/transport" },
   { label: "SPORTS FACILITIES", path: "/sports" },
   { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },
-  { label: "NEWS & EVENTS", path: "/events" },
   { label: "ADMISSION ENQUIRY", path: "/admissions#apply" }
 ];
 
@@ -162,14 +161,6 @@ export const QUICK_INFO_FACTS = [
   {
     title: "CBSE & State Board Tracks",
     icon: "curriculum"
-  },
-  {
-    title: "Modern Campus",
-    icon: "infrastructure"
-  },
-  {
-    title: "Safe Transportation",
-    icon: "transport"
   }
 ];
 
@@ -548,8 +539,7 @@ export const HERO_SLIDES = [
     description: "Karmayogi Vidyaniketan is committed to providing quality education that combines academic excellence, modern learning, discipline and strong Indian values.",
     quote: "Education with Values & Purpose",
     image: null,
-    primaryBtn: { text: "Apply for Admission", link: "/admissions" },
-    secondaryBtn: { text: "Explore Our School", link: "/about" }
+    primaryBtn: { text: "Apply for Admission", link: "/admissions" }
   },
   {
     id: 2,
@@ -558,8 +548,7 @@ export const HERO_SLIDES = [
     description: "A balanced educational experience that develops academic ability, creativity, physical fitness, and responsible citizenship across CBSE & State Board tracks.",
     quote: "Holistic Child Development",
     image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1400&q=80",
-    primaryBtn: { text: "Academic Curriculum →", link: "/academics" },
-    secondaryBtn: { text: "View Facilities", link: "/facilities" }
+    primaryBtn: { text: "Academic Curriculum →", link: "/academics" }
   },
   {
     id: 3,
@@ -568,8 +557,7 @@ export const HERO_SLIDES = [
     description: "Modern smart classrooms, AI & Robotics laboratory, expansive sports grounds, and safe GPS-monitored school bus transportation.",
     quote: "Modern Infrastructure & Care",
     image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1400&q=80",
-    primaryBtn: { text: "Campus & Labs →", link: "/labs" },
-    secondaryBtn: { text: "Transportation", link: "/transport" }
+    primaryBtn: { text: "Campus & Labs →", link: "/labs" }
   }
 ];
 

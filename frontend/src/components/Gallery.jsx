@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { ALBUMS as FALLBACK_ALBUMS } from '../data/collegeData.js'
-import { galleryService, getCachedAlbums } from '../services/endpoints.js'
+import { galleryService, getCachedAlbums, setCachedAlbums } from '../services/endpoints.js'
 import { CameraIcon } from './Icons.jsx'
+import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function Gallery({ limit }) {
   const [albums, setAlbums] = useState(() => getCachedAlbums() || FALLBACK_ALBUMS)
@@ -9,10 +10,19 @@ export default function Gallery({ limit }) {
   const [cat, setCat] = useState('All')
   const [lb, setLb] = useState(null)
 
-  useEffect(() => {
+  const fetchAlbums = () => {
     galleryService.getAlbums().then(data => {
-      if (data && data.length > 0) setAlbums(data)
+      if (data && data.length > 0) {
+        setAlbums(data)
+        setCachedAlbums(data)
+      }
     }).catch(() => {})
+  }
+
+  useEffect(() => {
+    fetchAlbums()
+    window.addEventListener('gallery_updated', fetchAlbums)
+    return () => window.removeEventListener('gallery_updated', fetchAlbums)
   }, [])
 
   // Extract distinct categories
@@ -89,7 +99,7 @@ export default function Gallery({ limit }) {
                   onClick={() => setLb(i)}
                 >
                   <img
-                    src={photo.image_url}
+                    src={resolveMediaUrl(photo.image_url)}
                     alt={photo.caption || `${selectedAlbum.title} Photo ${i + 1}`}
                     loading="lazy"
                   />
@@ -123,7 +133,8 @@ export default function Gallery({ limit }) {
           <div className="album-cards-grid">
             {displayedAlbums.map(album => {
               const count = album.photo_count || album.photos?.length || 0
-              const cover = album.cover_image || (album.photos && album.photos[0]?.image_url) || 'https://picsum.photos/seed/placeholder/800/600'
+              const rawCover = album.cover_image || (album.photos && album.photos[0]?.image_url) || 'https://picsum.photos/seed/placeholder/800/600'
+              const cover = resolveMediaUrl(rawCover)
 
               return (
                 <article
@@ -186,7 +197,7 @@ export default function Gallery({ limit }) {
           )}
 
           <img
-            src={currentPhotos[lb].image_url}
+            src={resolveMediaUrl(currentPhotos[lb].image_url)}
             alt={currentPhotos[lb].caption || 'Gallery photo'}
             onClick={e => e.stopPropagation()}
           />

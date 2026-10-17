@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { DEFAULT_ADMISSIONS_DATA, COLLEGE } from '../data/collegeData.js'
-import { contactService } from '../services/endpoints.js'
+import { contactService, pagesService, getCachedAdmissionsData } from '../services/endpoints.js'
 
 export default function Admissions() {
+  const [admissionsData, setAdmissionsData] = useState(() => getCachedAdmissionsData() || DEFAULT_ADMISSIONS_DATA)
   const [selectedWing, setSelectedWing] = useState('all')
   const [form, setForm] = useState({
     student_name: '',
@@ -17,6 +18,33 @@ export default function Admissions() {
   })
   const [loading, setLoading] = useState(false)
   const [feedback, setFeedback] = useState({ text: '', type: '' })
+
+  const loadAdmissions = () => {
+    pagesService.getBySlug('admissions').then(page => {
+      if (page && page.content_html) {
+        try {
+          const parsed = JSON.parse(page.content_html)
+          setAdmissionsData(prev => ({ ...prev, ...parsed }))
+        } catch {}
+      }
+    }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadAdmissions()
+    const handleUpdated = (e) => {
+      if (e?.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          setAdmissionsData(prev => ({ ...prev, ...parsed }))
+        } catch {}
+      } else {
+        loadAdmissions()
+      }
+    }
+    window.addEventListener('page_admissions_updated', handleUpdated)
+    return () => window.removeEventListener('page_admissions_updated', handleUpdated)
+  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -78,7 +106,7 @@ export default function Admissions() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-            {DEFAULT_ADMISSIONS_DATA.process_steps.map((step, idx) => (
+            {(admissionsData.process_steps || DEFAULT_ADMISSIONS_DATA.process_steps).map((step, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 22, borderRadius: 10, border: '1px solid #e2e8f0', position: 'relative' }}>
                 <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--navy-header)', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
                   {idx + 1}
@@ -101,7 +129,7 @@ export default function Admissions() {
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
-            {DEFAULT_ADMISSIONS_DATA.eligibility_programs.map((prog, idx) => (
+            {(admissionsData.eligibility_programs || DEFAULT_ADMISSIONS_DATA.eligibility_programs).map((prog, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 24, borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--blue-vibrant)', textTransform: 'uppercase' }}>
                   {prog.duration}
@@ -129,7 +157,7 @@ export default function Admissions() {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-            {DEFAULT_ADMISSIONS_DATA.documents_categories.map((cat, idx) => (
+            {(admissionsData.documents_categories || DEFAULT_ADMISSIONS_DATA.documents_categories).map((cat, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 22, borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <h3 style={{ fontSize: '16.5px', color: 'var(--navy-header)', margin: '0 0 10px' }}>
                   {cat.title}

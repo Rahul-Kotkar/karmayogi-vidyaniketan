@@ -1,8 +1,10 @@
 import React from 'react'
+import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function FacilityCard({ facility }) {
   const [expanded, setExpanded] = React.useState(false)
-  const imageUrl = facility.image_url || facility.img || facility.image || ''
+  const rawImageUrl = facility.image_url || facility.img || facility.image || ''
+  const imageUrl = resolveMediaUrl(rawImageUrl)
   const description = facility.description || facility.desc || ''
 
   return (

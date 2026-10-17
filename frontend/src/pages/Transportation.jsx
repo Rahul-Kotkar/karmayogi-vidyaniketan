@@ -242,47 +242,6 @@ export default function Transportation() {
           </div>
         </div>
 
-        {/* 5. Direct Action & Transport Desk Support CTA */}
-        <div style={{ background: 'linear-gradient(135deg, #071d3a 0%, #0b2545 60%, #0d3b66 100%)', borderRadius: 14, padding: '36px 32px', color: '#ffffff', boxShadow: 'var(--shadow-md)' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 28, alignItems: 'center' }}>
-            <div>
-              <span style={{ fontSize: '11px', fontWeight: 800, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                HAVE QUESTIONS ABOUT BUS STOPS OR ADMISSION?
-              </span>
-              <h3 style={{ fontFamily: 'var(--heading-font)', fontSize: '24px', color: '#ffffff', margin: '8px 0 12px' }}>
-                Opt-in During Admission or Contact Transport Desk
-              </h3>
-              <p style={{ fontSize: '14.5px', color: 'rgba(255, 255, 255, 0.85)', lineHeight: 1.65, margin: '0 0 18px' }}>
-                School bus seats are allocated on a first-come, first-served basis according to vehicle capacity on each feeder line. To confirm your child's route for the upcoming term, connect with our transport counselors.
-              </p>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <Link to="/contact" className="btn btn-primary" style={{ background: '#0284c7', borderColor: '#0284c7' }}>
-                  Enquire Bus Route &amp; Stop &rarr;
-                </Link>
-                <Link to="/admissions" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.6)' }}>
-                  Admission Overview
-                </Link>
-              </div>
-            </div>
-
-            <div style={{ background: 'rgba(255, 255, 255, 0.08)', borderRadius: 10, padding: 22, border: '1px solid rgba(255, 255, 255, 0.15)' }}>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.7)', textTransform: 'uppercase', marginBottom: 6 }}>
-                Direct Transport Helplines
-              </div>
-              <div style={{ fontSize: '18px', fontWeight: 800, color: '#ffffff', marginBottom: 4 }}>
-                +91-8459863477
-              </div>
-              <div style={{ fontSize: '16px', fontWeight: 700, color: '#93c5fd', marginBottom: 12 }}>
-                +91-9527632033
-              </div>
-              <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.5 }}>
-                Email: <span style={{ color: '#ffffff' }}>vijaymadane3@gmail.com</span><br />
-                Office Hours: Mon–Sat 8:00 AM – 2:00 PM (Sunday Closed)
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </PageShell>
   )

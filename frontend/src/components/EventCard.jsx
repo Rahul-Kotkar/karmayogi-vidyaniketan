@@ -88,7 +88,7 @@ export default function EventCard({ event }) {
               lineHeight: 1.35
             }}
           >
-            {event?.type || 'EVENT'}
+            {event?.event_type || event?.type || 'EVENT'}
           </span>
           {/* Simple text date for mobile view */}
           <span className="event-simple-date-text">
@@ -117,12 +117,12 @@ export default function EventCard({ event }) {
           {event?.title}
         </h3>
 
-        {event?.desc && (
+        {(event?.description || event?.desc) && (
           <p
             className={`card-desc-clamp ${expanded ? 'is-expanded' : ''}`}
             style={{ margin: '0 0 2px', fontSize: 11.5, color: '#475569', lineHeight: 1.4 }}
           >
-            {event.desc}
+            {event.description || event.desc}
           </p>
         )}
 

@@ -35,24 +35,31 @@ export default function Events() {
   }
 
   useEffect(() => {
-    eventsService.getAll()
-      .then(res => {
-        if (res && Array.isArray(res)) {
-          setEvents(res)
-          setCachedEvents(res)
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false))
+    const fetchEvents = () => {
+      eventsService.getAll()
+        .then(res => {
+          if (res && Array.isArray(res)) {
+            setEvents(res)
+            setCachedEvents(res)
+          }
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false))
+    }
+
+    fetchEvents()
+    window.addEventListener('events_updated', fetchEvents)
+    return () => window.removeEventListener('events_updated', fetchEvents)
   }, [])
 
-  const types = ['ALL', ...new Set(events.map(e => (e.type || 'Event').toUpperCase()))]
+  const types = ['ALL', ...new Set(events.map(e => (e.event_type || e.type || 'Event').toUpperCase()))]
 
   const filtered = events.filter(e => {
-    const matchType = selectedType === 'ALL' || (e.type || 'Event').toUpperCase() === selectedType
+    const eventType = (e.event_type || e.type || 'Event').toUpperCase()
+    const matchType = selectedType === 'ALL' || eventType === selectedType
     const matchSearch =
       (e.title || '').toLowerCase().includes(search.toLowerCase()) ||
-      (e.desc || '').toLowerCase().includes(search.toLowerCase()) ||
+      ((e.description || e.desc || '')).toLowerCase().includes(search.toLowerCase()) ||
       (e.venue || '').toLowerCase().includes(search.toLowerCase())
     return matchType && matchSearch
   })

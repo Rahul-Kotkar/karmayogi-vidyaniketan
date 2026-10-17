@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
 import { DEFAULT_ADMISSIONS_DATA, COLLEGE } from '../data/collegeData.js'
+import { pagesService, getCachedAdmissionsData } from '../services/endpoints.js'
 
 export default function FeeStructure() {
+  const [data, setData] = useState(() => getCachedAdmissionsData() || DEFAULT_ADMISSIONS_DATA)
+
+  const loadData = () => {
+    pagesService.getBySlug('admissions').then(page => {
+      if (page && page.content_html) {
+        try {
+          const parsed = JSON.parse(page.content_html)
+          setData(prev => ({ ...prev, ...parsed }))
+        } catch {}
+      }
+    }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdated = (e) => {
+      if (e?.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          setData(prev => ({ ...prev, ...parsed }))
+        } catch {}
+      } else {
+        loadData()
+      }
+    }
+    window.addEventListener('page_admissions_updated', handleUpdated)
+    return () => window.removeEventListener('page_admissions_updated', handleUpdated)
+  }, [])
+
+  const feesTable = (Array.isArray(data.fees_table) && data.fees_table.length > 0)
+    ? data.fees_table
+    : DEFAULT_ADMISSIONS_DATA.fees_table
+
+  const feesIntro = data.fees_intro || "In keeping with the philanthropic mission of Shri Pandurang Pratishthan, Karmayogi Vidyaniketan maintains an affordable, transparent fee structure for all classes from Nursery to Grade 10. The school operates with zero capitation fees, no hidden charges, and convenient installment payment options for parents."
+  const feesNotes = data.fees_notes || "* Detailed fee circulars, uniform kits, book costs, and bus route tariffs are specified in the official school prospectus available at the school admission counter."
+
   return (
     <PageShell title="Fee Structure &amp; Guidelines" subtitle="Affordable, Transparent &amp; Regulated School Fees | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -13,8 +50,8 @@ export default function FeeStructure() {
           <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '24px', color: 'var(--navy-header)', margin: '0 0 12px' }}>
             Transparent Fee Policy
           </h2>
-          <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.75, margin: 0 }}>
-            In keeping with the philanthropic mission of Shri Pandurang Pratishthan, Karmayogi Vidyaniketan maintains an affordable, transparent fee structure for all classes from Nursery to Grade 10. The school operates with zero capitation fees, no hidden charges, and convenient installment payment options for parents.
+          <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.75, margin: 0, whiteSpace: 'pre-line' }}>
+            {feesIntro}
           </p>
         </div>
 
@@ -35,7 +72,7 @@ export default function FeeStructure() {
                 </tr>
               </thead>
               <tbody>
-                {DEFAULT_ADMISSIONS_DATA.fees_table.map((row, idx) => (
+                {feesTable.map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0', background: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
                     <td style={{ padding: '14px 16px', fontWeight: 700, color: 'var(--navy-header)', fontSize: '14.5px' }}>
                       {row.category}
@@ -55,8 +92,8 @@ export default function FeeStructure() {
             </table>
           </div>
 
-          <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginTop: 16, lineHeight: 1.6 }}>
-            * Detailed fee circulars, uniform kits, book costs, and bus route tariffs are specified in the official school prospectus available at the school admission counter.
+          <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginTop: 16, lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+            {feesNotes}
           </p>
         </section>
 
@@ -98,36 +135,33 @@ export default function FeeStructure() {
             {[
               {
                 q: "Is there any donation or capitation fee for admission?",
-                a: "Absolutely not. Karmayogi Vidyaniketan has a strict zero-donation policy. All admissions are conducted fairly without any capitation charges."
+                a: "No. Karmayogi Vidyaniketan follows a strict zero-donation policy. All admissions are conducted purely on transparent, regulated norms."
               },
               {
-                q: "Are transportation and uniform charges included in the tuition fee?",
-                a: "No, school bus transportation, uniform, and books are optional or separate services availed according to parent requirements at nominal, subsidized charges."
+                q: "Can school fees be paid online?",
+                a: "Yes, parents can pay conveniently via UPI, NEFT/RTGS, or net banking directly into the official school account."
               },
               {
-                q: "What boards does the school follow?",
-                a: "Karmayogi Vidyaniketan offers both CBSE and Maharashtra State Board curriculum tracks from foundational grades through Grade 10."
-              },
-              {
-                q: "What are the school working and office hours?",
-                a: "The school administrative and admission office operates Monday to Saturday from 8:00 AM to 2:00 PM (Closed on Sundays)."
+                q: "Are bus transport charges included in the tuition fee?",
+                a: "No, school bus transportation fees are calculated separately based on the specific route and distance from student pickup point."
               }
-            ].map((faq, i) => (
-              <div key={i} style={{ background: '#f8fafc', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                <strong style={{ fontSize: '15px', color: 'var(--navy-header)', display: 'block', marginBottom: 6 }}>
-                  Q: {faq.q}
-                </strong>
+            ].map((faq, idx) => (
+              <div key={idx} style={{ background: '#f8fafc', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+                <h4 style={{ fontSize: '15.5px', color: 'var(--navy-header)', margin: '0 0 6px' }}>
+                  {faq.q}
+                </h4>
                 <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: 0 }}>
-                  A: {faq.a}
+                  {faq.a}
                 </p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* CTA */}
-        <div style={{ textAlign: 'center' }}>
-          <Link to="/admissions" className="btn btn-primary">Proceed to Admission Enquiry &rarr;</Link>
+        <div style={{ textAlign: 'center', marginTop: 12 }}>
+          <Link to="/admissions#apply" className="btn btn-primary" style={{ padding: '12px 30px' }}>
+            Apply for Admission Now &rarr;
+          </Link>
         </div>
 
       </div>

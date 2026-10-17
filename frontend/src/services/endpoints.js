@@ -227,9 +227,24 @@ export const noticesService = {
     }
   },
   getById: (id) => api.get(`/notices?id=${id}`),
-  create: (data) => api.post('/notices', data),
-  update: (id, data) => api.put(`/notices?id=${id}`, data),
-  delete: (id) => api.delete(`/notices?id=${id}`)
+  create: async (data) => {
+    const res = await api.post('/notices', data)
+    clearLocalCache('notices')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('notices_updated'))
+    return res
+  },
+  update: async (id, data) => {
+    const res = await api.put(`/notices?id=${id}`, data)
+    clearLocalCache('notices')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('notices_updated'))
+    return res
+  },
+  delete: async (id) => {
+    const res = await api.delete(`/notices?id=${id}`)
+    clearLocalCache('notices')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('notices_updated'))
+    return res
+  }
 }
 
 // --------------------------------------------------------
@@ -249,9 +264,24 @@ export const eventsService = {
     }
   },
   getById: (id) => api.get(`/events?id=${id}`),
-  create: (data) => api.post('/events', data),
-  update: (id, data) => api.put(`/events?id=${id}`, data),
-  delete: (id) => api.delete(`/events?id=${id}`)
+  create: async (data) => {
+    const res = await api.post('/events', data)
+    clearLocalCache('events')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('events_updated'))
+    return res
+  },
+  update: async (id, data) => {
+    const res = await api.put(`/events?id=${id}`, data)
+    clearLocalCache('events')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('events_updated'))
+    return res
+  },
+  delete: async (id) => {
+    const res = await api.delete(`/events?id=${id}`)
+    clearLocalCache('events')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('events_updated'))
+    return res
+  }
 }
 
 // --------------------------------------------------------
@@ -347,9 +377,24 @@ export const facilitiesService = {
       return getCachedFacilities() || []
     }
   },
-  create: (data) => api.post('/facilities', data),
-  update: (id, data) => api.put(`/facilities?id=${id}`, data),
-  delete: (id) => api.delete(`/facilities?id=${id}`)
+  create: async (data) => {
+    const res = await api.post('/facilities', data)
+    clearLocalCache('facilities')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('facilities_updated'))
+    return res
+  },
+  update: async (id, data) => {
+    const res = await api.put(`/facilities?id=${id}`, data)
+    clearLocalCache('facilities')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('facilities_updated'))
+    return res
+  },
+  delete: async (id) => {
+    const res = await api.delete(`/facilities?id=${id}`)
+    clearLocalCache('facilities')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('facilities_updated'))
+    return res
+  }
 }
 
 // --------------------------------------------------------
@@ -376,12 +421,42 @@ export const galleryService = {
       return null
     }
   },
-  createAlbum: (data) => api.post('/gallery/albums', data),
-  updateAlbum: (data) => api.post('/gallery/albums', data),
-  deleteAlbum: (id) => api.delete(`/gallery/albums?id=${id}`),
-  addPhotos: (albumId, photos) => api.post('/gallery/photos', { album_id: albumId, photos }),
-  deletePhoto: (id) => api.delete(`/gallery/photos?id=${id}`),
-  updatePhoto: (id, data) => api.put(`/gallery/photos?id=${id}`, data),
+  createAlbum: async (data) => {
+    const res = await api.post('/gallery/albums', data)
+    clearLocalCache('albums')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('gallery_updated'))
+    return res
+  },
+  updateAlbum: async (data) => {
+    const res = await api.post('/gallery/albums', data)
+    clearLocalCache('albums')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('gallery_updated'))
+    return res
+  },
+  deleteAlbum: async (id) => {
+    const res = await api.delete(`/gallery/albums?id=${id}`)
+    clearLocalCache('albums')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('gallery_updated'))
+    return res
+  },
+  addPhotos: async (albumId, photos) => {
+    const res = await api.post('/gallery/photos', { album_id: albumId, photos })
+    clearLocalCache('albums')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('gallery_updated'))
+    return res
+  },
+  deletePhoto: async (id) => {
+    const res = await api.delete(`/gallery/photos?id=${id}`)
+    clearLocalCache('albums')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('gallery_updated'))
+    return res
+  },
+  updatePhoto: async (id, data) => {
+    const res = await api.put(`/gallery/photos?id=${id}`, data)
+    clearLocalCache('albums')
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('gallery_updated'))
+    return res
+  },
   getAll: async () => {
     try {
       const res = await api.get('/gallery/albums')
@@ -489,7 +564,12 @@ export const pagesService = {
           if (data.slug === 'departments') setCachedDepartmentsData(parsed)
           if (data.slug === 'academic_years') setCachedAcademicYears(parsed)
           if (data.slug === 'navigation_visibility') setCachedNavVisibility(parsed)
+          if (data.slug === 'iqac-naac') setCachedIQACData(parsed)
         } catch {}
+      }
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('page_updated', { detail: data }))
+        window.dispatchEvent(new CustomEvent(`page_${data.slug}_updated`, { detail: data }))
       }
     }
     return res
@@ -541,6 +621,9 @@ export const settingsService = {
   update: async (data) => {
     const res = await api.post('/settings', data)
     setCachedSettings(data)
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('settings_updated', { detail: data }))
+    }
     return res
   }
 }

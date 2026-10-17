@@ -1,8 +1,48 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
+import { pagesService, getCachedAboutData } from '../services/endpoints.js'
+
+const DEFAULT_VISION = '“To be an institution of educational distinction in Pandharpur and Maharashtra that nurtures young minds with intellectual vigor, moral strength, creative curiosity, and holistic life skills, empowering them to become responsible, empathetic citizens rooted in Indian values.”'
+
+const DEFAULT_MISSION_PILLARS = [
+  { num: "01", title: "Accessible Quality Education", desc: "Provide high-quality English-medium schooling accessible to boys and girls across Pandharpur and rural Solapur district." },
+  { num: "02", title: "Modern Experiential Pedagogy", desc: "Integrate smart classrooms, science labs, computer education, and hands-on STEM & AI Robotics with curriculum delivery." },
+  { num: "03", title: "Physical Fitness & Sports", desc: "Cultivate physical endurance, sportsmanship, and teamwork through daily athletics, yoga, cricket, football, and traditional Indian sports." },
+  { num: "04", title: "Indian Values & Character", desc: "Inculcate deep respect for Indian culture, self-discipline, honesty, civic duty, and environmental responsibility." },
+  { num: "05", title: "Child-Centric Mentorship", desc: "Nurture each learner's unique strengths, curiosity, and emotional confidence through caring teacher-student relationships." },
+  { num: "06", title: "Safe Campus & Transport", desc: "Maintain secure, GPS-monitored transportation and CCTV-monitored campuses ensuring a protective environment for all students." }
+]
 
 export default function VisionMission() {
+  const [aboutData, setAboutData] = useState(() => getCachedAboutData())
+
+  const loadData = () => {
+    pagesService.getBySlug('about').then(page => {
+      if (page && page.content_html) {
+        try {
+          setAboutData(JSON.parse(page.content_html))
+        } catch {}
+      }
+    }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdated = (e) => {
+      if (e?.detail?.content_html) {
+        try { setAboutData(JSON.parse(e.detail.content_html)) } catch {}
+      } else { loadData() }
+    }
+    window.addEventListener('page_about_updated', handleUpdated)
+    return () => window.removeEventListener('page_about_updated', handleUpdated)
+  }, [])
+
+  const visionStatement = aboutData?.vision_text || aboutData?.vision_statement || DEFAULT_VISION
+  const missionPoints = (Array.isArray(aboutData?.mission_points) && aboutData.mission_points.length > 0)
+    ? aboutData.mission_points
+    : null
+
   return (
     <PageShell title="Vision &amp; Mission" subtitle="Guiding Principles of Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -17,11 +57,11 @@ export default function VisionMission() {
               </svg>
             </div>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '24px', color: 'var(--navy-header)', margin: 0 }}>
-              Our Vision
+              {aboutData?.vision_title || 'Our Vision'}
             </h2>
           </div>
           <p style={{ fontSize: '17px', color: '#334155', lineHeight: 1.8, fontStyle: 'italic', margin: 0 }}>
-            “To be an institution of educational distinction in Pandharpur and Maharashtra that nurtures young minds with intellectual vigor, moral strength, creative curiosity, and holistic life skills, empowering them to become responsible, empathetic citizens rooted in Indian values.”
+            {visionStatement}
           </p>
         </div>
 
@@ -35,25 +75,31 @@ export default function VisionMission() {
               </svg>
             </div>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '24px', color: 'var(--navy-header)', margin: 0 }}>
-              Our Mission Pillars
+              {aboutData?.mission_title || 'Our Mission Pillars'}
             </h2>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18 }}>
-            {[
-              { num: "01", title: "Accessible Quality Education", desc: "Provide high-quality English-medium schooling accessible to boys and girls across Pandharpur and rural Solapur district." },
-              { num: "02", title: "Modern Experiential Pedagogy", desc: "Integrate smart classrooms, science labs, computer education, and hands-on STEM & AI Robotics with curriculum delivery." },
-              { num: "03", title: "Physical Fitness & Sports", desc: "Cultivate physical endurance, sportsmanship, and teamwork through daily athletics, yoga, cricket, football, and traditional Indian sports." },
-              { num: "04", title: "Indian Values & Character", desc: "Inculcate deep respect for Indian culture, self-discipline, honesty, civic duty, and environmental responsibility." },
-              { num: "05", title: "Child-Centric Mentorship", desc: "Nurture each learner's unique strengths, curiosity, and emotional confidence through caring teacher-student relationships." },
-              { num: "06", title: "Safe Campus & Transport", desc: "Maintain secure, GPS-monitored transportation and CCTV-monitored campuses ensuring a protective environment for all students." }
-            ].map((p, idx) => (
-              <div key={idx} style={{ background: '#f8fafc', padding: 20, borderRadius: 10, border: '1px solid #e2e8f0' }}>
-                <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--blue-vibrant)' }}>{p.num}</span>
-                <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '6px 0 8px' }}>{p.title}</h3>
-                <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
-              </div>
-            ))}
+            {missionPoints ? (
+              missionPoints.map((point, idx) => (
+                <div key={idx} style={{ background: '#f8fafc', padding: 20, borderRadius: 10, border: '1px solid #e2e8f0' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--blue-vibrant)' }}>
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <p style={{ fontSize: '14.5px', color: 'var(--navy-header)', lineHeight: 1.6, margin: '8px 0 0', fontWeight: 500 }}>
+                    {point}
+                  </p>
+                </div>
+              ))
+            ) : (
+              DEFAULT_MISSION_PILLARS.map((p, idx) => (
+                <div key={idx} style={{ background: '#f8fafc', padding: 20, borderRadius: 10, border: '1px solid #e2e8f0' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--blue-vibrant)' }}>{p.num}</span>
+                  <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '6px 0 8px' }}>{p.title}</h3>
+                  <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

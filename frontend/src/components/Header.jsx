@@ -45,6 +45,12 @@ export default function Header() {
         setCollege(formatCollegeSettings(data))
       }
     }).catch(() => {})
+
+    const onSettingsUpdated = (e) => {
+      if (e.detail) setCollege(formatCollegeSettings(e.detail))
+    }
+    window.addEventListener('settings_updated', onSettingsUpdated)
+    return () => window.removeEventListener('settings_updated', onSettingsUpdated)
   }, [])
 
   return (

@@ -1,13 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { COLLEGE } from '../data/collegeData.js'
+import { settingsService, getCachedSettings, setCachedSettings } from '../services/endpoints.js'
 
 export default function Footer() {
+  const [settings, setSettings] = useState(() => getCachedSettings())
+
+  const loadSettings = () => {
+    settingsService.get().then(data => {
+      if (data) {
+        setSettings(data)
+        setCachedSettings(data)
+      }
+    }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadSettings()
+    window.addEventListener('settings_updated', loadSettings)
+    return () => window.removeEventListener('settings_updated', loadSettings)
+  }, [])
+
+  const phone = settings?.college_phone || COLLEGE.phone
+  const email = settings?.college_email || COLLEGE.email
+  const brandName = settings?.college_name || 'KARMAYOGI VIDYANIKETAN'
+  const address = settings?.college_address || 'Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304.'
+
   return (
     <footer className="college-footer">
       <div className="footer-top">
         <div className="footer-about">
-          <div className="footer-brand">KARMAYOGI VIDYANIKETAN</div>
+          <div className="footer-brand">{brandName}</div>
           <div style={{ fontSize: '14px', fontWeight: 700, color: '#c9a227', marginBottom: '8px' }}>
             Karmayogi Public School
           </div>
@@ -54,7 +77,7 @@ export default function Footer() {
             <li style={{ marginBottom: 12 }}>
               <strong style={{ color: '#ffffff', display: 'block' }}>Main High School Campus</strong>
               <span style={{ fontSize: '13px', color: '#94a3b8' }}>
-                Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304.
+                {address}
               </span>
             </li>
             <li>
@@ -66,9 +89,9 @@ export default function Footer() {
         <div className="footer-links-col footer-col-contact">
           <h4>Contact School Desk</h4>
           <ul>
-            <li><b>Phones:</b> {COLLEGE.phone}</li>
+            <li><b>Phones:</b> {phone}</li>
             <li><b>Additional:</b> +91-9527632033, +91-8788642412</li>
-            <li><b>Email:</b> <a href={'mailto:' + COLLEGE.email}>{COLLEGE.email}</a></li>
+            <li><b>Email:</b> <a href={'mailto:' + email}>{email}</a></li>
             <li><b>Hours:</b> Mon – Sat: 8:00 AM – 2:00 PM</li>
             <li style={{ marginTop: 8 }}>Pandharpur, Solapur, Maharashtra</li>
           </ul>
@@ -78,7 +101,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <div className="footer-bottom-container">
           <div className="footer-bottom-left">
-            © 2026 Karmayogi Vidyaniketan. All Rights Reserved. | Shri Pandurang Pratishthan, Pandharpur
+            © 2026 {brandName}. All Rights Reserved. | Shri Pandurang Pratishthan, Pandharpur
           </div>
           <div className="footer-bottom-right">
             Shri Pandurang Pratishthan, Pandharpur

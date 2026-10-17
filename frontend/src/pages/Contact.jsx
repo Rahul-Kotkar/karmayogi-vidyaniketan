@@ -27,19 +27,25 @@ export default function Contact() {
   const [activeTopic, setActiveTopic] = useState('')
 
   useEffect(() => {
-    settingsService.get().then(data => {
-      if (data) {
-        setSchoolInfo(prev => ({
-          ...prev,
-          foundation: data.foundation_name || prev.foundation,
-          name: data.college_name || prev.name,
-          address: data.college_address || prev.address,
-          phone: data.college_phone || prev.phone,
-          email: data.college_email || prev.email,
-          website: data.college_website || prev.website
-        }))
-      }
-    }).catch(() => {})
+    const loadSettings = () => {
+      settingsService.get().then(data => {
+        if (data) {
+          setSchoolInfo(prev => ({
+            ...prev,
+            foundation: data.foundation_name || prev.foundation,
+            name: data.college_name || prev.name,
+            address: data.college_address || prev.address,
+            phone: data.college_phone || prev.phone,
+            email: data.college_email || prev.email,
+            website: data.college_website || prev.website
+          }))
+        }
+      }).catch(() => {})
+    }
+
+    loadSettings()
+    window.addEventListener('settings_updated', loadSettings)
+    return () => window.removeEventListener('settings_updated', loadSettings)
   }, [])
 
   const handleSelectTopic = (topic) => {

@@ -5,6 +5,7 @@ import NoticeCard from '../components/NoticeCard.jsx'
 import { DEFAULT_NOTICES } from '../data/collegeData.js'
 import { noticesService, getCachedNotices, setCachedNotices } from '../services/endpoints.js'
 import { FilePdfIcon } from '../components/Icons.jsx'
+import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function Notices() {
   const [notices, setNotices] = useState(() => {
@@ -15,7 +16,7 @@ export default function Notices() {
   const [params] = useSearchParams()
   const openId = params.get('n')
 
-  useEffect(() => {
+  const fetchNotices = () => {
     noticesService.getAll().then(data => {
       setNotices(data)
       setCachedNotices(data)
@@ -23,6 +24,12 @@ export default function Notices() {
     }).catch(() => {
       setLoading(false)
     })
+  }
+
+  useEffect(() => {
+    fetchNotices()
+    window.addEventListener('notices_updated', fetchNotices)
+    return () => window.removeEventListener('notices_updated', fetchNotices)
   }, [])
 
   const open = notices.find(n => String(n.id) === openId)
@@ -37,7 +44,7 @@ export default function Notices() {
             {open.file_url && (
               <p style={{ marginTop: 10 }}>
                 <a
-                  href={open.file_url}
+                  href={resolveMediaUrl(open.file_url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { ROW_2_NAV } from '../../data/collegeData.js'
+import { ROW_1_NAV, ROW_2_NAV } from '../../data/collegeData.js'
 import {
   getCachedNavVisibility,
   setCachedNavVisibility,
@@ -14,6 +14,13 @@ export default function AdminNavigationVisibility() {
   const [msg, setMsg] = useState({ text: '', type: '' })
   const [openDropdowns, setOpenDropdowns] = useState({})
   const [menuFilter, setMenuFilter] = useState('all')
+  const [activeTab, setActiveTab] = useState('all')
+
+  // Combined menu list for both Row 1 and Row 2
+  const allNavItems = useMemo(() => [
+    ...ROW_1_NAV.map(m => ({ ...m, row: 1, rowBadge: 'First Menu (Main)' })),
+    ...ROW_2_NAV.map(m => ({ ...m, row: 2, rowBadge: 'Second Menu (Strip)' }))
+  ], [])
 
   // Load initial settings
   useEffect(() => {
@@ -116,10 +123,10 @@ export default function AdminNavigationVisibility() {
 
   // Reset everything to visible
   const handleResetAll = () => {
-    if (window.confirm('Reset all Row 2 menus and submenus to visible?')) {
+    if (window.confirm('Reset all first and second menu items and submenus to visible?')) {
       setHiddenMenus([])
       setHiddenSubmenus({})
-      setMsg({ text: 'All secondary menus and submenus reset to visible. Click "Save Changes" to apply.', type: 'info' })
+      setMsg({ text: 'All navigation menus and submenus reset to visible. Click "Save Changes" to apply.', type: 'info' })
     }
   }
 
@@ -134,11 +141,11 @@ export default function AdminNavigationVisibility() {
       }
       await pagesService.save({
         slug: 'navigation_visibility',
-        title: 'Row 2 Navigation Visibility Settings',
+        title: 'Navigation Menu Visibility Settings',
         content_html: JSON.stringify(payload)
       })
       setCachedNavVisibility(payload)
-      setMsg({ text: 'Menu and submenu visibility updated successfully and synced with the website.', type: 'success' })
+      setMsg({ text: 'First & Second Menu visibility updated successfully and synced with the website.', type: 'success' })
     } catch (err) {
       console.error('Failed to save navigation visibility:', err)
       const payload = { hiddenMenus, hiddenSubmenus }
@@ -151,9 +158,12 @@ export default function AdminNavigationVisibility() {
 
   // Filtered menu list
   const filteredNav = useMemo(() => {
-    if (menuFilter === 'all') return ROW_2_NAV
-    return ROW_2_NAV.filter(m => m.label === menuFilter)
-  }, [menuFilter])
+    let list = allNavItems
+    if (activeTab === 'row1') list = list.filter(m => m.row === 1)
+    if (activeTab === 'row2') list = list.filter(m => m.row === 2)
+    if (menuFilter !== 'all') list = list.filter(m => m.label === menuFilter)
+    return list
+  }, [allNavItems, activeTab, menuFilter])
 
   return (
     <div>
@@ -161,9 +171,9 @@ export default function AdminNavigationVisibility() {
       <div className="admin-page-header">
         <div>
           <span className="admin-page-badge">Navigation Architecture</span>
-          <h1>Row 2 Menu &amp; Submenu Visibility</h1>
+          <h1>First &amp; Second Menu Visibility</h1>
           <p style={{ color: '#5c6672', margin: '4px 0 0', fontSize: 13.5 }}>
-            Configure which secondary navigation menus and submenus appear on the public website and mobile drawer.
+            Configure which primary (first menu) and secondary (second menu) navigation items appear on the public website and mobile drawer.
           </p>
         </div>
         <div className="admin-page-actions">
@@ -204,10 +214,10 @@ export default function AdminNavigationVisibility() {
         <div className="admin-card-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: '#0f172a' }}>
-              Academic & Campus Services Menus (Row 2)
+              Website Navigation Menu Settings
             </h3>
             <span style={{ fontSize: 12, color: '#64748b' }}>
-              Click any submenu dropdown to manage individual pages.
+              First Menu: Top Header | Second Menu: Academic &amp; Explorer Strip.
             </span>
           </div>
 
@@ -225,14 +235,42 @@ export default function AdminNavigationVisibility() {
               }}
               style={{ width: 'auto', minWidth: 200, padding: '6px 12px', fontSize: 13 }}
             >
-              <option value="all">All Secondary Menus (9)</option>
-              {ROW_2_NAV.map(m => (
-                <option key={m.label} value={m.label}>
-                  {m.label} {m.children ? `(${m.children.length} submenus)` : ''}
+              <option value="all">All Menus ({allNavItems.length})</option>
+              {allNavItems.map(m => (
+                <option key={`${m.row}-${m.label}`} value={m.label}>
+                  [{m.row === 1 ? 'First' : 'Second'}] {m.label} {m.children ? `(${m.children.length} submenus)` : ''}
                 </option>
               ))}
             </select>
           </div>
+        </div>
+
+        {/* Tab Filters */}
+        <div style={{ display: 'flex', gap: 8, padding: '10px 18px', borderBottom: '1px solid #e2e8f0', background: '#f8fafc' }}>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'all' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setActiveTab('all')}
+            style={{ fontSize: 12 }}
+          >
+            All Menus ({allNavItems.length})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'row1' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setActiveTab('row1')}
+            style={{ fontSize: 12 }}
+          >
+            First Menu / Header ({ROW_1_NAV.length})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'row2' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setActiveTab('row2')}
+            style={{ fontSize: 12 }}
+          >
+            Second Menu / Strip ({ROW_2_NAV.length})
+          </button>
         </div>
 
         <div className="admin-card-body" style={{ padding: 0 }}>
@@ -245,11 +283,12 @@ export default function AdminNavigationVisibility() {
               <table className="admin-table">
                 <thead>
                   <tr>
-                    <th style={{ width: '25%' }}>Menu Name</th>
-                    <th style={{ width: '25%' }}>Website Link</th>
-                    <th style={{ width: '15%' }}>Whole Menu Status</th>
-                    <th style={{ width: '15%' }}>Menu Action</th>
-                    <th style={{ width: '20%', textAlign: 'right' }}>Submenus</th>
+                    <th style={{ width: '15%' }}>Menu Bar</th>
+                    <th style={{ width: '22%' }}>Menu Name</th>
+                    <th style={{ width: '23%' }}>Website Link</th>
+                    <th style={{ width: '12%' }}>Status</th>
+                    <th style={{ width: '13%' }}>Action</th>
+                    <th style={{ width: '15%', textAlign: 'right' }}>Submenus</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -262,8 +301,23 @@ export default function AdminNavigationVisibility() {
                     const isDropdownOpen = Boolean(openDropdowns[item.label])
 
                     return (
-                      <React.Fragment key={item.label}>
+                      <React.Fragment key={`${item.row}-${item.label}`}>
                         <tr style={{ background: menuHidden ? '#fffbfb' : '#ffffff' }}>
+                          <td>
+                            <span
+                              className="admin-badge"
+                              style={{
+                                fontSize: 11,
+                                padding: '3px 8px',
+                                background: item.row === 1 ? '#eff6ff' : '#f1f5f9',
+                                color: item.row === 1 ? '#1d4ed8' : '#334155',
+                                border: item.row === 1 ? '1px solid #bfdbfe' : '1px solid #cbd5e1'
+                              }}
+                            >
+                              {item.rowBadge}
+                            </span>
+                          </td>
+
                           <td>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                               <strong style={{ color: menuHidden ? '#94a3b8' : '#0f172a' }}>
@@ -334,7 +388,7 @@ export default function AdminNavigationVisibility() {
                         {/* Collapsible Dropdown Panel for Submenus */}
                         {hasChildren && isDropdownOpen && (
                           <tr>
-                            <td colSpan="5" style={{ background: '#f8fafc', padding: '14px 20px', borderBottom: '1px solid #e2e8f0' }}>
+                            <td colSpan="6" style={{ background: '#f8fafc', padding: '14px 20px', borderBottom: '1px solid #e2e8f0' }}>
                               <div style={{
                                 background: '#ffffff',
                                 border: '1px solid #e2e8f0',

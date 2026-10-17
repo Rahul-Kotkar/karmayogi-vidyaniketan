@@ -103,20 +103,33 @@ export default function Navbar2Row() {
 
   // Unified Mobile Navigation Sequence
   const mobileNavItems = [
+    { key: 'home', label: 'HOME', path: '/', exact: true },
+    { key: 'about', label: 'ABOUT', path: '/about' },
     {
-      key: 'home',
-      label: 'Home',
-      path: '/',
-      exact: true
+      key: 'admissions',
+      label: 'ADMISSIONS',
+      path: '/admissions',
+      children: [
+        { label: 'Admission Overview', path: '/admissions' },
+        { label: 'Admission Process', path: '/admission-process' },
+        { label: 'Eligibility Criteria', path: '/admission-process#eligibility' },
+        { label: 'Documents Required', path: '/admission-process#documents' },
+        { label: 'Fee Structure', path: '/fees' },
+        { label: 'Enquiry / Apply Now', path: '/admissions#apply' },
+        { label: 'Admission FAQs', path: '/fees#faqs' }
+      ]
     },
-    {
-      key: 'about',
-      label: 'About Us',
-      path: '/about'
-    },
+    { key: 'faculty', label: 'FACULTY', path: '/faculty' },
+    { key: 'notices', label: 'NOTICES', path: '/notices' },
+    { key: 'news', label: 'NEWS', path: '/news' },
+    { key: 'events', label: 'EVENTS', path: '/events' },
+    { key: 'gallery', label: 'GALLERY', path: '/gallery' },
+    { key: 'contact', label: 'CONTACT', path: '/contact' },
+
+    // Secondary items taken down from Row 1
     {
       key: 'academics',
-      label: 'Academics',
+      label: 'ACADEMICS',
       path: '/academics',
       children: [
         { label: 'Academic Overview', path: '/academics' },
@@ -128,22 +141,10 @@ export default function Navbar2Row() {
         { label: 'Examination & Assessment', path: '/academics#examination' }
       ]
     },
-    {
-      key: 'admissions',
-      label: 'Admissions',
-      path: '/admissions',
-      children: [
-        { label: 'Admission Process', path: '/admission-process' },
-        { label: 'Eligibility Criteria', path: '/admission-process#eligibility' },
-        { label: 'Documents Required', path: '/admission-process#documents' },
-        { label: 'Fee Structure', path: '/fees' },
-        { label: 'Enquiry / Apply Now', path: '/admissions#apply' },
-        { label: 'Admission FAQs', path: '/fees#faqs' }
-      ]
-    },
+    { key: 'curriculum', label: 'CURRICULUM', path: '/curriculum' },
     {
       key: 'campus',
-      label: 'Campus',
+      label: 'CAMPUS',
       path: '/infrastructure',
       children: [
         { label: 'Infrastructure Overview', path: '/infrastructure' },
@@ -157,40 +158,24 @@ export default function Navbar2Row() {
         { label: 'Sports Facilities', path: '/sports' }
       ]
     },
+    { key: 'facilities', label: 'FACILITIES', path: '/facilities' },
     {
       key: 'student-life',
-      label: 'Student Life',
+      label: 'STUDENT LIFE',
       path: '/student-life',
       children: [
         { label: 'Sports & Athletics', path: '/sports' },
         { label: 'Cultural Activities', path: '/student-life#cultural' },
         { label: 'Clubs & Activities', path: '/student-life#clubs' },
-        { label: 'Events & Celebrations', path: '/events' },
         { label: 'Field Trips & Excursions', path: '/student-life#field-trips' },
         { label: 'Competitions & Olympiads', path: '/student-life#competitions' },
         { label: 'Student Achievements', path: '/student-life#achievements' }
       ]
     },
-    {
-      key: 'facilities',
-      label: 'Facilities',
-      path: '/facilities'
-    },
-    {
-      key: 'gallery',
-      label: 'School Gallery',
-      path: '/gallery'
-    },
-    {
-      key: 'events',
-      label: 'News & Events',
-      path: '/events'
-    },
-    {
-      key: 'contact',
-      label: 'Contact Us',
-      path: '/contact'
-    }
+    { key: 'labs', label: 'SCIENCE & STEM LABS', path: '/labs' },
+    { key: 'transport', label: 'TRANSPORTATION', path: '/transport' },
+    { key: 'sports', label: 'SPORTS FACILITIES', path: '/sports' },
+    { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admissions#apply' }
   ]
 
   return (
@@ -285,12 +270,14 @@ export default function Navbar2Row() {
 
         <div className="mobile-drawer-scroll">
           <ul className="mobile-nav-list">
-            {mobileNavItems.map(item => {
-              const hasChildren = Boolean(item.children && item.children.length > 0)
+            {mobileNavItems.filter(item => isMenuVisible(item.label)).map(item => {
+              const rawChildren = item.children || []
+              const visibleChildren = rawChildren.filter(c => isSubmenuVisible(item.label, c))
+              const hasChildren = visibleChildren.length > 0
               const isExpanded = Boolean(mobileExpanded[item.key])
               const isActiveParent = hasChildren && (
                 location.pathname === item.path ||
-                (item.children && item.children.some(c => c.path === location.pathname))
+                visibleChildren.some(c => c.path === location.pathname)
               )
 
               return (
@@ -333,7 +320,7 @@ export default function Navbar2Row() {
 
                   {hasChildren && isExpanded && (
                     <ul className="mobile-subnav-list">
-                      {item.children.map(subItem => {
+                      {visibleChildren.map(subItem => {
                         const isSubActive = location.pathname === subItem.path
                         return (
                           <li key={subItem.path || subItem.label} className="mobile-subnav-item">
@@ -381,15 +368,16 @@ export default function Navbar2Row() {
             <nav className="nav-deck row-1-deck" aria-label="Primary Institutional Navigation">
               <div className="nav-deck-inner">
                 <ul className="nav-items-list">
-                  {ROW_1_NAV.map((item, idx) => {
+                  {ROW_1_NAV.filter(item => isMenuVisible(item.label)).map((item, idx) => {
                     const hasChildren = Boolean(item.children && item.children.length > 0)
                     const isHovered = activeDropdown === `r1-${idx}`
+                    const visibleChildren = hasChildren ? item.children.filter(c => isSubmenuVisible(item.label, c)) : []
 
                     return (
                       <li
                         key={item.label}
-                        className={`nav-item ${hasChildren ? 'has-dropdown' : ''}`}
-                        onMouseEnter={() => hasChildren && setActiveDropdown(`r1-${idx}`)}
+                        className={`nav-item ${hasChildren && visibleChildren.length > 0 ? 'has-dropdown' : ''}`}
+                        onMouseEnter={() => hasChildren && visibleChildren.length > 0 && setActiveDropdown(`r1-${idx}`)}
                         onMouseLeave={() => hasChildren && setActiveDropdown(null)}
                       >
                         <NavLink
@@ -399,17 +387,17 @@ export default function Navbar2Row() {
                           onClick={() => handleNavClick(item.path)}
                         >
                           <span>{item.label}</span>
-                          {hasChildren && (
+                          {hasChildren && visibleChildren.length > 0 && (
                             <svg className="caret-icon" viewBox="0 0 20 20" fill="currentColor">
                               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                             </svg>
                           )}
                         </NavLink>
 
-                        {hasChildren && (
+                        {hasChildren && visibleChildren.length > 0 && (
                           <div className={`nav-dropdown-card ${isHovered ? 'dropdown-visible' : ''}`}>
                             <ul className="dropdown-list">
-                              {item.children.map(subItem => (
+                              {visibleChildren.map(subItem => (
                                 <li key={subItem.label} className="dropdown-item">
                                   <Link
                                     to={subItem.path}
@@ -438,17 +426,51 @@ export default function Navbar2Row() {
             <nav className="nav-deck row-2-deck" aria-label="Campus & Academic Services Navigation">
               <div className="nav-deck-inner">
                 <ul className="nav-items-list row-2-list">
-                  {ROW_2_NAV.map((item) => (
-                    <li key={item.label} className="nav-item">
-                      <NavLink
-                        to={item.path}
-                        className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
-                        onClick={() => handleNavClick(item.path)}
+                  {ROW_2_NAV.filter(item => isMenuVisible(item.label)).map((item, idx) => {
+                    const hasChildren = Boolean(item.children && item.children.length > 0)
+                    const isHovered = activeDropdown === `r2-${idx}`
+                    const visibleChildren = hasChildren ? item.children.filter(c => isSubmenuVisible(item.label, c)) : []
+
+                    return (
+                      <li
+                        key={item.label}
+                        className={`nav-item ${hasChildren && visibleChildren.length > 0 ? 'has-dropdown' : ''}`}
+                        onMouseEnter={() => hasChildren && visibleChildren.length > 0 && setActiveDropdown(`r2-${idx}`)}
+                        onMouseLeave={() => hasChildren && setActiveDropdown(null)}
                       >
-                        <span>{item.label}</span>
-                      </NavLink>
-                    </li>
-                  ))}
+                        <NavLink
+                          to={item.path}
+                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+                          onClick={() => handleNavClick(item.path)}
+                        >
+                          <span>{item.label}</span>
+                          {hasChildren && visibleChildren.length > 0 && (
+                            <svg className="caret-icon" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </NavLink>
+
+                        {hasChildren && visibleChildren.length > 0 && (
+                          <div className={`nav-dropdown-card ${isHovered ? 'dropdown-visible' : ''}`}>
+                            <ul className="dropdown-list">
+                              {visibleChildren.map(subItem => (
+                                <li key={subItem.label} className="dropdown-item">
+                                  <Link
+                                    to={subItem.path}
+                                    className="dropdown-link"
+                                    onClick={() => handleNavClick(subItem.path)}
+                                  >
+                                    {subItem.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
             </nav>

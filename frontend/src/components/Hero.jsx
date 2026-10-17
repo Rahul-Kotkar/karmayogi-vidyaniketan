@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { HERO_SLIDES } from '../data/collegeData.js'
 import defaultHeroBuildingImg from '../assets/hero_building.png'
+import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 function renderHeroTitle(title) {
   if (!title) return ''
@@ -65,22 +66,17 @@ export default function Hero({ data }) {
         tag: data.hero_tag || slide.tag,
         title: data.hero_title || slide.title,
         description: data.hero_sub || data.hero_tagline || slide.description,
-        image: data.hero_image_url || slide.image || defaultHeroBuildingImg,
+        image: resolveMediaUrl(data.hero_image_url || slide.image, defaultHeroBuildingImg),
         primaryBtn: {
           text: data.hero_btn1_text || slide.primaryBtn?.text || 'Apply for Admission',
           link: data.hero_btn1_link || slide.primaryBtn?.link || '/admissions'
-        },
-        secondaryBtn: {
-          text: data.hero_btn2_text || slide.secondaryBtn?.text || 'Explore Our School',
-          link: data.hero_btn2_link || slide.secondaryBtn?.link || '/about'
         }
       }
     }
     return {
       ...slide,
-      image: slide.image || defaultHeroBuildingImg,
-      primaryBtn: slide.primaryBtn || { text: 'Apply for Admission', link: '/admissions' },
-      secondaryBtn: slide.secondaryBtn || { text: 'Explore Our School', link: '/about' }
+      image: resolveMediaUrl(slide.image, defaultHeroBuildingImg),
+      primaryBtn: slide.primaryBtn || { text: 'Apply for Admission', link: '/admissions' }
     }
   })
 
@@ -123,14 +119,6 @@ export default function Hero({ data }) {
               >
                 {current.primaryBtn?.text || 'Apply for Admission'}
               </Link>
-              {current.secondaryBtn && (
-                <Link
-                  to={current.secondaryBtn?.link || '/about'}
-                  className="hero-btn-outline"
-                >
-                  {current.secondaryBtn?.text || 'Explore Our School'}
-                </Link>
-              )}
             </div>
 
             {/* Slide Navigation Dots for smooth slide switching */}

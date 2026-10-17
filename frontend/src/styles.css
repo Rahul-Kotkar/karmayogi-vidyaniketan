@@ -1368,21 +1368,22 @@ img, video, iframe, embed, object {
   padding: 0 20px;
 }
 .home-highlights-card {
-  max-width: 1340px;
+  max-width: 1280px;
   margin: 0 auto;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 6px 24px rgba(11, 37, 69, 0.08);
   border: 1px solid #e2e8f0;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   overflow: hidden;
 }
 .home-highlight-item {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 16px 20px;
   border-right: 1px solid #edf2f7;
   transition: background-color 0.2s ease;
 }
@@ -2905,7 +2906,7 @@ img, video, iframe, embed, object {
   }
   .home-highlights-card {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     overflow: hidden;
   }
   .home-highlight-item {
@@ -4162,6 +4163,191 @@ img, video, iframe, embed, object {
   .about-feature-desc {
     font-size: 12px;
     line-height: 1.4;
+  }
+}
+
+/* =====================================================
+   ABOUT PAGE: PRINCIPAL'S MESSAGE (FROM THE DESK OF)
+   ===================================================== */
+.principal-desk-section {
+  margin-bottom: 56px;
+  scroll-margin-top: 140px;
+}
+
+.principal-desk-header {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.principal-desk-eyebrow {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #b91c1c;
+  margin-bottom: 8px;
+  font-family: var(--body-font, system-ui, -apple-system, sans-serif);
+}
+
+.principal-desk-title {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: clamp(30px, 3.8vw, 40px);
+  color: #0d2b45;
+  font-weight: 700;
+  line-height: 1.22;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.4px;
+}
+
+.principal-desk-bar {
+  width: 48px;
+  height: 3.5px;
+  background-color: #1d4ed8;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+.principal-desk-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 42px;
+  align-items: start;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.principal-desk-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.principal-desk-card:hover {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.principal-desk-photo {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 6px;
+  display: block;
+  background: #f1f5f9;
+}
+
+.principal-desk-meta {
+  text-align: center;
+  padding: 12px 6px 4px;
+}
+
+.principal-desk-name {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #0f2b48;
+  margin: 0 0 4px;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+}
+
+.principal-desk-qual {
+  font-size: 11.5px;
+  color: #475569;
+  font-weight: 500;
+  line-height: 1.45;
+  margin: 0 0 4px;
+}
+
+.principal-desk-inst {
+  font-size: 12px;
+  color: #1e3a5f;
+  font-weight: 700;
+  margin: 0;
+}
+
+.principal-desk-content {
+  color: #334155;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.principal-desk-salutation {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 18px;
+}
+
+.principal-desk-p {
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.principal-desk-dots {
+  color: #64748b;
+  font-weight: 700;
+  margin: 0 0 14px;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.principal-desk-readmore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1d4ed8;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s ease, gap 0.2s ease;
+  font-family: inherit;
+}
+
+.principal-desk-readmore:hover {
+  color: #1e40af;
+  gap: 9px;
+  text-decoration: underline;
+}
+
+.principal-desk-expanded {
+  animation: fadeInPrincipalDesk 0.25s ease-out;
+}
+
+@keyframes fadeInPrincipalDesk {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 820px) {
+  .principal-desk-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .principal-desk-card {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .principal-desk-title {
+    font-size: 28px;
+  }
+  .principal-desk-header {
+    margin-bottom: 24px;
   }
 }
 

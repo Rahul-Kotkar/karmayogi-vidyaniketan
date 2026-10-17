@@ -5,8 +5,10 @@ import instituteBuildingImg from '../assets/hero_building.png'
 import founderPortraitImg from '../assets/founder.png'
 import { pagesService, getCachedAboutData } from '../services/endpoints.js'
 import { DEFAULT_ABOUT_DATA, COLLEGE, PRINCIPAL_PHOTO } from '../data/collegeData.js'
+import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function About() {
+  const [isPrincipalExpanded, setIsPrincipalExpanded] = useState(false)
   const [data, setData] = useState(() => {
     const cached = getCachedAboutData()
     if (cached) {
@@ -34,6 +36,7 @@ export default function About() {
               ...prev,
               ...parsed,
               mission_points: Array.isArray(parsed.mission_points) && parsed.mission_points.length > 0 ? parsed.mission_points : prev.mission_points,
+              leaders: Array.isArray(parsed.leaders) && parsed.leaders.length > 0 ? parsed.leaders : prev.leaders,
               council_members: Array.isArray(parsed.council_members) && parsed.council_members.length > 0 ? parsed.council_members : prev.council_members,
               approvals: Array.isArray(parsed.approvals) && parsed.approvals.length > 0 ? parsed.approvals : prev.approvals
             }))
@@ -42,6 +45,27 @@ export default function About() {
       } catch {}
     }
     load()
+
+    const onAboutUpdated = (e) => {
+      if (e?.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          setData(prev => ({
+            ...prev,
+            ...parsed,
+            mission_points: Array.isArray(parsed.mission_points) && parsed.mission_points.length > 0 ? parsed.mission_points : prev.mission_points,
+            leaders: Array.isArray(parsed.leaders) && parsed.leaders.length > 0 ? parsed.leaders : prev.leaders,
+            council_members: Array.isArray(parsed.council_members) && parsed.council_members.length > 0 ? parsed.council_members : prev.council_members,
+            approvals: Array.isArray(parsed.approvals) && parsed.approvals.length > 0 ? parsed.approvals : prev.approvals
+          }))
+        } catch {}
+      } else {
+        load()
+      }
+    }
+
+    window.addEventListener('page_about_updated', onAboutUpdated)
+    return () => window.removeEventListener('page_about_updated', onAboutUpdated)
   }, [])
 
   // Handle hash scrolling on page load
@@ -77,7 +101,7 @@ export default function About() {
             <div className="about-institute-photo-col">
               <div className="about-institute-photo-card">
                 <img
-                  src={data.institute_photo_url || instituteBuildingImg}
+                  src={resolveMediaUrl(data.institute_photo_url, instituteBuildingImg)}
                   alt="Karmayogi Vidyaniketan School Campus Building"
                   className="about-institute-photo"
                 />
@@ -215,58 +239,86 @@ export default function About() {
         </section>
 
         {/* ========================================================
-            3. PRINCIPAL'S WELCOME MESSAGE
+            3. PRINCIPAL'S WELCOME MESSAGE (FROM THE DESK OF)
             ======================================================== */}
-        <section id="principal-message" className="about-block">
-          <div className="about-section-header">
-            <h2 className="about-section-title">Principal's Message</h2>
-            <p className="about-section-subtitle">Guiding Philosophy &amp; Welcome from the Head of School</p>
+        <section id="principal-message" className="principal-desk-section">
+          <div className="principal-desk-header">
+            <span className="principal-desk-eyebrow">FROM THE DESK OF</span>
+            <h2 className="principal-desk-title">Principal's Message</h2>
+            <div className="principal-desk-bar"></div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, alignItems: 'start' }}>
-            {/* Principal Profile Card */}
-            <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)', textAlign: 'center' }}>
+          <div className="principal-desk-grid">
+            {/* Left Column: Principal Profile Card */}
+            <div className="principal-desk-card">
               <img
-                src={PRINCIPAL_PHOTO}
-                alt="Mr. Vijay Madane - Principal, Karmayogi Vidyaniketan"
-                style={{ width: '100%', maxWidth: 260, height: 290, objectFit: 'cover', borderRadius: 10, margin: '0 auto 16px', display: 'block' }}
+                src={resolveMediaUrl(data.principal_photo_url, PRINCIPAL_PHOTO)}
+                alt={`${data.principal_name || 'Mr. Vijay Madane'} - Principal, Karmayogi Vidyaniketan`}
+                className="principal-desk-photo"
               />
-              <h3 style={{ fontSize: '19px', color: 'var(--navy-header)', margin: '0 0 4px', fontWeight: 800 }}>
-                Mr. Vijay Madane
-              </h3>
-              <p style={{ fontSize: '13.5px', color: 'var(--blue-vibrant)', fontWeight: 700, margin: '0 0 10px' }}>
-                Principal &amp; Academic Director
-              </p>
-              <div style={{ fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: 1.55, borderTop: '1px solid #f1f5f9', paddingTop: 12 }}>
-                M.Sc., M.Ed., Ph.D. (Pursuing)<br />
-                18+ Years in School Education &amp; Governance<br />
-                Karmayogi Vidyaniketan / Karmayogi Public School
+              <div className="principal-desk-meta">
+                <h3 className="principal-desk-name">
+                  {data.principal_name || 'Mr. Vijay Madane'}
+                </h3>
+                <p className="principal-desk-qual">
+                  {data.principal_designation || 'Principal, M.Sc., M.Ed., Ph.D. (Pursuing)'}
+                </p>
+                <p className="principal-desk-inst">
+                  {COLLEGE?.name || 'Karmayogi Vidyaniketan'}
+                </p>
               </div>
             </div>
 
-            {/* Principal Narrative */}
-            <div style={{ background: '#ffffff', borderRadius: 12, padding: '32px 28px', border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)' }}>
-              <h3 style={{ fontFamily: 'var(--heading-font)', fontSize: '20px', color: 'var(--navy-header)', marginBottom: 14 }}>
-                Nurturing Character, Intellect and Lifelong Curiosity
-              </h3>
-              <div style={{ fontSize: '15px', color: '#334155', lineHeight: 1.85, display: 'grid', gap: 14 }}>
-                <p>
-                  Dear Parents, Students and Well-Wishers,
-                </p>
-                <p>
-                  It gives me immense pride to welcome you to <strong>Karmayogi Vidyaniketan</strong> (widely known as Karmayogi Public School), operating under the visionary leadership of <strong>Shri Pandurang Pratishthan, Pandharpur</strong>. Schooling is the sacred crucible where a child's character, curiosity, discipline, and emotional values take permanent shape.
-                </p>
-                <p>
-                  Our school pairs rigorous academic instruction in CBSE and State Board tracks with interactive smart classrooms, experiential science laboratories, and 21st-century AI &amp; Robotics exposure. Alongside scholastic excellence, we prioritize sports stamina, physical fitness, traditional Indian arts, and ethical mindfulness.
-                </p>
-                <p>
-                  With dedicated GPS-monitored school bus transportation connecting Pandharpur town and surrounding rural zones, we ensure every student enjoys safe, stress-free travel. I warmly invite parents to partner with us in inspiring the leaders, thinkers, and noble citizens of tomorrow.
-                </p>
-                <div style={{ marginTop: 8, paddingTop: 12, borderTop: '1px solid #e2e8f0' }}>
-                  <strong style={{ color: 'var(--navy-header)', fontSize: '15px' }}>Mr. Vijay Madane</strong><br />
-                  <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Principal &amp; Academic Director, Karmayogi Vidyaniketan</span>
-                </div>
+            {/* Right Column: Message Narrative */}
+            <div className="principal-desk-content">
+              <div className="principal-desk-salutation">
+                Dear Students,
               </div>
+
+              <p className="principal-desk-p">
+                Welcome to KARMAYOGI VIDYANIKETAN, Pandharpur. The Aim of School is to enrich Students with the profound Knowledge of Academics, Interdisciplinary Subjects and Research &amp; Creative Excellence and to provide unmatched quality Education per Excellence, to develop the Best minds that has to Explore and revel in the joy of the Learning.
+              </p>
+
+              <p className="principal-desk-p">
+                We are fortunate to have a Talented, Experienced, highly Committed Teaching and supporting staff here. Who ensure a positive learning environment of our Students
+              </p>
+
+              {!isPrincipalExpanded ? (
+                <>
+                  <div className="principal-desk-dots">...</div>
+                  <button
+                    type="button"
+                    className="principal-desk-readmore"
+                    onClick={() => setIsPrincipalExpanded(true)}
+                  >
+                    Read More &rarr;
+                  </button>
+                </>
+              ) : (
+                <div className="principal-desk-expanded">
+                  <p className="principal-desk-p">
+                    Schooling is the sacred crucible where a child's character, curiosity, discipline, and emotional values take permanent shape. Operating under the visionary leadership of <strong>Shri Pandurang Pratishthan, Pandharpur</strong>, our school pairs rigorous academic instruction in CBSE and State Board tracks with interactive smart classrooms, experiential science laboratories, and 21st-century AI &amp; Robotics exposure.
+                  </p>
+                  <p className="principal-desk-p">
+                    Alongside scholastic excellence, we prioritize sports stamina, physical fitness, traditional Indian arts, and ethical mindfulness. With dedicated GPS-monitored school bus transportation connecting Pandharpur town and surrounding rural zones, we ensure every student enjoys safe, stress-free travel.
+                  </p>
+                  <p className="principal-desk-p">
+                    I warmly invite parents to partner with us in inspiring the leaders, thinkers, and noble citizens of tomorrow.
+                  </p>
+                  <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      className="principal-desk-readmore"
+                      onClick={() => setIsPrincipalExpanded(false)}
+                    >
+                      Read Less &uarr;
+                    </button>
+                    <Link to="/principal-message" className="principal-desk-readmore" style={{ fontSize: '14px', color: '#475569', fontWeight: 600 }}>
+                      View Full Letter Page &rarr;
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -284,20 +336,42 @@ export default function About() {
             {/* Founder Card */}
             <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)', textAlign: 'center' }}>
               <img
-                src={founderPortraitImg}
-                alt="स्व. सुधाकरपंत परिचारक - Founder, Shri Pandurang Pratishthan"
+                src={resolveMediaUrl(data.founder_photo_url, founderPortraitImg)}
+                alt={`${data.founder_name || 'स्व. सुधाकरपंत परिचारक'} - Founder, Shri Pandurang Pratishthan`}
                 style={{ width: 140, height: 140, objectFit: 'cover', borderRadius: '50%', border: '4px solid #dbeafe', margin: '0 auto 16px', display: 'block', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
               />
               <h3 style={{ fontSize: '19px', color: 'var(--navy-header)', margin: '0 0 4px', fontWeight: 800 }}>
-                स्व. सुधाकरपंत परिचारक
+                {data.founder_name || 'स्व. सुधाकरपंत परिचारक'}
               </h3>
               <p style={{ fontSize: '13.5px', color: '#c2410c', fontWeight: 700, margin: '0 0 10px' }}>
-                Founder, Shri Pandurang Pratishthan
+                {data.founder_role || 'Founder, Shri Pandurang Pratishthan'}
               </p>
               <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-                Former MLA &amp; Visionary Leader who dedicated his life to empowering the agrarian community and rural youth of Pandharpur through education, agriculture, and cooperative institutions.
+                {data.founder_message || 'Former MLA & Visionary Leader who dedicated his life to empowering the agrarian community and rural youth of Pandharpur through education, agriculture, and cooperative institutions.'}
               </p>
             </div>
+
+            {/* Additional dynamic leaders if present */}
+            {Array.isArray(data.leaders) && data.leaders.map((leader, lIdx) => (
+              <div key={lIdx} style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)', textAlign: 'center' }}>
+                {leader.photo_url && (
+                  <img
+                    src={resolveMediaUrl(leader.photo_url)}
+                    alt={leader.name}
+                    style={{ width: 140, height: 140, objectFit: 'cover', borderRadius: '50%', border: '4px solid #dbeafe', margin: '0 auto 16px', display: 'block' }}
+                  />
+                )}
+                <h3 style={{ fontSize: '19px', color: 'var(--navy-header)', margin: '0 0 4px', fontWeight: 800 }}>
+                  {leader.name}
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#0284c7', fontWeight: 700, margin: '0 0 10px' }}>
+                  {leader.role}
+                </p>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
+                  {leader.message}
+                </p>
+              </div>
+            ))}
 
             {/* Chairman Narrative */}
             <div style={{ background: '#ffffff', borderRadius: 12, padding: '32px 28px', border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)' }}>
