@@ -121,7 +121,16 @@ export const ROW_2_NAV = [
       { label: "Sports Facilities", path: "/sports" }
     ]
   },
-  { label: "FACILITIES", path: "/facilities" },
+  {
+    label: "FACILITIES",
+    path: "/facilities",
+    children: [
+      { label: "Facilities Overview", path: "/facilities" },
+      { label: "Science & STEM Labs", path: "/labs" },
+      { label: "Transportation", path: "/transport" },
+      { label: "Sports Facilities", path: "/sports" }
+    ]
+  },
   {
     label: "STUDENT LIFE",
     path: "/student-life",
@@ -134,9 +143,6 @@ export const ROW_2_NAV = [
       { label: "Student Achievements", path: "/student-life#achievements" }
     ]
   },
-  { label: "SCIENCE & STEM LABS", path: "/labs" },
-  { label: "TRANSPORTATION", path: "/transport" },
-  { label: "SPORTS FACILITIES", path: "/sports" },
   { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },
   { label: "ADMISSION ENQUIRY", path: "/admissions#apply" }
 ];

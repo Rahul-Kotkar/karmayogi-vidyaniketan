@@ -46,14 +46,10 @@ export const ADMIN_PERMISSION_GROUPS = [
         label: 'Campus Facilities',
         path: '/admin/facilities',
         submenus: [
-          { id: 'facilities_overview', label: 'Campus Overview & Grounds', path: '/admin/facilities?tab=overview' },
-          { id: 'facilities_labs', label: 'Specialized Laboratories', path: '/admin/facilities?tab=labs' },
-          { id: 'facilities_library', label: 'Central Library & Reading Hall', path: '/admin/facilities?tab=library' },
-          { id: 'facilities_stem', label: 'STEM & AI Robotics Studios', path: '/admin/facilities?tab=stem' },
-          { id: 'facilities_sports', label: 'Sports & Gymnasium Complex', path: '/admin/facilities?tab=sports' },
-          { id: 'facilities_cafeteria', label: 'Cafeteria & Mess Facility', path: '/admin/facilities?tab=cafeteria' },
-          { id: 'facilities_transport', label: 'Bus & Transportation Fleet', path: '/admin/facilities?tab=transport' },
-          { id: 'facilities_clinical', label: 'Teaching Hospital Affiliation', path: '/admin/facilities?tab=clinical' }
+          { id: 'facilities_overview', label: 'Facilities Overview', path: '/admin/facilities' },
+          { id: 'facilities_labs', label: 'Science & STEM Labs', path: '/admin/facilities?tab=labs' },
+          { id: 'facilities_transport', label: 'Transportation', path: '/admin/facilities?tab=transport' },
+          { id: 'facilities_sports', label: 'Sports Facilities', path: '/admin/facilities?tab=sports' }
         ]
       },
       {

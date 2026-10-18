@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { facilitiesService, uploadService } from '../../services/endpoints.js'
 
 export default function AdminFacilities() {
@@ -8,11 +9,14 @@ export default function AdminFacilities() {
   const [editingItem, setEditingItem] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [msg, setMsg] = useState({ text: '', type: '' })
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const activeTab = searchParams.get('tab') || 'all'
 
   const [form, setForm] = useState({
     title: '',
     slug: '',
-    category: 'Academic',
+    category: 'Science & STEM Labs',
     description: '',
     image_url: '',
     is_active: 1
@@ -34,13 +38,20 @@ export default function AdminFacilities() {
     loadData()
   }, [])
 
+  const getDefaultCategoryForTab = (tab) => {
+    if (tab === 'labs') return 'Science & STEM Labs'
+    if (tab === 'transport') return 'Transportation'
+    if (tab === 'sports') return 'Sports Facilities'
+    return 'Science & STEM Labs'
+  }
+
   const handleOpenModal = (item = null) => {
     if (item) {
       setEditingItem(item)
       setForm({
         title: item.title || '',
         slug: item.slug || item.id || '',
-        category: item.category || 'Academic',
+        category: item.category || 'Science & STEM Labs',
         description: item.description || item.desc || '',
         image_url: item.image_url || item.img || '',
         is_active: item.is_active !== undefined ? item.is_active : 1
@@ -50,7 +61,7 @@ export default function AdminFacilities() {
       setForm({
         title: '',
         slug: '',
-        category: 'Academic',
+        category: getDefaultCategoryForTab(activeTab),
         description: '',
         image_url: '',
         is_active: 1
@@ -91,6 +102,34 @@ export default function AdminFacilities() {
     }
   }
 
+  const matchesTab = (fac, tab) => {
+    if (!tab || tab === 'all' || tab === 'overview') return true
+    const text = `${fac.title || ''} ${fac.slug || ''} ${fac.category || ''} ${fac.description || ''}`.toLowerCase()
+    if (tab === 'labs') {
+      return text.includes('lab') || text.includes('science') || text.includes('stem') || text.includes('robotics') || text.includes('computer')
+    }
+    if (tab === 'transport') {
+      return text.includes('transport') || text.includes('bus') || text.includes('transit') || text.includes('fleet')
+    }
+    if (tab === 'sports') {
+      return text.includes('sport') || text.includes('athletic') || text.includes('ground') || text.includes('court') || text.includes('gym')
+    }
+    return true
+  }
+
+  const filteredFacilities = useMemo(() => {
+    return facilities.filter(fac => matchesTab(fac, activeTab))
+  }, [facilities, activeTab])
+
+  const tabCounts = useMemo(() => {
+    return {
+      all: facilities.length,
+      labs: facilities.filter(f => matchesTab(f, 'labs')).length,
+      transport: facilities.filter(f => matchesTab(f, 'transport')).length,
+      sports: facilities.filter(f => matchesTab(f, 'sports')).length
+    }
+  }, [facilities])
+
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this facility?')) return
     try {
@@ -111,7 +150,7 @@ export default function AdminFacilities() {
             <span className="admin-page-badge">Campus Amenities</span>
           </h1>
           <p>
-            Manage campus infrastructure: smart classrooms, science labs, STEM studios, library, and sports grounds.
+            Manage campus infrastructure: science &amp; STEM laboratories, transportation fleet, sports grounds, and academic facilities.
           </p>
         </div>
         <div className="admin-page-actions">
@@ -129,8 +168,48 @@ export default function AdminFacilities() {
 
       <div className="admin-card">
         <div className="admin-card-header">
-          <h3>Campus Facilities</h3>
-          <span style={{ fontSize: 13, color: '#5c6672' }}>Total: {facilities.length}</span>
+          <div>
+            <h3 style={{ margin: 0 }}>Campus Facilities</h3>
+            <span style={{ fontSize: 13, color: '#5c6672' }}>
+              Showing {filteredFacilities.length} of {facilities.length} items
+            </span>
+          </div>
+        </div>
+
+        {/* Category Tabs */}
+        <div style={{ display: 'flex', gap: 8, padding: '10px 18px', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'all' || activeTab === 'overview' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({})}
+            style={{ fontSize: 12 }}
+          >
+            All Facilities ({tabCounts.all})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'labs' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'labs' })}
+            style={{ fontSize: 12 }}
+          >
+            Science &amp; STEM Labs ({tabCounts.labs})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'transport' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'transport' })}
+            style={{ fontSize: 12 }}
+          >
+            Transportation ({tabCounts.transport})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'sports' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'sports' })}
+            style={{ fontSize: 12 }}
+          >
+            Sports Facilities ({tabCounts.sports})
+          </button>
         </div>
 
         <div className="admin-card-body" style={{ padding: 0 }}>
@@ -148,7 +227,7 @@ export default function AdminFacilities() {
                 </tr>
               </thead>
               <tbody>
-                {facilities.map((fac, i) => (
+                {filteredFacilities.map((fac, i) => (
                   <tr key={fac.id || i}>
                     <td>
                       <img
@@ -181,6 +260,13 @@ export default function AdminFacilities() {
                     </td>
                   </tr>
                 ))}
+                {filteredFacilities.length === 0 && (
+                  <tr>
+                    <td colSpan={5} style={{ padding: 30, textAlign: 'center', color: '#64748b' }}>
+                      No facilities found under this category tab. Click "+ Add Facility" to add one.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           )}
@@ -221,7 +307,7 @@ export default function AdminFacilities() {
                           slug: form.slug || title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')
                         })
                       }}
-                      placeholder="e.g. Physiotherapy Laboratories"
+                      placeholder="e.g. Science Laboratories, School Bus Transport..."
                     />
                   </div>
 
@@ -232,10 +318,12 @@ export default function AdminFacilities() {
                       value={form.category}
                       onChange={e => setForm({ ...form, category: e.target.value })}
                     >
-                      <option value="Academic">Academic</option>
-                      <option value="Clinical">Clinical</option>
-                      <option value="Campus">Campus</option>
-                      <option value="Residential">Residential</option>
+                      <option value="Science & STEM Labs">Science &amp; STEM Labs</option>
+                      <option value="Transportation">Transportation</option>
+                      <option value="Sports Facilities">Sports Facilities</option>
+                      <option value="Smart Classrooms & Academic">Smart Classrooms &amp; Academic</option>
+                      <option value="Campus & Library">Campus &amp; Library</option>
+                      <option value="General Amenities">General Amenities</option>
                     </select>
                   </div>
                 </div>

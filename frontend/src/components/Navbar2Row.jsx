@@ -158,7 +158,17 @@ export default function Navbar2Row() {
         { label: 'Sports Facilities', path: '/sports' }
       ]
     },
-    { key: 'facilities', label: 'FACILITIES', path: '/facilities' },
+    {
+      key: 'facilities',
+      label: 'FACILITIES',
+      path: '/facilities',
+      children: [
+        { label: 'Facilities Overview', path: '/facilities' },
+        { label: 'Science & STEM Labs', path: '/labs' },
+        { label: 'Transportation', path: '/transport' },
+        { label: 'Sports Facilities', path: '/sports' }
+      ]
+    },
     {
       key: 'student-life',
       label: 'STUDENT LIFE',
@@ -172,9 +182,7 @@ export default function Navbar2Row() {
         { label: 'Student Achievements', path: '/student-life#achievements' }
       ]
     },
-    { key: 'labs', label: 'SCIENCE & STEM LABS', path: '/labs' },
-    { key: 'transport', label: 'TRANSPORTATION', path: '/transport' },
-    { key: 'sports', label: 'SPORTS FACILITIES', path: '/sports' },
+    { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },
     { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admissions#apply' }
   ]
 

@@ -269,7 +269,13 @@ export default function AdminLayout() {
           <line x1="9" y1="6" x2="9" y2="6.01" />
           <line x1="15" y1="6" x2="15" y2="6.01" />
         </svg>
-      )
+      ),
+      children: [
+        { id: 'facilities_overview', label: 'Facilities Overview', path: '/admin/facilities' },
+        { id: 'facilities_labs', label: 'Science & STEM Labs', path: '/admin/facilities?tab=labs' },
+        { id: 'facilities_transport', label: 'Transportation', path: '/admin/facilities?tab=transport' },
+        { id: 'facilities_sports', label: 'Sports Facilities', path: '/admin/facilities?tab=sports' }
+      ]
     },
     {
       id: 'departments',
