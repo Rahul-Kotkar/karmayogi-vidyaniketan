@@ -135,11 +135,11 @@ export const ROW_2_NAV = [
     path: "/student-life",
     children: [
       { label: "Sports & Athletics", path: "/sports" },
-      { label: "Cultural Activities", path: "/student-life#cultural" },
-      { label: "Clubs & Activities", path: "/student-life#clubs" },
-      { label: "Field Trips & Excursions", path: "/student-life#field-trips" },
-      { label: "Competitions & Olympiads", path: "/student-life#competitions" },
-      { label: "Student Achievements", path: "/student-life#achievements" }
+      { label: "Cultural Activities", path: "/student-life/cultural" },
+      { label: "Clubs & Activities", path: "/student-life/clubs" },
+      { label: "Field Trips & Excursions", path: "/student-life/field-trips" },
+      { label: "Competitions & Olympiads", path: "/student-life/competitions" },
+      { label: "Student Achievements", path: "/student-life/achievements" }
     ]
   },
   { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },

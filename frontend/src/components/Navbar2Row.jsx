@@ -84,21 +84,55 @@ export default function Navbar2Row() {
   const handleNavClick = (path) => {
     setMobileOpen(false)
     setActiveDropdown(null)
-    if (!path || !path.includes('#')) {
-      const html = document.documentElement
-      const prevBehavior = html.style.scrollBehavior
-      html.style.scrollBehavior = 'auto'
-      try {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-      } catch {
-        window.scrollTo(0, 0)
-      }
-      document.documentElement.scrollTop = 0
-      document.body.scrollTop = 0
-      requestAnimationFrame(() => {
-        html.style.scrollBehavior = prevBehavior || ''
-      })
+    if (document.activeElement && typeof document.activeElement.blur === 'function') {
+      document.activeElement.blur()
     }
+    if (!path) return
+
+    // If navigating to a Student Life subpage while already on Student Life, scroll immediately
+    if (path.startsWith('/student-life/')) {
+      const targetSub = path.replace('/student-life/', '')
+      setTimeout(() => {
+        const el = document.getElementById(targetSub)
+        if (el) {
+          const headerOffset = 135
+          const elementPosition = el.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+        }
+      }, 70)
+      return
+    }
+
+    if (path.includes('#')) {
+      const [targetPath, hash] = path.split('#')
+      if (location.pathname === targetPath || (!targetPath && hash)) {
+        setTimeout(() => {
+          const el = document.getElementById(hash)
+          if (el) {
+            const headerOffset = 135
+            const elementPosition = el.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+          }
+        }, 70)
+        return
+      }
+    }
+
+    const html = document.documentElement
+    const prevBehavior = html.style.scrollBehavior
+    html.style.scrollBehavior = 'auto'
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    } catch {
+      window.scrollTo(0, 0)
+    }
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+    requestAnimationFrame(() => {
+      html.style.scrollBehavior = prevBehavior || ''
+    })
   }
 
   // Unified Mobile Navigation Sequence
@@ -174,11 +208,11 @@ export default function Navbar2Row() {
       path: '/student-life',
       children: [
         { label: 'Sports & Athletics', path: '/sports' },
-        { label: 'Cultural Activities', path: '/student-life#cultural' },
-        { label: 'Clubs & Activities', path: '/student-life#clubs' },
-        { label: 'Field Trips & Excursions', path: '/student-life#field-trips' },
-        { label: 'Competitions & Olympiads', path: '/student-life#competitions' },
-        { label: 'Student Achievements', path: '/student-life#achievements' }
+        { label: 'Cultural Activities', path: '/student-life/cultural' },
+        { label: 'Clubs & Activities', path: '/student-life/clubs' },
+        { label: 'Field Trips & Excursions', path: '/student-life/field-trips' },
+        { label: 'Competitions & Olympiads', path: '/student-life/competitions' },
+        { label: 'Student Achievements', path: '/student-life/achievements' }
       ]
     },
     { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },

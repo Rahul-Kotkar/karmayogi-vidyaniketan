@@ -160,6 +160,7 @@ export default function App() {
           <Route path="/labs" element={<Labs />} />
           <Route path="/sports" element={<Sports />} />
           <Route path="/student-life" element={<StudentLife />} />
+          <Route path="/student-life/:subpage" element={<StudentLife />} />
           <Route path="/hostel" element={<Navigate to="/facilities" replace />} />
           <Route path="/transport" element={<Transportation />} />
 

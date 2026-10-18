@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import PageShell from '../components/PageShell.jsx';
 import { pagesService } from '../services/endpoints.js';
 import { DEFAULT_STUDENT_CORNER_DATA } from '../data/studentCornerData.js';
@@ -29,7 +29,9 @@ const CLUB_ICONS = {
 };
 
 export default function StudentLife() {
+  const { subpage } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('cultural');
   const [data, setData] = useState(DEFAULT_STUDENT_CORNER_DATA);
 
@@ -55,30 +57,50 @@ export default function StudentLife() {
     }).catch(() => {});
   }, []);
 
-  // Handle direct navigation via URL hash (#cultural, #clubs, #field-trips, #competitions, #achievements, #houses, #council, #sports)
-  useEffect(() => {
-    if (location.hash) {
-      const hashKey = location.hash.replace('#', '');
-      const validTabs = ['cultural', 'clubs', 'field-trips', 'competitions', 'achievements', 'houses', 'council', 'sports'];
-      if (validTabs.includes(hashKey)) {
-        setActiveTab(hashKey);
-        setTimeout(() => {
-          const el = document.getElementById(hashKey);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 80);
-      }
+  // Smooth scroll helper with sticky header offset (140px)
+  const scrollToSection = useCallback((targetId) => {
+    if (!targetId) return;
+    const el = document.getElementById(targetId);
+    if (el) {
+      const headerOffset = 140;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth'
+      });
     }
-  }, [location.hash]);
+  }, []);
+
+  // Normalize subpage or hash to canonical tab
+  const getCanonicalTab = useCallback(() => {
+    const raw = (subpage || location.hash.replace('#', '') || new URLSearchParams(location.search).get('tab') || '').toLowerCase().trim();
+    if (['cultural', 'cultural-activities'].includes(raw)) return 'cultural';
+    if (['clubs', 'clubs-activities'].includes(raw)) return 'clubs';
+    if (['field-trips', 'fieldtrips', 'excursions'].includes(raw)) return 'field-trips';
+    if (['competitions', 'olympiads'].includes(raw)) return 'competitions';
+    if (['achievements', 'student-achievements'].includes(raw)) return 'achievements';
+    if (['houses', 'house-system'].includes(raw)) return 'houses';
+    if (['council', 'student-council'].includes(raw)) return 'council';
+    return raw || 'cultural';
+  }, [subpage, location.hash, location.search]);
+
+  // Handle direct navigation via URL subpage or hash
+  useEffect(() => {
+    const canonical = getCanonicalTab();
+    if (canonical) {
+      setActiveTab(canonical);
+      const timer = setTimeout(() => {
+        scrollToSection(canonical);
+      }, 90);
+      return () => clearTimeout(timer);
+    }
+  }, [getCanonicalTab, scrollToSection]);
 
   const handleTabClick = (tabKey) => {
     setActiveTab(tabKey);
-    window.history.replaceState(null, '', `#${tabKey}`);
-    const el = document.getElementById(tabKey);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    navigate(`/student-life/${tabKey}`, { replace: true });
+    scrollToSection(tabKey);
   };
 
   return (
@@ -127,9 +149,15 @@ export default function StudentLife() {
       </section>
 
       {/* 1. Cultural Activities Section */}
-      <section id="cultural" className="py-16 bg-gradient-to-b from-blue-50/40 to-white scroll-mt-24 border-b border-gray-100">
+      <section id="cultural" className="py-16 bg-gradient-to-b from-blue-50/40 to-white scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'cultural' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>🎭</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-900 tracking-wide uppercase mb-3">
               Expressive Stage & Arts
             </span>
@@ -187,9 +215,15 @@ export default function StudentLife() {
       </section>
 
       {/* 2. Clubs & Activities Section */}
-      <section id="clubs" className="py-16 bg-gray-50/70 scroll-mt-24 border-b border-gray-100">
+      <section id="clubs" className="py-16 bg-gray-50/70 scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'clubs' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>🔬</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-900 tracking-wide uppercase mb-3">
               Hands-On Curiosity
             </span>
@@ -232,9 +266,15 @@ export default function StudentLife() {
       </section>
 
       {/* 3. Field Trips & Excursions Section */}
-      <section id="field-trips" className="py-16 bg-white scroll-mt-24 border-b border-gray-100">
+      <section id="field-trips" className="py-16 bg-white scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'field-trips' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>🚌</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 tracking-wide uppercase mb-3">
               Beyond Classroom Walls
             </span>
@@ -298,9 +338,15 @@ export default function StudentLife() {
       </section>
 
       {/* 4. Competitions & Olympiads Section */}
-      <section id="competitions" className="py-16 bg-gray-50/70 scroll-mt-24 border-b border-gray-100">
+      <section id="competitions" className="py-16 bg-gray-50/70 scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'competitions' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>🏆</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 tracking-wide uppercase mb-3">
               National & Regional Benchmarks
             </span>
@@ -339,9 +385,15 @@ export default function StudentLife() {
       </section>
 
       {/* 5. Student Achievements Section */}
-      <section id="achievements" className="py-16 bg-white scroll-mt-24 border-b border-gray-100">
+      <section id="achievements" className="py-16 bg-white scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'achievements' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>🌟</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 tracking-wide uppercase mb-3">
               Hall of Excellence
             </span>
@@ -383,9 +435,15 @@ export default function StudentLife() {
       </section>
 
       {/* 6. School House System Section */}
-      <section id="houses" className="py-16 bg-gray-50/70 scroll-mt-24 border-b border-gray-100">
+      <section id="houses" className="py-16 bg-gray-50/70 scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'houses' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>🛡️</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 tracking-wide uppercase mb-3">
               Four Pillars of Camaraderie
             </span>
@@ -428,9 +486,15 @@ export default function StudentLife() {
       </section>
 
       {/* 7. Student Council & Leadership Section */}
-      <section id="council" className="py-16 bg-white scroll-mt-24 border-b border-gray-100">
+      <section id="council" className="py-16 bg-white scroll-mt-36 border-b border-gray-100 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            {activeTab === 'council' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
+                <span>👑</span> Focused Section
+              </div>
+            )}
+            <br />
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 tracking-wide uppercase mb-3">
               Student Governance
             </span>
