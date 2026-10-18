@@ -59,15 +59,15 @@ export const ADMIN_PERMISSION_GROUPS = [
       },
       {
         id: 'student_corner',
-        label: 'Student Corner',
+        label: 'Student Life & Activities',
         path: '/admin/student-corner',
         submenus: [
-          { id: 'sc_activities', label: 'Activities & Gallery', path: '/admin/student-corner?tab=activities' },
-          { id: 'sc_spaces', label: 'Spaces & Facilities', path: '/admin/student-corner?tab=spaces' },
-          { id: 'sc_support', label: 'Student Support & Mentorship', path: '/admin/student-corner?tab=support' },
-          { id: 'sc_achievements', label: 'Student Achievements', path: '/admin/student-corner?tab=achievements' },
-          { id: 'sc_scholarships', label: 'Scholarships & Freeships', path: '/admin/student-corner?tab=scholarships' },
-          { id: 'sc_council', label: 'Student Council', path: '/admin/student-corner?tab=council' }
+          { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/facilities?tab=sports' },
+          { id: 'sl_cultural', label: 'Cultural Activities', path: '/admin/student-corner?tab=cultural' },
+          { id: 'sl_clubs', label: 'Clubs & Activities', path: '/admin/student-corner?tab=clubs' },
+          { id: 'sl_field_trips', label: 'Field Trips & Excursions', path: '/admin/student-corner?tab=field-trips' },
+          { id: 'sl_competitions', label: 'Competitions & Olympiads', path: '/admin/student-corner?tab=competitions' },
+          { id: 'sl_achievements', label: 'Student Achievements', path: '/admin/student-corner?tab=achievements' }
         ]
       },
       {

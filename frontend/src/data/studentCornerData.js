@@ -1,5 +1,230 @@
-// School Student Corner & Campus Life Dataset for Karmayogi Vidyaniketan / Karmayogi Public School
+// School Student Life & Campus Experience Dataset for Karmayogi Vidyaniketan / Karmayogi Public School
 // Shri Pandurang Pratishthan, Pandharpur
+
+export const DEFAULT_CULTURAL_EVENTS = [
+  {
+    id: 'cult-1',
+    title: 'Karmotsav - Annual Gathering & Cultural Fiesta',
+    badge: 'Flagship Event',
+    tag: 'Stage & Performing Arts',
+    desc: 'The grand annual cultural extravaganza showcasing student theatrical plays, folk and classical dances (Lezim, Bharatanatyam, Kathak), classical music ensembles, and award ceremonies.',
+    highlights: ['2,000+ Audience Capacity', '100% Student Participation Encouraged', 'Parent & Alumni Gala Evening']
+  },
+  {
+    id: 'cult-2',
+    title: 'Traditional & National Celebrations',
+    badge: 'Cultural Pride',
+    tag: 'Heritage & Values',
+    desc: 'Grand celebrations of Independence Day, Republic Day, Shiv Jayanti, Guru Purnima, Ashadhi Ekadashi Dindi rally, and Marathi Bhasha Sanman Din instilling deep cultural roots.',
+    highlights: ['Traditional Dindi Procession & Palkhi', 'Historical Skits & Speeches', 'Flag Hoisting & March-Past']
+  },
+  {
+    id: 'cult-3',
+    title: 'Music, Dance & Fine Arts Exhibitions',
+    badge: 'Artistic Excellence',
+    tag: 'Creativity Showcase',
+    desc: 'Dedicated exhibitions featuring student canvas paintings, clay sculptures, Rangoli competitions, and inter-house vocal music battles evaluated by renowned regional artists.',
+    highlights: ['Live Classical Tabla & Harmonium', 'Theme-Based Rangoli Contests', 'Juried Art Exhibitions']
+  }
+];
+
+export const DEFAULT_STUDENT_CLUBS = [
+  {
+    id: 'club-1',
+    title: 'STEM & Robotics Club',
+    icon: 'Sparkles',
+    description: 'Students tinker with DIY circuits, robotics kits, coding challenges, block programming, and models for regional science competitions.',
+    activities: ['Arduino & sensor prototyping', 'Block coding & Python fundamentals', 'Science Olympiad & model prep']
+  },
+  {
+    id: 'club-2',
+    title: 'Literary & Debating Society',
+    icon: 'BookOpen',
+    description: 'Fosters eloquent public speaking, elocution, creative writing, book reviews, and parliamentary-style debating in English, Marathi, and Hindi.',
+    activities: ['Annual school elocution debate', 'Poetry recitation & creative writing', 'School editorial & wall magazine']
+  },
+  {
+    id: 'club-3',
+    title: 'Music, Drama & Performing Arts',
+    icon: 'Music',
+    description: 'Classical, semi-classical vocal training, harmonium, tabla, guitar, theatrical drama, and street plays highlighting social awareness.',
+    activities: ['Classical vocal choir & harmonium', 'Sanskrit shloka recitation', 'Annual theatrical stage drama']
+  },
+  {
+    id: 'club-4',
+    title: 'Fine Arts & Craft Guild',
+    icon: 'Palette',
+    description: 'Nurtures visual creativity through watercoloring, sketch art, origami, clay modelling, Rangoli, and annual exhibition displays.',
+    activities: ['Campus art gallery showcase', 'Waste-to-wealth craft innovation', 'Elementary & Intermediate drawing prep']
+  },
+  {
+    id: 'club-5',
+    title: 'Eco & Heritage Club',
+    icon: 'Compass',
+    description: 'Sensitizes students towards environmental protection, tree plantation, water conservation, composting, and Pandharpur heritage preservation.',
+    activities: ['Green campus tree planting drives', 'Chandrabhaga riverbank cleanliness', 'Bird watching & biodiversity studies']
+  },
+  {
+    id: 'club-6',
+    title: 'Social Service & Red Cross Wing',
+    icon: 'Users',
+    description: 'Instills social empathy through community service, donation drives for rural schools, and disaster-relief assistance.',
+    activities: ['Community outreach & book drives', 'First aid certification camps', 'Cleanliness & health hygiene rallies']
+  }
+];
+
+export const DEFAULT_FIELD_TRIPS = [
+  {
+    id: 'trip-1',
+    title: 'Historical Forts & Heritage Excursions',
+    destination: 'Solapur Bhuikot Fort, Sinhagad & Raigad',
+    category: 'History & Heritage',
+    desc: 'On-site historical exploration where students study Maratha architecture, fortress defense engineering, and Maharashtra’s rich heritage with expert guides.',
+    highlights: ['Guided architecture study', 'Historical role-play & quizzes', 'Safety-first escorted tours']
+  },
+  {
+    id: 'trip-2',
+    title: 'Nehru Science Centre & Planetarium Tour',
+    destination: 'Nehru Science Centre & Regional Observatories',
+    category: 'STEM & Astronomy',
+    desc: 'Interactive physics demonstrations, 3D space dome screenings, and astronomical telescope sky-watching sessions to ignite inquisitive scientific minds.',
+    highlights: ['Hands-on scientific exhibits', 'Planetarium dome show', 'Interactive robotics workshop']
+  },
+  {
+    id: 'trip-3',
+    title: 'Agro-Tourism & Nature Ecology Trails',
+    destination: 'Agricultural Research Station & Botanical Reserves',
+    category: 'Environmental Studies',
+    desc: 'Practical exposure to organic farming, drip irrigation technology, flora identification, bird watching, and biodiversity preservation in Pandharpur and Solapur districts.',
+    highlights: ['Soil & crop science study', 'River ecology observations', 'Nature journal documentation']
+  },
+  {
+    id: 'trip-4',
+    title: 'Dairy & Cooperative Industrial Visits',
+    destination: 'Modern Automated Dairy & Food Processing Plants',
+    category: 'Industrial Exposure',
+    desc: 'Learning the journey of milk pasteurization, hygiene standards, packaging automation, and cooperative economics in rural Maharashtra.',
+    highlights: ['Industrial automation live demo', 'Quality assurance lab tour', 'Q&A with plant engineers']
+  }
+];
+
+export const DEFAULT_COMPETITIONS = [
+  {
+    id: 'comp-1',
+    name: 'SOF National & International Olympiads',
+    org: 'Science Olympiad Foundation (New Delhi)',
+    subjects: 'NSO (Science), IMO (Math), IEO (English), NCO (Cyber)',
+    badge: 'International Level',
+    desc: 'Rigorous preparatory coaching and test series enabling students to compete against global peers, earning international ranks and merit certificates.'
+  },
+  {
+    id: 'comp-2',
+    name: 'Maharashtra Talent Search (MTS) & NTSE',
+    org: 'State & National Talent Councils',
+    subjects: 'Mental Ability (MAT) & Scholastic Aptitude (SAT)',
+    badge: 'State & National',
+    desc: 'Special scholarship training batches conducted by senior faculty to develop advanced problem-solving speed and critical thinking.'
+  },
+  {
+    id: 'comp-3',
+    name: 'Government Drawing Grade Examinations',
+    org: 'Directorate of Art, Maharashtra State',
+    subjects: 'Elementary & Intermediate Grade Exams',
+    badge: 'Certified Credential',
+    desc: 'Comprehensive practical training in object drawing, memory drawing, design, and geometry, granting extra marks for secondary board admissions.'
+  },
+  {
+    id: 'comp-4',
+    name: 'Inter-School Elocution, Debates & Quizzes',
+    org: 'District School Associations & Rotary Club',
+    subjects: 'English, Marathi & Hindi Public Speaking',
+    badge: 'Communication',
+    desc: 'Intense debating fixtures honing persuasive reasoning, vocabulary, stage confidence, and current affairs mastery.'
+  }
+];
+
+export const DEFAULT_STUDENT_ACHIEVEMENTS = [
+  {
+    id: 'ach-1',
+    stat: '100%',
+    title: 'Class 10 Board Pass Track Record',
+    desc: 'Consistent 100% board results with over 68% of candidates scoring distinction (above 75%) and top percentiles in Solapur district.'
+  },
+  {
+    id: 'ach-2',
+    stat: '45+',
+    title: 'SOF Olympiad Medals (Annual)',
+    desc: 'Gold, Silver, and Bronze medals won across Science, Mathematics, Cyber, and English Olympiads with zonal rank holders.'
+  },
+  {
+    id: 'ach-3',
+    stat: '18+',
+    title: 'District Sports Trophies',
+    desc: 'Championship wins in Solapur District DSO tournaments for Kabaddi, Kho-Kho, Sprinting (100m/200m), and Chess.'
+  },
+  {
+    id: 'ach-4',
+    stat: '98.4%',
+    title: 'School Highest Board Score',
+    desc: 'Exemplary academic achievement achieved by our batch topper with centum (100/100) scores in Mathematics and Science.'
+  }
+];
+
+export const DEFAULT_STUDENT_HOUSES = [
+  {
+    id: 'house-1',
+    name: 'Prithvi House',
+    motto: 'Strength, Endurance & Humility',
+    color: 'from-amber-600 to-amber-800',
+    accent: 'bg-amber-100 text-amber-900 border-amber-300',
+    description: 'Named after Mother Earth, Prithvi house embodies rooted stability, perseverance, dependability, and reverence for environmental balance.'
+  },
+  {
+    id: 'house-2',
+    name: 'Agni House',
+    motto: 'Courage, Energy & Zeal',
+    color: 'from-red-600 to-orange-700',
+    accent: 'bg-orange-100 text-orange-900 border-orange-300',
+    description: 'Signifying the holy fire, Agni house inspires passion for knowledge, bold leadership, intense athletic drive, and moral courage.'
+  },
+  {
+    id: 'house-3',
+    name: 'Jal House',
+    motto: 'Adaptability, Depth & Compassion',
+    color: 'from-blue-600 to-cyan-700',
+    accent: 'bg-blue-100 text-blue-900 border-blue-300',
+    description: 'Reflecting life-giving water and the divine river Chandrabhaga, Jal house represents deep intellectual inquiry, flexibility, and kindness.'
+  },
+  {
+    id: 'house-4',
+    name: 'Vayu House',
+    motto: 'Freedom, Vision & Inclusivity',
+    color: 'from-emerald-600 to-teal-800',
+    accent: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    description: 'Representing the spirit of the wind, Vayu house stands for boundless imagination, swift agility, progressive thoughts, and global vision.'
+  }
+];
+
+export const DEFAULT_STUDENT_COUNCIL = [
+  {
+    id: 'role-1',
+    role: 'Head Boy & Head Girl',
+    badge: 'Student Leadership',
+    desc: 'Serve as prime ambassadors of the student body, anchoring morning assemblies, representing peers at management councils, and leading school flag hoisting.'
+  },
+  {
+    id: 'role-2',
+    role: 'Sports & Cultural Prefects',
+    badge: 'Co-Curricular',
+    desc: 'Coordinate inter-house sporting fixtures, annual athletic meets, celebration of festivals, morning assembly themes, and cultural showcases.'
+  },
+  {
+    id: 'role-3',
+    role: 'House Captains & Vice-Captains',
+    badge: 'House Governance',
+    desc: 'Lead their respective houses in line discipline, uniform cleanliness inspections, house board displays, and inter-house competitive rallies.'
+  }
+];
 
 export const DEFAULT_CAMPUS_ACTIVITIES = [
   {
@@ -76,22 +301,6 @@ export const DEFAULT_CAMPUS_ACTIVITIES = [
   }
 ];
 
-export const DEFAULT_STUDENT_HOUSES = [
-  { name: 'Prithvi (Earth)', color: '#15803d', motto: 'Grounded in Values, Rooted in Strength', symbol: 'Green' },
-  { name: 'Agni (Fire)', color: '#b91c1c', motto: 'Passionate in Learning, Radiant in Action', symbol: 'Red' },
-  { name: 'Jal (Water)', color: '#0369a1', motto: 'Adaptable, Calm, and Resilient', symbol: 'Blue' },
-  { name: 'Vayu (Wind)', color: '#d97706', motto: 'Free in Imagination, Swift in Progress', symbol: 'Yellow' }
-];
-
-export const DEFAULT_STUDENT_CLUBS = [
-  { name: 'STEM & Robotics Club', desc: 'Design, coding, Arduino electronics, and competition preparation.' },
-  { name: 'Literary & Debate Club', desc: 'Public speaking, creative writing, poetry, elocution, and newsletter editorial.' },
-  { name: 'Eco & Nature Club', desc: 'Biodiversity documentation, waste recycling, gardening, and solar awareness.' },
-  { name: 'Visual Arts & Craft Guild', desc: 'Fine arts, watercolor painting, clay sculpture, origami, and festival crafts.' },
-  { name: 'Sports & Athletics Squad', desc: 'Specialized competitive coaching in cricket, football, kabaddi, and athletics.' },
-  { name: 'Music & Performing Arts Ensemble', desc: 'Classical vocal music, tabla, keyboard, folk dance, and annual theatrical plays.' }
-];
-
 export const DEFAULT_BEYOND_CLASSROOM_SPACES = [
   {
     id: 'space-1',
@@ -133,21 +342,17 @@ export const DEFAULT_BEYOND_CLASSROOM_SPACES = [
 
 export const DEFAULT_STUDENT_CORNER_DATA = {
   overview: {
-    title: 'Student Life & Development',
-    lead: 'Nurturing curiosity, confidence, empathy, and leadership beyond textbooks at Karmayogi Vidyaniketan.'
+    title: 'Student Life, Activities & Achievements',
+    lead: 'At Karmayogi Vidyaniketan, education extends far beyond textbooks into athletics, stage arts, hobby clubs, adventurous field trips, and competitive triumphs.'
   },
-  houses: DEFAULT_STUDENT_HOUSES,
+  cultural: DEFAULT_CULTURAL_EVENTS,
   clubs: DEFAULT_STUDENT_CLUBS,
+  fieldTrips: DEFAULT_FIELD_TRIPS,
+  competitions: DEFAULT_COMPETITIONS,
+  achievements: DEFAULT_STUDENT_ACHIEVEMENTS,
+  houses: DEFAULT_STUDENT_HOUSES,
+  council: DEFAULT_STUDENT_COUNCIL,
   activities: DEFAULT_CAMPUS_ACTIVITIES,
-  spaces: DEFAULT_BEYOND_CLASSROOM_SPACES,
-  scholarships: {
-    portalNote: 'Students from eligible categories are assisted with government scholarships and institutional merit grants.',
-    portalUrl: 'https://mahadbt.maharashtra.gov.in',
-    items: [
-      { id: 1, title: 'Government of Maharashtra Social Welfare Scholarship', desc: 'Financial support and fee reimbursement for SC/ST/VJNT/OBC students as per government criteria.' },
-      { id: 2, title: 'EBC / Economically Backward Concession', desc: 'Tuition fee concessions for meritorious students from economically weaker sections.' },
-      { id: 3, title: 'Shri Pandurang Pratishthan Merit Scholarship', desc: 'Special institutional honors and fee concessions for academic, sports, and cultural distinction holders.' }
-    ]
-  }
+  spaces: DEFAULT_BEYOND_CLASSROOM_SPACES
 };
 

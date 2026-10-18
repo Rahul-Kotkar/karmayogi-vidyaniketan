@@ -1458,7 +1458,7 @@ if ($resource === 'admissions') {
 // --------------------------------------------------------
 if ($resource === 'pages') {
     if ($method === 'GET') {
-        $slug = $_GET['slug'] ?? null;
+        $slug = $_GET['slug'] ?? $subResource ?? null;
         if ($db) {
             if ($slug) {
                 $stmt = $db->prepare("SELECT * FROM pages WHERE slug = :slug LIMIT 1");
@@ -1477,7 +1477,7 @@ if ($resource === 'pages') {
     if ($method === 'PUT' || $method === 'POST') {
         $admin = AuthMiddleware::requireAdmin();
         $b = get_json_body();
-        $slug = $b['slug'] ?? $_GET['slug'] ?? '';
+        $slug = $b['slug'] ?? $_GET['slug'] ?? $subResource ?? '';
         if (empty($slug) || empty($b['title'])) {
             Response::error('Page slug and title are required.', 422);
         }
