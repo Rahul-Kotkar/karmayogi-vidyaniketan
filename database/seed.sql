@@ -6,13 +6,16 @@
 -- ========================================================
 
 SET NAMES utf8mb4;
+USE `vidyaniketan_school`;
 
 -- --------------------------------------------------------
 -- Users (Admin)
 -- --------------------------------------------------------
-INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `role`, `is_active`) VALUES
-(1, 'School Administrator', 'admin@karmayogividyaniketan.com', '$2y$10$k0I.ajd58X6FFzQSnusDJePPeOTOrPkPArlEuPRUFIRwVaI1sP2OS', 'admin', 1)
-ON DUPLICATE KEY UPDATE `email` = VALUES(`email`);
+INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `role`, `permissions`, `is_active`) VALUES
+(1, 'Administrator', 'devkarma', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'superadmin', '["*"]', 1),
+(2, 'Local Administrator', 'admin@test.com', '$2y$10$5GzQeYyM8rW.i61KxZk9ce3X/k6G4v9r0J61F4fK9z6Y4a3cK2a2y', 'superadmin', '["*"]', 1),
+(3, 'School Administrator', 'admin@karmayogividyaniketan.com', '$2y$10$k0I.ajd58X6FFzQSnusDJePPeOTOrPkPArlEuPRUFIRwVaI1sP2OS', 'superadmin', '["*"]', 1)
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `role` = VALUES(`role`), `permissions` = VALUES(`permissions`);
 
 -- --------------------------------------------------------
 -- Settings (Institutional Profile)

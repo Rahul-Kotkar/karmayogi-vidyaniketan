@@ -4,8 +4,13 @@
 // Shri Pandurang Pratishthan, Pandharpur
 // ========================================================
 
-// Error reporting for production / dev
-ini_set('display_errors', '0');
+require_once __DIR__ . '/../../app/Config/Env.php';
+use App\Config\Env;
+if (file_exists(__DIR__ . '/../../.env')) {
+    Env::load(__DIR__ . '/../../.env');
+}
+$isDev = (Env::get('APP_ENV', 'production') === 'development');
+ini_set('display_errors', $isDev ? '1' : '0');
 error_reporting(E_ALL);
 
 // Security Secret Key for Auth Token Signing (Change this for production)

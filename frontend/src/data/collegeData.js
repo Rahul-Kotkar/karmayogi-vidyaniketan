@@ -100,7 +100,6 @@ export const ROW_2_NAV = [
       { label: "Pre-Primary (Nursery, Jr/Sr KG)", path: "/pre-primary" },
       { label: "Primary School (Grades 1-5)", path: "/primary" },
       { label: "Secondary School (Grades 6-10)", path: "/secondary" },
-      { label: "Curriculum & Boards", path: "/curriculum" },
       { label: "Teaching Methodology", path: "/academics#methodology" },
       { label: "Examination & Assessment", path: "/academics#examination" }
     ]
