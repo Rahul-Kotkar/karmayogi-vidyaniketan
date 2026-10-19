@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import heroBuildingImg from '../assets/hero_building.png'
 import { pagesService, getCachedHomeData } from '../services/endpoints.js'
+import { NEWS as DEFAULT_NEWS } from '../data/collegeData.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 import { SearchIcon, CalendarIcon } from '../components/Icons.jsx'
 
@@ -31,11 +32,14 @@ function parseNewsDate(item) {
 }
 
 export default function News() {
-  const [newsList, setNewsList] = useState(() => getCachedHomeData()?.news_list || [])
+  const [newsList, setNewsList] = useState(() => {
+    const cached = getCachedHomeData()?.news_list
+    return (Array.isArray(cached) && cached.length > 0) ? cached : DEFAULT_NEWS
+  })
   const [search, setSearch] = useState('')
   const [selectedTag, setSelectedTag] = useState('ALL')
   const [activeStory, setActiveStory] = useState(null)
-  const [loading, setLoading] = useState(() => !getCachedHomeData()?.news_list)
+  const [loading, setLoading] = useState(false)
   const [expandedCards, setExpandedCards] = useState({})
 
   const toggleCard = (id) => {
@@ -80,7 +84,8 @@ export default function News() {
 
   return (
     <PageShell
-      title="College News & Media"
+      title="News & Bulletins"
+      subtitle="Latest announcements, academic achievements, and school campus updates."
     >
       {/* Top Controls: Search & Category Pills */}
       <div style={{ marginBottom: 30 }}>
@@ -132,14 +137,23 @@ export default function News() {
       </div>
 
       {/* Grid of News Cards */}
-      <h3 style={{ fontSize: 18, color: '#0f172a', margin: '0 0 18px', fontWeight: 700 }}>
+      <h3
+        style={{
+          fontFamily: "var(--heading-font, Georgia, serif)",
+          fontSize: 22,
+          color: '#0f172a',
+          margin: '0 0 20px',
+          fontWeight: 700,
+          letterSpacing: '-0.2px'
+        }}
+      >
         All News &amp; Bulletins ({filtered.length})
       </h3>
 
       {loading && filtered.length === 0 ? (
         <div className="news-grid-cards">
           {[1, 2, 3].map(k => (
-            <div key={k} style={{ background: '#f8fafc', height: 260, borderRadius: 10, border: '1px solid #e2e8f0' }} />
+            <div key={k} style={{ background: '#f8fafc', height: 260, borderRadius: 12, border: '1px solid #e2e8f0' }} />
           ))}
         </div>
       ) : filtered.length === 0 ? (
@@ -163,117 +177,129 @@ export default function News() {
           </button>
         </div>
       ) : (
-        <div className="news-grid-cards">
+        <div className="news-grid-cards" style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
           {filtered.map((item, idx) => {
             const b = parseNewsDate(item)
+            const cardId = item.id || idx
+            const isExpanded = Boolean(expandedCards[cardId])
+            const fallbackImg = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80'
+
             return (
               <article
-                key={item.id || idx}
+                key={cardId}
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e2e8f0',
-                  borderRadius: 10,
+                  borderRadius: 12,
                   overflow: 'hidden',
-                  boxShadow: '0 3px 12px rgba(0,0,0,0.04)',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
                   display: 'flex',
                   flexDirection: 'column',
                   transition: 'all 0.2s ease'
                 }}
               >
-                {/* Card Thumbnail */}
-                <div style={{ height: 190, position: 'relative', background: '#e2e8f0', overflow: 'hidden' }}>
+                {/* Full-width Card Banner Thumbnail */}
+                <div style={{ width: '100%', height: 230, position: 'relative', background: '#e2e8f0', overflow: 'hidden' }}>
                   <img
-                    src={resolveMediaUrl(item.image, 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80')}
+                    src={resolveMediaUrl(item.image, fallbackImg)}
                     alt={item.title}
                     onError={(e) => {
                       e.target.onerror = null
-                      e.target.src = 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80'
+                      e.target.src = fallbackImg
                     }}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   />
+                  {/* Category Pill Tag - Overlaid Top-Right */}
                   <div
                     style={{
                       position: 'absolute',
-                      top: 12,
-                      right: 12,
+                      top: 14,
+                      right: 14,
                       background: '#1d4ed8',
                       color: '#ffffff',
                       borderRadius: 4,
-                      padding: '4px 10px',
-                      fontSize: 10.5,
+                      padding: '4px 12px',
+                      fontSize: 11,
                       fontWeight: 700,
                       letterSpacing: 0.8,
                       textTransform: 'uppercase'
                     }}
                   >
-                    {item.tag || 'NEWS'}
+                    {item.tag || 'ACADEMICS'}
                   </div>
                 </div>
 
                 {/* Card Content */}
-                <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ padding: '22px 24px 20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  {/* Date with Calendar Icon */}
+                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6, textTransform: 'uppercase' }}>
                     <CalendarIcon size={13} color="#64748b" />
                     <span>{b.month} {b.day}, {b.year}</span>
                   </div>
 
-                  <h4 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: '0 0 10px', lineHeight: 1.4 }}>
+                  {/* Headline Title */}
+                  <h4 style={{ fontSize: 17.5, fontWeight: 700, color: '#0f172a', margin: '0 0 10px', lineHeight: 1.4 }}>
                     {item.title}
                   </h4>
 
-                  {(() => {
-                    const cardId = item.id || idx
-                    const isExpanded = Boolean(expandedCards[cardId])
-                    return (
-                      <>
-                        <p
-                          className={`card-desc-clamp ${isExpanded ? 'is-expanded' : ''}`}
-                          style={{
-                            fontSize: 13,
-                            color: '#475569',
-                            lineHeight: 1.5,
-                            margin: '0 0 16px'
-                          }}
-                        >
-                          {item.desc}
-                        </p>
+                  {/* Description / Summary */}
+                  <p
+                    className={`card-desc-clamp ${isExpanded ? 'is-expanded' : ''}`}
+                    style={{
+                      fontSize: 13.5,
+                      color: '#475569',
+                      lineHeight: 1.55,
+                      margin: '0 0 16px'
+                    }}
+                  >
+                    {item.desc}
+                  </p>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: 12 }}>
-                          <button
-                            type="button"
-                            onClick={() => toggleCard(cardId)}
-                            style={{
-                              border: 'none',
-                              background: 'none',
-                              color: '#1d4ed8',
-                              fontSize: 13,
-                              fontWeight: 700,
-                              cursor: 'pointer',
-                              padding: 0,
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: 4
-                            }}
-                          >
-                            {isExpanded ? 'Read Less ↑' : 'Read More →'}
-                          </button>
-                          {item.link ? (
-                            <Link to={item.link} style={{ fontSize: 12, color: '#64748b', textDecoration: 'none' }}>
-                              View Details
-                            </Link>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setActiveStory(item)}
-                              style={{ border: 'none', background: 'none', fontSize: 12, color: '#64748b', cursor: 'pointer', padding: 0 }}
-                            >
-                              Popup View
-                            </button>
-                          )}
-                        </div>
-                      </>
-                    )
-                  })()}
+                  {/* Footer Row */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: 12, marginTop: 'auto' }}>
+                    <button
+                      type="button"
+                      onClick={() => toggleCard(cardId)}
+                      style={{
+                        border: 'none',
+                        background: 'none',
+                        color: '#1d4ed8',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        padding: 0,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4
+                      }}
+                    >
+                      {isExpanded ? 'Read Less ↑' : 'Read More →'}
+                    </button>
+
+                    {item.link ? (
+                      <Link to={item.link} style={{ fontSize: 12, color: '#64748b', textDecoration: 'none' }}>
+                        View Details
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setActiveStory(item)}
+                        style={{
+                          border: 'none',
+                          background: 'none',
+                          fontSize: 12,
+                          color: '#64748b',
+                          cursor: 'pointer',
+                          padding: 0,
+                          transition: 'color 0.15s ease'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#1d4ed8'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+                      >
+                        Popup View
+                      </button>
+                    )}
+                  </div>
                 </div>
               </article>
             )
