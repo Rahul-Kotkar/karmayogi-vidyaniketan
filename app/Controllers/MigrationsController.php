@@ -70,6 +70,34 @@ class MigrationsController {
                         'data'    => ['restored' => $count]
                     ];
                     break;
+                case 'create_backup':
+                    try {
+                        $db = Database::getConnection();
+                        $fname = self::createAutoBackup($db, 'manual');
+                        $result = [
+                            'success' => true,
+                            'message' => "Database snapshot backup created successfully ({$fname}).",
+                            'data'    => ['filename' => $fname]
+                        ];
+                    } catch (\Throwable $e) {
+                        $result = ['success' => false, 'message' => "Backup failed: " . $e->getMessage()];
+                    }
+                    break;
+                case 'list_backups':
+                    $result = [
+                        'success' => true,
+                        'data'    => self::listBackups()
+                    ];
+                    break;
+                case 'restore_backup':
+                    $fname = $json['filename'] ?? $_POST['filename'] ?? '';
+                    try {
+                        $db = Database::getConnection();
+                        $result = self::restoreBackup($db, $fname);
+                    } catch (\Throwable $e) {
+                        $result = ['success' => false, 'message' => "Restore failed: " . $e->getMessage()];
+                    }
+                    break;
                 case 'save_db_config':
                     $host = trim($json['host'] ?? $_POST['host'] ?? 'localhost');
                     $port = trim($json['port'] ?? $_POST['port'] ?? '3306');
@@ -134,7 +162,8 @@ class MigrationsController {
                     Database::resetConnection();
                     Env::load($envPath);
 
-                    $migResult = self::runMigrations(true);
+                    // Run pending migrations only - NEVER force overwrite seeds
+                    $migResult = self::runMigrations(false);
 
                     $result = [
                         'success' => true,
@@ -278,7 +307,8 @@ class MigrationsController {
             ],
             'migrations'   => $migrations,
             'total'        => count($migrations),
-            'pending'      => count(array_filter($migrations, fn($m) => !$m['executed']))
+            'pending'      => count(array_filter($migrations, fn($m) => !$m['executed'])),
+            'backups'      => self::listBackups()
         ];
     }
 
@@ -303,11 +333,30 @@ class MigrationsController {
             }
             sort($files);
 
+            // Automatic snapshot backup before executing any migrations to prevent data loss
+            self::createAutoBackup($db, 'pre_migration');
+
             $ran = [];
             foreach ($files as $file) {
                 if (!str_ends_with($file, '.sql')) continue;
                 if (!empty($specificFile) && $file !== $specificFile) continue;
                 if (!$force && in_array($file, $executed)) continue;
+
+                // CRITICAL SEED SHIELD: Never re-run baseline seed files if they have already run
+                // or if database tables already contain populated user data!
+                if (str_contains(strtolower($file), 'seed')) {
+                    if (in_array($file, $executed)) {
+                        continue;
+                    }
+                    try {
+                        $checkUsers = (int)$db->query("SELECT COUNT(*) FROM `users`")->fetchColumn();
+                        if ($checkUsers > 0) {
+                            $ins = $db->prepare("INSERT INTO migrations (migration, executed_at) VALUES (:migration, NOW()) ON DUPLICATE KEY UPDATE executed_at = NOW()");
+                            $ins->execute([':migration' => $file]);
+                            continue;
+                        }
+                    } catch (\Throwable $tSeed) {}
+                }
 
                 $filePath = $dir . '/' . $file;
                 if (!file_exists($filePath)) {
@@ -364,12 +413,134 @@ class MigrationsController {
             MediaStorage::syncAllToDisk();
 
             if (empty($ran)) {
-                return ['success' => true, 'message' => 'Database is already up to date. All migrations have been verified and applied.', 'data' => ['ran' => []]];
+                return ['success' => true, 'message' => 'Database schema is already up to date. All migrations verified.', 'data' => ['ran' => []]];
             }
 
             return ['success' => true, 'message' => 'Successfully executed ' . count($ran) . ' migration(s): ' . implode(', ', $ran), 'data' => ['ran' => $ran]];
         } catch (Exception $e) {
             return ['success' => false, 'message' => 'Migration failed: ' . $e->getMessage(), 'data' => []];
+        }
+    }
+
+    public static function getBackupDir(): string {
+        $dir = dirname(__DIR__, 2) . '/persistent_storage/backups';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0755, true);
+        }
+        return $dir;
+    }
+
+    public static function createAutoBackup(PDO $db, string $reason = 'auto'): ?string {
+        try {
+            $tables = [
+                'users', 'settings', 'departments', 'faculty', 'courses', 
+                'notices', 'events', 'facilities', 'gallery_categories', 
+                'gallery', 'admissions', 'pages', 'contact_messages'
+            ];
+            $backupData = [
+                'created_at' => date('Y-m-d H:i:s'),
+                'reason'     => $reason,
+                'tables'     => []
+            ];
+
+            foreach ($tables as $tbl) {
+                try {
+                    $stmt = $db->query("SELECT * FROM `{$tbl}`");
+                    if ($stmt) {
+                        $backupData['tables'][$tbl] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                } catch (\Throwable $tErr) {
+                    // Ignore missing tables during pre-migration
+                }
+            }
+
+            $backupDir = self::getBackupDir();
+            $filename = 'backup_' . date('Ymd_His') . '_' . $reason . '.json';
+            $path = $backupDir . '/' . $filename;
+            @file_put_contents($path, json_encode($backupData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+            // Retain up to 20 recent backups
+            $scanned = @scandir($backupDir) ?: [];
+            $allBackups = [];
+            foreach ($scanned as $f) {
+                if (str_ends_with($f, '.json')) {
+                    $allBackups[] = $backupDir . '/' . $f;
+                }
+            }
+            if (count($allBackups) > 20) {
+                sort($allBackups);
+                while (count($allBackups) > 20) {
+                    $old = array_shift($allBackups);
+                    @unlink($old);
+                }
+            }
+
+            return $filename;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    public static function listBackups(): array {
+        $backupDir = self::getBackupDir();
+        $list = [];
+        if (is_dir($backupDir)) {
+            $scanned = @scandir($backupDir) ?: [];
+            foreach ($scanned as $f) {
+                if (str_ends_with($f, '.json')) {
+                    $path = $backupDir . '/' . $f;
+                    $list[] = [
+                        'filename'   => $f,
+                        'size_bytes' => filesize($path),
+                        'created_at' => date('Y-m-d H:i:s', filemtime($path))
+                    ];
+                }
+            }
+        }
+        usort($list, fn($a, $b) => strcmp($b['created_at'], $a['created_at']));
+        return $list;
+    }
+
+    public static function restoreBackup(PDO $db, string $filename): array {
+        $backupDir = self::getBackupDir();
+        $safeName = basename($filename);
+        $path = $backupDir . '/' . $safeName;
+        if (!file_exists($path)) {
+            return ['success' => false, 'message' => 'Selected backup file not found.'];
+        }
+        $raw = file_get_contents($path);
+        $data = json_decode($raw, true);
+        if (!is_array($data) || empty($data['tables'])) {
+            return ['success' => false, 'message' => 'Corrupt or unreadable backup file.'];
+        }
+
+        $restored = [];
+        $db->beginTransaction();
+        try {
+            foreach ($data['tables'] as $table => $rows) {
+                if (!is_array($rows)) continue;
+                $db->exec("DELETE FROM `{$table}`");
+                if (!empty($rows)) {
+                    $cols = array_keys($rows[0]);
+                    $colList = implode('`, `', $cols);
+                    $placeholders = implode(', ', array_fill(0, count($cols), '?'));
+                    $insertSql = "INSERT INTO `{$table}` (`{$colList}`) VALUES ({$placeholders})";
+                    $stmt = $db->prepare($insertSql);
+                    foreach ($rows as $row) {
+                        $stmt->execute(array_values($row));
+                    }
+                }
+                $restored[$table] = count($rows);
+            }
+            $db->commit();
+            return [
+                'success' => true,
+                'message' => 'Database successfully restored from snapshot (' . count($restored) . ' tables restored).',
+                'restored' => $restored
+            ];
+        } catch (\Throwable $e) {
+            $db->rollBack();
+            return ['success' => false, 'message' => 'Restore failed: ' . $e->getMessage()];
         }
     }
 }

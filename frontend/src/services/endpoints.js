@@ -660,6 +660,15 @@ export const migrationsService = {
   },
   saveDbConfig: async (config = {}) => {
     return api.post('/migrations', { action: 'save_db_config', ...config })
+  },
+  createBackup: async () => {
+    return api.post('/migrations', { action: 'create_backup' })
+  },
+  listBackups: async () => {
+    return api.post('/migrations', { action: 'list_backups' })
+  },
+  restoreBackup: async (filename) => {
+    return api.post('/migrations', { action: 'restore_backup', filename })
   }
 }
 

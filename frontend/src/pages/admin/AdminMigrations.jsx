@@ -20,6 +20,9 @@ export default function AdminMigrations() {
     user: '',
     pass: ''
   })
+  const [backups, setBackups] = useState([])
+  const [backingUp, setBackingUp] = useState(false)
+  const [restoring, setRestoring] = useState(false)
   const [showConfig, setShowConfig] = useState(false)
   const [savingConfig, setSavingConfig] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -42,6 +45,10 @@ export default function AdminMigrations() {
           total: payload.total !== undefined ? payload.total : (payload.migrations?.length || 0),
           pending: payload.pending !== undefined ? payload.pending : (payload.migrations?.filter(m => !m.executed)?.length || 0)
         })
+
+        if (payload.backups && Array.isArray(payload.backups)) {
+          setBackups(payload.backups)
+        }
 
         if (payload.db_config) {
           setDbConfig(prev => ({
@@ -107,17 +114,56 @@ export default function AdminMigrations() {
     }
   }
 
-  const handleRunMigrations = async (force = false) => {
-    const isPending = data.pending > 0
-    const promptText = isPending
-      ? `Run all ${data.pending} pending SQL database migration(s) now?`
-      : 'All migrations are currently applied. Do you want to verify and re-execute all SQL migration scripts to ensure schema integrity?'
+  const handleCreateBackup = async () => {
+    setBackingUp(true)
+    setMsg({ text: '', type: '' })
+    try {
+      const res = await migrationsService.createBackup()
+      setMsg({
+        text: res?.message || 'Database snapshot created successfully!',
+        type: res?.success ? 'success' : 'danger'
+      })
+      await loadStatus()
+    } catch (err) {
+      setMsg({ text: 'Backup failed: ' + err.message, type: 'danger' })
+    } finally {
+      setBackingUp(false)
+    }
+  }
 
+  const handleRestoreBackup = async (filename) => {
+    if (!window.confirm(`Restore database from snapshot "${filename}"?\n\nWARNING: Current table rows will be replaced by the contents of this snapshot. Only proceed if you intend to revert.`)) return
+    setRestoring(true)
+    setMsg({ text: '', type: '' })
+    try {
+      const res = await migrationsService.restoreBackup(filename)
+      setMsg({
+        text: res?.message || 'Database snapshot restored successfully!',
+        type: res?.success ? 'success' : 'danger'
+      })
+      await loadStatus()
+    } catch (err) {
+      setMsg({ text: 'Snapshot restore failed: ' + err.message, type: 'danger' })
+    } finally {
+      setRestoring(false)
+    }
+  }
+
+  const handleRunMigrations = async () => {
+    if (data.pending === 0) {
+      setMsg({
+        text: 'All schema migrations are already applied and up to date. Seed re-runs are permanently shielded to protect your live admin data.',
+        type: 'info'
+      })
+      return
+    }
+
+    const promptText = `Run all ${data.pending} pending SQL database migration(s) now? An automated safety backup will be created first.`
     if (!window.confirm(promptText)) return
     setRunning(true)
     setMsg({ text: '', type: '' })
     try {
-      const res = await migrationsService.runMigrations(force || !isPending ? { force: true } : {})
+      const res = await migrationsService.runMigrations({})
       setMsg({
         text: res?.message || 'Database migrations executed successfully! All tables are up to date.',
         type: res?.success ? 'success' : 'warning'
@@ -131,6 +177,10 @@ export default function AdminMigrations() {
   }
 
   const handleRunSingle = async (file) => {
+    if (file.toLowerCase().includes('seed')) {
+      alert('Baseline demo seeds are permanently protected and cannot be re-executed on an active database to prevent overwriting your customized admin data.')
+      return
+    }
     if (!window.confirm(`Execute SQL migration script "${file}" on the active database now?`)) return
     setRunning(true)
     setMsg({ text: '', type: '' })
@@ -187,6 +237,20 @@ export default function AdminMigrations() {
           <button
             type="button"
             className="admin-btn admin-btn-secondary"
+            onClick={handleCreateBackup}
+            disabled={loading || running || backingUp}
+            title="Create an instantaneous snapshot backup of current database rows"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>{backingUp ? 'Saving Snapshot...' : 'Backup Snapshot'}</span>
+          </button>
+          <button
+            type="button"
+            className="admin-btn admin-btn-secondary"
             onClick={loadStatus}
             disabled={loading || running}
           >
@@ -199,20 +263,31 @@ export default function AdminMigrations() {
           </button>
           <button
             type="button"
-            className={`admin-btn ${data.pending > 0 ? 'admin-btn-primary' : 'admin-btn-success'}`}
-            onClick={() => handleRunMigrations(data.pending === 0)}
-            disabled={loading || running}
+            className={`admin-btn ${data.pending > 0 ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={handleRunMigrations}
+            disabled={loading || running || data.pending === 0}
+            style={data.pending === 0 ? { opacity: 0.85, cursor: 'default' } : {}}
+            title={data.pending === 0 ? 'All schema migrations applied' : 'Run pending schema migrations'}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-            </svg>
-            <span>
-              {running
-                ? 'Executing Migrations...'
-                : data.pending > 0
-                ? `Run ${data.pending} Pending Migration${data.pending > 1 ? 's' : ''}`
-                : 'Verify & Re-run All Migrations'}
-            </span>
+            {data.pending === 0 ? (
+              <>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span style={{ color: '#16a34a', fontWeight: 600 }}>Schema Up to Date</span>
+              </>
+            ) : (
+              <>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                </svg>
+                <span>
+                  {running
+                    ? 'Executing Migrations...'
+                    : `Run ${data.pending} Pending Migration${data.pending > 1 ? 's' : ''}`}
+                </span>
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -578,19 +653,40 @@ export default function AdminMigrations() {
                         </span>
                       </td>
                       <td style={{ textAlign: 'right' }}>
-                        <button
-                          type="button"
-                          className="admin-btn admin-btn-secondary"
-                          style={{ padding: '4px 10px', fontSize: 12, minHeight: 30 }}
-                          onClick={() => handleRunSingle(m.file)}
-                          disabled={running || loading}
-                          title={isExecuted ? 'Re-execute this migration script' : 'Execute this migration script'}
-                        >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                          </svg>
-                          <span>{isExecuted ? 'Re-run' : 'Run'}</span>
-                        </button>
+                        {m.file.toLowerCase().includes('seed') ? (
+                          <span style={{
+                            fontSize: 11,
+                            color: '#059669',
+                            fontWeight: 600,
+                            padding: '3px 8px',
+                            background: '#ecfdf5',
+                            borderRadius: 4,
+                            border: '1px solid #a7f3d0',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4
+                          }} title="Baseline demo seeds are locked to prevent overwriting your live admin data">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            Locked (Seed)
+                          </span>
+                        ) : (
+                          <button
+                            type="button"
+                            className="admin-btn admin-btn-secondary"
+                            style={{ padding: '4px 10px', fontSize: 12, minHeight: 30 }}
+                            onClick={() => handleRunSingle(m.file)}
+                            disabled={running || loading}
+                            title={isExecuted ? 'Re-execute this migration script' : 'Execute this migration script'}
+                          >
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>{isExecuted ? 'Re-run' : 'Run'}</span>
+                          </button>
+                        )}
                       </td>
                     </tr>
                   )
@@ -601,17 +697,84 @@ export default function AdminMigrations() {
         </div>
       </div>
 
-      {/* Clean Explanation Box */}
+      {/* Database Snapshots & Auto-Backups Card */}
+      <div className="admin-card" style={{ marginTop: 24, background: '#ffffff' }}>
+        <div className="admin-card-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #e2e8f0' }}>
+          <div>
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0f172a' }}>Database Snapshots &amp; Auto-Backups</h3>
+            <span style={{ fontSize: 13, color: '#64748b', marginTop: 4, display: 'block' }}>
+              Automatic point-in-time snapshots created before migrations, protecting your customized admin data from loss.
+            </span>
+          </div>
+          <button
+            type="button"
+            className="admin-btn admin-btn-secondary"
+            onClick={handleCreateBackup}
+            disabled={loading || running || backingUp}
+            style={{ fontSize: 12.5 }}
+          >
+            {backingUp ? 'Creating Snapshot...' : '+ Create Manual Snapshot'}
+          </button>
+        </div>
+
+        <div className="admin-card-body" style={{ padding: 0 }}>
+          {backups.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '30px 20px', color: '#64748b', fontSize: 13 }}>
+              No snapshots created yet. Click <strong>"+ Create Manual Snapshot"</strong> to create a point-in-time restore point.
+            </div>
+          ) : (
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th style={{ width: 45 }}>#</th>
+                  <th>Snapshot File</th>
+                  <th style={{ width: 180 }}>Created Timestamp</th>
+                  <th style={{ width: 120 }}>Size</th>
+                  <th style={{ width: 140, textAlign: 'right' }}>Restore</th>
+                </tr>
+              </thead>
+              <tbody>
+                {backups.map((b, idx) => (
+                  <tr key={b.filename}>
+                    <td><span style={{ fontSize: 12, color: '#64748b' }}>{idx + 1}</span></td>
+                    <td>
+                      <code style={{ fontSize: 12, fontWeight: 600, color: '#0f172a', background: '#f1f5f9', padding: '2px 6px', borderRadius: 4 }}>
+                        {b.filename}
+                      </code>
+                    </td>
+                    <td><span style={{ fontSize: 12.5, color: '#334155' }}>{b.created_at}</span></td>
+                    <td><span style={{ fontSize: 12, color: '#64748b' }}>{Math.round((b.size_bytes || 0) / 1024)} KB</span></td>
+                    <td style={{ textAlign: 'right' }}>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn-danger"
+                        style={{ padding: '3px 8px', fontSize: 11.5, minHeight: 28 }}
+                        onClick={() => handleRestoreBackup(b.filename)}
+                        disabled={restoring || loading || running}
+                        title="Revert database rows to this snapshot"
+                      >
+                        {restoring ? 'Restoring...' : 'Restore'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      {/* Safety & Integrity Information Box */}
       <div className="admin-card" style={{ marginTop: 20 }}>
         <div className="admin-card-header">
-          <h3>Functionality & Information</h3>
+          <h3>Data Protection &amp; Integrity Policy</h3>
         </div>
         <div className="admin-card-body" style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.6 }}>
           <p style={{ margin: '0 0 10px' }}>
-            <strong>What is the purpose of this page?</strong> This page manages and executes version-controlled SQL migration scripts (<code>001</code> through <code>007</code>) to ensure all database tables, columns, and indexes match the current website features (e.g. users, year-wise departments, notices, events, gallery, and RBAC permissions).
+            <strong>How is your admin data protected?</strong> All SQL migration scripts are strictly additive (<code>CREATE TABLE IF NOT EXISTS</code> and <code>ADD COLUMN</code>). Baseline demo seeds use <code>INSERT IGNORE</code> and are permanently locked on active databases, ensuring custom changes made from the admin panel can <strong>never</strong> be overridden or erased by migrations.
           </p>
           <p style={{ margin: 0 }}>
-            <strong>What does "Run Pending Migrations" do?</strong> It safely checks the database, runs any unexecuted SQL scripts in numerical order, creates any missing tables/columns without overwriting existing data, and logs the execution timestamp in the <code>migrations</code> tracking table.
+            <strong>Automated Pre-Migration Backups:</strong> Whenever migrations or updates are executed, the system automatically takes an instantaneous snapshot of all tables into <code>persistent_storage/backups/</code>. You can also click <strong>"Backup Snapshot"</strong> at any time to save a custom restore point.
           </p>
         </div>
       </div>
