@@ -23,6 +23,11 @@ import Infrastructure from './pages/Infrastructure.jsx'
 import Labs from './pages/Labs.jsx'
 import Sports from './pages/Sports.jsx'
 import StudentLife from './pages/StudentLife.jsx'
+import CulturalActivities from './pages/CulturalActivities.jsx'
+import ClubsActivities from './pages/ClubsActivities.jsx'
+import FieldTrips from './pages/FieldTrips.jsx'
+import CompetitionsOlympiads from './pages/CompetitionsOlympiads.jsx'
+import StudentAchievementsPage from './pages/StudentAchievementsPage.jsx'
 import Transportation from './pages/Transportation.jsx'
 import Faculty from './pages/Faculty.jsx'
 import StudentCorner from './pages/StudentCorner.jsx'
@@ -159,6 +164,19 @@ export default function App() {
           <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/labs" element={<Labs />} />
           <Route path="/sports" element={<Sports />} />
+          <Route path="/cultural-activities" element={<CulturalActivities />} />
+          <Route path="/clubs-activities" element={<ClubsActivities />} />
+          <Route path="/field-trips" element={<FieldTrips />} />
+          <Route path="/competitions-olympiads" element={<CompetitionsOlympiads />} />
+          <Route path="/student-achievements" element={<StudentAchievementsPage />} />
+          
+          {/* Subpage Aliases */}
+          <Route path="/student-life/sports" element={<Sports />} />
+          <Route path="/student-life/cultural" element={<CulturalActivities />} />
+          <Route path="/student-life/clubs" element={<ClubsActivities />} />
+          <Route path="/student-life/field-trips" element={<FieldTrips />} />
+          <Route path="/student-life/competitions" element={<CompetitionsOlympiads />} />
+          <Route path="/student-life/achievements" element={<StudentAchievementsPage />} />
           <Route path="/student-life" element={<StudentLife />} />
           <Route path="/student-life/:subpage" element={<StudentLife />} />
           <Route path="/hostel" element={<Navigate to="/facilities" replace />} />

@@ -208,11 +208,11 @@ export default function Navbar2Row() {
       path: '/student-life',
       children: [
         { label: 'Sports & Athletics', path: '/sports' },
-        { label: 'Cultural Activities', path: '/student-life/cultural' },
-        { label: 'Clubs & Activities', path: '/student-life/clubs' },
-        { label: 'Field Trips & Excursions', path: '/student-life/field-trips' },
-        { label: 'Competitions & Olympiads', path: '/student-life/competitions' },
-        { label: 'Student Achievements', path: '/student-life/achievements' }
+        { label: 'Cultural Activities', path: '/cultural-activities' },
+        { label: 'Clubs & Activities', path: '/clubs-activities' },
+        { label: 'Field Trips & Excursions', path: '/field-trips' },
+        { label: 'Competitions & Olympiads', path: '/competitions-olympiads' },
+        { label: 'Student Achievements', path: '/student-achievements' }
       ]
     },
     { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },
