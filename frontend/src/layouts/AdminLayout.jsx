@@ -3,6 +3,7 @@ import { NavLink, Outlet, Link, useNavigate, useLocation } from 'react-router-do
 import { useAuth } from '../hooks/useAuth.jsx'
 import { isDevAdmin, hasPermission } from '../data/adminPermissions.js'
 import siteLogo from '../assets/pandharpur_logo.jpg'
+import AdminToastContainer from '../components/admin/AdminToastContainer.jsx'
 import '../admin.css'
 
 export default function AdminLayout() {
@@ -15,7 +16,7 @@ export default function AdminLayout() {
   // Track open dropdowns by menu label
   const [openDropdowns, setOpenDropdowns] = useState({})
 
-  // Automatically manage screen visibility and dismissal for any changes saved in admin panel
+  // Automatically manage screen visibility, toast mirroring, and dismissal for any changes saved in admin panel
   useEffect(() => {
     const handleAlertClick = (e) => {
       const alertEl = e.target.closest('.admin-alert')
@@ -34,6 +35,24 @@ export default function AdminLayout() {
       alerts.forEach(alert => {
         alert.setAttribute('data-dismiss-bound', 'true')
         
+        // Mirror alert to floating top toast for high-visibility system feedback
+        const rawText = alert.textContent?.trim() || ''
+        const text = rawText.replace(/^[✕×]\s*/, '').trim()
+        if (text) {
+          const isError = alert.classList.contains('alert-danger') || alert.classList.contains('alert-error')
+          const isWarning = alert.classList.contains('alert-warning')
+          const type = isError ? 'error' : (isWarning ? 'warning' : 'success')
+          const title = isError ? 'Save Failed' : (isWarning ? 'System Warning' : 'Saved Successfully')
+
+          window.dispatchEvent(new CustomEvent('admin:toast', {
+            detail: {
+              type,
+              title,
+              message: text
+            }
+          }))
+        }
+
         // Scroll smoothly to keep the alert in screen view if scrolled far
         try {
           alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -696,6 +715,10 @@ export default function AdminLayout() {
           <Outlet />
         </main>
       </div>
+
+      {/* Global Universal System Feedback Toast */}
+      <AdminToastContainer />
     </div>
   )
 }
+
