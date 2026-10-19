@@ -784,6 +784,11 @@ img, video, iframe, embed, object {
   border-radius: var(--radius-pill);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
 }
 .row-1-deck .nav-link:hover {
   background: #ffffff;
@@ -845,6 +850,11 @@ img, video, iframe, embed, object {
   border-radius: 6px;
   transition: all 0.18s ease;
   white-space: nowrap;
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
 }
 .row-2-deck .nav-link:hover,
 .row-2-deck .nav-item:hover > .nav-link {

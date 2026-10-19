@@ -33,6 +33,18 @@ export default function Navbar2Row() {
     setMobileOpen(false)
   }, [location.pathname])
 
+  // Close active dropdown on outside click
+  useEffect(() => {
+    if (!activeDropdown) return
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest('.nav-item.has-dropdown')) {
+        setActiveDropdown(null)
+      }
+    }
+    document.addEventListener('click', handleOutsideClick)
+    return () => document.removeEventListener('click', handleOutsideClick)
+  }, [activeDropdown])
+
   // Track window scroll for sticky mobile header branding
   useEffect(() => {
     const handleScroll = () => {
@@ -398,24 +410,35 @@ export default function Navbar2Row() {
                 <ul className="nav-items-list">
                   {ROW_1_NAV.filter(item => isMenuVisible(item.label)).map((item, idx) => {
                     const hasChildren = Boolean(item.children && item.children.length > 0)
-                    const isHovered = activeDropdown === `r1-${idx}`
                     const visibleChildren = hasChildren ? item.children.filter(c => isSubmenuVisible(item.label, c)) : []
+                    const hasDropdown = hasChildren && visibleChildren.length > 0
+                    const dropdownKey = `r1-${idx}`
+                    const isHovered = activeDropdown === dropdownKey
+                    const isActiveParent = hasChildren && (
+                      location.pathname === item.path ||
+                      visibleChildren.some(c => location.pathname === c.path || (c.path !== '/' && location.pathname.startsWith(c.path)))
+                    )
 
                     return (
                       <li
                         key={item.label}
-                        className={`nav-item ${hasChildren && visibleChildren.length > 0 ? 'has-dropdown' : ''}`}
-                        onMouseEnter={() => hasChildren && visibleChildren.length > 0 && setActiveDropdown(`r1-${idx}`)}
-                        onMouseLeave={() => hasChildren && setActiveDropdown(null)}
+                        className={`nav-item ${hasDropdown ? 'has-dropdown' : ''}`}
+                        onMouseEnter={() => hasDropdown && setActiveDropdown(dropdownKey)}
+                        onMouseLeave={() => hasDropdown && setActiveDropdown(null)}
                       >
-                        <NavLink
-                          to={item.path}
-                          end={item.path === '/'}
-                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''} ${hasChildren && visibleChildren.length > 0 ? 'nav-link-has-children' : ''}`}
-                          onClick={() => handleNavClick(item.path)}
-                        >
-                          <span>{item.label}</span>
-                          {hasChildren && visibleChildren.length > 0 && (
+                        {hasDropdown ? (
+                          <button
+                            type="button"
+                            className={`nav-link ${isActiveParent ? 'nav-link-active' : ''} nav-link-has-children`}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              setActiveDropdown(prev => prev === dropdownKey ? null : dropdownKey)
+                            }}
+                            aria-haspopup="true"
+                            aria-expanded={isHovered}
+                          >
+                            <span>{item.label}</span>
                             <svg
                               className={`nav-chevron ${isHovered ? 'chevron-open' : ''}`}
                               viewBox="0 0 24 24"
@@ -429,10 +452,19 @@ export default function Navbar2Row() {
                             >
                               <polyline points="6 9 12 15 18 9" />
                             </svg>
-                          )}
-                        </NavLink>
+                          </button>
+                        ) : (
+                          <NavLink
+                            to={item.path}
+                            end={item.path === '/'}
+                            className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+                            onClick={() => handleNavClick(item.path)}
+                          >
+                            <span>{item.label}</span>
+                          </NavLink>
+                        )}
 
-                        {hasChildren && visibleChildren.length > 0 && (
+                        {hasDropdown && (
                           <div className={`nav-dropdown-card ${isHovered ? 'dropdown-visible' : ''}`}>
                             <ul className="dropdown-list">
                               {visibleChildren.map(subItem => (
@@ -466,23 +498,35 @@ export default function Navbar2Row() {
                 <ul className="nav-items-list row-2-list">
                   {ROW_2_NAV.filter(item => isMenuVisible(item.label)).map((item, idx) => {
                     const hasChildren = Boolean(item.children && item.children.length > 0)
-                    const isHovered = activeDropdown === `r2-${idx}`
                     const visibleChildren = hasChildren ? item.children.filter(c => isSubmenuVisible(item.label, c)) : []
+                    const hasDropdown = hasChildren && visibleChildren.length > 0
+                    const dropdownKey = `r2-${idx}`
+                    const isHovered = activeDropdown === dropdownKey
+                    const isActiveParent = hasChildren && (
+                      location.pathname === item.path ||
+                      visibleChildren.some(c => location.pathname === c.path || (c.path !== '/' && location.pathname.startsWith(c.path)))
+                    )
 
                     return (
                       <li
                         key={item.label}
-                        className={`nav-item ${hasChildren && visibleChildren.length > 0 ? 'has-dropdown' : ''}`}
-                        onMouseEnter={() => hasChildren && visibleChildren.length > 0 && setActiveDropdown(`r2-${idx}`)}
-                        onMouseLeave={() => hasChildren && setActiveDropdown(null)}
+                        className={`nav-item ${hasDropdown ? 'has-dropdown' : ''}`}
+                        onMouseEnter={() => hasDropdown && setActiveDropdown(dropdownKey)}
+                        onMouseLeave={() => hasDropdown && setActiveDropdown(null)}
                       >
-                        <NavLink
-                          to={item.path}
-                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''} ${hasChildren && visibleChildren.length > 0 ? 'nav-link-has-children' : ''}`}
-                          onClick={() => handleNavClick(item.path)}
-                        >
-                          <span>{item.label}</span>
-                          {hasChildren && visibleChildren.length > 0 && (
+                        {hasDropdown ? (
+                          <button
+                            type="button"
+                            className={`nav-link ${isActiveParent ? 'nav-link-active' : ''} nav-link-has-children`}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              setActiveDropdown(prev => prev === dropdownKey ? null : dropdownKey)
+                            }}
+                            aria-haspopup="true"
+                            aria-expanded={isHovered}
+                          >
+                            <span>{item.label}</span>
                             <svg
                               className={`nav-chevron ${isHovered ? 'chevron-open' : ''}`}
                               viewBox="0 0 24 24"
@@ -496,10 +540,18 @@ export default function Navbar2Row() {
                             >
                               <polyline points="6 9 12 15 18 9" />
                             </svg>
-                          )}
-                        </NavLink>
+                          </button>
+                        ) : (
+                          <NavLink
+                            to={item.path}
+                            className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+                            onClick={() => handleNavClick(item.path)}
+                          >
+                            <span>{item.label}</span>
+                          </NavLink>
+                        )}
 
-                        {hasChildren && visibleChildren.length > 0 && (
+                        {hasDropdown && (
                           <div className={`nav-dropdown-card ${isHovered ? 'dropdown-visible' : ''}`}>
                             <ul className="dropdown-list">
                               {visibleChildren.map(subItem => (
