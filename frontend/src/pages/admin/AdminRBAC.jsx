@@ -184,19 +184,15 @@ export default function AdminRBAC() {
   }
 
   const handleDelete = async (u) => {
-    if (u.id === 1 || u.email === 'devkarma' || u.role === 'devadmin' || u.role === 'superadmin') {
-      alert('Master Administrator account cannot be deleted.')
-      return
-    }
-    if ((currentAuthUser?.id || currentAuthUser?.sub) === u.id) {
-      alert('You cannot delete your own active administrator account.')
+    if (isDevAdmin(u) || u.id === 1 || u.email === 'devkarma') {
+      alert('Master Administrator account (devkarma) is permanently protected and cannot be deleted.')
       return
     }
     if (!window.confirm(`Delete administrator account "${u.name}" (${u.email})? This action is permanent.`)) return
 
     try {
       await usersService.delete(u.id)
-      setMsg({ text: `Account for ${u.name} deleted successfully.`, type: 'success' })
+      setMsg({ text: `Account for "${u.name}" (${u.email}) deleted successfully.`, type: 'success' })
       loadUsers()
     } catch (err) {
       setMsg({ text: err.message || 'Failed to delete user account', type: 'danger' })
@@ -450,24 +446,27 @@ export default function AdminRBAC() {
                           >
                             Audit Logs
                           </button>
-                          <button
-                            type="button"
-                            className="admin-btn admin-btn-secondary"
-                            style={{ fontSize: 12, padding: '4px 10px' }}
-                            onClick={() => handleOpenModal(u)}
-                          >
-                            Permissions
-                          </button>
-                          {!isDev && !isSelf && (
-                            <button
-                              type="button"
-                              className="admin-btn admin-btn-danger"
-                              style={{ fontSize: 12, padding: '4px 8px' }}
-                              onClick={() => handleDelete(u)}
-                              title="Delete this administrator account"
-                            >
-                              Delete
-                            </button>
+                          {!isDev && (
+                            <>
+                              <button
+                                type="button"
+                                className="admin-btn admin-btn-secondary"
+                                style={{ fontSize: 12, padding: '4px 10px' }}
+                                onClick={() => handleOpenModal(u)}
+                                title="Edit access and menu permissions"
+                              >
+                                Permissions
+                              </button>
+                              <button
+                                type="button"
+                                className="admin-btn admin-btn-danger"
+                                style={{ fontSize: 12, padding: '4px 8px' }}
+                                onClick={() => handleDelete(u)}
+                                title="Delete this administrator account"
+                              >
+                                Delete
+                              </button>
+                            </>
                           )}
                         </div>
                       </td>
