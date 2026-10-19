@@ -23,7 +23,12 @@ class Env {
             if (str_contains($line, '=')) {
                 list($name, $value) = explode('=', $line, 2);
                 $name = trim($name);
-                $value = trim($value, " \t\n\r\0\x0B\"'");
+                $value = trim($value);
+                // Strip matching outer quotes (double or single)
+                if ((str_starts_with($value, '"') && str_ends_with($value, '"')) ||
+                    (str_starts_with($value, "'") && str_ends_with($value, "'"))) {
+                    $value = substr($value, 1, -1);
+                }
                 self::$variables[$name] = $value;
                 $_ENV[$name] = $value;
                 $_SERVER[$name] = $value;
@@ -33,6 +38,19 @@ class Env {
     }
 
     public static function get(string $key, mixed $default = null): mixed {
-        return self::$variables[$key] ?? $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key) ?: $default;
+        if (array_key_exists($key, self::$variables)) {
+            return self::$variables[$key];
+        }
+        if (isset($_ENV[$key])) {
+            return $_ENV[$key];
+        }
+        if (isset($_SERVER[$key])) {
+            return $_SERVER[$key];
+        }
+        $val = getenv($key);
+        if ($val !== false) {
+            return $val;
+        }
+        return $default;
     }
 }
