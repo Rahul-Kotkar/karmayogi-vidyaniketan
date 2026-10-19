@@ -49,11 +49,11 @@ class ActivityLogger {
         $userId = !empty($user['id']) ? (int)$user['id'] : (!empty($user['sub']) ? (int)$user['sub'] : null);
         $userEmail = strtolower($user['email'] ?? '');
         $userRole = strtolower($user['role'] ?? '');
-        return ($userId === 1 || $userEmail === 'devkarma' || str_contains($userEmail, 'devkarma') || in_array($userRole, ['superadmin', 'devadmin', 'developer']));
+        return ($userId === 1 || $userEmail === 'devkarma' || str_contains($userEmail, 'devkarma') || in_array($userRole, ['devadmin', 'developer']));
     }
 
     /**
-     * Records an activity or audit log entry (created users only)
+     * Records an activity or audit log entry for all administrators
      *
      * @param array|null $user Authenticated user details (id/sub, name, email, role)
      * @param string $action 'LOGIN', 'LOGOUT', 'CREATE', 'UPDATE', 'DELETE', 'PASSWORD_CHANGE'
@@ -71,11 +71,6 @@ class ActivityLogger {
         string $description = '',
         $details = null
     ): bool {
-        // Exclude root/developer admin from logging (only supervise created users)
-        if (self::isDevAdminUser($user)) {
-            return false;
-        }
-
         $userId = !empty($user['id']) ? (int)$user['id'] : (!empty($user['sub']) ? (int)$user['sub'] : null);
         $userName = !empty($user['name']) ? substr($user['name'], 0, 150) : 'Administrator';
         $userEmail = !empty($user['email']) ? substr($user['email'], 0, 191) : 'admin';
@@ -236,15 +231,18 @@ class ActivityLogger {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
         
         $db->exec($sql);
-        // Clean out any historical devkarma logs so only created users remain
         try {
-            $db->exec("DELETE FROM activity_logs WHERE user_email LIKE '%devkarma%' OR user_id = 1 OR user_role IN ('superadmin', 'devadmin', 'developer')");
-        } catch (Exception $eClean) {}
+            $count = (int)$db->query("SELECT COUNT(*) FROM activity_logs")->fetchColumn();
+            if ($count === 0) {
+                $db->prepare("INSERT INTO activity_logs (user_id, user_name, user_email, user_role, action, resource, description, ip_address, created_at)
+                             VALUES (1, 'System Administrator', 'devkarma', 'superadmin', 'LOGIN', 'auth', 'Audit Logging System initialized and active.', '127.0.0.1', NOW())")->execute();
+            }
+        } catch (Exception $eInit) {}
         self::$tableChecked = true;
     }
 
     /**
-     * Retrieves filtered and paginated activity logs (Created Users Only)
+     * Retrieves filtered and paginated activity logs for all administrators
      */
     public static function getLogs(array $filters = []): array {
         $userId = !empty($filters['user_id']) ? (int)$filters['user_id'] : null;
@@ -263,9 +261,7 @@ class ActivityLogger {
             $db = Database::getConnection();
             self::ensureTableExists($db);
 
-            $where = [
-                "(user_email NOT LIKE '%devkarma%' AND (user_id != 1 OR user_id IS NULL) AND user_role NOT IN ('superadmin', 'devadmin', 'developer'))"
-            ];
+            $where = [];
             $params = [];
 
             if ($userId) {
@@ -358,12 +354,6 @@ class ActivityLogger {
         $search = !empty($filters['search']) ? strtolower(trim($filters['search'])) : null;
 
         $filtered = array_filter($all, function($item) use ($userId, $userEmail, $action, $resource, $search) {
-            $itemEmail = strtolower($item['user_email'] ?? '');
-            $itemRole = strtolower($item['user_role'] ?? '');
-            $itemId = (int)($item['user_id'] ?? 0);
-            if ($itemEmail === 'devkarma' || str_contains($itemEmail, 'devkarma') || $itemId === 1 || in_array($itemRole, ['superadmin', 'devadmin', 'developer'])) {
-                return false;
-            }
             if ($userId && (int)($item['user_id'] ?? 0) !== $userId) return false;
             if ($userEmail && strtolower($item['user_email'] ?? '') !== $userEmail) return false;
             if ($action) {
@@ -392,14 +382,14 @@ class ActivityLogger {
     }
 
     /**
-     * Aggregated statistics for the audit logs dashboard (Created Users Only)
+     * Aggregated statistics for the audit logs dashboard
      */
     public static function getStats(): array {
         try {
             $db = Database::getConnection();
             self::ensureTableExists($db);
 
-            $baseWhere = "WHERE (user_email NOT LIKE '%devkarma%' AND (user_id != 1 OR user_id IS NULL) AND user_role NOT IN ('superadmin', 'devadmin', 'developer'))";
+            $baseWhere = "WHERE 1=1";
             $total = (int)$db->query("SELECT COUNT(*) FROM activity_logs {$baseWhere}")->fetchColumn();
             $logins = (int)$db->query("SELECT COUNT(*) FROM activity_logs {$baseWhere} AND action = 'LOGIN'")->fetchColumn();
             $changes = (int)$db->query("SELECT COUNT(*) FROM activity_logs {$baseWhere} AND action IN ('CREATE', 'UPDATE', 'DELETE', 'PASSWORD_CHANGE')")->fetchColumn();

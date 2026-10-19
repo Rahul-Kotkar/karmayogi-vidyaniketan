@@ -26,14 +26,9 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
   const [totalPages, setTotalPages] = useState(1)
   const [totalRecords, setTotalRecords] = useState(0)
 
-  // Only list created users for supervision (exclude master dev user)
-  const createdUsers = useMemo(() => {
-    return (usersList || []).filter(u => {
-      const email = (u.email || '').toLowerCase()
-      const role = (u.role || '').toLowerCase()
-      const id = Number(u.id || 0)
-      return email !== 'devkarma' && !email.includes('devkarma') && id !== 1 && !['superadmin', 'devadmin', 'developer'].includes(role)
-    })
+  // All administrator users for filter dropdown
+  const allAdminUsers = useMemo(() => {
+    return Array.isArray(usersList) ? usersList : []
   }, [usersList])
 
   // Sync initialUserId if prop changes
@@ -44,7 +39,7 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
     }
   }, [initialUserId])
 
-  // Load created users for filter dropdown
+  // Load administrators for filter dropdown
   useEffect(() => {
     async function loadUsers() {
       try {
@@ -55,7 +50,7 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
     loadUsers()
   }, [])
 
-  // Load aggregated stats for created users
+  // Load aggregated stats
   const fetchStats = async () => {
     setStatsLoading(true)
     try {
@@ -78,18 +73,12 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
       if (searchQuery.trim()) params.search = searchQuery.trim()
 
       const res = await activityLogsService.getAll(params)
-      // Exclude any developer admin records on client-side as an additional layer
-      const cleanLogs = (res.logs || []).filter(item => {
-        const email = (item.user_email || '').toLowerCase()
-        const role = (item.user_role || '').toLowerCase()
-        const id = Number(item.user_id || 0)
-        return email !== 'devkarma' && !email.includes('devkarma') && id !== 1 && !['superadmin', 'devadmin', 'developer'].includes(role)
-      })
+      const fetchedLogs = Array.isArray(res?.logs) ? res.logs : []
 
-      setLogs(cleanLogs)
-      setCurrentPage(res.page || 1)
-      setTotalPages(res.total_pages || 1)
-      setTotalRecords(cleanLogs.length)
+      setLogs(fetchedLogs)
+      setCurrentPage(res?.page || 1)
+      setTotalPages(res?.total_pages || 1)
+      setTotalRecords(res?.total !== undefined ? res.total : fetchedLogs.length)
     } catch {
       setLogs([])
     } finally {
@@ -214,7 +203,7 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
             <div className="admin-stat-label">Supervised Users</div>
             <div className="admin-stat-val">{createdUsers.length}</div>
             <div style={{ fontSize: 12, color: '#64748b' }}>
-              {createdUsers.length === 1 ? '1 active created user' : `${createdUsers.length} created accounts`}
+              {allAdminUsers.length === 1 ? '1 active administrator' : `${allAdminUsers.length} registered administrators`}
             </div>
           </div>
           <div className="admin-stat-icon-wrap">
@@ -278,17 +267,17 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
               />
             </div>
 
-            {/* Filter by Created User */}
+            {/* Filter by Administrator */}
             <select
               value={selectedUser}
               onChange={(e) => { setSelectedUser(e.target.value); setCurrentPage(1); }}
               className="admin-select"
               style={{ width: 'auto', minWidth: 180, padding: '8px 12px', fontSize: 13 }}
             >
-              <option value="">All Created Users</option>
-              {createdUsers.map(u => (
+              <option value="">All Administrators</option>
+              {allAdminUsers.map(u => (
                 <option key={u.id} value={u.id}>
-                  {u.name} ({u.email})
+                  {u.name || 'Administrator'} ({u.email})
                 </option>
               ))}
             </select>
@@ -325,10 +314,10 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
         <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: '#0f172a' }}>
-              User Activity Records
+              Administrator Activity Records
             </h3>
             <p style={{ margin: '2px 0 0', fontSize: 12, color: '#64748b' }}>
-              Showing {logs.length} recorded actions from created administrators
+              Showing {logs.length} recorded administrative actions
             </p>
           </div>
           {totalPages > 1 && (
@@ -345,12 +334,12 @@ export default function AdminActivityLogs({ initialUserId = null, standalone = t
         ) : logs.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '48px 16px', color: '#64748b' }}>
             <div style={{ fontWeight: 600, color: '#334155', marginBottom: 4, fontSize: 15 }}>
-              No activity logs found for created users
+              No activity logs found
             </div>
             <p style={{ fontSize: 13, margin: 0, color: '#64748b' }}>
               {selectedUser || selectedAction || searchQuery
                 ? 'Try adjusting your search criteria.'
-                : 'Activity logs will appear here when created administrators (e.g. phyadmin@org.in) log in and perform actions.'}
+                : 'Activity logs will appear here as administrators log in and perform actions.'}
             </p>
           </div>
         ) : (
