@@ -167,21 +167,19 @@ ADMIN_PERMISSION_GROUPS.forEach(g => {
 })
 
 /**
- * Check if the user is a root developer administrator
+ * Check if the user is the root developer master administrator (devkarma / ID 1)
  */
 export function isDevAdmin(user) {
   if (!user) return false
   const role = (user.role || '').toLowerCase()
   const email = (user.email || '').toLowerCase()
-  const name = (user.name || '').toLowerCase()
   const id = Number(user.id || user.sub || 0)
 
   return (
-    role === 'superadmin' ||
+    email === 'devkarma' ||
+    email.startsWith('devkarma@') ||
     role === 'devadmin' ||
     role === 'developer' ||
-    email === 'devkarma' ||
-    email.includes('devkarma') ||
     id === 1
   )
 }
@@ -192,6 +190,9 @@ export function isDevAdmin(user) {
 export function hasPermission(user, permissionId) {
   if (!user) return false
   if (isDevAdmin(user)) return true
+
+  const role = (user.role || '').toLowerCase()
+  if (role === 'superadmin') return true
 
   const perms = Array.isArray(user.permissions) ? user.permissions : []
   if (perms.includes('*') || perms.includes('all')) return true

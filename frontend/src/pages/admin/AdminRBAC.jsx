@@ -306,13 +306,13 @@ export default function AdminRBAC() {
         <div className="admin-card" style={{ padding: '16px 20px' }}>
           <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Master Admins</div>
           <div style={{ fontSize: 28, fontWeight: 700, color: '#1d4ed8', marginTop: 4 }}>
-            {users.filter(u => u.role === 'devadmin' || u.role === 'superadmin' || u.email === 'devkarma' || u.id === 1).length}
+            {users.filter(u => isDevAdmin(u)).length}
           </div>
         </div>
         <div className="admin-card" style={{ padding: '16px 20px' }}>
           <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Staff Admins</div>
           <div style={{ fontSize: 28, fontWeight: 700, color: '#0f172a', marginTop: 4 }}>
-            {users.filter(u => u.role !== 'devadmin' && u.role !== 'superadmin' && u.email !== 'devkarma' && u.id !== 1).length}
+            {users.filter(u => !isDevAdmin(u)).length}
           </div>
         </div>
       </div>
@@ -365,12 +365,14 @@ export default function AdminRBAC() {
               <tbody>
                 {users.map((u, idx) => {
                   const isDev = isDevAdmin(u)
+                  const isSuper = (u.role === 'superadmin') && !isDev
+                  const isSelf = ((currentAuthUser?.id || currentAuthUser?.sub) === u.id)
                   return (
                     <tr key={u.id || idx}>
                       <td>{idx + 1}</td>
                       <td>
                         <strong style={{ color: isDev ? '#1e3a8a' : 'var(--navy-header)' }}>
-                          {isDev ? 'Administrator' : u.name}
+                          {u.name || (isDev ? 'Root Administrator' : 'Administrator')}
                         </strong>
                         {isDev && (
                           <span style={{
@@ -385,9 +387,22 @@ export default function AdminRBAC() {
                             MASTER ADMIN
                           </span>
                         )}
+                        {isSuper && (
+                          <span style={{
+                            marginLeft: 8,
+                            fontSize: 10,
+                            padding: '2px 6px',
+                            background: '#f0fdf4',
+                            color: '#15803d',
+                            borderRadius: 4,
+                            fontWeight: 700
+                          }}>
+                            SUPER ADMIN
+                          </span>
+                        )}
                       </td>
                       <td>
-                        <code style={{ fontSize: 12.5, color: '#0f172a' }}>{isDev ? 'devkarma' : u.email}</code>
+                        <code style={{ fontSize: 12.5, color: '#0f172a' }}>{u.email}</code>
                       </td>
                       <td>
                         <span style={{
@@ -395,10 +410,10 @@ export default function AdminRBAC() {
                           borderRadius: 4,
                           fontSize: 11.5,
                           fontWeight: 600,
-                          background: isDev ? '#eff6ff' : '#f1f5f9',
-                          color: isDev ? '#1d4ed8' : '#334155'
+                          background: isDev ? '#eff6ff' : (isSuper ? '#f0fdf4' : '#f1f5f9'),
+                          color: isDev ? '#1d4ed8' : (isSuper ? '#15803d' : '#334155')
                         }}>
-                          {isDev ? 'Master Admin' : 'Staff Admin'}
+                          {isDev ? 'Master Admin' : (isSuper ? 'Super Admin' : 'Staff Admin')}
                         </span>
                       </td>
                       <td>
@@ -443,12 +458,13 @@ export default function AdminRBAC() {
                           >
                             Permissions
                           </button>
-                          {!isDev && (
+                          {!isDev && !isSelf && (
                             <button
                               type="button"
                               className="admin-btn admin-btn-danger"
                               style={{ fontSize: 12, padding: '4px 8px' }}
                               onClick={() => handleDelete(u)}
+                              title="Delete this administrator account"
                             >
                               Delete
                             </button>
