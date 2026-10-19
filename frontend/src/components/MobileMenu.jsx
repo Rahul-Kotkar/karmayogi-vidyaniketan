@@ -13,8 +13,26 @@ export default function MobileMenu() {
     <div className="mobile-nav">
       <div className="mobile-bar">
         <span className="brand">College of Physiotherapy</span>
-        <button className="hamburger" aria-label="Toggle navigation menu"
-          aria-expanded={open} onClick={() => setOpen(o => !o)}>☰</button>
+        <button 
+          className="hamburger" 
+          aria-label="Toggle navigation menu"
+          aria-expanded={open} 
+          onClick={() => setOpen(o => !o)}
+          style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', color: 'inherit' }}
+        >
+          {open ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          )}
+        </button>
       </div>
       <div className={'mobile-panel' + (open ? ' open' : '')}>
         {TOP_NAV.map(item => (

@@ -340,6 +340,89 @@ export const DEFAULT_BEYOND_CLASSROOM_SPACES = [
   }
 ];
 
+export const DEFAULT_SPORTS_TEAMS = [
+  {
+    id: 'team-cricket',
+    title: 'School Cricket XI (U-14 & U-16)',
+    sport: 'Cricket',
+    badge: 'State Track',
+    coach: 'Coach Sachin R. Patil (B.P.Ed, NIS Certified)',
+    practice: 'Mon, Wed, Fri (6:45 AM – 8:00 AM & 3:15 PM – 4:45 PM)',
+    desc: 'Turf and practice net sessions developing solid batting fundamentals, pace and spin bowling accuracy, fielding agility, and tactical match play.',
+    achievements: 'Semi-finalists in Solapur District Inter-School Cricket Trophy; 4 players selected for regional development camp.'
+  },
+  {
+    id: 'team-kabaddi',
+    title: 'Karmayogi Kabaddi Warriors (Boys & Girls)',
+    sport: 'Kabaddi',
+    badge: 'District Champions',
+    coach: 'Coach Pravin K. Jadhav (Sports Director)',
+    practice: 'Tue, Thu, Sat (3:00 PM – 4:45 PM)',
+    desc: 'Rapid footwork, ankle-hold, chain-tackle defense, and strategic bonus-line raids coached on standard regulation mud courts.',
+    achievements: 'Gold medalists in Solapur District Sports Office (DSO) Taluka Meet 2025-26; qualifiers for Maharashtra State Championship.'
+  },
+  {
+    id: 'team-kho-kho',
+    title: 'School Kho-Kho Squad',
+    sport: 'Kho-Kho',
+    badge: 'DSO Finalists',
+    coach: 'Coach Sunita M. Shinde',
+    practice: 'Mon to Thu (7:00 AM – 8:00 AM)',
+    desc: 'Stamina sprints, pole-diving techniques, lightning zig-zag dodging, and synchronized team communication for junior and senior squads.',
+    achievements: 'Runners-up in Solapur District School Kho-Kho Championship; 2 students represented divisional school squad.'
+  },
+  {
+    id: 'team-athletics',
+    title: 'Track & Field Athletics Contingent',
+    sport: 'Athletics & Sprints',
+    badge: '3x Gold Medals',
+    coach: 'Coach Anil Deshmukh (Athletics Specialist)',
+    practice: 'Daily (6:30 AM – 7:45 AM & 3:30 PM – 4:45 PM)',
+    desc: 'Sprint biomechanics on 400m track (100m, 200m, 400m), 4x100m relay baton handovers, long jump runway rhythm, and shot put technique.',
+    achievements: '3 Gold Medals and 4 Silver Medals at Solapur DSO Athletics Meet; record 100m timing of 11.8s in U-16 bracket.'
+  },
+  {
+    id: 'team-football',
+    title: 'School Football Squad (Karmayogi FC)',
+    sport: 'Football',
+    badge: 'Tournament Champions',
+    coach: 'Coach Vikram More',
+    practice: 'Mon, Wed, Sat (3:15 PM – 4:45 PM)',
+    desc: 'Possession passing drills, spatial positioning, set-piece tactics, and full-pitch match rehearsals on the Shelve campus football ground.',
+    achievements: 'Champions of the Pandharpur Youth Football Trophy 2025.'
+  },
+  {
+    id: 'team-badminton-tt',
+    title: 'Badminton & Table Tennis Squads',
+    sport: 'Racket Sports',
+    badge: 'Indoor Arena',
+    coach: 'Coach Meena Kulkarni',
+    practice: 'Daily evening sessions in Indoor Sports Hall',
+    desc: 'Footwork acceleration, smash placement, backhand returns, and mental sharpness under competitive rally conditions on wooden and Stag courts.',
+    achievements: 'District DSO Badminton U-14 singles champion; Solapur Inter-School Table Tennis finalists.'
+  },
+  {
+    id: 'team-chess',
+    title: 'Karmayogi Chess Masters Contingent',
+    sport: 'Chess & Strategy',
+    badge: 'Mind Sport',
+    coach: 'Arbiter K. R. Sharma (FIDE Certified)',
+    practice: 'Tue & Fri (2:30 PM – 4:00 PM)',
+    desc: 'Opening repertoires, tactical puzzle drills, endgame geometry, and blitz clock-management in a dedicated quiet chess studio.',
+    achievements: 'Solapur District School Chess U-12 Champion; 3 students awarded FIDE-rated rapid tournament points.'
+  },
+  {
+    id: 'team-yoga-karate',
+    title: 'Yoga, Pranayama & Self-Defense (Karate)',
+    sport: 'Wellness & Defense',
+    badge: '100% Student Reach',
+    coach: 'Sensei Rahul Waghmare (3rd Dan) & Yogacharya V. Deshpande',
+    practice: 'Daily Morning Assembly & Special Evening Dojos',
+    desc: 'Surya Namaskar mastery, breath regulation, kata posture precision, sparring drills, and certified belt gradings building confidence in girls and boys.',
+    achievements: 'Over 28 students awarded Yellow, Green & Brown belts in 2025-26; 100% daily morning yoga participation.'
+  }
+];
+
 export const DEFAULT_STUDENT_CORNER_DATA = {
   overview: {
     title: 'Student Life, Activities & Achievements',
@@ -352,7 +435,9 @@ export const DEFAULT_STUDENT_CORNER_DATA = {
   achievements: DEFAULT_STUDENT_ACHIEVEMENTS,
   houses: DEFAULT_STUDENT_HOUSES,
   council: DEFAULT_STUDENT_COUNCIL,
+  sportsTeams: DEFAULT_SPORTS_TEAMS,
   activities: DEFAULT_CAMPUS_ACTIVITIES,
   spaces: DEFAULT_BEYOND_CLASSROOM_SPACES
 };
+
 

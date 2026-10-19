@@ -81,7 +81,7 @@ export default function Footer() {
               </span>
             </li>
             <li>
-              <Link to="/admission-process" style={{ color: '#38bdf8', fontWeight: 600 }}>Admission Process &rarr;</Link>
+              <Link to="/admissions#process" style={{ color: '#38bdf8', fontWeight: 600 }}>Admission Process &rarr;</Link>
             </li>
           </ul>
         </div>

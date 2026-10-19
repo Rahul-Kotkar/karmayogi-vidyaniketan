@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
 import { SCHOOL_LEVELS, SCHOOL_SUBJECTS } from '../data/subjectsData.js'
+import { CheckIcon } from '../components/Icons.jsx'
 
 export default function Curriculum() {
   const [selectedKey, setSelectedKey] = useState('all')
@@ -97,8 +98,9 @@ export default function Curriculum() {
               { title: "Value Education & Ethics", desc: "Indian cultural values, civic duty, empathy, environmental consciousness, and character." }
             ].map((c, i) => (
               <div key={i} style={{ background: '#ffffff', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                <strong style={{ color: 'var(--blue-vibrant)', fontSize: '14.5px', display: 'block', marginBottom: 4 }}>
-                  ✓ {c.title}
+                <strong style={{ color: 'var(--blue-vibrant)', fontSize: '14.5px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                  <CheckIcon size={14} strokeWidth={2.8} />
+                  <span>{c.title}</span>
                 </strong>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                   {c.desc}

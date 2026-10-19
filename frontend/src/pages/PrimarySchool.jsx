@@ -1,6 +1,7 @@
 import React from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
+import { CheckIcon } from '../components/Icons.jsx'
 
 export default function PrimarySchool() {
   return (
@@ -90,8 +91,9 @@ export default function PrimarySchool() {
               { title: "Field Excursions & Nature Walks", desc: "Regular educational tours connecting textbook topics with living nature." }
             ].map((a, i) => (
               <div key={i} style={{ background: '#ffffff', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                <strong style={{ color: 'var(--blue-vibrant)', fontSize: '14.5px', display: 'block', marginBottom: 4 }}>
-                  ✓ {a.title}
+                <strong style={{ color: 'var(--blue-vibrant)', fontSize: '14.5px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                  <CheckIcon size={14} strokeWidth={2.8} />
+                  <span>{a.title}</span>
                 </strong>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                   {a.desc}
@@ -111,7 +113,7 @@ export default function PrimarySchool() {
               Campus visits and student interactions are conducted Monday to Saturday.
             </p>
           </div>
-          <Link to="/admission-process" className="btn btn-primary" style={{ background: 'var(--blue-royal)', borderColor: 'var(--blue-royal)' }}>
+          <Link to="/admissions#process" className="btn btn-primary" style={{ background: '#002855', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
             Check Admission Process &rarr;
           </Link>
         </div>

@@ -16,12 +16,14 @@ import SecondarySchool from './pages/SecondarySchool.jsx'
 import Curriculum from './pages/Curriculum.jsx'
 import AcademicsSubjects from './pages/AcademicsSubjects.jsx'
 import Admissions from './pages/Admissions.jsx'
+import AdmissionEnquiry from './pages/AdmissionEnquiry.jsx'
 import AdmissionProcess from './pages/AdmissionProcess.jsx'
 import FeeStructure from './pages/FeeStructure.jsx'
 import Facilities from './pages/Facilities.jsx'
 import Infrastructure from './pages/Infrastructure.jsx'
 import Labs from './pages/Labs.jsx'
-import Sports from './pages/Sports.jsx'
+import SportsAthletics from './pages/SportsAthletics.jsx'
+import SportsFacilities from './pages/SportsFacilities.jsx'
 import StudentLife from './pages/StudentLife.jsx'
 import CulturalActivities from './pages/CulturalActivities.jsx'
 import ClubsActivities from './pages/ClubsActivities.jsx'
@@ -155,15 +157,21 @@ export default function App() {
 
           {/* Admissions Routes */}
           <Route path="/admissions" element={<Admissions />} />
-          <Route path="/admission-process" element={<AdmissionProcess />} />
-          <Route path="/fees" element={<FeeStructure />} />
+          <Route path="/admission-enquiry" element={<AdmissionEnquiry />} />
+          <Route path="/apply" element={<AdmissionEnquiry />} />
+          <Route path="/enquiry" element={<AdmissionEnquiry />} />
+          <Route path="/admission-process" element={<Navigate to="/admissions" replace />} />
+          <Route path="/fees" element={<Navigate to="/admissions" replace />} />
 
           {/* Facilities & Infrastructure Routes */}
           <Route path="/facilities" element={<Facilities />} />
           <Route path="/facilities/:subpage" element={<Facilities />} />
+          <Route path="/facilities/sports" element={<SportsFacilities />} />
           <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/labs" element={<Labs />} />
-          <Route path="/sports" element={<Sports />} />
+          <Route path="/sports-facilities" element={<SportsFacilities />} />
+          <Route path="/sports-athletics" element={<SportsAthletics />} />
+          <Route path="/sports" element={<SportsAthletics />} />
           <Route path="/cultural-activities" element={<CulturalActivities />} />
           <Route path="/clubs-activities" element={<ClubsActivities />} />
           <Route path="/field-trips" element={<FieldTrips />} />
@@ -171,7 +179,8 @@ export default function App() {
           <Route path="/student-achievements" element={<StudentAchievementsPage />} />
           
           {/* Subpage Aliases */}
-          <Route path="/student-life/sports" element={<Sports />} />
+          <Route path="/student-life/sports" element={<SportsAthletics />} />
+          <Route path="/student-life/sports-athletics" element={<SportsAthletics />} />
           <Route path="/student-life/cultural" element={<CulturalActivities />} />
           <Route path="/student-life/clubs" element={<ClubsActivities />} />
           <Route path="/student-life/field-trips" element={<FieldTrips />} />

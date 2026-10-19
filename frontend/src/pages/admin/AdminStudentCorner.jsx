@@ -9,8 +9,19 @@ import {
   DEFAULT_COMPETITIONS,
   DEFAULT_STUDENT_ACHIEVEMENTS,
   DEFAULT_STUDENT_HOUSES,
-  DEFAULT_STUDENT_COUNCIL
+  DEFAULT_STUDENT_COUNCIL,
+  DEFAULT_SPORTS_TEAMS
 } from '../../data/studentCornerData.js'
+import {
+  TheaterIcon,
+  MicroscopeIcon,
+  BusIcon,
+  TrophyIcon,
+  StarIcon,
+  ShieldIcon,
+  SportsIcon,
+  MapPinIcon
+} from '../../components/Icons.jsx'
 
 export default function AdminStudentCorner() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -58,7 +69,8 @@ export default function AdminStudentCorner() {
               competitions: Array.isArray(parsed.competitions) && parsed.competitions.length > 0 ? parsed.competitions : prev.competitions,
               achievements: Array.isArray(parsed.achievements) && parsed.achievements.length > 0 ? parsed.achievements : prev.achievements,
               houses: Array.isArray(parsed.houses) && parsed.houses.length > 0 ? parsed.houses : prev.houses,
-              council: Array.isArray(parsed.council) && parsed.council.length > 0 ? parsed.council : prev.council
+              council: Array.isArray(parsed.council) && parsed.council.length > 0 ? parsed.council : prev.council,
+              sportsTeams: Array.isArray(parsed.sportsTeams) && parsed.sportsTeams.length > 0 ? parsed.sportsTeams : (prev.sportsTeams || DEFAULT_SPORTS_TEAMS)
             }))
           } catch {
             // Keep default structured data
@@ -191,6 +203,16 @@ export default function AdminStudentCorner() {
       setData(prev => ({ ...prev, council: updated }))
     }
 
+    if (modalType === 'sportsTeam') {
+      const updated = [...(data.sportsTeams || DEFAULT_SPORTS_TEAMS)]
+      if (editingIndex !== null) {
+        updated[editingIndex] = { ...updated[editingIndex], ...formValues }
+      } else {
+        updated.push({ id: `team-${Date.now()}`, ...formValues })
+      }
+      setData(prev => ({ ...prev, sportsTeams: updated }))
+    }
+
     closeModal()
   }
 
@@ -267,51 +289,65 @@ export default function AdminStudentCorner() {
           className={`admin-tab-btn ${activeTab === 'cultural' ? 'active' : ''}`}
           onClick={() => handleTabChange('cultural')}
         >
-          <span>🎭 1. Cultural Activities</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <TheaterIcon size={15} /> 1. Cultural Activities
+          </span>
           <span className="admin-tab-count">{data.cultural?.length || 0}</span>
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'clubs' ? 'active' : ''}`}
           onClick={() => handleTabChange('clubs')}
         >
-          <span>🔬 2. Clubs &amp; Activities</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <MicroscopeIcon size={15} /> 2. Clubs &amp; Activities
+          </span>
           <span className="admin-tab-count">{data.clubs?.length || 0}</span>
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'field-trips' ? 'active' : ''}`}
           onClick={() => handleTabChange('field-trips')}
         >
-          <span>🚌 3. Field Trips &amp; Excursions</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <BusIcon size={15} /> 3. Field Trips &amp; Excursions
+          </span>
           <span className="admin-tab-count">{data.fieldTrips?.length || 0}</span>
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'competitions' ? 'active' : ''}`}
           onClick={() => handleTabChange('competitions')}
         >
-          <span>🏆 4. Competitions &amp; Olympiads</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <TrophyIcon size={15} /> 4. Competitions &amp; Olympiads
+          </span>
           <span className="admin-tab-count">{data.competitions?.length || 0}</span>
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'achievements' ? 'active' : ''}`}
           onClick={() => handleTabChange('achievements')}
         >
-          <span>🌟 5. Student Achievements</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <StarIcon size={15} /> 5. Student Achievements
+          </span>
           <span className="admin-tab-count">{data.achievements?.length || 0}</span>
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'houses-council' ? 'active' : ''}`}
           onClick={() => handleTabChange('houses-council')}
         >
-          <span>🛡️ 6. Houses &amp; Council</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <ShieldIcon size={15} /> 6. Houses &amp; Council
+          </span>
           <span className="admin-tab-count">{(data.houses?.length || 0) + (data.council?.length || 0)}</span>
         </button>
-        <Link
-          to="/admin/facilities?tab=sports"
-          className="admin-tab-btn"
-          style={{ textDecoration: 'none', background: '#eff6ff', color: '#1d4ed8' }}
+        <button
+          className={`admin-tab-btn ${activeTab === 'sports' ? 'active' : ''}`}
+          onClick={() => handleTabChange('sports')}
         >
-          <span>⚽ Sports &amp; Athletics →</span>
-        </Link>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <SportsIcon size={15} /> 7. Sports &amp; Athletics
+          </span>
+          <span className="admin-tab-count">{(data.sportsTeams || DEFAULT_SPORTS_TEAMS).length}</span>
+        </button>
       </div>
 
       {/* --------------------------------------------------------------------- */}
@@ -478,7 +514,9 @@ export default function AdminStudentCorner() {
                       <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#fef3c7', color: '#92400e' }}>
                         {trip.category}
                       </span>
-                      <span style={{ fontSize: 11.5, color: '#64748b' }}>📍 {trip.destination}</span>
+                      <span style={{ fontSize: 11.5, color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <MapPinIcon size={12} color="#64748b" /> {trip.destination}
+                      </span>
                     </div>
                     <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{trip.title}</h4>
                     <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{trip.desc}</p>
@@ -724,6 +762,80 @@ export default function AdminStudentCorner() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --------------------------------------------------------------------- */}
+      {/* TAB 7: SPORTS & ATHLETICS SQUADS */}
+      {/* --------------------------------------------------------------------- */}
+      {activeTab === 'sports' && (
+        <div className="admin-card">
+          <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <h3>Student Sports Squads, Coaching &amp; Athletic Competitions</h3>
+              <p>Configure competitive school sports teams, assigned coaches, practice hours, and tournament medals.</p>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                className="admin-btn admin-btn-secondary"
+                onClick={() => resetSection('sportsTeams', DEFAULT_SPORTS_TEAMS, 'Sports Teams')}
+              >
+                Reset to Presets
+              </button>
+              <button
+                className="admin-btn admin-btn-primary"
+                onClick={() => openModal('sportsTeam', null, { title: '', sport: 'Cricket', badge: 'School Squad', coach: '', practice: '', desc: '', achievements: '' })}
+              >
+                + Add Sports Squad
+              </button>
+            </div>
+          </div>
+
+          <div style={{ background: '#eff6ff', padding: '12px 18px', borderBottom: '1px solid #bfdbfe', fontSize: 13, color: '#1e40af', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+            <span>
+              ℹ️ <strong>Infrastructure Note:</strong> Physical playgrounds, turf cricket nets, mud Kabaddi courts, and indoor arenas are managed separately under <Link to="/admin/facilities?tab=sports" style={{ color: '#1d4ed8', fontWeight: 700 }}>School Infrastructure &amp; Facilities &rarr;</Link>
+            </span>
+          </div>
+
+          <div className="admin-card-body">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+              {(data.sportsTeams || DEFAULT_SPORTS_TEAMS).map((item, idx) => (
+                <div key={item.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#eff6ff', color: '#1d4ed8' }}>
+                        {item.badge || item.sport}
+                      </span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#64748b' }}>{item.sport}</span>
+                    </div>
+                    <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{item.title}</h4>
+                    <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 10px' }}>{item.desc}</p>
+                    <div style={{ fontSize: 12, color: '#334155', borderTop: '1px solid #e2e8f0', paddingTop: 8, marginTop: 8 }}>
+                      <div><strong>Coach:</strong> {item.coach}</div>
+                      <div><strong>Timings:</strong> {item.practice}</div>
+                      {item.achievements && (
+                        <div style={{ color: '#854d0e', marginTop: 4 }}><strong>Honors:</strong> {item.achievements}</div>
+                      )}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 14, paddingTop: 10, borderTop: '1px solid #f1f5f9' }}>
+                    <button
+                      className="admin-btn admin-btn-sm admin-btn-secondary"
+                      onClick={() => openModal('sportsTeam', idx, item)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="admin-btn admin-btn-sm admin-btn-danger"
+                      onClick={() => deleteItem('sportsTeams', idx, item.title)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -1107,6 +1219,96 @@ export default function AdminStudentCorner() {
                       value={formValues.desc || ''}
                       onChange={e => setFormValues(prev => ({ ...prev, desc: e.target.value }))}
                       placeholder="Serve as prime ambassadors of the student body, anchor assemblies..."
+                      style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* SPORTS TEAM FORM */}
+              {modalType === 'sportsTeam' && (
+                <>
+                  <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 12 }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Squad Title *</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        required
+                        value={formValues.title || ''}
+                        onChange={e => setFormValues(prev => ({ ...prev, title: e.target.value }))}
+                        placeholder="e.g. School Cricket XI (U-14 & U-16)"
+                        style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Sport Name *</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        required
+                        value={formValues.sport || ''}
+                        onChange={e => setFormValues(prev => ({ ...prev, sport: e.target.value }))}
+                        placeholder="e.g. Cricket"
+                        style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Badge Tag</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={formValues.badge || ''}
+                        onChange={e => setFormValues(prev => ({ ...prev, badge: e.target.value }))}
+                        placeholder="e.g. District Champions"
+                        style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Coach / Mentor</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={formValues.coach || ''}
+                        onChange={e => setFormValues(prev => ({ ...prev, coach: e.target.value }))}
+                        placeholder="e.g. Coach Sachin Patil"
+                        style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Practice Schedule &amp; Timings</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={formValues.practice || ''}
+                      onChange={e => setFormValues(prev => ({ ...prev, practice: e.target.value }))}
+                      placeholder="e.g. Mon, Wed, Fri (6:45 AM – 8:00 AM & 3:15 PM – 4:45 PM)"
+                      style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Description &amp; Training Focus *</label>
+                    <textarea
+                      rows={3}
+                      className="admin-input"
+                      required
+                      value={formValues.desc || ''}
+                      onChange={e => setFormValues(prev => ({ ...prev, desc: e.target.value }))}
+                      placeholder="Details on squad training, match drills, and participation..."
+                      style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Tournament Honors &amp; Medals</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={formValues.achievements || ''}
+                      onChange={e => setFormValues(prev => ({ ...prev, achievements: e.target.value }))}
+                      placeholder="e.g. Gold medalists in Solapur DSO Taluka Meet 2025-26"
                       style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
                     />
                   </div>

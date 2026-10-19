@@ -1,6 +1,7 @@
 import React from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
+import { CheckIcon } from '../components/Icons.jsx'
 
 export default function Infrastructure() {
   return (
@@ -93,8 +94,9 @@ export default function Infrastructure() {
               { title: "Fleet Bus Transport & Safety", desc: "GPS-enabled bus fleet connecting Pandharpur talukas with speed governors and female attendants." }
             ].map((item, idx) => (
               <div key={idx} style={{ background: '#ffffff', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                <strong style={{ color: 'var(--navy-header)', fontSize: '14.5px', display: 'block', marginBottom: 4 }}>
-                  ✓ {item.title}
+                <strong style={{ color: 'var(--navy-header)', fontSize: '14.5px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                  <CheckIcon size={14} color="#002855" strokeWidth={2.8} />
+                  <span>{item.title}</span>
                 </strong>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                   {item.desc}

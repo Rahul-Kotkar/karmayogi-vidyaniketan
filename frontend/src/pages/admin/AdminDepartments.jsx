@@ -1033,15 +1033,15 @@ export default function AdminDepartments() {
                           value={deptForm.icon || 'bone'}
                           onChange={e => setDeptForm({ ...deptForm, icon: e.target.value })}
                         >
-                          <option value="bone">🦴 Bone / Ortho (MSK)</option>
-                          <option value="brain">🧠 Brain / Neuro (Neurology)</option>
-                          <option value="heart">❤️ Heart / Cardio (Cardiopulmonary)</option>
-                          <option value="activity">🏃 Runner / Sports (Sports Physio)</option>
-                          <option value="users">👥 Community / Care (CBR)</option>
-                          <option value="zap">⚡ Lightning / Electro (Electrotherapy)</option>
-                          <option value="compass">🧭 Compass / Movement (Kinesiology)</option>
-                          <option value="book-open">📖 Book / Labs (Foundational)</option>
-                          <option value="stethoscope">🩺 Stethoscope / General</option>
+                          <option value="bone">Bone / Ortho (MSK)</option>
+                          <option value="brain">Brain / Neuro (Neurology)</option>
+                          <option value="heart">Heart / Cardio (Cardiopulmonary)</option>
+                          <option value="activity">Runner / Sports (Sports Physio)</option>
+                          <option value="users">Community / Care (CBR)</option>
+                          <option value="zap">Lightning / Electro (Electrotherapy)</option>
+                          <option value="compass">Compass / Movement (Kinesiology)</option>
+                          <option value="book-open">Book / Labs (Foundational)</option>
+                          <option value="stethoscope">Stethoscope / General</option>
                         </select>
                         <span style={{ fontSize: '11px', color: '#64748b', marginTop: '2px', display: 'block' }}>
                           Pinned dark-blue badge icon.

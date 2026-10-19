@@ -10,9 +10,15 @@ export const ADMIN_PERMISSION_GROUPS = [
     menus: [
       { id: 'dashboard', label: 'Dashboard Overview', path: '/admin/dashboard' },
       { id: 'home', label: 'Homepage Settings & Slides', path: '/admin/home' },
-      { id: 'about', label: 'About & Institutional History', path: '/admin/about' },
-      { id: 'admissions', label: 'Admissions Desk & Fees', path: '/admin/admissions' },
-      { id: 'courses', label: 'Courses & Sanctioned Intake', path: '/admin/courses' },
+      {
+        id: 'admissions',
+        label: 'Admissions Desk & Fees',
+        path: '/admin/admissions',
+        submenus: [
+          { id: 'adm_overview', label: 'Admissions & Fee Guide', path: '/admin/admissions' },
+          { id: 'adm_enquiries', label: 'Online Enquiries (Inbox)', path: '/admin/messages?filter=admission' }
+        ]
+      },
       { id: 'faculty', label: 'Faculty & Staff Roster', path: '/admin/faculty' },
       { id: 'notices', label: 'Circulars & Official Notices', path: '/admin/notices' },
       { id: 'news', label: 'News & Announcements', path: '/admin/news' },
@@ -62,7 +68,7 @@ export const ADMIN_PERMISSION_GROUPS = [
         label: 'Student Life & Activities',
         path: '/admin/student-corner',
         submenus: [
-          { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/facilities?tab=sports' },
+          { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/student-corner?tab=sports' },
           { id: 'sl_cultural', label: 'Cultural Activities', path: '/admin/student-corner?tab=cultural' },
           { id: 'sl_clubs', label: 'Clubs & Activities', path: '/admin/student-corner?tab=clubs' },
           { id: 'sl_field_trips', label: 'Field Trips & Excursions', path: '/admin/student-corner?tab=field-trips' },

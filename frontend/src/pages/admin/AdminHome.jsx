@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { pagesService, uploadService, setCachedHomeData } from '../../services/endpoints.js'
 import { HERO_SLIDES, NEWS as DEFAULT_NEWS, ACHIEVEMENTS as DEFAULT_ACHIEVEMENTS, DEFAULT_WHY_ITEMS, DEFAULT_TESTIMONIALS } from '../../data/collegeData.js'
+import { MicroscopeIcon, TrophyIcon } from '../../components/Icons.jsx'
 
 export default function AdminHome() {
   const [activeTab, setActiveTab] = useState('hero')
@@ -876,12 +877,12 @@ As we continually advance our academic programs in accordance with MUHS and nati
                           setHomeData({ ...homeData, why_items: currentItems })
                         }}
                       >
-                        <option value="faculty">👥 Faculty / Mentors</option>
-                        <option value="infrastructure">🏢 Modern Infrastructure / Campus</option>
-                        <option value="curriculum">📖 Industry / Clinical Curriculum</option>
-                        <option value="research">💡 Innovation &amp; Research</option>
-                        <option value="development">🎓 Student Development</option>
-                        <option value="placement">💼 Placement Support</option>
+                        <option value="faculty">Faculty / Mentors</option>
+                        <option value="infrastructure">Modern Infrastructure / Campus</option>
+                        <option value="curriculum">Industry / Clinical Curriculum</option>
+                        <option value="research">Innovation &amp; Research</option>
+                        <option value="development">Student Development</option>
+                        <option value="placement">Placement Support</option>
                       </select>
                     </div>
 
@@ -941,7 +942,7 @@ As we continually advance our academic programs in accordance with MUHS and nati
               </h4>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14, marginBottom: 28, background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
                 <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label style={{ fontSize: 12 }}>Highlight 1 (🎓 Grad Cap)</label>
+                  <label style={{ fontSize: 12 }}>Highlight 1 (Grad Cap)</label>
                   <input
                     type="text"
                     className="admin-input"
@@ -951,7 +952,7 @@ As we continually advance our academic programs in accordance with MUHS and nati
                   />
                 </div>
                 <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label style={{ fontSize: 12 }}>Highlight 2 (📖 Book)</label>
+                  <label style={{ fontSize: 12 }}>Highlight 2 (Book)</label>
                   <input
                     type="text"
                     className="admin-input"
@@ -961,7 +962,7 @@ As we continually advance our academic programs in accordance with MUHS and nati
                   />
                 </div>
                 <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label style={{ fontSize: 12 }}>Highlight 3 (💼 Briefcase)</label>
+                  <label style={{ fontSize: 12 }}>Highlight 3 (Briefcase)</label>
                   <input
                     type="text"
                     className="admin-input"
@@ -971,7 +972,7 @@ As we continually advance our academic programs in accordance with MUHS and nati
                   />
                 </div>
                 <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label style={{ fontSize: 12 }}>Highlight 4 (👥 Users)</label>
+                  <label style={{ fontSize: 12 }}>Highlight 4 (Users)</label>
                   <input
                     type="text"
                     className="admin-input"
@@ -1364,11 +1365,11 @@ As we continually advance our academic programs in accordance with MUHS and nati
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                         <div style={{ background: '#00458b', color: '#fff', padding: '14px 12px' }}>
-                          <div style={{ fontSize: 16, marginBottom: 6 }}>🔬</div>
+                          <div style={{ marginBottom: 6 }}><MicroscopeIcon size={20} color="#fff" /></div>
                           <div style={{ fontSize: 12.5, fontWeight: 700 }}>{homeData.campus_life_tile1_title || 'Modern Laboratories'}</div>
                         </div>
                         <div style={{ background: '#e2a84a', color: '#1a202c', padding: '14px 12px' }}>
-                          <div style={{ fontSize: 16, marginBottom: 6 }}>🏆</div>
+                          <div style={{ marginBottom: 6 }}><TrophyIcon size={20} color="#1a202c" /></div>
                           <div style={{ fontSize: 12.5, fontWeight: 700 }}>{homeData.campus_life_tile2_title || 'Sports & Culture'}</div>
                         </div>
                       </div>

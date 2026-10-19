@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { CloseIcon, CheckIcon } from './Icons.jsx'
 
 export default function SubjectDetailModal({ subject, onClose }) {
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function SubjectDetailModal({ subject, onClose }) {
             onClick={onClose}
             aria-label="Close modal"
           >
-            ✕
+            <CloseIcon size={14} />
           </button>
         </div>
 
@@ -51,7 +52,7 @@ export default function SubjectDetailModal({ subject, onClose }) {
               <ul className="bpt-modal-topics-grid">
                 {subject.keyTopics.map((topic, i) => (
                   <li key={i} className="bpt-modal-topic-item">
-                    <span className="bpt-topic-bullet">✓</span>
+                    <span className="bpt-topic-bullet"><CheckIcon size={11} strokeWidth={3} /></span>
                     <span>{topic}</span>
                   </li>
                 ))}

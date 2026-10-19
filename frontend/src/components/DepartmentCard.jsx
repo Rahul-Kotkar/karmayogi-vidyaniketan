@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
+import { StethoscopeIcon, LandmarkIcon, TargetIcon, CloseIcon } from './Icons.jsx'
 
 // High-resolution photography fallbacks for each physiotherapy discipline
 const DEPT_FALLBACK_IMAGES = {
@@ -282,7 +283,7 @@ export default function DepartmentCard({ department }) {
                 onClick={() => setModalOpen(false)}
                 aria-label="Close details"
               >
-                ✕
+                <CloseIcon size={14} />
               </button>
 
               <div className="dept-card-badge-row" style={{ marginBottom: 10, paddingRight: 40 }}>
@@ -319,7 +320,7 @@ export default function DepartmentCard({ department }) {
               {/* Head of Department Card */}
               <div className="dept-modal-hod-card">
                 <div className="dept-modal-hod-avatar">
-                  🩺
+                  <StethoscopeIcon size={24} color="#002855" />
                 </div>
                 <div>
                   <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.6px', color: '#64748b', textTransform: 'uppercase' }}>
@@ -340,7 +341,7 @@ export default function DepartmentCard({ department }) {
               {rawOverview && (
                 <div>
                   <div className="dept-modal-section-title">
-                    <span>🏛️</span>
+                    <LandmarkIcon size={16} />
                     <span>Department Scope & Overview</span>
                   </div>
                   <p className="dept-modal-overview-text">
@@ -353,7 +354,7 @@ export default function DepartmentCard({ department }) {
               {specs.length > 0 && (
                 <div>
                   <div className="dept-modal-section-title">
-                    <span>🎯</span>
+                    <TargetIcon size={16} />
                     <span>Key Clinical Focus & Specializations</span>
                   </div>
                   <div className="dept-modal-specs-grid">

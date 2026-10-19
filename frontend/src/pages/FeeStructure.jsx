@@ -159,7 +159,7 @@ export default function FeeStructure() {
         </section>
 
         <div style={{ textAlign: 'center', marginTop: 12 }}>
-          <Link to="/admissions#apply" className="btn btn-primary" style={{ padding: '12px 30px' }}>
+          <Link to="/admission-enquiry" className="btn btn-primary" style={{ padding: '12px 30px' }}>
             Apply for Admission Now &rarr;
           </Link>
         </div>

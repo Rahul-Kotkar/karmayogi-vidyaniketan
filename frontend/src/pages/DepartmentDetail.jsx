@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { getDepartmentBySlug, getAllDepartments } from '../data/departmentsData.js'
 import { getSubjectById } from '../data/subjectsData.js'
+import { CheckIcon } from '../components/Icons.jsx'
 
 export default function DepartmentDetail() {
   const { slug } = useParams()
@@ -124,7 +125,7 @@ export default function DepartmentDetail() {
                   <ul className="dept-check-list">
                     {department.objectives.map((obj, i) => (
                       <li key={i}>
-                        <span className="dept-check-icon">✓</span>
+                        <span className="dept-check-icon"><CheckIcon size={12} strokeWidth={3} /></span>
                         <span>{obj}</span>
                       </li>
                     ))}

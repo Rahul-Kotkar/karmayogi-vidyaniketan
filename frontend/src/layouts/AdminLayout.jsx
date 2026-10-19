@@ -152,7 +152,11 @@ export default function AdminLayout() {
           <line x1="16" y1="17" x2="8" y2="17" />
           <polyline points="10 9 9 9 8 9" />
         </svg>
-      )
+      ),
+      children: [
+        { id: 'adm_overview', label: 'Admissions & Fee Guide', path: '/admin/admissions' },
+        { id: 'adm_enquiries', label: 'Online Enquiries (Inbox)', path: '/admin/messages?filter=admission' }
+      ]
     },
     {
       id: 'courses',
@@ -303,7 +307,7 @@ export default function AdminLayout() {
         </svg>
       ),
       children: [
-        { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/facilities?tab=sports' },
+        { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/student-corner?tab=sports' },
         { id: 'sl_cultural', label: 'Cultural Activities', path: '/admin/student-corner?tab=cultural' },
         { id: 'sl_clubs', label: 'Clubs & Activities', path: '/admin/student-corner?tab=clubs' },
         { id: 'sl_field_trips', label: 'Field Trips & Excursions', path: '/admin/student-corner?tab=field-trips' },
@@ -561,9 +565,9 @@ export default function AdminLayout() {
             />
           </div>
           <div className="admin-brand-text-wrap">
-            <div className="admin-sidebar-title">Karmayogi School</div>
+            <div className="admin-sidebar-title">Karmayogi Vidyaniketan</div>
             <div className="admin-sidebar-subtitle">
-              ADMIN CONTROL PANEL
+              Karmayogi Public School • Admin
             </div>
           </div>
         </div>

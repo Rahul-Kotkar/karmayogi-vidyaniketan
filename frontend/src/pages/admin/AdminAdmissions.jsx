@@ -424,6 +424,44 @@ export default function AdminAdmissions() {
         </div>
       ) : (
         <div>
+          {/* ONLINE ADMISSION ENQUIRIES SHORTCUT */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '14px 20px',
+              background: '#ffffff',
+              borderRadius: 8,
+              border: '1px solid #cbd5e1',
+              marginBottom: 20,
+              gap: 14,
+              flexWrap: 'wrap',
+              boxShadow: '0 2px 8px rgba(0, 40, 85, 0.04)'
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                <span style={{ background: '#eff6ff', color: '#002855', fontSize: '11px', fontWeight: 800, padding: '2px 8px', borderRadius: 4, textTransform: 'uppercase', border: '1px solid #bfdbfe' }}>
+                  ONLINE ENQUIRIES
+                </span>
+                <strong style={{ color: '#002855', fontSize: '15px' }}>
+                  Parent Admission Enquiries Inbox
+                </strong>
+              </div>
+              <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>
+                Online admission forms submitted via the dedicated <code>/admission-enquiry</code> page are stored in the Enquiry Inbox.
+              </p>
+            </div>
+            <Link
+              to="/admin/messages?filter=admission"
+              className="admin-btn admin-btn-primary"
+              style={{ textDecoration: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <span>View Admission Enquiries &rarr;</span>
+            </Link>
+          </div>
+
           {/* COURSE STRUCTURE CONTEXT BAR */}
           <div
             className="admin-card"

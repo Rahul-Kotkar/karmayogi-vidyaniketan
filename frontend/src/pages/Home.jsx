@@ -33,6 +33,7 @@ import {
   getCachedFacilities
 } from '../services/endpoints.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
+import { CheckIcon } from '../components/Icons.jsx'
 
 function renderWhyIcon(icon) {
   switch (icon) {
@@ -540,8 +541,9 @@ export default function Home() {
                 { title: "Collaborative Learning", desc: "Teamwork, group discussions, and peer puzzle solving." }
               ].map((m, idx) => (
                 <div key={idx} style={{ background: '#ffffff', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                  <strong style={{ color: 'var(--blue-vibrant)', fontSize: '14px', display: 'block', marginBottom: 4 }}>
-                    ✓ {m.title}
+                  <strong style={{ color: 'var(--blue-vibrant)', fontSize: '14px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                    <CheckIcon size={14} strokeWidth={2.8} />
+                    <span>{m.title}</span>
                   </strong>
                   <span style={{ fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
                     {m.desc}

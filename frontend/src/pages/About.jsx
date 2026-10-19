@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link, useLocation } from 'react-router-dom'
 import instituteBuildingImg from '../assets/hero_building.png'
-import founderPortraitImg from '../assets/founder.png'
 import { pagesService, getCachedAboutData } from '../services/endpoints.js'
 import { DEFAULT_ABOUT_DATA, COLLEGE, PRINCIPAL_PHOTO } from '../data/collegeData.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
@@ -324,81 +323,7 @@ export default function About() {
         </section>
 
         {/* ========================================================
-            4. CHAIRMAN'S MESSAGE & FOUNDER'S TRIBUTE
-            ======================================================== */}
-        <section id="chairman-message" className="about-block">
-          <div className="about-section-header">
-            <h2 className="about-section-title">Chairman's Message &amp; Founder's Vision</h2>
-            <p className="about-section-subtitle">Leadership Guidance &amp; Tribute to Late Founder स्व. सुधाकरपंत परिचारक</p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, alignItems: 'start' }}>
-            {/* Founder Card */}
-            <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)', textAlign: 'center' }}>
-              <img
-                src={resolveMediaUrl(data.founder_photo_url, founderPortraitImg)}
-                alt={`${data.founder_name || 'स्व. सुधाकरपंत परिचारक'} - Founder, Shri Pandurang Pratishthan`}
-                style={{ width: 140, height: 140, objectFit: 'cover', borderRadius: '50%', border: '4px solid #dbeafe', margin: '0 auto 16px', display: 'block', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
-              />
-              <h3 style={{ fontSize: '19px', color: 'var(--navy-header)', margin: '0 0 4px', fontWeight: 800 }}>
-                {data.founder_name || 'स्व. सुधाकरपंत परिचारक'}
-              </h3>
-              <p style={{ fontSize: '13.5px', color: '#c2410c', fontWeight: 700, margin: '0 0 10px' }}>
-                {data.founder_role || 'Founder, Shri Pandurang Pratishthan'}
-              </p>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-                {data.founder_message || 'Former MLA & Visionary Leader who dedicated his life to empowering the agrarian community and rural youth of Pandharpur through education, agriculture, and cooperative institutions.'}
-              </p>
-            </div>
-
-            {/* Additional dynamic leaders if present */}
-            {Array.isArray(data.leaders) && data.leaders.map((leader, lIdx) => (
-              <div key={lIdx} style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)', textAlign: 'center' }}>
-                {leader.photo_url && (
-                  <img
-                    src={resolveMediaUrl(leader.photo_url)}
-                    alt={leader.name}
-                    style={{ width: 140, height: 140, objectFit: 'cover', borderRadius: '50%', border: '4px solid #dbeafe', margin: '0 auto 16px', display: 'block' }}
-                  />
-                )}
-                <h3 style={{ fontSize: '19px', color: 'var(--navy-header)', margin: '0 0 4px', fontWeight: 800 }}>
-                  {leader.name}
-                </h3>
-                <p style={{ fontSize: '13.5px', color: '#0284c7', fontWeight: 700, margin: '0 0 10px' }}>
-                  {leader.role}
-                </p>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-                  {leader.message}
-                </p>
-              </div>
-            ))}
-
-            {/* Chairman Narrative */}
-            <div style={{ background: '#ffffff', borderRadius: 12, padding: '32px 28px', border: '1px solid #e2e8f0', boxShadow: '0 4px 16px rgba(7, 29, 58, 0.05)' }}>
-              <h3 style={{ fontFamily: 'var(--heading-font)', fontSize: '20px', color: 'var(--navy-header)', marginBottom: 14 }}>
-                Empowering Generations with Meaningful Education
-              </h3>
-              <div style={{ fontSize: '15px', color: '#334155', lineHeight: 1.85, display: 'grid', gap: 14 }}>
-                <p>
-                  On behalf of <strong>Shri Pandurang Pratishthan</strong>, I welcome you to Karmayogi Vidyaniketan / Karmayogi Public School. Our founding inspiration was rooted in the firm conviction that geographical location should never be an obstacle to acquiring world-class education.
-                </p>
-                <p>
-                  Our management body continuously invests in school infrastructure, certified educator talent, modern STEM labs, digital classrooms, and safe student transport fleets. We strive to nurture children who excel not only in academic board examinations, but who also embody integrity, humility, and selfless service toward society.
-                </p>
-                <p>
-                  We extend our deepest gratitude to parents for their unwavering trust and invite all families to be an integral part of the Karmayogi family.
-                </p>
-                <div style={{ marginTop: 8, paddingTop: 12, borderTop: '1px solid #e2e8f0' }}>
-                  <strong style={{ color: 'var(--navy-header)', fontSize: '15px' }}>Governing Body, Shri Pandurang Pratishthan</strong><br />
-                  <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Pandharpur, Dist: Solapur, Maharashtra</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================
-            5. PARENT TRUST / SHRI PANDURANG PRATISHTHAN
+            4. PARENT TRUST / SHRI PANDURANG PRATISHTHAN
             ======================================================== */}
         <section id="management" className="about-block">
           <div className="about-section-header">

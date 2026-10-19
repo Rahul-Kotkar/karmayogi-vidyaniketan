@@ -12,6 +12,7 @@ import {
   getCachedDepartmentsData,
   getCachedAcademicYears
 } from '../services/endpoints.js'
+import { CloseIcon, LandmarkIcon, SearchIcon } from '../components/Icons.jsx'
 
 export default function Departments() {
   const [academicYears, setAcademicYears] = useState(() => {
@@ -153,7 +154,7 @@ export default function Departments() {
                   onClick={() => setFilterQuery('')}
                   aria-label="Clear search"
                 >
-                  ✕
+                  <CloseIcon size={13} />
                 </button>
               )}
             </div>
@@ -167,7 +168,7 @@ export default function Departments() {
                   <div className="dept-year-header">
                     <div className="dept-year-header-left">
                       <div className="dept-year-badge">
-                        <span>🏛️</span>
+                        <LandmarkIcon size={14} />
                         <span>{section.roman || section.shortLabel || section.label}</span>
                       </div>
                       <h2 className="dept-year-title">{section.label} Departments</h2>
@@ -193,7 +194,7 @@ export default function Departments() {
                   <div className="dept-year-header">
                     <div className="dept-year-header-left">
                       <div className="dept-year-badge">
-                        <span>🏛️</span>
+                        <LandmarkIcon size={14} />
                         <span>General</span>
                       </div>
                       <h2 className="dept-year-title">Academic & Clinical Departments</h2>
@@ -214,7 +215,9 @@ export default function Departments() {
             </div>
           ) : (
             <div className="dept-empty-state">
-              <div className="dept-empty-icon">🔍</div>
+              <div className="dept-empty-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <SearchIcon size={36} color="#64748b" />
+              </div>
               <h3>No matching departments found</h3>
               <p>
                 {filterQuery

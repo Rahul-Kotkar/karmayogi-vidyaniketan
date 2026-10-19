@@ -4,16 +4,16 @@ import PageShell from '../components/PageShell.jsx'
 import { pagesService } from '../services/endpoints.js'
 import { DEFAULT_CULTURAL_EVENTS } from '../data/studentCornerData.js'
 import { 
-  CheckCircleIcon as CheckCircle2, 
-  ArrowRightIcon as ArrowRight,
-  SparklesIcon as Sparkles,
-  CalendarIcon,
-  UsersIcon
+  CheckCircleIcon, 
+  ArrowRightIcon,
+  SparklesIcon,
+  TheaterIcon,
+  MusicIcon,
+  FlagIcon
 } from '../components/Icons.jsx'
 
 export default function CulturalActivities() {
   const [culturalEvents, setCulturalEvents] = useState(DEFAULT_CULTURAL_EVENTS)
-  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     pagesService.getBySlug('student-corner').then(res => {
@@ -33,135 +33,154 @@ export default function CulturalActivities() {
       title="Cultural Activities & Karmotsav" 
       subtitle="Fostering Art, Expression, Music & Heritage • Karmayogi Vidyaniketan, Pandharpur"
     >
-      <div className="space-y-12">
-        {/* Secondary Sub-navigation Bar */}
-        <div className="bg-slate-100 p-2 rounded-2xl flex items-center justify-start sm:justify-center gap-2 overflow-x-auto no-scrollbar border border-slate-200">
-          <Link to="/sports" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-white hover:text-blue-900 transition-all whitespace-nowrap">⚽ Sports & Athletics</Link>
-          <span className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-900 text-white shadow-xs whitespace-nowrap">🎭 Cultural Activities</span>
-          <Link to="/clubs-activities" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-white hover:text-blue-900 transition-all whitespace-nowrap">🔬 Clubs & Activities</Link>
-          <Link to="/field-trips" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-white hover:text-blue-900 transition-all whitespace-nowrap">🚌 Field Trips</Link>
-          <Link to="/competitions-olympiads" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-white hover:text-blue-900 transition-all whitespace-nowrap">🏆 Competitions & Olympiads</Link>
-          <Link to="/student-achievements" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-white hover:text-blue-900 transition-all whitespace-nowrap">🌟 Student Achievements</Link>
-        </div>
+      <div style={{ display: 'grid', gap: 36 }}>
 
-        {/* Hero Feature Banner */}
-        <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-            <div className="p-8 sm:p-12 lg:col-span-7">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-purple-100 text-purple-900 tracking-wide uppercase mb-3">
-                Signature Annual Gathering & Arts
-              </span>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4" style={{ fontFamily: 'Merriweather, serif' }}>
-                Where Every Child's Talent Finds a Grand Stage
-              </h1>
-              <p className="text-slate-600 text-base leading-relaxed mb-6">
-                Cultural celebrations are the vibrant heartbeat of <strong>Karmayogi Vidyaniketan</strong>. From our flagship annual fiesta <em>'Karmotsav'</em> to devotional Ashadhi Ekadashi Dindi processions and classical musical recitals, we empower young learners to overcome stage inhibitions, express their heritage, and master theatrical teamwork.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link to="/gallery" className="btn btn-primary inline-flex items-center gap-2">
-                  <span>View Cultural Photo Gallery</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/events" className="btn btn-secondary inline-flex items-center gap-2">
-                  <span>Upcoming Cultural Calendar</span>
-                </Link>
-              </div>
+        {/* 1. Hero Feature Banner with Split Layout */}
+        <div style={{
+          background: '#ffffff',
+          borderRadius: 12,
+          overflow: 'hidden',
+          border: '1px solid #e2e8f0',
+          boxShadow: 'var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1))',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          alignItems: 'stretch'
+        }}>
+          <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#7c3aed', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
+              SIGNATURE ANNUAL GATHERING & ARTS
+            </span>
+            <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '0 0 14px', lineHeight: 1.3 }}>
+              Where Every Child's Talent Finds a Grand Stage
+            </h2>
+            <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.75, margin: '0 0 22px' }}>
+              Cultural celebrations are the vibrant heartbeat of <strong>Karmayogi Vidyaniketan</strong>. From our flagship annual gathering <em>'Karmotsav'</em> to devotional Ashadhi Ekadashi Dindi processions and classical musical recitals, we empower young learners to overcome stage inhibitions, express their heritage, and master theatrical teamwork.
+            </p>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <Link to="/gallery" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <span>View Cultural Photo Gallery</span>
+                <ArrowRightIcon width="16" height="16" />
+              </Link>
+              <Link to="/events" className="btn btn-secondary">
+                <span>Upcoming Cultural Calendar</span>
+              </Link>
             </div>
-            <div className="lg:col-span-5 h-72 sm:h-96 lg:h-full relative overflow-hidden bg-purple-900">
-              <img 
-                src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80" 
-                alt="Student Cultural Gathering" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-transparent to-transparent flex items-end p-6">
-                <div className="text-white">
-                  <div className="text-xs uppercase font-extrabold tracking-widest text-amber-300">Annual Gathering</div>
-                  <div className="text-xl font-bold">Karmotsav Cultural Carnival</div>
-                </div>
-              </div>
+          </div>
+
+          <div style={{ minHeight: 280, position: 'relative', overflow: 'hidden' }}>
+            <img 
+              src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80" 
+              alt="Student Cultural Gathering" 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: '16px 20px',
+              background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
+              color: '#ffffff'
+            }}>
+              <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#facc15', letterSpacing: '0.8px' }}>Annual Gathering</div>
+              <div style={{ fontSize: '16px', fontWeight: 700 }}>Karmotsav Cultural Carnival</div>
             </div>
           </div>
         </div>
 
-        {/* 3 Core Pillars of Cultural Life */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-xl mb-4">
-                🎭
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Stage Drama & Theatrics</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Marathi historical plays, English one-act drama, street plays (Nukkad Natak) on social awareness, and moral storytelling that instill articulation and courage.
-              </p>
+        {/* 3. Three Pillars of Cultural Expression */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#f5f3ff', color: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+              <TheaterIcon size={24} color="#7c3aed" />
             </div>
-            <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-purple-700">
-              100% Student Inclusion • Professional Script Mentorship
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Stage Drama & Theatrics</h3>
+            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0, flex: 1 }}>
+              Marathi historical plays, English one-act drama, street plays on social awareness, and moral storytelling that instill articulation and courage.
+            </p>
+            <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 12, marginTop: 14, fontSize: '11.5px', fontWeight: 700, color: '#7c3aed' }}>
+              100% Student Inclusion • Professional Mentorship
             </div>
           </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-xl mb-4">
-                🎶
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Music & Vocal Ensembles</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Trained vocal music gurus instruct students in classical ragas, Sanskrit shloka chanting, patriotic anthems, harmonium, and rhythmic tabla accompaniments.
-              </p>
+          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fffbeb', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+              <MusicIcon size={24} color="#b45309" />
             </div>
-            <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-amber-700">
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Music & Vocal Ensembles</h3>
+            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0, flex: 1 }}>
+              Trained vocal music gurus instruct students in classical ragas, Sanskrit shloka chanting, patriotic anthems, harmonium, and rhythmic tabla accompaniments.
+            </p>
+            <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 12, marginTop: 14, fontSize: '11.5px', fontWeight: 700, color: '#b45309' }}>
               Dedicated Music Studios • Morning Assembly Choirs
             </div>
           </div>
 
-          <div className="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xl mb-4">
-                🚩
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Heritage Rallies & Dindi</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Connecting modern education with Pandharpur's timeless Bhakti culture through the annual Ashadhi Ekadashi School Dindi, Lezim performances, and flag rallies.
-              </p>
+          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+              <FlagIcon size={24} color="#047857" />
             </div>
-            <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-emerald-700">
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Heritage Rallies & Dindi</h3>
+            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0, flex: 1 }}>
+              Connecting modern education with Pandharpur's timeless Bhakti culture through the annual Ashadhi Ekadashi School Dindi, Lezim performances, and flag rallies.
+            </p>
+            <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 12, marginTop: 14, fontSize: '11.5px', fontWeight: 700, color: '#047857' }}>
               Traditional Attire • Community Values & Empathy
             </div>
           </div>
         </div>
 
-        {/* Dynamic Cultural Programs List */}
+        {/* 4. Dynamic Cultural Events Cards */}
         <div>
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
-              Featured Celebrations
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#6b21a8', textTransform: 'uppercase', letterSpacing: '1px', background: '#f3e8ff', padding: '4px 12px', borderRadius: 12 }}>
+              FEATURED CELEBRATIONS
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2" style={{ fontFamily: 'Merriweather, serif' }}>
+            <h3 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '24px', color: 'var(--navy-header, #0f172a)', margin: '10px 0 0' }}>
               Signature Cultural Events & Showcases
-            </h2>
+            </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
             {culturalEvents.map((evt, idx) => (
-              <div key={evt.id || idx} className="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div key={evt.id || idx} style={{
+                background: '#ffffff',
+                borderRadius: 12,
+                padding: 24,
+                border: '1px solid #e2e8f0',
+                boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <span style={{ fontSize: '11px', fontWeight: 800, color: '#6b21a8', background: '#f3e8ff', padding: '3px 10px', borderRadius: 20 }}>
                       {evt.badge || 'Annual Event'}
                     </span>
-                    <span className="text-xs font-semibold text-slate-500">{evt.tag || 'Performing Arts'}</span>
+                    <span style={{ fontSize: '12px', fontWeight: 600, color: '#64748b' }}>
+                      {evt.tag || 'Performing Arts'}
+                    </span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{evt.title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">{evt.desc}</p>
+
+                  <h4 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>
+                    {evt.title}
+                  </h4>
+
+                  <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 16px' }}>
+                    {evt.desc}
+                  </p>
                 </div>
+
                 {evt.highlights && evt.highlights.length > 0 && (
-                  <div className="border-t border-slate-100 pt-4">
-                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Highlights:</div>
-                    <ul className="space-y-1.5 text-xs text-slate-700">
+                  <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 14 }}>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>
+                      Key Highlights:
+                    </div>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 6 }}>
                       {evt.highlights.map((h, i) => (
-                        <li key={i} className="flex items-center gap-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <li key={i} style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'flex-start', gap: 8, lineHeight: 1.4 }}>
+                          <CheckCircleIcon width="14" height="14" style={{ color: '#7c3aed', flexShrink: 0, marginTop: 2 }} />
                           <span>{h}</span>
                         </li>
                       ))}
@@ -173,19 +192,30 @@ export default function CulturalActivities() {
           </div>
         </div>
 
-        {/* Annual Cultural Gallery CTA */}
-        <div className="bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
+        {/* 5. Bottom Cultural Photo Gallery CTA */}
+        <div style={{
+          background: 'linear-gradient(135deg, #4c1d95, #312e81)',
+          borderRadius: 14,
+          padding: '32px 28px',
+          color: '#ffffff',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: 16,
+          boxShadow: 'var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1))'
+        }}>
           <div>
-            <h3 className="text-2xl font-bold mb-2">Relive the Memories of Past Karmotsav Events</h3>
-            <p className="text-purple-200 text-sm max-w-xl">
+            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>Relive the Memories of Past Karmotsav Events</h3>
+            <p style={{ fontSize: '14px', color: '#e0e7ff', margin: 0, maxWidth: '700px', lineHeight: 1.6 }}>
               Browse through our high-resolution photo archives showcasing student stage dances, traditional lezim troops, drama recitals, and parent felicitations.
             </p>
           </div>
-          <Link to="/gallery" className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-purple-950 font-bold rounded-xl transition-all text-sm shrink-0 inline-flex items-center gap-2 shadow-md">
+          <Link to="/gallery" className="btn btn-secondary" style={{ background: '#ffffff', color: '#4c1d95', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <span>Explore Photo Gallery</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRightIcon width="16" height="16" />
           </Link>
         </div>
+
       </div>
     </PageShell>
   )

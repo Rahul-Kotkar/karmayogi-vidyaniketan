@@ -10,6 +10,7 @@ function formatCollegeSettings(data) {
     ...DEFAULT_COLLEGE,
     foundation: data.foundation_name || DEFAULT_COLLEGE.foundation,
     name: data.college_name || DEFAULT_COLLEGE.name,
+    subname: data.school_subname || data.subname || DEFAULT_COLLEGE.subname,
     phone: data.college_phone || data.phone || DEFAULT_COLLEGE.phone,
     email: data.college_email || data.email || DEFAULT_COLLEGE.email,
     address: data.college_address || data.address || DEFAULT_COLLEGE.address,

@@ -139,20 +139,7 @@ export default function Navbar2Row() {
   const mobileNavItems = [
     { key: 'home', label: 'HOME', path: '/', exact: true },
     { key: 'about', label: 'ABOUT', path: '/about' },
-    {
-      key: 'admissions',
-      label: 'ADMISSIONS',
-      path: '/admissions',
-      children: [
-        { label: 'Admission Overview', path: '/admissions' },
-        { label: 'Admission Process', path: '/admission-process' },
-        { label: 'Eligibility Criteria', path: '/admission-process#eligibility' },
-        { label: 'Documents Required', path: '/admission-process#documents' },
-        { label: 'Fee Structure', path: '/fees' },
-        { label: 'Enquiry / Apply Now', path: '/admissions#apply' },
-        { label: 'Admission FAQs', path: '/fees#faqs' }
-      ]
-    },
+    { key: 'admissions', label: 'ADMISSIONS', path: '/admissions' },
     { key: 'faculty', label: 'FACULTY', path: '/faculty' },
     { key: 'notices', label: 'NOTICES', path: '/notices' },
     { key: 'news', label: 'NEWS', path: '/news' },
@@ -188,7 +175,7 @@ export default function Navbar2Row() {
         { label: 'AI & Robotics Lab', path: '/labs#robotics' },
         { label: 'Digital Library', path: '/facilities#library' },
         { label: 'Transportation Fleet', path: '/transport' },
-        { label: 'Sports Facilities', path: '/sports' }
+        { label: 'Sports Facilities', path: '/sports-facilities' }
       ]
     },
     {
@@ -199,7 +186,7 @@ export default function Navbar2Row() {
         { label: 'Facilities Overview', path: '/facilities' },
         { label: 'Science & STEM Labs', path: '/labs' },
         { label: 'Transportation', path: '/transport' },
-        { label: 'Sports Facilities', path: '/sports' }
+        { label: 'Sports Facilities', path: '/sports-facilities' }
       ]
     },
     {
@@ -207,7 +194,7 @@ export default function Navbar2Row() {
       label: 'STUDENT LIFE',
       path: '/student-life',
       children: [
-        { label: 'Sports & Athletics', path: '/sports' },
+        { label: 'Sports & Athletics', path: '/sports-athletics' },
         { label: 'Cultural Activities', path: '/cultural-activities' },
         { label: 'Clubs & Activities', path: '/clubs-activities' },
         { label: 'Field Trips & Excursions', path: '/field-trips' },
@@ -216,7 +203,7 @@ export default function Navbar2Row() {
       ]
     },
     { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },
-    { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admissions#apply' }
+    { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admission-enquiry' }
   ]
 
   return (
@@ -424,13 +411,23 @@ export default function Navbar2Row() {
                         <NavLink
                           to={item.path}
                           end={item.path === '/'}
-                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''} ${hasChildren && visibleChildren.length > 0 ? 'nav-link-has-children' : ''}`}
                           onClick={() => handleNavClick(item.path)}
                         >
                           <span>{item.label}</span>
                           {hasChildren && visibleChildren.length > 0 && (
-                            <svg className="caret-icon" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                            <svg
+                              className={`nav-chevron ${isHovered ? 'chevron-open' : ''}`}
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              width="12"
+                              height="12"
+                            >
+                              <polyline points="6 9 12 15 18 9" />
                             </svg>
                           )}
                         </NavLink>
@@ -446,7 +443,6 @@ export default function Navbar2Row() {
                                     onClick={() => handleNavClick(subItem.path)}
                                   >
                                     <span>{subItem.label}</span>
-                                    <span className="dropdown-link-arrow">→</span>
                                   </Link>
                                 </li>
                               ))}
@@ -482,13 +478,23 @@ export default function Navbar2Row() {
                       >
                         <NavLink
                           to={item.path}
-                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+                          className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''} ${hasChildren && visibleChildren.length > 0 ? 'nav-link-has-children' : ''}`}
                           onClick={() => handleNavClick(item.path)}
                         >
                           <span>{item.label}</span>
                           {hasChildren && visibleChildren.length > 0 && (
-                            <svg className="caret-icon" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                            <svg
+                              className={`nav-chevron ${isHovered ? 'chevron-open' : ''}`}
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              width="12"
+                              height="12"
+                            >
+                              <polyline points="6 9 12 15 18 9" />
                             </svg>
                           )}
                         </NavLink>
@@ -504,7 +510,6 @@ export default function Navbar2Row() {
                                     onClick={() => handleNavClick(subItem.path)}
                                   >
                                     <span>{subItem.label}</span>
-                                    <span className="dropdown-link-arrow">→</span>
                                   </Link>
                                 </li>
                               ))}

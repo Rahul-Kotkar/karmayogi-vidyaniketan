@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth.jsx'
 import { dashboardService } from '../../services/endpoints.js'
+import siteLogo from '../../assets/pandharpur_logo.jpg'
 
 export default function AdminDashboard() {
   const { user } = useAuth()
@@ -191,6 +192,60 @@ export default function AdminDashboard() {
           </svg>
         </span>
         <span>Welcome {userName}!</span>
+      </div>
+
+      {/* Institutional School Identity Strip */}
+      <div style={{
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
+        borderRadius: 8,
+        padding: '14px 20px',
+        marginBottom: 20,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: 14,
+        boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{
+            width: 48,
+            height: 48,
+            borderRadius: 8,
+            background: '#f8fafc',
+            border: '1px solid #e2e8f0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0
+          }}>
+            <img src={siteLogo} alt="Karmayogi Vidyaniketan Logo" style={{ maxHeight: 40, maxWidth: 40, objectFit: 'contain' }} />
+          </div>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 700, color: '#c2410c', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
+              Shri Pandurang Pratishthan, Pandharpur
+            </div>
+            <div style={{ fontSize: 16.5, fontWeight: 800, color: '#002855' }}>
+              Karmayogi Vidyaniketan <span style={{ fontSize: 14, fontWeight: 700, color: '#c9a227', marginLeft: 6 }}>Karmayogi Public School</span>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 11.5, fontWeight: 600, padding: '4px 10px', background: '#f1f5f9', color: '#475569', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+            CBSE &amp; State Board
+          </span>
+          <span style={{ fontSize: 11.5, fontWeight: 600, padding: '4px 10px', background: '#f0fdf4', color: '#166534', borderRadius: 6, border: '1px solid #bbf7d0' }}>
+            Nursery to Grade 10
+          </span>
+          <Link
+            to="/admin/settings"
+            style={{ fontSize: 11.5, fontWeight: 700, padding: '4px 12px', background: '#eff6ff', color: '#1d4ed8', borderRadius: 6, textDecoration: 'none', border: '1px solid #bfdbfe', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <span>Settings</span>
+            <span>&rarr;</span>
+          </Link>
+        </div>
       </div>
 
       {/* 2. Deep Royal Navy Hero Welcome Card */}

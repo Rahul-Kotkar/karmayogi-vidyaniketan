@@ -1,6 +1,7 @@
 import React from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
+import { CheckIcon } from '../components/Icons.jsx'
 
 export default function SecondarySchool() {
   return (
@@ -96,8 +97,9 @@ export default function SecondarySchool() {
               { title: "Supervised Study & Doubt-Clearing Hours", desc: "Faculty-supervised prep hours and structured academic support ensuring zero distractions and focused learning." }
             ].map((f, i) => (
               <div key={i} style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                <strong style={{ color: 'var(--navy-header)', fontSize: '15px', display: 'block', marginBottom: 4 }}>
-                  ✓ {f.title}
+                <strong style={{ color: 'var(--navy-header)', fontSize: '15px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                  <CheckIcon size={14} color="#002855" strokeWidth={2.8} />
+                  <span>{f.title}</span>
                 </strong>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                   {f.desc}

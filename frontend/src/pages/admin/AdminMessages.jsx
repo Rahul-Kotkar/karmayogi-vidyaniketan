@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { contactService } from '../../services/endpoints.js'
 
 export default function AdminMessages() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialFilter = searchParams.get('filter') === 'admission' ? 'admission' : 'all'
+  const [categoryFilter, setCategoryFilter] = useState(initialFilter)
+
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedMessage, setSelectedMessage] = useState(null)
@@ -23,6 +28,23 @@ export default function AdminMessages() {
   useEffect(() => {
     loadMessages()
   }, [])
+
+  useEffect(() => {
+    const q = searchParams.get('filter')
+    if (q === 'admission') {
+      setCategoryFilter('admission')
+    }
+  }, [searchParams])
+
+  const handleFilterChange = (filter) => {
+    setCategoryFilter(filter)
+    if (filter === 'all') {
+      searchParams.delete('filter')
+      setSearchParams(searchParams)
+    } else {
+      setSearchParams({ filter })
+    }
+  }
 
   const handleOpenDetail = (m) => {
     setSelectedMessage(m)
@@ -58,6 +80,16 @@ export default function AdminMessages() {
     }
   }
 
+  const admissionCount = messages.filter(m => (m.subject || '').toLowerCase().includes('admission')).length
+  const generalCount = messages.filter(m => !(m.subject || '').toLowerCase().includes('admission')).length
+
+  const filteredMessages = messages.filter(m => {
+    const isAdmission = (m.subject || '').toLowerCase().includes('admission')
+    if (categoryFilter === 'admission') return isAdmission
+    if (categoryFilter === 'general') return !isAdmission
+    return true
+  })
+
   return (
     <div>
       <div className="admin-page-header">
@@ -65,7 +97,7 @@ export default function AdminMessages() {
           <span className="admin-page-badge">Correspondence &amp; Inquiries</span>
           <h1>Contact Enquiries &amp; Messages</h1>
           <p style={{ color: '#5c6672', margin: '4px 0 0', fontSize: 13.5 }}>
-            Public enquiries, admission requests, and correspondence submitted via the website contact form.
+            Manage online admission form enquiries, parent messages, and general website correspondence.
           </p>
         </div>
       </div>
@@ -76,62 +108,133 @@ export default function AdminMessages() {
         </div>
       )}
 
+      {/* Filter Tabs */}
+      <div style={{ display: 'flex', gap: 10, marginBottom: 18, flexWrap: 'wrap' }}>
+        <button
+          type="button"
+          onClick={() => handleFilterChange('all')}
+          style={{
+            padding: '8px 16px',
+            borderRadius: 8,
+            fontSize: 13.5,
+            fontWeight: 700,
+            cursor: 'pointer',
+            border: categoryFilter === 'all' ? '1px solid #002855' : '1px solid #cbd5e1',
+            background: categoryFilter === 'all' ? '#002855' : '#ffffff',
+            color: categoryFilter === 'all' ? '#ffffff' : '#334155'
+          }}
+        >
+          All Enquiries ({messages.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => handleFilterChange('admission')}
+          style={{
+            padding: '8px 16px',
+            borderRadius: 8,
+            fontSize: 13.5,
+            fontWeight: 700,
+            cursor: 'pointer',
+            border: categoryFilter === 'admission' ? '1px solid #002855' : '1px solid #cbd5e1',
+            background: categoryFilter === 'admission' ? '#002855' : '#ffffff',
+            color: categoryFilter === 'admission' ? '#ffffff' : '#334155'
+          }}
+        >
+          Admission Enquiries ({admissionCount})
+        </button>
+        <button
+          type="button"
+          onClick={() => handleFilterChange('general')}
+          style={{
+            padding: '8px 16px',
+            borderRadius: 8,
+            fontSize: 13.5,
+            fontWeight: 700,
+            cursor: 'pointer',
+            border: categoryFilter === 'general' ? '1px solid #002855' : '1px solid #cbd5e1',
+            background: categoryFilter === 'general' ? '#002855' : '#ffffff',
+            color: categoryFilter === 'general' ? '#ffffff' : '#334155'
+          }}
+        >
+          General Contact ({generalCount})
+        </button>
+      </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: selectedMessage ? '1fr 1fr' : '1fr', gap: 20 }}>
         {/* Messages List */}
         <div className="admin-card">
           <div className="admin-card-header">
-            <h3>Enquiry Inbox</h3>
-            <span style={{ fontSize: 13, color: '#5c6672' }}>Total: {messages.length}</span>
+            <h3>{categoryFilter === 'admission' ? 'Admission Enquiries' : categoryFilter === 'general' ? 'General Enquiries' : 'Enquiry Inbox'}</h3>
+            <span style={{ fontSize: 13, color: '#5c6672' }}>Showing: {filteredMessages.length} of {messages.length}</span>
           </div>
 
           <div className="admin-card-body" style={{ padding: 0 }}>
             {loading ? (
               <div style={{ padding: 30, textAlign: 'center' }}>Loading enquiries...</div>
-            ) : messages.length === 0 ? (
+            ) : filteredMessages.length === 0 ? (
               <div style={{ padding: 30, textAlign: 'center', color: '#5c6672' }}>
-                No enquiries received yet.
+                No enquiries found in this category.
               </div>
             ) : (
               <table className="admin-table">
                 <thead>
                   <tr>
                     <th>Sender</th>
-                    <th>Subject</th>
+                    <th>Subject &amp; Type</th>
                     <th>Date</th>
                     <th>Status</th>
                     <th style={{ width: 80, textAlign: 'right' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {messages.map(m => (
-                    <tr
-                      key={m.id}
-                      style={{
-                        background: selectedMessage?.id === m.id ? '#f0fdf4' : 'inherit',
-                        cursor: 'pointer'
-                      }}
-                      onClick={() => handleOpenDetail(m)}
-                    >
-                      <td>
-                        <strong>{m.name}</strong><br />
-                        <span style={{ fontSize: 11, color: '#5c6672' }}>{m.email}</span>
-                      </td>
-                      <td>
-                        <span style={{ fontWeight: m.status === 'unread' ? 700 : 400 }}>
-                          {m.subject || 'Enquiry'}
-                        </span>
-                      </td>
-                      <td style={{ fontSize: 12, color: '#5c6672', whiteSpace: 'nowrap' }}>
-                        {m.created_at ? new Date(m.created_at).toLocaleDateString() : 'Recent'}
-                      </td>
-                      <td>
-                        <span className={`admin-badge ${
-                          m.status === 'unread' ? 'badge-danger' :
-                          m.status === 'replied' ? 'badge-success' : 'badge-info'
-                        }`}>
-                          {m.status}
-                        </span>
-                      </td>
+                  {filteredMessages.map(m => {
+                    const isAdmission = (m.subject || '').toLowerCase().includes('admission')
+                    return (
+                      <tr
+                        key={m.id}
+                        style={{
+                          background: selectedMessage?.id === m.id ? '#f0fdf4' : 'inherit',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => handleOpenDetail(m)}
+                      >
+                        <td>
+                          <strong>{m.name}</strong><br />
+                          <span style={{ fontSize: 11, color: '#5c6672' }}>{m.email}</span>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                            {isAdmission && (
+                              <span style={{
+                                alignSelf: 'flex-start',
+                                fontSize: '10.5px',
+                                fontWeight: 800,
+                                background: '#eff6ff',
+                                color: '#1d4ed8',
+                                border: '1px solid #bfdbfe',
+                                padding: '1px 6px',
+                                borderRadius: 4,
+                                textTransform: 'uppercase'
+                              }}>
+                                Admission
+                              </span>
+                            )}
+                            <span style={{ fontWeight: m.status === 'unread' ? 700 : 400, fontSize: 13 }}>
+                              {m.subject || 'Enquiry'}
+                            </span>
+                          </div>
+                        </td>
+                        <td style={{ fontSize: 12, color: '#5c6672', whiteSpace: 'nowrap' }}>
+                          {m.created_at ? new Date(m.created_at).toLocaleDateString() : 'Recent'}
+                        </td>
+                        <td>
+                          <span className={`admin-badge ${
+                            m.status === 'unread' ? 'badge-danger' :
+                            m.status === 'replied' ? 'badge-success' : 'badge-info'
+                          }`}>
+                            {m.status}
+                          </span>
+                        </td>
                       <td style={{ textAlign: 'right' }} onClick={e => e.stopPropagation()}>
                         <button
                           className="admin-btn admin-btn-danger admin-btn-sm"
@@ -146,7 +249,7 @@ export default function AdminMessages() {
                         </button>
                       </td>
                     </tr>
-                  ))}
+                  )})}
                 </tbody>
               </table>
             )}

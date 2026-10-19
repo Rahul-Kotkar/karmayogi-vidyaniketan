@@ -20,16 +20,18 @@ export {
 };
 
 export const COLLEGE = {
-  foundation: "Shri Pandurang Pratishthan's",
-  name: "KARMAYOGI VIDYANIKETAN",
+  foundation: "Shri Pandurang Pratishthan, Pandharpur",
+  name: "Karmayogi Vidyaniketan",
   subname: "Karmayogi Public School",
   founder_name: "स्व. सुधाकरपंत परिचारक",
   motto: "Shape Young Minds. Build Strong Futures.",
   mottoAuthor: "Shri Pandurang Pratishthan, Pandharpur",
   lines: [
-    "English Medium • Co-Educational School • Nursery to Grade 10",
-    "CBSE & State Board Tracks • Shri Pandurang Pratishthan, Pandharpur",
-    "Primary Campus: Isbavi | High School Campus: Shelve, Pandharpur (MS)"
+    "Managed by Shri Pandurang Pratishthan, Pandharpur",
+    "English Medium | Co-Educational | Nursery to Grade 10",
+    "CBSE & Maharashtra State Board Curriculum Tracks",
+    "Safe GPS-Monitored School Bus Fleet Covering Pandharpur & Environs",
+    "Office Hours: Mon–Sat 8:00 AM – 2:00 PM (Sunday Closed)"
   ],
   address: "Isbavi & Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304",
   primary_campus: {
@@ -69,19 +71,7 @@ export const SOCIAL_LINKS = [
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
   { label: "ABOUT", path: "/about" },
-  {
-    label: "ADMISSIONS",
-    path: "/admissions",
-    children: [
-      { label: "Admission Overview", path: "/admissions" },
-      { label: "Admission Process", path: "/admission-process" },
-      { label: "Eligibility Criteria", path: "/admission-process#eligibility" },
-      { label: "Documents Required", path: "/admission-process#documents" },
-      { label: "Fee Structure", path: "/fees" },
-      { label: "Enquiry / Apply Now", path: "/admissions#apply" },
-      { label: "Admission FAQs", path: "/fees#faqs" }
-    ]
-  },
+  { label: "ADMISSIONS", path: "/admissions" },
   { label: "FACULTY", path: "/faculty" },
   { label: "NOTICES", path: "/notices" },
   { label: "NEWS", path: "/news" },
@@ -127,14 +117,14 @@ export const ROW_2_NAV = [
       { label: "Facilities Overview", path: "/facilities" },
       { label: "Science & STEM Labs", path: "/labs" },
       { label: "Transportation", path: "/transport" },
-      { label: "Sports Facilities", path: "/sports" }
+      { label: "Sports Facilities", path: "/sports-facilities" }
     ]
   },
   {
     label: "STUDENT LIFE",
     path: "/student-life",
     children: [
-      { label: "Sports & Athletics", path: "/sports" },
+      { label: "Sports & Athletics", path: "/sports-athletics" },
       { label: "Cultural Activities", path: "/cultural-activities" },
       { label: "Clubs & Activities", path: "/clubs-activities" },
       { label: "Field Trips & Excursions", path: "/field-trips" },
@@ -143,7 +133,7 @@ export const ROW_2_NAV = [
     ]
   },
   { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },
-  { label: "ADMISSION ENQUIRY", path: "/admissions#apply" }
+  { label: "ADMISSION ENQUIRY", path: "/admission-enquiry" }
 ];
 
 export const TOP_NAV = ROW_1_NAV;
@@ -826,6 +816,29 @@ export const DEFAULT_ADMISSIONS_DATA = {
     { category: "School Bus Transport (Optional)", tuition_fee: "Based on distance", dev_fee: "Safety equipped", total_fee: "Route-wise charges", scholarship: "Subsidized routes", payable: "Term-wise installments" }
   ],
   fees_notes: "Fees are payable via Net Banking, UPI, Demand Draft, or at the school cash counter against an official receipt. Term-wise installments are facilitated for parents.",
+
+  faqs: [
+    {
+      q: "Is there any donation or capitation fee for admission?",
+      a: "No. Karmayogi Vidyaniketan follows a strict zero-donation policy. All admissions are conducted purely on transparent, regulated norms without capitation charges."
+    },
+    {
+      q: "Can school fees be paid online or in installments?",
+      a: "Yes, fees can be paid via Net Banking, UPI (Google Pay, PhonePe, Paytm), or Demand Draft. Parents can also pay in convenient term installments."
+    },
+    {
+      q: "What is the minimum age for Nursery and Grade 1?",
+      a: "For Nursery, the child must be at least 3 years of age as of 31st December of the admission year. For Grade 1, the child must have completed 6 years of age."
+    },
+    {
+      q: "Is school bus transport available for all areas in Pandharpur?",
+      a: "Yes, our GPS-monitored fleet of yellow school buses with female escorts operates across Pandharpur town and surrounding rural routes."
+    },
+    {
+      q: "What documents are required for mid-year transfer admissions?",
+      a: "Original School Leaving / Transfer Certificate (TC) countersigned as required, previous school report card/marksheet, and student/parent Aadhaar cards."
+    }
+  ],
 
   helpdesk_title: "School Admission & Enquiry Desk",
   helpdesk_phone: "+91-8459863477, +91-9527632033",

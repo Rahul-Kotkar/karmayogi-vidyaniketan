@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { DEFAULT_CAMPUS_ACTIVITIES, DEFAULT_BEYOND_CLASSROOM_SPACES } from '../data/studentCornerData.js'
+import { CloseIcon } from './Icons.jsx'
 
 function renderSpaceIcon(icon) {
   switch (icon) {
@@ -243,7 +244,7 @@ export default function CampusActivitiesSection({ activities = DEFAULT_CAMPUS_AC
                 onClick={() => setActivePhotoIndex(null)}
                 aria-label="Close image"
               >
-                ✕
+                <CloseIcon size={14} />
               </button>
             </div>
 

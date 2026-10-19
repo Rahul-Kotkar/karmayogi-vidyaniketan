@@ -16,7 +16,13 @@ import {
   ShieldIcon as ShieldCheck,
   CalendarIcon,
   StarIcon,
-  MapPinIcon
+  MapPinIcon,
+  TheaterIcon,
+  MicroscopeIcon,
+  BusIcon,
+  CrownIcon,
+  SportsIcon,
+  CheckIcon
 } from '../components/Icons.jsx';
 
 const CLUB_ICONS = {
@@ -115,13 +121,13 @@ export default function StudentLife() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
             {[
-              { key: 'cultural', label: 'Cultural Activities', icon: '🎭' },
-              { key: 'clubs', label: 'Clubs & Activities', icon: '🔬' },
-              { key: 'field-trips', label: 'Field Trips & Excursions', icon: '🚌' },
-              { key: 'competitions', label: 'Competitions & Olympiads', icon: '🏆' },
-              { key: 'achievements', label: 'Student Achievements', icon: '🌟' },
-              { key: 'houses', label: 'House System', icon: '🛡️' },
-              { key: 'council', label: 'Student Council', icon: '👑' }
+              { key: 'cultural', label: 'Cultural Activities', Icon: TheaterIcon },
+              { key: 'clubs', label: 'Clubs & Activities', Icon: MicroscopeIcon },
+              { key: 'field-trips', label: 'Field Trips & Excursions', Icon: BusIcon },
+              { key: 'competitions', label: 'Competitions & Olympiads', Icon: Trophy },
+              { key: 'achievements', label: 'Student Achievements', Icon: StarIcon },
+              { key: 'houses', label: 'House System', Icon: ShieldCheck },
+              { key: 'council', label: 'Student Council', Icon: CrownIcon }
             ].map(tab => (
               <button
                 key={tab.key}
@@ -133,7 +139,7 @@ export default function StudentLife() {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-blue-900'
                 }`}
               >
-                <span>{tab.icon}</span>
+                <tab.Icon size={15} />
                 <span>{tab.label}</span>
               </button>
             ))}
@@ -141,7 +147,7 @@ export default function StudentLife() {
               to="/sports"
               className="px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap flex items-center gap-2 bg-amber-500 text-slate-950 hover:bg-amber-400 cursor-pointer shadow-xs"
             >
-              <span>⚽</span>
+              <SportsIcon size={15} />
               <span>Sports & Athletics →</span>
             </Link>
           </div>
@@ -154,7 +160,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'cultural' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>🎭</span> Focused Section
+                <TheaterIcon size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -220,7 +226,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'clubs' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>🔬</span> Focused Section
+                <MicroscopeIcon size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -271,7 +277,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'field-trips' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>🚌</span> Focused Section
+                <BusIcon size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -306,8 +312,8 @@ export default function StudentLife() {
                     <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Key Experience Points:</div>
                     <div className="flex flex-wrap gap-2">
                       {trip.highlights.map((h, i) => (
-                        <span key={i} className="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md font-medium">
-                          ✓ {h}
+                        <span key={i} className="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md font-medium inline-flex items-center gap-1.5">
+                          <CheckIcon size={11} strokeWidth={3} className="text-blue-600" /> {h}
                         </span>
                       ))}
                     </div>
@@ -319,8 +325,8 @@ export default function StudentLife() {
 
           <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 font-bold">
-                🛡️
+              <div className="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0">
+                <ShieldCheck size={22} color="#020617" />
               </div>
               <div>
                 <h4 className="text-lg font-bold">Strict Safety & Escort Standards</h4>
@@ -343,7 +349,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'competitions' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>🏆</span> Focused Section
+                <Trophy size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -390,7 +396,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'achievements' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>🌟</span> Focused Section
+                <StarIcon size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -440,7 +446,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'houses' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>🛡️</span> Focused Section
+                <ShieldCheck size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -491,7 +497,7 @@ export default function StudentLife() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             {activeTab === 'council' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white shadow-xs mb-3">
-                <span>👑</span> Focused Section
+                <CrownIcon size={14} /> Focused Section
               </div>
             )}
             <br />
@@ -544,7 +550,7 @@ export default function StudentLife() {
                   Explore All Sports Arenas <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  to="/admissions#apply"
+                  to="/admission-enquiry"
                   className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 transition-all text-sm"
                 >
                   Enquire for Admission

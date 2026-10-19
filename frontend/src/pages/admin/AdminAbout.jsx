@@ -215,9 +215,8 @@ export default function AdminAbout() {
           { id: 'institute', label: '1. Institute Overview' },
           { id: 'vision', label: '2. Vision & Mission' },
           { id: 'quality', label: '3. Quality Policy' },
-          { id: 'leadership', label: '4. Leadership Desks' },
-          { id: 'council', label: '5. Governing Council' },
-          { id: 'approvals', label: '6. Affiliations & Approvals' }
+          { id: 'council', label: '4. Governing Council & Leadership' },
+          { id: 'approvals', label: '5. Affiliations & Approvals' }
         ].map(tab => (
           <button
             key={tab.id}
@@ -634,11 +633,11 @@ export default function AdminAbout() {
         </div>
       )}
 
-      {/* TAB 5: GOVERNING COUNCIL */}
+      {/* TAB 4: GOVERNING COUNCIL */}
       {activeTab === 'council' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 5: Governing Council &amp; Advisory Board</h3>
+            <h3 style={{ margin: 0, color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 4: Governing Council &amp; School Leadership</h3>
             <button
               type="button"
               onClick={() => setShowAddMember(!showAddMember)}
@@ -796,11 +795,11 @@ export default function AdminAbout() {
         </div>
       )}
 
-      {/* TAB 6: AFFILIATIONS & APPROVALS */}
+      {/* TAB 5: AFFILIATIONS & APPROVALS */}
       {activeTab === 'approvals' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 6: Affiliations &amp; Government Approvals Cards</h3>
+            <h3 style={{ margin: 0, color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 5: Affiliations &amp; Curriculum Approvals Cards</h3>
             <button
               type="button"
               onClick={() => setShowAddApproval(!showAddApproval)}
