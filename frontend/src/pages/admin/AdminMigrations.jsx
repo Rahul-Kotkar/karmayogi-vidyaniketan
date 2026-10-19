@@ -8,10 +8,21 @@ export default function AdminMigrations() {
   const [data, setData] = useState({
     db_connected: false,
     db_error: '',
+    db_config: null,
     migrations: [],
     total: 0,
     pending: 0
   })
+  const [dbConfig, setDbConfig] = useState({
+    host: 'localhost',
+    port: '3306',
+    db: '',
+    user: '',
+    pass: ''
+  })
+  const [showConfig, setShowConfig] = useState(false)
+  const [savingConfig, setSavingConfig] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(true)
   const [running, setRunning] = useState(false)
   const [msg, setMsg] = useState({ text: '', type: '' })
@@ -22,13 +33,30 @@ export default function AdminMigrations() {
       const res = await migrationsService.getStatus()
       const payload = res?.migrations ? res : (res?.data?.migrations ? res.data : (res?.data || res))
       if (payload) {
+        const isConnected = Boolean(payload.db_connected)
         setData({
-          db_connected: Boolean(payload.db_connected),
+          db_connected: isConnected,
           db_error: payload.db_error || '',
+          db_config: payload.db_config || null,
           migrations: Array.isArray(payload.migrations) ? payload.migrations : [],
           total: payload.total !== undefined ? payload.total : (payload.migrations?.length || 0),
           pending: payload.pending !== undefined ? payload.pending : (payload.migrations?.filter(m => !m.executed)?.length || 0)
         })
+
+        if (payload.db_config) {
+          setDbConfig(prev => ({
+            ...prev,
+            host: payload.db_config.host || 'localhost',
+            port: payload.db_config.port || '3306',
+            db: payload.db_config.db || '',
+            user: payload.db_config.user || '',
+            pass: ''
+          }))
+        }
+
+        if (!isConnected) {
+          setShowConfig(true)
+        }
       }
     } catch (err) {
       setMsg({ text: 'Failed to inspect database migrations: ' + err.message, type: 'danger' })
@@ -45,10 +73,39 @@ export default function AdminMigrations() {
     if (msg.text && msg.type === 'success') {
       const timer = setTimeout(() => {
         setMsg({ text: '', type: '' })
-      }, 6000)
+      }, 7000)
       return () => clearTimeout(timer)
     }
   }, [msg])
+
+  const handleSaveDbConfig = async (e) => {
+    if (e) e.preventDefault()
+    setSavingConfig(true)
+    setMsg({ text: '', type: '' })
+    try {
+      const res = await migrationsService.saveDbConfig(dbConfig)
+      if (res?.success) {
+        setMsg({
+          text: res?.message || 'Database connected and credentials updated in .env successfully!',
+          type: 'success'
+        })
+        setShowConfig(false)
+        await loadStatus()
+      } else {
+        setMsg({
+          text: res?.message || 'Database connection test failed. Please verify credentials.',
+          type: 'danger'
+        })
+      }
+    } catch (err) {
+      setMsg({
+        text: 'Error connecting to database: ' + (err?.response?.data?.message || err.message),
+        type: 'danger'
+      })
+    } finally {
+      setSavingConfig(false)
+    }
+  }
 
   const handleRunMigrations = async (force = false) => {
     const isPending = data.pending > 0
@@ -118,6 +175,17 @@ export default function AdminMigrations() {
         <div className="admin-page-actions">
           <button
             type="button"
+            className={`admin-btn ${showConfig ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setShowConfig(!showConfig)}
+            title="Configure MySQL database host, username, and password"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+            </svg>
+            <span>{showConfig ? 'Close DB Config' : 'DB Connection Settings'}</span>
+          </button>
+          <button
+            type="button"
             className="admin-btn admin-btn-secondary"
             onClick={loadStatus}
             disabled={loading || running}
@@ -182,25 +250,217 @@ export default function AdminMigrations() {
         </div>
       )}
 
+      {/* Database Connection Configuration Card */}
+      {showConfig && (
+        <div className="admin-card" style={{ marginBottom: 20, border: data.db_connected ? '1px solid #e2e8f0' : '1.5px solid #f59e0b', background: '#ffffff' }}>
+          <div className="admin-card-header" style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: 14 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0f172a' }}>MySQL Database Credentials</h3>
+                <span className={`admin-badge ${data.db_connected ? 'badge-success' : 'badge-danger'}`} style={{ fontSize: 11 }}>
+                  {data.db_connected ? 'Connected' : 'Connection Required'}
+                </span>
+              </div>
+              <span style={{ fontSize: 13, color: '#64748b', marginTop: 4, display: 'block' }}>
+                Test and securely save MySQL database settings directly to the server's <code>.env</code> file.
+              </span>
+            </div>
+            <button
+              type="button"
+              className="admin-btn admin-btn-secondary"
+              style={{ padding: '4px 10px', fontSize: 12 }}
+              onClick={() => setShowConfig(false)}
+            >
+              Hide
+            </button>
+          </div>
+
+          <div className="admin-card-body" style={{ padding: '18px 20px' }}>
+            {data.db_error && !data.db_connected && (
+              <div style={{
+                background: '#fffbeb',
+                border: '1px solid #fde68a',
+                borderRadius: 8,
+                padding: '12px 16px',
+                marginBottom: 16,
+                fontSize: 13,
+                color: '#92400e'
+              }}>
+                <div style={{ fontWeight: 700, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  Current Connection Error:
+                </div>
+                <code style={{ background: '#fef3c7', padding: '2px 6px', borderRadius: 4, fontSize: 12, wordBreak: 'break-all' }}>
+                  {data.db_error}
+                </code>
+                <div style={{ marginTop: 8, fontSize: 12.5, lineHeight: 1.5, color: '#78350f' }}>
+                  <strong>Hostinger hPanel checklist:</strong><br />
+                  1. Go to <strong>Hostinger hPanel &rarr; Databases &rarr; MySQL Databases</strong>.<br />
+                  2. Ensure user <code>{dbConfig.user || 'u495202283_shnproduser'}</code> is assigned to the database with <strong>All Privileges</strong>.<br />
+                  3. If unsure of the password, click <strong>... (three dots) &rarr; Change Password</strong> next to the user in Hostinger, enter the new password below, and click <strong>Test Connection &amp; Save</strong>.
+                </div>
+              </div>
+            )}
+
+            <form onSubmit={handleSaveDbConfig}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12.5, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 4 }}>
+                    Database Host
+                  </label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={dbConfig.host}
+                    onChange={e => setDbConfig({ ...dbConfig, host: e.target.value })}
+                    placeholder="localhost or 127.0.0.1"
+                    required
+                  />
+                  <span style={{ fontSize: 11, color: '#94a3b8' }}>Usually 'localhost' on Hostinger</span>
+                </div>
+
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12.5, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 4 }}>
+                    Port
+                  </label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={dbConfig.port}
+                    onChange={e => setDbConfig({ ...dbConfig, port: e.target.value })}
+                    placeholder="3306"
+                  />
+                  <span style={{ fontSize: 11, color: '#94a3b8' }}>Default: 3306</span>
+                </div>
+
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12.5, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 4 }}>
+                    Database Name
+                  </label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={dbConfig.db}
+                    onChange={e => setDbConfig({ ...dbConfig, db: e.target.value })}
+                    placeholder="e.g. u495202283_shnproddb"
+                    required
+                  />
+                  <span style={{ fontSize: 11, color: '#94a3b8' }}>Exact DB Name in Hostinger</span>
+                </div>
+
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12.5, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 4 }}>
+                    Database Username
+                  </label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={dbConfig.user}
+                    onChange={e => setDbConfig({ ...dbConfig, user: e.target.value })}
+                    placeholder="e.g. u495202283_shnproduser"
+                    required
+                  />
+                  <span style={{ fontSize: 11, color: '#94a3b8' }}>Exact Username in Hostinger</span>
+                </div>
+
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12.5, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 4 }}>
+                    Database Password
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      className="admin-input"
+                      value={dbConfig.pass}
+                      onChange={e => setDbConfig({ ...dbConfig, pass: e.target.value })}
+                      placeholder="Enter MySQL user password"
+                      style={{ paddingRight: 40 }}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: '#64748b',
+                        fontSize: 12,
+                        padding: '4px'
+                      }}
+                    >
+                      {showPassword ? 'Hide' : 'Show'}
+                    </button>
+                  </div>
+                  <span style={{ fontSize: 11, color: '#94a3b8' }}>Set via Hostinger hPanel</span>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 18, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <button
+                  type="submit"
+                  className="admin-btn admin-btn-primary"
+                  disabled={savingConfig || !dbConfig.user || !dbConfig.db}
+                  style={{ minWidth: 200 }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>{savingConfig ? 'Testing & Saving...' : 'Test Connection & Save to .env'}</span>
+                </button>
+                <span style={{ fontSize: 12, color: '#64748b' }}>
+                  Verifies connection immediately before saving to prevent invalid configurations.
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Metrics Row */}
       <div className="admin-stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: 20 }}>
         <div className="admin-card" style={{ padding: '16px 18px', margin: 0 }}>
-          <div style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Database Status
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 11, color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Database Status
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowConfig(!showConfig)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#0b63e5',
+                fontSize: 11,
+                cursor: 'pointer',
+                fontWeight: 600,
+                padding: 0
+              }}
+            >
+              {showConfig ? 'Hide' : 'Configure'}
+            </button>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 }}>
             <span style={{
               width: 8,
               height: 8,
               borderRadius: '50%',
-              background: data.db_connected ? '#16a34a' : '#64748b'
+              background: data.db_connected ? '#16a34a' : '#ef4444'
             }} />
             <strong style={{ fontSize: 15, color: '#0f172a' }}>
-              {data.db_connected ? 'Connected' : 'Standalone Mode'}
+              {data.db_connected ? 'Connected' : 'Disconnected'}
             </strong>
           </div>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>
-            {data.db_connected ? 'MySQL active' : 'Local file storage'}
+          <div style={{ fontSize: 12, color: data.db_connected ? '#16a34a' : '#ef4444', marginTop: 4 }}>
+            {data.db_connected ? 'MySQL active' : 'Access denied / wrong password'}
           </div>
         </div>
 

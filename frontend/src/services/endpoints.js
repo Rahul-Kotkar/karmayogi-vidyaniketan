@@ -657,6 +657,9 @@ export const migrationsService = {
   },
   runMigrations: async (options = {}) => {
     return api.post('/migrations', { action: 'migrate', ...options })
+  },
+  saveDbConfig: async (config = {}) => {
+    return api.post('/migrations', { action: 'save_db_config', ...config })
   }
 }
 

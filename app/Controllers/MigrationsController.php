@@ -70,6 +70,81 @@ class MigrationsController {
                         'data'    => ['restored' => $count]
                     ];
                     break;
+                case 'save_db_config':
+                    $host = trim($json['host'] ?? $_POST['host'] ?? 'localhost');
+                    $port = trim($json['port'] ?? $_POST['port'] ?? '3306');
+                    $dbName = trim($json['db'] ?? $_POST['db'] ?? '');
+                    $user = trim($json['user'] ?? $_POST['user'] ?? '');
+                    $pass = $json['pass'] ?? $_POST['pass'] ?? '';
+
+                    if ($pass === '' && empty($json['clear_pass'])) {
+                        $pass = Env::get('DB_PASS', '');
+                    }
+
+                    $buildDsn = function($h, $p, $d) {
+                        if ($h === 'localhost' || empty($p)) {
+                            return "mysql:host={$h};dbname={$d};charset=utf8mb4";
+                        }
+                        return "mysql:host={$h};port={$p};dbname={$d};charset=utf8mb4";
+                    };
+
+                    $testSuccess = false;
+                    $testErr = '';
+                    $workingHost = $host;
+                    $options = [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    ];
+
+                    try {
+                        $pdo = new PDO($buildDsn($host, $port, $dbName), $user, $pass, $options);
+                        $testSuccess = true;
+                    } catch (\PDOException $e1) {
+                        $altHost = ($host === 'localhost') ? '127.0.0.1' : (($host === '127.0.0.1') ? 'localhost' : null);
+                        if ($altHost) {
+                            try {
+                                $pdo = new PDO($buildDsn($altHost, $port, $dbName), $user, $pass, $options);
+                                $testSuccess = true;
+                                $workingHost = $altHost;
+                            } catch (\PDOException $e2) {
+                                $testErr = $e1->getMessage();
+                            }
+                        } else {
+                            $testErr = $e1->getMessage();
+                        }
+                    }
+
+                    if (!$testSuccess) {
+                        $result = [
+                            'success' => false,
+                            'message' => "Database connection test failed: {$testErr}. In Hostinger hPanel -> Databases -> MySQL Databases, verify this user exists, password is correct, and user is assigned to database '{$dbName}' with ALL PRIVILEGES."
+                        ];
+                        break;
+                    }
+
+                    $envPath = self::getEnvPath();
+                    self::updateEnvFile($envPath, [
+                        'DB_HOST' => $workingHost,
+                        'DB_PORT' => $port,
+                        'DB_NAME' => $dbName,
+                        'DB_USER' => $user,
+                        'DB_PASS' => $pass,
+                    ]);
+
+                    Database::resetConnection();
+                    Env::load($envPath);
+
+                    $migResult = self::runMigrations(true);
+
+                    $result = [
+                        'success' => true,
+                        'message' => "Database connection verified and saved successfully! " . ($migResult['message'] ?? ''),
+                        'data'    => [
+                            'working_host' => $workingHost,
+                            'mig_result'   => $migResult
+                        ]
+                    ];
+                    break;
                 default:
                     $result = ['success' => false, 'message' => "Unknown action: {$action}"];
                     break;
@@ -84,12 +159,46 @@ class MigrationsController {
             'success'      => true,
             'db_connected' => $status['db_connected'],
             'db_error'     => $status['db_error'],
+            'db_config'    => $status['db_config'] ?? null,
             'migrations'   => $status['migrations'],
             'total'        => $status['total'],
             'pending'      => $status['pending'],
             'data'         => $status
         ]);
         exit;
+    }
+
+    public static function getEnvPath(): string {
+        $candidates = [
+            dirname(__DIR__, 2) . '/.env',
+            dirname(__DIR__, 3) . '/.env',
+            ($_SERVER['DOCUMENT_ROOT'] ?? '') . '/.env',
+            ($_SERVER['DOCUMENT_ROOT'] ?? '') . '/../.env',
+            __DIR__ . '/../../.env'
+        ];
+        foreach ($candidates as $c) {
+            if (!empty($c) && file_exists($c)) {
+                return $c;
+            }
+        }
+        return dirname(__DIR__, 2) . '/.env';
+    }
+
+    public static function updateEnvFile(string $path, array $keyValues): bool {
+        $content = file_exists($path) ? file_get_contents($path) : '';
+        foreach ($keyValues as $k => $v) {
+            $formattedVal = (string)$v;
+            if (preg_match('/[\s#"\'\\\\]/', $formattedVal) || $formattedVal === '') {
+                $formattedVal = '"' . addcslashes($formattedVal, '"\\$') . '"';
+            }
+            $pattern = "/^{$k}=.*$/m";
+            if (preg_match($pattern, $content)) {
+                $content = preg_replace($pattern, "{$k}={$formattedVal}", $content);
+            } else {
+                $content .= "\n{$k}={$formattedVal}";
+            }
+        }
+        return (bool)@file_put_contents($path, trim($content) . "\n");
     }
 
     public static function getStatus(): array {
@@ -160,6 +269,13 @@ class MigrationsController {
         return [
             'db_connected' => $dbConnected,
             'db_error'     => $dbError,
+            'db_config'    => [
+                'host'     => Env::get('DB_HOST', 'localhost'),
+                'port'     => Env::get('DB_PORT', '3306'),
+                'db'       => Env::get('DB_NAME', 'vidyaniketan_school'),
+                'user'     => Env::get('DB_USER', 'root'),
+                'has_pass' => (Env::get('DB_PASS', '') !== '')
+            ],
             'migrations'   => $migrations,
             'total'        => count($migrations),
             'pending'      => count(array_filter($migrations, fn($m) => !$m['executed']))
