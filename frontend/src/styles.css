@@ -581,7 +581,7 @@ img, video, iframe, embed, object {
   align-items: center;
   justify-content: center;
   gap: clamp(24px, 4vw, 54px);
-  text-align: center;
+  text-align: left;
 }
 .header-brand-logo {
   display: flex;
@@ -597,10 +597,10 @@ img, video, iframe, embed, object {
 }
 .header-center-info {
   min-width: 0;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 .header-foundation-name {
   color: #c2410c;
@@ -608,12 +608,12 @@ img, video, iframe, embed, object {
   font-weight: 600;
   letter-spacing: 0.4px;
   margin-bottom: 2px;
-  text-align: center;
+  text-align: left;
 }
 .header-college-title {
   margin: 0 0 3px;
   line-height: 1.15;
-  text-align: center;
+  text-align: left;
 }
 .header-college-title a {
   font-family: var(--heading-font);
@@ -623,7 +623,7 @@ img, video, iframe, embed, object {
   letter-spacing: 0.4px;
   text-decoration: none;
   display: inline-block;
-  text-align: center;
+  text-align: left;
 }
 .header-college-title a:hover {
   color: var(--blue-vibrant);
@@ -635,12 +635,12 @@ img, video, iframe, embed, object {
   letter-spacing: 0.6px;
   margin-top: 1px;
   margin-bottom: 4px;
-  text-align: center;
+  text-align: left;
 }
 .header-affiliations {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 2px;
 }
 .affiliation-line {
@@ -648,7 +648,7 @@ img, video, iframe, embed, object {
   font-size: clamp(11.5px, 0.95vw, 13px);
   line-height: 1.4;
   margin: 0;
-  text-align: center;
+  text-align: left;
 }
 .header-founder-section {
   display: flex;
