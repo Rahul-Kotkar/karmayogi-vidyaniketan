@@ -108,6 +108,9 @@ export function getCachedAcademicsData() {
 
 export function setCachedAcademicsData(data) {
   setLocalCache('academics_data', data)
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('academics_updated', { detail: data }))
+  }
 }
 
 export function getCachedDisclosuresData() {

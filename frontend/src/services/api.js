@@ -92,11 +92,14 @@ api.interceptors.response.use(
     }
 
     if (error.response && error.response.status === 401) {
-      // If unauthorized on admin page, clear token
+      // If unauthorized on admin page, clear token (unless running local dev session)
       if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
-        localStorage.removeItem('cop_admin_token')
-        localStorage.removeItem('cop_admin_user')
-        window.location.href = '/admin/login'
+        const token = localStorage.getItem('cop_admin_token')
+        if (!token || !token.startsWith('local_dev_token_')) {
+          localStorage.removeItem('cop_admin_token')
+          localStorage.removeItem('cop_admin_user')
+          window.location.href = '/admin/login'
+        }
       }
     }
     const message = error.response?.data?.message || error.message || 'Network request failed'

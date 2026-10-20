@@ -1,15 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { SCHOOL_LEVELS, SCHOOL_SUBJECTS } from '../data/subjectsData.js'
+import { pagesService, getCachedAcademicsData } from '../services/endpoints.js'
 
 export default function Academics() {
   const { subpage } = useParams()
   const [selectedLevel, setSelectedLevel] = useState('all')
+  const [data, setData] = useState(() => getCachedAcademicsData() || null)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const page = await pagesService.getBySlug('academics')
+        if (page && page.content_html) {
+          try {
+            const parsed = JSON.parse(page.content_html)
+            setData(parsed)
+          } catch {}
+        }
+      } catch {}
+    }
+    load()
+
+    const onAcademicsUpdated = (e) => {
+      if (e?.detail) setData(e.detail)
+    }
+    window.addEventListener('academics_updated', onAcademicsUpdated)
+    return () => window.removeEventListener('academics_updated', onAcademicsUpdated)
+  }, [])
+
+  const subjectList = (Array.isArray(data?.subjects?.list) && data.subjects.list.length > 0)
+    ? data.subjects.list
+    : SCHOOL_SUBJECTS
 
   const filteredSubjects = selectedLevel === 'all'
-    ? SCHOOL_SUBJECTS
-    : SCHOOL_SUBJECTS.filter(s => s.yearKey === selectedLevel)
+    ? subjectList
+    : subjectList.filter(s => s.yearKey === selectedLevel)
 
   return (
     <PageShell title="Academic Programs &amp; Curriculum" subtitle="Nursery to Grade 10 • CBSE &amp; State Board Tracks | Karmayogi Vidyaniketan">
@@ -18,13 +45,13 @@ export default function Academics() {
         {/* 1. Academic Overview Banner */}
         <section style={{ background: '#ffffff', borderRadius: 12, padding: '36px 30px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-md)' }}>
           <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--blue-vibrant)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            ACADEMIC EXCELLENCE &bull; SHAPING YOUNG MINDS
+            {data?.overview?.badge || 'ACADEMIC EXCELLENCE • SHAPING YOUNG MINDS'}
           </span>
           <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '8px 0 16px' }}>
-            A Balanced Journey of Knowledge, Character &amp; Life Skills
+            {data?.overview?.title || 'A Balanced Journey of Knowledge, Character & Life Skills'}
           </h2>
           <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.8, margin: 0 }}>
-            Karmayogi Vidyaniketan provides a structured and stimulating academic curriculum designed to develop foundational literacy, scientific inquiry, computational thinking, mathematical problem solving, and multilingual communication. From our activity-based Pre-Primary classes through Grade 10 secondary board tracks, each stage of education is tailored to child development milestones.
+            {data?.overview?.lead || data?.overview?.description || 'Karmayogi Vidyaniketan provides a structured and stimulating academic curriculum designed to develop foundational literacy, scientific inquiry, computational thinking, mathematical problem solving, and multilingual communication. From our activity-based Pre-Primary classes through Grade 10 secondary board tracks, each stage of education is tailored to child development milestones.'}
           </p>
         </section>
 
@@ -44,20 +71,20 @@ export default function Academics() {
             <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ height: 190, overflow: 'hidden' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=700&q=80"
+                  src={data?.pre_primary?.hero_image || 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=700&q=80'}
                   alt="Pre-Primary Foundational Learning"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               <div style={{ padding: 24, flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase' }}>
-                  Ages 3 to 6 &bull; Foundational Stage
+                  {data?.pre_primary?.badge || 'Ages 3 to 6 • Foundational Stage'}
                 </span>
                 <h3 style={{ fontSize: '21px', color: 'var(--navy-header)', margin: '6px 0 10px' }}>
-                  Pre-Primary Wing
+                  {data?.pre_primary?.title || 'Pre-Primary Wing'}
                 </h3>
                 <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6, flex: 1 }}>
-                  Nursery, Jr. KG and Sr. KG with activity-based and foundational learning. Emphasizes sensory exploration, phonics, joyful numeracy, motor coordination, storytelling, and social habits.
+                  {data?.pre_primary?.lead || 'Nursery, Jr. KG and Sr. KG with activity-based and foundational learning. Emphasizes sensory exploration, phonics, joyful numeracy, motor coordination, storytelling, and social habits.'}
                 </p>
                 <div style={{ marginTop: 16 }}>
                   <Link to="/pre-primary" className="btn btn-secondary" style={{ width: '100%', textAlign: 'center' }}>
@@ -71,20 +98,20 @@ export default function Academics() {
             <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ height: 190, overflow: 'hidden' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=700&q=80"
+                  src={data?.primary?.hero_image || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=700&q=80'}
                   alt="Primary School Conceptual Mastery"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               <div style={{ padding: 24, flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase' }}>
-                  Grades 1 to 5 &bull; Preparatory Stage
+                  {data?.primary?.badge || 'Grades 1 to 5 • Preparatory Stage'}
                 </span>
                 <h3 style={{ fontSize: '21px', color: 'var(--navy-header)', margin: '6px 0 10px' }}>
-                  Primary School Wing
+                  {data?.primary?.title || 'Primary School Wing'}
                 </h3>
                 <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6, flex: 1 }}>
-                  Focus on strong fundamentals, curiosity, communication and creativity. Reading and writing in English, Marathi, Hindi, mental math, science discovery, and junior computer labs.
+                  {data?.primary?.lead || 'Focus on strong fundamentals, curiosity, communication and creativity. Reading and writing in English, Marathi, Hindi, mental math, science discovery, and junior computer labs.'}
                 </p>
                 <div style={{ marginTop: 16 }}>
                   <Link to="/primary" className="btn btn-secondary" style={{ width: '100%', textAlign: 'center' }}>
@@ -98,20 +125,20 @@ export default function Academics() {
             <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ height: 190, overflow: 'hidden' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80"
+                  src={data?.secondary?.hero_image || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80'}
                   alt="Secondary School Board Excellence"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               <div style={{ padding: 24, flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase' }}>
-                  Grades 6 to 10 &bull; Middle &amp; Secondary
+                  {data?.secondary?.badge || 'Grades 6 to 10 • Middle & Secondary'}
                 </span>
                 <h3 style={{ fontSize: '21px', color: 'var(--navy-header)', margin: '6px 0 10px' }}>
-                  Secondary School Wing
+                  {data?.secondary?.title || 'Secondary School Wing'}
                 </h3>
                 <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6, flex: 1 }}>
-                  Structured academic learning with preparation for higher education under CBSE &amp; State Board tracks. Intensive science labs, advanced mathematics, AI &amp; Robotics, and mock exams.
+                  {data?.secondary?.lead || 'Structured academic learning with preparation for higher education under CBSE & State Board tracks. Intensive science labs, advanced mathematics, AI & Robotics, and mock exams.'}
                 </p>
                 <div style={{ marginTop: 16 }}>
                   <Link to="/secondary" className="btn btn-secondary" style={{ width: '100%', textAlign: 'center' }}>
@@ -123,7 +150,7 @@ export default function Academics() {
           </div>
         </section>
 
-        {/* 3. Teaching Methodologies (Requirement 10) */}
+        {/* 3. Teaching Methodologies */}
         <section id="methodology" style={{ background: '#ffffff', borderRadius: 12, padding: '36px 30px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-md)' }}>
           <div style={{ textAlign: 'center', marginBottom: 26 }}>
             <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--blue-vibrant)', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -138,7 +165,7 @@ export default function Academics() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
-            {[
+            {(Array.isArray(data?.methodologies) && data.methodologies.length > 0 ? data.methodologies : [
               {
                 title: "Activity-Based Learning",
                 desc: "Hands-on projects, games, Montessori manipulatives, and tactile learning kits make abstract ideas tangible."
@@ -167,7 +194,7 @@ export default function Academics() {
                 title: "Collaborative Learning",
                 desc: "Peer study circles, team presentations, group problem solving, and respectful debate."
               }
-            ].map((m, idx) => (
+            ]).map((m, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 20, borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--blue-vibrant)', marginBottom: 6 }}>
                   0{idx + 1} &bull; METHOD
@@ -259,51 +286,43 @@ export default function Academics() {
           </div>
         </section>
 
-        {/* 5. Examination & Assessment Framework (Requirement 10) */}
+        {/* 5. Examination & Assessment Framework */}
         <section id="examination" style={{ background: '#f8fafc', borderRadius: 12, padding: '36px 30px', border: '1px solid #e2e8f0' }}>
           <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '24px', color: 'var(--navy-header)', marginBottom: 12 }}>
-            Examination &amp; Continuous Assessment System
+            {data?.examination?.title || 'Examination & Continuous Assessment System'}
           </h2>
           <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.7, marginBottom: 24 }}>
-            At Karmayogi Vidyaniketan, assessment is a tool for constructive learning and encouragement rather than anxiety. We follow Continuous and Comprehensive Evaluation (CCE) in harmony with CBSE and State Board directives:
+            {data?.examination?.lead || 'At Karmayogi Vidyaniketan, assessment is a tool for constructive learning and encouragement rather than anxiety. We follow Continuous and Comprehensive Evaluation (CCE) in harmony with CBSE and State Board directives:'}
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
-            <div style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '0 0 8px' }}>
-                Formative Assessments (FA)
-              </h3>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
-                Continuous classroom observation, project portfolios, lab practical viva, quizzes, speaking skills (ASL), and creative assignments.
-              </p>
-            </div>
-
-            <div style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '0 0 8px' }}>
-                Summative Evaluations (SA)
-              </h3>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
-                Term-end written examinations testing conceptual depth, mathematical application, problem solving, and analytical clarity.
-              </p>
-            </div>
-
-            <div style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '0 0 8px' }}>
-                Board Prelim Mock Series
-              </h3>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
-                Rigorous full-length prelim examinations for Grade 10 students replicating exact board conditions with personalized feedback.
-              </p>
-            </div>
-
-            <div style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '0 0 8px' }}>
-                Parent Progress Conferences
-              </h3>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
-                Quarterly Open House sessions where teachers and parents review student progress cards and design individualized support plans.
-              </p>
-            </div>
+            {(Array.isArray(data?.examination?.components) && data.examination.components.length > 0 ? data.examination.components : [
+              {
+                title: "Formative Assessments (FA)",
+                desc: "Continuous classroom observation, project portfolios, lab practical viva, quizzes, speaking skills (ASL), and creative assignments."
+              },
+              {
+                title: "Summative Evaluations (SA)",
+                desc: "Term-end written examinations testing conceptual depth, mathematical application, problem solving, and analytical clarity."
+              },
+              {
+                title: "Board Prelim Mock Series",
+                desc: "Rigorous full-length prelim examinations for Grade 10 students replicating exact board conditions with personalized feedback."
+              },
+              {
+                title: "Parent Progress Conferences",
+                desc: "Quarterly Open House sessions where teachers and parents review student progress cards and design individualized support plans."
+              }
+            ]).map((c, i) => (
+              <div key={i} style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+                <h3 style={{ fontSize: '16px', color: 'var(--navy-header)', margin: '0 0 8px' }}>
+                  {c.title}
+                </h3>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
+                  {c.desc}
+                </p>
+              </div>
+            ))}
           </div>
 
           <div style={{ marginTop: 28, textAlign: 'center' }}>

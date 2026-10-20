@@ -14,6 +14,7 @@ ini_set('display_errors', $isDev ? '1' : '0');
 error_reporting(E_ALL);
 
 // Security Secret Key for Auth Token Signing (Change this for production)
+define('APP_ENV', Env::get('APP_ENV', 'development'));
 define('APP_SECRET', 'karmayogi_vidyaniketan_pandharpur_secure_jwt_token_2026');
 define('APP_NAME', 'Karmayogi Vidyaniketan');
 

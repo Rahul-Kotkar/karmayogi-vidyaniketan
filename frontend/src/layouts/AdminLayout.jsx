@@ -157,7 +157,13 @@ export default function AdminLayout() {
           <line x1="12" y1="16" x2="12" y2="12" />
           <line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
-      )
+      ),
+      children: [
+        { id: 'about_overview', label: 'About School Overview', path: '/admin/about?tab=institute' },
+        { id: 'about_vision', label: 'Vision & Mission', path: '/admin/about?tab=vision' },
+        { id: 'about_principal', label: "Principal's Message", path: '/admin/about?tab=principal' },
+        { id: 'about_council', label: 'School Management', path: '/admin/about?tab=council' }
+      ]
     },
     {
       id: 'admissions',
@@ -174,19 +180,10 @@ export default function AdminLayout() {
       ),
       children: [
         { id: 'adm_overview', label: 'Admissions & Fee Guide', path: '/admin/admissions' },
+        { id: 'adm_fees', label: 'Fee Structure', path: '/admin/admissions?tab=fees' },
+        { id: 'adm_documents', label: 'Required Documents', path: '/admin/admissions?tab=documents' },
         { id: 'adm_enquiries', label: 'Online Enquiries (Inbox)', path: '/admin/messages?filter=admission' }
       ]
-    },
-    {
-      id: 'courses',
-      label: 'COURSES & INTAKE',
-      path: '/admin/courses',
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-        </svg>
-      )
     },
     {
       id: 'faculty',
@@ -260,10 +257,20 @@ export default function AdminLayout() {
           <polyline points="21 15 16 10 5 21" />
         </svg>
       )
+    },
+    {
+      id: 'contact',
+      label: 'CONTACT',
+      path: '/admin/contact',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg>
+      )
     }
   ]
 
-  // Row 2 Menu (Academic & Campus Services with Submenus)
+  // Row 2 Menu (Academic & School Services - EXACT Mirror of Public User Navigation)
   const row2NavItems = [
     {
       id: 'academics',
@@ -276,14 +283,26 @@ export default function AdminLayout() {
         </svg>
       ),
       children: [
-        { id: 'acad_subjects', label: 'Subjects', path: '/admin/academics?tab=subjects' },
-        { id: 'acad_calendar', label: 'Academic Calendar', path: '/admin/academics?tab=calendar' },
-        { id: 'acad_timetable', label: 'Timetable', path: '/admin/academics?tab=timetable' },
-        { id: 'acad_examination', label: 'Examination', path: '/admin/academics?tab=examination' },
-        { id: 'acad_results', label: 'Results', path: '/admin/academics?tab=results' },
-        { id: 'acad_policies', label: 'Academic Policies', path: '/admin/academics?tab=policies' },
-        { id: 'acad_handbook', label: 'Student Handbook', path: '/admin/academics?tab=handbook' }
+        { id: 'acad_overview', label: 'Academic Overview', path: '/admin/academics?tab=overview' },
+        { id: 'acad_preprimary', label: 'Pre-Primary (Nursery, Jr/Sr KG)', path: '/admin/academics?tab=pre-primary' },
+        { id: 'acad_primary', label: 'Primary School (Grades 1-5)', path: '/admin/academics?tab=primary' },
+        { id: 'acad_secondary', label: 'Secondary School (Grades 6-10)', path: '/admin/academics?tab=secondary' },
+        { id: 'acad_methodology', label: 'Teaching Methodology', path: '/admin/academics?tab=methodology' },
+        { id: 'acad_examination', label: 'Examination & Assessment', path: '/admin/academics?tab=examination' },
+        { id: 'acad_subjects', label: 'Curriculum & Subjects', path: '/admin/academics?tab=subjects' },
+        { id: 'acad_calendar', label: 'Academic Calendar', path: '/admin/academics?tab=calendar' }
       ]
+    },
+    {
+      id: 'courses',
+      label: 'CURRICULUM',
+      path: '/admin/courses',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+      )
     },
     {
       id: 'facilities',
@@ -318,19 +337,6 @@ export default function AdminLayout() {
       ]
     },
     {
-      id: 'departments',
-      label: 'DEPARTMENTS',
-      path: '/admin/departments',
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-      )
-    },
-    {
       id: 'student_corner',
       label: 'STUDENT LIFE',
       path: '/admin/student-corner',
@@ -352,28 +358,31 @@ export default function AdminLayout() {
       ]
     },
     {
-      id: 'research',
-      label: 'RESEARCH',
-      path: '/admin/research',
+      id: 'infrastructure',
+      label: 'SCHOOL INFRASTRUCTURE',
+      path: '/admin/facilities?tab=infrastructure',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M10 2v7.31L4.36 21h15.28L14 9.31V2" />
-          <line x1="8.5" y1="2" x2="15.5" y2="2" />
-          <line x1="9" y1="15" x2="15" y2="15" />
+          <polygon points="12 2 2 7 12 12 22 7 12 2" />
+          <polyline points="2 17 12 22 22 17" />
+          <polyline points="2 12 12 17 22 12" />
         </svg>
       )
     },
     {
-      id: 'placement',
-      label: 'PLACEMENT',
-      path: '/admin/training-placement',
+      id: 'admission_enquiry',
+      label: 'ADMISSION ENQUIRY',
+      path: '/admin/messages?filter=admission',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
         </svg>
       )
-    },
+    }
+  ]
+
+  // School Governance & Statutory Disclosures Section
+  const governanceNavItems = [
     {
       id: 'committees',
       label: 'COMMITTEES',
@@ -414,35 +423,6 @@ export default function AdminLayout() {
         { id: 'md_approvals', label: 'Government & Board Approvals', path: '/admin/mandatory-disclosures?tab=approvals' },
         { id: 'md_reports', label: 'Financial & Audit Reports', path: '/admin/mandatory-disclosures?tab=reports' }
       ]
-    },
-    {
-      id: 'iqac_naac',
-      label: 'IQAC / NAAC',
-      path: '/admin/iqac-naac',
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="8" r="7" />
-          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
-        </svg>
-      ),
-      children: [
-        { id: 'iqac_cell', label: 'Internal Quality Assurance Cell', path: '/admin/iqac-naac?tab=iqac' },
-        { id: 'iqac_naac_sub', label: 'NAAC Accreditation', path: '/admin/iqac-naac?tab=naac' },
-        { id: 'iqac_minutes', label: 'Minutes of IQAC', path: '/admin/iqac-naac?tab=minutes' },
-        { id: 'iqac_initiatives', label: 'Quality Initiatives', path: '/admin/iqac-naac?tab=initiatives' },
-        { id: 'iqac_aqar', label: 'Annual Quality Reports (AQAR)', path: '/admin/iqac-naac?tab=aqar' }
-      ]
-    },
-    {
-      id: 'navigation_visibility',
-      label: 'MENU VISIBILITY (ROW 2)',
-      path: '/admin/navigation',
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
-      )
     }
   ]
 
@@ -463,7 +443,7 @@ export default function AdminLayout() {
     },
     {
       id: 'messages',
-      label: 'Contact Messages',
+      label: 'Contact Messages & Enquiries',
       path: '/admin/messages',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -472,8 +452,19 @@ export default function AdminLayout() {
       )
     },
     {
+      id: 'navigation_visibility',
+      label: 'Menu Visibility Controls (Row 2)',
+      path: '/admin/navigation',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      )
+    },
+    {
       id: 'settings',
-      label: 'Website Settings',
+      label: 'Website Settings & Branding',
       path: '/admin/settings',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -549,7 +540,16 @@ export default function AdminLayout() {
     })
   }
 
-  // 4. System & Settings
+  // 4. Governance & Statutory
+  const filteredGov = filterNavItems(governanceNavItems)
+  if (filteredGov.length > 0) {
+    navSections.push({
+      title: 'SCHOOL GOVERNANCE & STATUTORY',
+      items: filteredGov
+    })
+  }
+
+  // 5. System & Settings
   const filteredSystem = filterNavItems(systemNavItems)
   if (filteredSystem.length > 0) {
     navSections.push({

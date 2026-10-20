@@ -10,8 +10,25 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': { target: 'http://localhost:8000', changeOrigin: true },
-      '/uploads': { target: 'http://localhost:8000', changeOrigin: true }
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('error', (err, req, res) => {
+            if (!res.headersSent) {
+              res.writeHead(503, { 'Content-Type': 'application/json' })
+              res.end(JSON.stringify({
+                success: false,
+                message: 'Backend server is not running on http://localhost:8000. Please start it using start-backend.bat (or run "php -S localhost:8000 router.php" in the backend directory).'
+              }))
+            }
+          })
+        }
+      },
+      '/uploads': {
+        target: 'http://localhost:8000',
+        changeOrigin: true
+      }
     }
   }
 })

@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
 import { CheckIcon } from '../components/Icons.jsx'
+import { pagesService, getCachedAcademicsData } from '../services/endpoints.js'
 
 export default function PrimarySchool() {
+  const [data, setData] = useState(() => getCachedAcademicsData()?.primary || null)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const page = await pagesService.getBySlug('academics')
+        if (page?.content_html) {
+          const parsed = JSON.parse(page.content_html)
+          if (parsed?.primary) setData(parsed.primary)
+        }
+      } catch {}
+    }
+    load()
+
+    const onAcademicsUpdated = (e) => {
+      if (e?.detail?.primary) setData(e.detail.primary)
+    }
+    window.addEventListener('academics_updated', onAcademicsUpdated)
+    return () => window.removeEventListener('academics_updated', onAcademicsUpdated)
+  }, [])
+
   return (
     <PageShell title="Primary School Wing" subtitle="Preparatory Stage: Grades 1 to 5 | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -13,13 +35,13 @@ export default function PrimarySchool() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', alignItems: 'center' }}>
             <div style={{ padding: '36px 30px' }}>
               <span style={{ fontSize: '12px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                GRADES 1 TO 5 &bull; PREPARATORY STAGE
+                {data?.badge || 'GRADES 1 TO 5 • PREPARATORY STAGE'}
               </span>
               <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '8px 0 14px' }}>
-                Building Strong Fundamentals, Curiosity &amp; Communication
+                {data?.title || 'Building Strong Fundamentals, Curiosity & Communication'}
               </h2>
               <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.75, marginBottom: 20 }}>
-                In the Primary School years at Karmayogi Vidyaniketan, children transition from foundational play into structured academic inquiry. Our curriculum focuses on solid reading and writing fundamentals across English, Marathi, and Hindi, mental math agility, scientific curiosity through environmental studies, and creative expression through visual arts and junior sports.
+                {data?.lead || 'In the Primary School years at Karmayogi Vidyaniketan, children transition from foundational play into structured academic inquiry. Our curriculum focuses on solid reading and writing fundamentals across English, Marathi, and Hindi, mental math agility, scientific curiosity through environmental studies, and creative expression through visual arts and junior sports.'}
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link to="/admissions" className="btn btn-primary">Admissions Open (Grades 1–5) &rarr;</Link>
@@ -29,7 +51,7 @@ export default function PrimarySchool() {
 
             <div style={{ height: '100%', minHeight: 280, overflow: 'hidden' }}>
               <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80"
+                src={data?.hero_image || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80'}
                 alt="Primary school children learning enthusiastically"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

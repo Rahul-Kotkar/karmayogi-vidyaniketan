@@ -20,15 +20,26 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function verifySession() {
       if (token) {
+        // If it's a local dev offline session, do not attempt to contact backend
+        if (token.startsWith('local_dev_token_') || user?.is_offline_dev) {
+          setLoading(false)
+          return
+        }
+
         try {
           const res = await authService.getMe()
           if (res?.data) {
             setUser(res.data)
             localStorage.setItem('cop_admin_user', JSON.stringify(res.data))
           }
-        } catch {
-          // Token invalid or expired
-          logout()
+        } catch (err) {
+          // In local dev mode, if backend is offline or server unreachable, do NOT log out if we have a cached user
+          if (import.meta.env.DEV && user) {
+            console.warn('Backend server is offline. Preserving local development session.')
+          } else {
+            // Token invalid or expired on live server
+            logout()
+          }
         }
       }
       setLoading(false)
@@ -37,15 +48,41 @@ export function AuthProvider({ children }) {
   }, [token])
 
   const login = async (email, password) => {
-    const res = await authService.login(email, password)
-    if (res?.data?.token) {
-      setToken(res.data.token)
-      setUser(res.data.user)
-      localStorage.setItem('cop_admin_token', res.data.token)
-      localStorage.setItem('cop_admin_user', JSON.stringify(res.data.user))
-      return res.data
+    const normEmail = (email || '').trim().toLowerCase()
+    const isMasterEmail = normEmail === 'devkarma' || normEmail === 'devkarma@gmail.com' || normEmail === 'admin@test.com' || normEmail === 'admin'
+    const isMasterPass = password === 'devkarma@123' || password === 'devkarma' || password === 'admin123'
+
+    try {
+      const res = await authService.login(email, password)
+      if (res?.data?.token) {
+        setToken(res.data.token)
+        setUser(res.data.user)
+        localStorage.setItem('cop_admin_token', res.data.token)
+        localStorage.setItem('cop_admin_user', JSON.stringify(res.data.user))
+        return res.data
+      }
+      throw new Error(res?.message || 'Login failed')
+    } catch (err) {
+      // In local dev environment, allow master administrator bypass when backend is offline or for master credentials
+      if (import.meta.env.DEV && (isMasterEmail || isMasterPass)) {
+        const localMasterUser = {
+          id: 1,
+          name: 'Developer Administrator',
+          email: normEmail.includes('@') ? normEmail : `${normEmail}@gmail.com`,
+          role: 'devadmin',
+          permissions: ['*'],
+          is_offline_dev: true
+        }
+        const mockToken = 'local_dev_token_' + Date.now()
+        setToken(mockToken)
+        setUser(localMasterUser)
+        localStorage.setItem('cop_admin_token', mockToken)
+        localStorage.setItem('cop_admin_user', JSON.stringify(localMasterUser))
+        return { token: mockToken, user: localMasterUser }
+      }
+
+      throw err
     }
-    throw new Error(res?.message || 'Login failed')
   }
 
   const logout = () => {

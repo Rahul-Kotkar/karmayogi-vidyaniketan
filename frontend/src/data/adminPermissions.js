@@ -11,19 +11,34 @@ export const ADMIN_PERMISSION_GROUPS = [
       { id: 'dashboard', label: 'Dashboard Overview', path: '/admin/dashboard' },
       { id: 'home', label: 'Homepage Settings & Slides', path: '/admin/home' },
       {
+        id: 'about',
+        label: 'About School Overview',
+        path: '/admin/about',
+        submenus: [
+          { id: 'about_overview', label: 'About School Overview', path: '/admin/about?tab=institute' },
+          { id: 'about_vision', label: 'Vision & Mission', path: '/admin/about?tab=vision' },
+          { id: 'about_principal', label: "Principal's Message", path: '/admin/about?tab=principal' },
+          { id: 'about_council', label: 'School Management', path: '/admin/about?tab=council' }
+        ]
+      },
+      {
         id: 'admissions',
         label: 'Admissions Desk & Fees',
         path: '/admin/admissions',
         submenus: [
           { id: 'adm_overview', label: 'Admissions & Fee Guide', path: '/admin/admissions' },
+          { id: 'adm_fees', label: 'Fee Structure', path: '/admin/admissions?tab=fees' },
+          { id: 'adm_documents', label: 'Required Documents', path: '/admin/admissions?tab=documents' },
           { id: 'adm_enquiries', label: 'Online Enquiries (Inbox)', path: '/admin/messages?filter=admission' }
         ]
       },
       { id: 'faculty', label: 'Faculty & Staff Roster', path: '/admin/faculty' },
       { id: 'notices', label: 'Circulars & Official Notices', path: '/admin/notices' },
       { id: 'news', label: 'News & Announcements', path: '/admin/news' },
+      { id: 'achievements', label: 'Student & School Achievements', path: '/admin/achievements' },
       { id: 'events', label: 'Campus Events & Workshops', path: '/admin/events' },
       { id: 'gallery', label: 'Photo Gallery & Albums', path: '/admin/gallery' },
+      { id: 'contact', label: 'School Contact & Helpdesk', path: '/admin/contact' },
       { id: 'messages', label: 'Enquiry Contact Messages', path: '/admin/messages' },
       { id: 'activity_logs', label: 'User Activity & Audit Logs', path: '/admin/logs' },
       { id: 'settings', label: 'Website Identity Settings', path: '/admin/settings' }
@@ -38,14 +53,20 @@ export const ADMIN_PERMISSION_GROUPS = [
         label: 'Academics Management',
         path: '/admin/academics',
         submenus: [
-          { id: 'acad_subjects', label: 'Subjects', path: '/admin/academics?tab=subjects' },
-          { id: 'acad_calendar', label: 'Academic Calendar', path: '/admin/academics?tab=calendar' },
-          { id: 'acad_timetable', label: 'Timetable', path: '/admin/academics?tab=timetable' },
-          { id: 'acad_examination', label: 'Examination', path: '/admin/academics?tab=examination' },
-          { id: 'acad_results', label: 'Results', path: '/admin/academics?tab=results' },
-          { id: 'acad_policies', label: 'Academic Policies', path: '/admin/academics?tab=policies' },
-          { id: 'acad_handbook', label: 'Student Handbook', path: '/admin/academics?tab=handbook' }
+          { id: 'acad_overview', label: 'Academic Overview', path: '/admin/academics?tab=overview' },
+          { id: 'acad_preprimary', label: 'Pre-Primary (Nursery, Jr/Sr KG)', path: '/admin/academics?tab=pre-primary' },
+          { id: 'acad_primary', label: 'Primary School (Grades 1-5)', path: '/admin/academics?tab=primary' },
+          { id: 'acad_secondary', label: 'Secondary School (Grades 6-10)', path: '/admin/academics?tab=secondary' },
+          { id: 'acad_methodology', label: 'Teaching Methodology', path: '/admin/academics?tab=methodology' },
+          { id: 'acad_examination', label: 'Examination & Assessment', path: '/admin/academics?tab=examination' },
+          { id: 'acad_subjects', label: 'Curriculum & Subjects Directory', path: '/admin/academics?tab=subjects' },
+          { id: 'acad_calendar', label: 'Academic Calendar', path: '/admin/academics?tab=calendar' }
         ]
+      },
+      {
+        id: 'courses',
+        label: 'Curriculum & Grade Structure',
+        path: '/admin/courses'
       },
       {
         id: 'facilities',

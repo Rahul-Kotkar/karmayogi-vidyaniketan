@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
 import { CheckIcon } from '../components/Icons.jsx'
+import { pagesService, getCachedAcademicsData } from '../services/endpoints.js'
 
 export default function SecondarySchool() {
+  const [data, setData] = useState(() => getCachedAcademicsData()?.secondary || null)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const page = await pagesService.getBySlug('academics')
+        if (page?.content_html) {
+          const parsed = JSON.parse(page.content_html)
+          if (parsed?.secondary) setData(parsed.secondary)
+        }
+      } catch {}
+    }
+    load()
+
+    const onAcademicsUpdated = (e) => {
+      if (e?.detail?.secondary) setData(e.detail.secondary)
+    }
+    window.addEventListener('academics_updated', onAcademicsUpdated)
+    return () => window.removeEventListener('academics_updated', onAcademicsUpdated)
+  }, [])
+
   return (
     <PageShell title="Secondary School Wing" subtitle="Middle &amp; Secondary Stage: Grades 6 to 10 • CBSE &amp; State Board Tracks | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -13,13 +35,13 @@ export default function SecondarySchool() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', alignItems: 'center' }}>
             <div style={{ padding: '36px 30px' }}>
               <span style={{ fontSize: '12px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                GRADES 6 TO 10 &bull; BOARD EXAMINATIONS EXCELLENCE
+                {data?.badge || 'GRADES 6 TO 10 • BOARD EXAMINATIONS EXCELLENCE'}
               </span>
               <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '8px 0 14px' }}>
-                Structured Academic Rigor &amp; Future Readiness
+                {data?.title || 'Structured Academic Rigor & Future Readiness'}
               </h2>
               <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.75, marginBottom: 20 }}>
-                The Secondary School Wing of Karmayogi Vidyaniketan provides a disciplined, intellectually demanding, and supportive environment for students from <strong>Grade 6 through Grade 10</strong>. Aligned with national CBSE and Maharashtra State Board standards, our curriculum blends extensive laboratory practicals, advanced mathematics, social science debates, and cutting-edge STEM, AI &amp; Robotics exposure.
+                {data?.lead || 'The Secondary School Wing of Karmayogi Vidyaniketan provides a disciplined, intellectually demanding, and supportive environment for students from Grade 6 through Grade 10. Aligned with national CBSE and Maharashtra State Board standards, our curriculum blends extensive laboratory practicals, advanced mathematics, social science debates, and cutting-edge STEM, AI & Robotics exposure.'}
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link to="/admissions" className="btn btn-primary">Admissions Open 2026–27 &rarr;</Link>
@@ -29,7 +51,7 @@ export default function SecondarySchool() {
 
             <div style={{ height: '100%', minHeight: 280, overflow: 'hidden' }}>
               <img
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80"
+                src={data?.hero_image || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80'}
                 alt="Secondary students engaged in academic discussions"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

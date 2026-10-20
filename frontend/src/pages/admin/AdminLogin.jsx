@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth.jsx'
 import officialLogo from '../../assets/pandharpur_logo.jpg'
@@ -9,11 +9,17 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
+  const { login, isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
   const from = location.state?.from?.pathname || '/admin/dashboard'
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin/dashboard', { replace: true })
+    }
+  }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

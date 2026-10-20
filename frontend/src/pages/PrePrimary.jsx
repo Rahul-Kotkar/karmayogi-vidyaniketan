@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link } from 'react-router-dom'
 import { CheckIcon } from '../components/Icons.jsx'
+import { pagesService, getCachedAcademicsData } from '../services/endpoints.js'
 
 export default function PrePrimary() {
+  const [data, setData] = useState(() => getCachedAcademicsData()?.pre_primary || null)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const page = await pagesService.getBySlug('academics')
+        if (page?.content_html) {
+          const parsed = JSON.parse(page.content_html)
+          if (parsed?.pre_primary) setData(parsed.pre_primary)
+        }
+      } catch {}
+    }
+    load()
+
+    const onAcademicsUpdated = (e) => {
+      if (e?.detail?.pre_primary) setData(e.detail.pre_primary)
+    }
+    window.addEventListener('academics_updated', onAcademicsUpdated)
+    return () => window.removeEventListener('academics_updated', onAcademicsUpdated)
+  }, [])
+
   return (
     <PageShell title="Pre-Primary Wing" subtitle="Foundational Stage: Nursery, Junior KG &amp; Senior KG | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -13,13 +35,13 @@ export default function PrePrimary() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', alignItems: 'center' }}>
             <div style={{ padding: '36px 30px' }}>
               <span style={{ fontSize: '12px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                EARLY CHILDHOOD EDUCATION (AGES 3–6)
+                {data?.badge || 'EARLY CHILDHOOD EDUCATION (AGES 3–6)'}
               </span>
               <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '8px 0 14px' }}>
-                Joyful, Play-Way Foundational Learning
+                {data?.title || 'Joyful, Play-Way Foundational Learning'}
               </h2>
               <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.75, marginBottom: 20 }}>
-                At Karmayogi Vidyaniketan, our Pre-Primary wing comprises <strong>Nursery, Junior KG and Senior KG</strong>. We believe early childhood should be filled with laughter, sensory exploration, curiosity, and warmth. Our child-centric play-way curriculum lays a solid foundation in language, numbers, motor coordination, and social empathy.
+                {data?.lead || 'At Karmayogi Vidyaniketan, our Pre-Primary wing comprises Nursery, Junior KG and Senior KG. We believe early childhood should be filled with laughter, sensory exploration, curiosity, and warmth. Our child-centric play-way curriculum lays a solid foundation in language, numbers, motor coordination, and social empathy.'}
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link to="/admissions" className="btn btn-primary">Enroll Your Child &rarr;</Link>
@@ -29,7 +51,7 @@ export default function PrePrimary() {
 
             <div style={{ height: '100%', minHeight: 280, overflow: 'hidden' }}>
               <img
-                src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80"
+                src={data?.hero_image || 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80'}
                 alt="Pre-primary children engaged in activity learning"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
