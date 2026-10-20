@@ -226,6 +226,17 @@ export default function AdminLayout() {
       )
     },
     {
+      id: 'achievements',
+      label: 'ACHIEVEMENTS',
+      path: '/admin/achievements',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="8" r="7" />
+          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+        </svg>
+      )
+    },
+    {
       id: 'events',
       label: 'EVENTS',
       path: '/admin/events',
@@ -377,13 +388,11 @@ export default function AdminLayout() {
       ),
       children: [
         { id: 'com_overview', label: 'Overview of Committees', path: '/admin/committees' },
-        { id: 'com_antiragging', label: 'Anti-Ragging Committee', path: '/admin/committees?tab=anti-ragging' },
-        { id: 'com_icc', label: 'Internal Complaints Committee (ICC)', path: '/admin/committees?tab=icc' },
-        { id: 'com_council', label: 'College Council', path: '/admin/committees?tab=college-council' },
-        { id: 'com_grievance', label: 'Grievance Redressal Committee', path: '/admin/committees?tab=grievance' },
-        { id: 'com_ethics', label: 'Institutional Ethics Committee (IEC)', path: '/admin/committees?tab=ethics' },
-        { id: 'com_welfare', label: 'Student Welfare & Mentorship', path: '/admin/committees?tab=student-welfare' },
-        { id: 'com_library', label: 'Library Committee', path: '/admin/committees?tab=library' }
+        { id: 'com_smc', label: 'School Managing Committee (SMC)', path: '/admin/committees?tab=smc' },
+        { id: 'com_pta', label: 'Parent-Teacher Association (PTA)', path: '/admin/committees?tab=pta' },
+        { id: 'com_pocso', label: 'Child Safety & Protection (POCSO)', path: '/admin/committees?tab=pocso-safety' },
+        { id: 'com_antibullying', label: 'Anti-Bullying & Disciplinary', path: '/admin/committees?tab=anti-bullying' },
+        { id: 'com_academic', label: 'Academic Quality Council', path: '/admin/committees?tab=academic-council' }
       ]
     },
     {
@@ -400,11 +409,10 @@ export default function AdminLayout() {
         </svg>
       ),
       children: [
-        { id: 'md_muhs', label: 'MUHS Mandates & Affiliation', path: '/admin/mandatory-disclosures/muhs' },
-        { id: 'md_dmer', label: 'DMER Directives', path: '/admin/mandatory-disclosures/dmer' },
-        { id: 'md_audited', label: 'Audited Statements', path: '/admin/mandatory-disclosures/audited-statements' },
-        { id: 'md_fra', label: 'FRA Approved Fees', path: '/admin/mandatory-disclosures/fra-fees' },
-        { id: 'md_statutory', label: 'Statutory Regulatory Orders', path: '/admin/mandatory-disclosures/statutory-orders' }
+        { id: 'md_muhs', label: 'Statutory & Board Mandates', path: '/admin/mandatory-disclosures?tab=muhs' },
+        { id: 'md_policies', label: 'Institutional Policies', path: '/admin/mandatory-disclosures?tab=policies' },
+        { id: 'md_approvals', label: 'Government & Board Approvals', path: '/admin/mandatory-disclosures?tab=approvals' },
+        { id: 'md_reports', label: 'Financial & Audit Reports', path: '/admin/mandatory-disclosures?tab=reports' }
       ]
     },
     {
@@ -689,17 +697,54 @@ export default function AdminLayout() {
         </div>
       </aside>
 
+      {/* Mobile Drawer Overlay */}
+      {sidebarOpen && (
+        <div
+          className="admin-sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+          title="Close Navigation Drawer"
+        />
+      )}
+
       {/* Main Container */}
       <div className="admin-main">
         {/* Top Header */}
         <header className="admin-topbar">
           <div className="admin-topbar-left">
+            <button
+              type="button"
+              className="admin-mobile-toggle"
+              onClick={() => setSidebarOpen(prev => !prev)}
+              aria-label="Toggle Navigation Drawer"
+              title="Toggle Navigation Menu"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
             <div className="admin-topbar-title">
-              Karmayogi Vidyaniketan - Admin Panel
+              Karmayogi Vidyaniketan • Admin Panel
             </div>
           </div>
 
           <div className="admin-topbar-right">
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="admin-btn-link"
+              title="View live website in a new tab"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              <span>View Website</span>
+            </a>
+
             <div className="admin-status-online">
               <span className="admin-online-dot" style={{ background: '#22c55e' }}></span>
               <span>Logged in as <strong>{user?.name || 'Administrator'}</strong></span>

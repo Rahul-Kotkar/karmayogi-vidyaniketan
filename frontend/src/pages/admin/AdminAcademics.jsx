@@ -4,22 +4,21 @@ import { pagesService, uploadService, setCachedAcademicsData } from '../../servi
 import { DEFAULT_ACADEMICS_DATA } from '../../data/collegeData.js'
 
 const YEAR_OPTIONS = [
-  { key: 'year-1', label: 'First Year BPT' },
-  { key: 'year-2', label: 'Second Year BPT' },
-  { key: 'year-3', label: 'Third Year BPT' },
-  { key: 'year-4', label: 'Final Year BPT' }
+  { key: 'pre-primary', label: 'Pre-Primary Wing (Nursery, Jr/Sr KG)' },
+  { key: 'primary', label: 'Primary School (Grades 1 to 5)' },
+  { key: 'middle', label: 'Middle School (Grades 6 to 8)' },
+  { key: 'secondary', label: 'Secondary School (Grades 9 & 10)' }
 ]
 
 const DEPARTMENT_OPTIONS = [
-  'Department of Foundational Medical Sciences',
-  'Department of Kinesiotherapy & Physical Diagnosis',
-  'Department of Electrotherapy & Electrodiagnosis',
-  'Department of Musculoskeletal Physiotherapy',
-  'Department of Neuro Physiotherapy',
-  'Department of Cardiovascular & Respiratory Physiotherapy',
-  'Department of Community Physiotherapy',
-  'Department of Pediatric Physiotherapy',
-  'Department of Sports Physiotherapy'
+  'Department of Foundational & Early Childhood Education',
+  'Department of Languages & Literature (English, Marathi, Hindi)',
+  'Department of Mathematics & Vedic Math',
+  'Department of Science & STEM Investigations',
+  'Department of Social Sciences & Environmental Studies',
+  'Department of Computer Science, AI & Robotics',
+  'Department of Physical Education, Yoga & Sports',
+  'Department of Visual Arts, Music & Cultural Expression'
 ]
 
 export default function AdminAcademics() {
@@ -47,8 +46,8 @@ export default function AdminAcademics() {
   const [subjectForm, setSubjectForm] = useState({
     name: '',
     abbr: '',
-    yearKey: 'year-1',
-    yearLabel: 'First Year BPT',
+    yearKey: 'pre-primary',
+    yearLabel: 'Pre-Primary Wing (Nursery, Jr/Sr KG)',
     order: 1,
     departmentName: '',
     description: '',

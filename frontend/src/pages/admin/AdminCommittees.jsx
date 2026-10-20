@@ -35,21 +35,17 @@ export default function AdminCommittees() {
     let idx = list.findIndex(c => (c.id || '').toLowerCase() === cleanTab)
     if (idx !== -1) return idx
 
-    // 2. Known alias / keywords match for standard sidebar items
-    if (cleanTab === 'anti-ragging') {
-      idx = list.findIndex(c => (c.id || '').includes('anti-ragging') || (c.name || '').toLowerCase().includes('anti-ragging'))
-    } else if (cleanTab === 'icc') {
-      idx = list.findIndex(c => (c.id || '').includes('icc') || (c.name || '').toLowerCase().includes('internal complaints') || (c.name || '').toLowerCase().includes('icc'))
-    } else if (cleanTab === 'college-council') {
-      idx = list.findIndex(c => (c.id || '').includes('council') || (c.name || '').toLowerCase().includes('council'))
-    } else if (cleanTab === 'grievance') {
-      idx = list.findIndex(c => (c.id || '').includes('grievance') || (c.name || '').toLowerCase().includes('grievance'))
-    } else if (cleanTab === 'ethics') {
-      idx = list.findIndex(c => (c.id || '').includes('ethics') || (c.name || '').toLowerCase().includes('ethics'))
-    } else if (cleanTab === 'student-welfare') {
-      idx = list.findIndex(c => (c.id || '').includes('welfare') || (c.name || '').toLowerCase().includes('welfare'))
-    } else if (cleanTab === 'library') {
-      idx = list.findIndex(c => (c.id || '').includes('library') || (c.name || '').toLowerCase().includes('library'))
+    // 2. School committees keywords / aliases
+    if (cleanTab === 'smc' || cleanTab === 'managing') {
+      idx = list.findIndex(c => (c.id || '').includes('smc') || (c.name || '').toLowerCase().includes('managing'))
+    } else if (cleanTab === 'pta' || cleanTab === 'parent-teacher') {
+      idx = list.findIndex(c => (c.id || '').includes('pta') || (c.name || '').toLowerCase().includes('parent-teacher') || (c.name || '').toLowerCase().includes('pta'))
+    } else if (cleanTab === 'pocso' || cleanTab === 'pocso-safety' || cleanTab === 'child-safety') {
+      idx = list.findIndex(c => (c.id || '').includes('pocso') || (c.name || '').toLowerCase().includes('pocso') || (c.name || '').toLowerCase().includes('safety'))
+    } else if (cleanTab === 'anti-bullying' || cleanTab === 'discipline') {
+      idx = list.findIndex(c => (c.id || '').includes('anti-bullying') || (c.name || '').toLowerCase().includes('bullying') || (c.name || '').toLowerCase().includes('discipline'))
+    } else if (cleanTab === 'academic-council' || cleanTab === 'examination') {
+      idx = list.findIndex(c => (c.id || '').includes('academic') || (c.name || '').toLowerCase().includes('academic') || (c.name || '').toLowerCase().includes('examination'))
     }
     if (idx !== -1) return idx
 

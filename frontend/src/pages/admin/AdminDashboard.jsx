@@ -38,7 +38,7 @@ export default function AdminDashboard() {
 
   const cards = [
     {
-      label: 'COLLEGE NEWS',
+      label: 'SCHOOL NEWS',
       val: 4,
       linkText: 'Manage news, media & featured stories',
       path: '/admin/news',
@@ -155,9 +155,9 @@ export default function AdminDashboard() {
       )
     },
     {
-      label: 'LIVE COURSES',
+      label: 'PROGRAMS & COURSES',
       val: stats.counts.courses ?? 3,
-      linkText: 'Manage courses',
+      linkText: 'Manage courses & grade levels',
       path: '/admin/courses',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -167,9 +167,9 @@ export default function AdminDashboard() {
       )
     },
     {
-      label: 'ACADEMIC DEPARTMENTS',
+      label: 'ACADEMIC WINGS',
       val: 5,
-      linkText: 'Manage departments',
+      linkText: 'Manage academic wings & depts',
       path: '/admin/departments',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

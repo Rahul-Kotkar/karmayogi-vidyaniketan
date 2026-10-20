@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSearchParams, useLocation } from 'react-router-dom'
 import { pagesService, uploadService, getCachedDisclosuresData, setCachedDisclosuresData } from '../../services/endpoints.js'
 import { DEFAULT_MANDATORY_DISCLOSURES } from '../../data/collegeData.js'
 
@@ -18,11 +19,36 @@ function getInitialData() {
 }
 
 export default function AdminMandatoryDisclosures() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
   const [data, setData] = useState(getInitialData)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState({ text: '', type: '' })
   const [activeTab, setActiveTab] = useState('muhs')
+
+  // Sync activeTab with URL search param or route path
+  useEffect(() => {
+    const qTab = searchParams.get('tab')
+    const subpath = location.pathname.toLowerCase()
+
+    if (qTab && ['muhs', 'policies', 'approvals', 'reports'].includes(qTab)) {
+      setActiveTab(qTab)
+    } else if (subpath.includes('policies')) {
+      setActiveTab('policies')
+    } else if (subpath.includes('approvals') || subpath.includes('dmer') || subpath.includes('fra') || subpath.includes('statutory')) {
+      setActiveTab('approvals')
+    } else if (subpath.includes('reports') || subpath.includes('audited')) {
+      setActiveTab('reports')
+    } else if (subpath.includes('muhs')) {
+      setActiveTab('muhs')
+    }
+  }, [searchParams, location.pathname])
+
+  const handleTabChange = (tabKey) => {
+    setActiveTab(tabKey)
+    setSearchParams({ tab: tabKey })
+  }
 
   // MUHS Academic Year State
   const sortedYears = [...(data.muhs || [])].sort((a, b) => {
@@ -395,10 +421,10 @@ export default function AdminMandatoryDisclosures() {
       <div className="admin-tabs" style={{ marginBottom: 24 }}>
         <button
           type="button"
-          onClick={() => setActiveTab('muhs')}
+          onClick={() => handleTabChange('muhs')}
           className={`admin-tab-btn ${activeTab === 'muhs' ? 'active' : ''}`}
         >
-          <span>MUHS Mandates (Year-wise)</span>
+          <span>Statutory &amp; Board Mandates</span>
           <span className="admin-tab-count">
             {sortedYears.reduce((sum, y) => sum + (y.documents?.length || 0), 0)}
           </span>
@@ -406,7 +432,7 @@ export default function AdminMandatoryDisclosures() {
 
         <button
           type="button"
-          onClick={() => setActiveTab('policies')}
+          onClick={() => handleTabChange('policies')}
           className={`admin-tab-btn ${activeTab === 'policies' ? 'active' : ''}`}
         >
           <span>Institutional Policies</span>
@@ -415,19 +441,19 @@ export default function AdminMandatoryDisclosures() {
 
         <button
           type="button"
-          onClick={() => setActiveTab('approvals')}
+          onClick={() => handleTabChange('approvals')}
           className={`admin-tab-btn ${activeTab === 'approvals' ? 'active' : ''}`}
         >
-          <span>Government Approvals</span>
+          <span>Government &amp; Board Approvals</span>
           <span className="admin-tab-count">{data.approvals?.length || 0}</span>
         </button>
 
         <button
           type="button"
-          onClick={() => setActiveTab('reports')}
+          onClick={() => handleTabChange('reports')}
           className={`admin-tab-btn ${activeTab === 'reports' ? 'active' : ''}`}
         >
-          <span>Financial Audits</span>
+          <span>Financial &amp; Audit Reports</span>
           <span className="admin-tab-count">{data.reports?.length || 0}</span>
         </button>
       </div>

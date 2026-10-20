@@ -11,10 +11,10 @@ export default function AdminEvents() {
 
   const [form, setForm] = useState({
     title: '',
-    event_type: 'Conference',
+    event_type: 'Cultural',
     date: new Date().toISOString().split('T')[0],
     time: '10:00 AM - 04:00 PM',
-    venue: 'College Auditorium',
+    venue: 'School Auditorium',
     description: '',
     image_url: '',
     is_published: 1
@@ -53,10 +53,10 @@ export default function AdminEvents() {
       setEditingEvent(null)
       setForm({
         title: '',
-        event_type: 'Conference',
+        event_type: 'Cultural',
         date: new Date().toISOString().split('T')[0],
         time: '10:00 AM - 04:00 PM',
-        venue: 'College Auditorium',
+        venue: 'School Auditorium',
         description: '',
         image_url: '',
         is_published: 1
@@ -276,7 +276,7 @@ export default function AdminEvents() {
                       className="admin-input"
                       value={form.venue}
                       onChange={e => setForm({ ...form, venue: e.target.value })}
-                      placeholder="e.g. College Auditorium"
+                      placeholder="e.g. School Auditorium"
                     />
                   </div>
                 </div>

@@ -16,7 +16,7 @@ export default function AdminFaculty() {
     department_id: '',
     name: '',
     designation: '',
-    program_badge: 'BPT',
+    program_badge: 'CBSE / State',
     qualification: '',
     specialization: '',
     experience: '',
@@ -481,10 +481,10 @@ export default function AdminFaculty() {
                         className="admin-input"
                         value={form.program_badge}
                         onChange={e => setForm({ ...form, program_badge: e.target.value })}
-                        placeholder="e.g. BPT, MPT, B.PHARM"
+                        placeholder="e.g. CBSE / State, Pre-Primary, Primary"
                       />
-                      <div style={{ display: 'flex', gap: 4, marginTop: 4 }}>
-                        {['BPT', 'MPT', 'Ph.D', 'B.PHARM'].map(badge => (
+                      <div style={{ display: 'flex', gap: 4, marginTop: 4, flexWrap: 'wrap' }}>
+                        {['CBSE / State', 'Pre-Primary', 'Primary', 'Secondary', 'STEM / Sports'].map(badge => (
                           <button
                             key={badge}
                             type="button"

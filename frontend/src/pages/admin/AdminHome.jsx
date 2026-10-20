@@ -16,17 +16,17 @@ export default function AdminHome() {
     // About Section
     about_sub: 'ABOUT KARMAYOGI',
     about_title: 'Education with purpose, practice, and perspective',
-    about_p1: 'Karmayogi College of Physiotherapy nurtures clinical capability alongside curiosity, confidence, and professional responsibility in a focused academic environment.',
-    about_p2: 'Approved by the Directorate of Medical Education and Research (DMER), Mumbai, the institution offers state-of-the-art laboratories, extensive clinical postings, and a dedicated academic faculty.',
-    about_p3: 'With experienced faculty, modern laboratories, an attached hospital and a strong research culture, the institution trains competent, compassionate physiotherapists who serve communities across the region and the country.',
-    about_btn_text: 'Discover Our Institute →',
+    about_p1: 'Karmayogi Vidyaniketan, widely known as Karmayogi Public School, is a co-educational institution located in Pandharpur, Solapur district, Maharashtra, operating under the visionary management of Shri Pandurang Pratishthan.',
+    about_p2: 'The school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship across CBSE and State Board curriculum tracks.',
+    about_p3: 'With smart classrooms, experiential science and robotics laboratories, comprehensive sports grounds, and caring educators, Karmayogi Vidyaniketan prepares students to excel in higher education and life.',
+    about_btn_text: 'Discover Our School →',
     about_btn_link: '/about',
 
     // Floating Highlights Strip
-    highlight_1: 'Established in 2008',
-    highlight_2: 'Physiotherapy Education',
-    highlight_3: 'Industry-Focused Learning',
-    highlight_4: 'Vibrant Campus Life',
+    highlight_1: 'Managed by Shri Pandurang Pratishthan',
+    highlight_2: 'English Medium • Nursery to Grade 10',
+    highlight_3: 'CBSE & State Board Tracks',
+    highlight_4: 'Safe GPS-Monitored Bus Fleet',
 
     // Why Karmayogi Section
     why_tag: 'WHY KARMAYOGI',
@@ -34,30 +34,28 @@ export default function AdminHome() {
     why_items: DEFAULT_WHY_ITEMS,
 
     // Stats
-    stat_1_val: '25+', stat_1_lbl: 'Years of Excellence',
-    stat_2_val: '1500+', stat_2_lbl: 'Alumni Physiotherapists',
-    stat_3_val: '30+', stat_3_lbl: 'Experienced Faculty',
-    stat_4_val: 'Grade A', stat_4_lbl: 'Accreditation & Recognition',
+    stat_1_val: '100%', stat_1_lbl: 'Board Pass Record',
+    stat_2_val: '24+', stat_2_lbl: 'Curriculum Subjects',
+    stat_3_val: '30+', stat_3_lbl: 'Dedicated Teachers',
+    stat_4_val: '100%', stat_4_lbl: 'Child Safety & Care',
 
     // Principal
     principal_sub: 'From the Desk of',
     principal_title: "Principal's Message",
-    principal_name: 'Dr. S. P. Deshmukh',
-    principal_designation: 'Principal, MPT (Ortho), Ph.D.\nKarmayogi College of Physiotherapy',
+    principal_name: 'Mr. Vijay Madane',
+    principal_designation: 'Principal / Academic Director\nKarmayogi Vidyaniketan (Karmayogi Public School)',
     principal_photo_url: '',
     principal_btn_text: 'Read More →',
     principal_btn_link: '/about',
-    principal_message: `Dear Students, Parents and Well-wishers,
+    principal_message: `Dear Parents, Students and Well-Wishers,
 
-It gives me immense pleasure to welcome you to Karmayogi College of Physiotherapy, Shelve, Pandharpur. Physiotherapy is a noble profession dedicated to restoring movement, relieving pain, and improving the quality of life of every patient we serve.
+It gives me immense pleasure to welcome you to Karmayogi Vidyaniketan (widely known as Karmayogi Public School), Pandharpur, operating under the visionary management of Shri Pandurang Pratishthan. Schooling is the sacred crucible where a child's character, intellect, curiosity, discipline, and emotional values take permanent shape.
 
-Our institution strives to blend strong academic foundations with rigorous clinical training, ethical medical practice, and meaningful rehabilitation research. Our students learn not only the science of rehabilitation but also the art of compassionate patient care. I invite you to join us in this journey of healing and service.
+Our school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship. We combine modern smart classrooms, experiential science laboratories, and state-of-the-art STEM, AI and Robotics exposure with timeless Indian values and culture.
 
-Our distinguished faculty team brings decades of clinical expertise across Orthopaedic Physiotherapy, Neurosciences, Cardiopulmonary Rehabilitation, Sports Medicine, and Community Rehabilitation. With cutting-edge electrotherapy modalities, biomechanics laboratories, and specialized kinesiology gymnasiums, we ensure that every student gains extensive practical acumen right from their foundational years.
+From our nurturing Pre-Primary foundational wing (Nursery, Jr. KG, Sr. KG) through our activity-rich Primary school and structured Secondary school board examination tracks (CBSE & State Board), our experienced teaching faculty mentors every learner with individualized attention, patience, and encouraging guidance.
 
-Through direct hands-on bedside postings at our multi-specialty teaching hospital, rural healthcare outreach camps, and evidence-based clinical case presentations, our students cultivate decisive clinical reasoning and deep empathy. We take pride in mentoring graduates who excel in hospital networks, private rehabilitation centers, sports organizations, and postgraduate research institutions nationwide.
-
-As we continually advance our academic programs in accordance with MUHS and national healthcare standards, I welcome you to explore our vibrant campus and partner with us in shaping the future of rehabilitative medicine.`,
+Alongside academic rigor, we provide expansive sports grounds, athletic coaching, vibrant cultural festivals, and reliable school bus transportation. I warmly invite you to explore our campuses and join hands with us in shaping bright young minds for a fulfilling future.`,
 
     // Campus Life Feature (After Principal's Desk)
     campus_life_eyebrow: 'CAMPUS LIFE',
