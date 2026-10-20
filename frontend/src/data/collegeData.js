@@ -99,16 +99,16 @@ export const ROW_2_NAV = [
     label: "FACILITIES",
     path: "/facilities",
     children: [
-      { label: "Facilities Overview", path: "/facilities" },
-      { label: "Infrastructure Overview", path: "/infrastructure" },
+      { label: "Facilities Overview", path: "/facilities#overview" },
+      { label: "Infrastructure Overview", path: "/facilities#infrastructure" },
       { label: "Smart Classrooms", path: "/facilities#smart-classrooms" },
-      { label: "Science Laboratories", path: "/labs#science" },
-      { label: "Computer Laboratory", path: "/labs#computer" },
-      { label: "STEM Laboratory", path: "/labs#stem" },
-      { label: "AI & Robotics Lab", path: "/labs#robotics" },
-      { label: "Digital Library", path: "/facilities#library" },
-      { label: "Transportation Fleet", path: "/transport" },
-      { label: "Sports Facilities", path: "/sports-facilities" }
+      { label: "Science Laboratories", path: "/facilities#science-labs" },
+      { label: "Computer Laboratory", path: "/facilities#computer-lab" },
+      { label: "STEM Laboratory", path: "/facilities#stem-lab" },
+      { label: "AI & Robotics Lab", path: "/facilities#ai-robotics" },
+      { label: "Digital Library", path: "/facilities#digital-library" },
+      { label: "Transportation Fleet", path: "/facilities#transportation" },
+      { label: "Sports Facilities", path: "/facilities#sports-facilities" }
     ]
   },
   {

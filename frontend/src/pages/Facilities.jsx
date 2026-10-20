@@ -1,11 +1,26 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { FACILITIES as FALLBACK_FACILITIES, COLLEGE } from '../data/collegeData.js'
 import { facilitiesService, getCachedFacilities, setCachedFacilities } from '../services/endpoints.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 const SCHOOL_FACILITY_METADATA = {
+  'infrastructure': {
+    aliases: ['infrastructure', 'campus-infrastructure', 'school-infrastructure'],
+    title: 'Infrastructure Overview',
+    badge: 'Modern Two-Campus Setup',
+    img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+    lead: 'Spacious, purpose-built multi-acre campuses at Isbavi (Foundation Campus) and Shelve (Main High School Campus) featuring child-safe infrastructure, ventilated classrooms, and expansive playgrounds.',
+    features: [
+      'Two dedicated campuses: Primary / Foundation at Isbavi and High School at Shelve.',
+      'Naturally ventilated, sunlit classrooms and child-safe ergonomic furniture.',
+      'Comprehensive campus safety: 24x7 CCTV surveillance, boundary walls, and security guards.',
+      'Generator power backup and purified UV/RO drinking water stations across campuses.'
+    ],
+    incharge: 'Campus Estate & Infrastructure Officer',
+    hours: '7:30 AM to 6:00 PM'
+  },
   'smart-classrooms': {
     aliases: ['classrooms', 'smart-classrooms'],
     title: 'Smart Classrooms',
@@ -22,7 +37,7 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '8:00 AM to 2:00 PM (Monday to Saturday)'
   },
   'science-labs': {
-    aliases: ['labs', 'science-laboratories', 'science-labs'],
+    aliases: ['labs', 'science-laboratories', 'science-labs', 'science'],
     title: 'Science Laboratories',
     badge: 'Hands-on Scientific Learning',
     img: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80',
@@ -37,7 +52,7 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '8:00 AM to 2:00 PM'
   },
   'computer-lab': {
-    aliases: ['computer-laboratory', 'it-lab'],
+    aliases: ['computer-laboratory', 'computer-lab', 'computer', 'it-lab'],
     title: 'Computer Laboratory',
     badge: 'Digital Education & Coding Hub',
     img: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
@@ -52,7 +67,7 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '8:00 AM to 2:00 PM'
   },
   'stem-lab': {
-    aliases: ['stem-laboratory', 'stem'],
+    aliases: ['stem-laboratory', 'stem-lab', 'stem'],
     title: 'STEM Laboratory',
     badge: 'Hands-on Innovation Lab',
     img: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
@@ -67,7 +82,7 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '8:00 AM to 2:00 PM'
   },
   'ai-robotics': {
-    aliases: ['ai-robotics-lab', 'robotics'],
+    aliases: ['ai-robotics-lab', 'ai-robotics', 'robotics', 'stem-robotics'],
     title: 'AI & Robotics Lab',
     badge: 'Next-Gen Emerging Tech',
     img: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
@@ -82,7 +97,7 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '8:00 AM to 2:00 PM'
   },
   'library': {
-    aliases: ['digital-library', 'central-library'],
+    aliases: ['digital-library', 'central-library', 'library'],
     title: 'Digital Library',
     badge: 'Knowledge Resource Center',
     img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80',
@@ -97,7 +112,7 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '8:00 AM to 2:30 PM'
   },
   'sports': {
-    aliases: ['sports-facilities', 'playground'],
+    aliases: ['sports-facilities', 'playground', 'sports'],
     title: 'Sports Facilities',
     badge: 'Expansive Athletic Fields',
     img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
@@ -112,8 +127,8 @@ const SCHOOL_FACILITY_METADATA = {
     hours: '7:00 AM to 5:00 PM'
   },
   'transport': {
-    aliases: ['school-bus', 'bus-transportation', 'transportation'],
-    title: 'Safe Bus Transport',
+    aliases: ['school-bus', 'bus-transportation', 'transportation', 'transport'],
+    title: 'Transportation Fleet',
     badge: 'Safe & GPS-Monitored Fleet',
     img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
     lead: 'Dedicated school bus service with GPS tracking, CCTV cameras, speed governors, and trained female attendants covering Pandharpur and rural routes.',
@@ -130,6 +145,7 @@ const SCHOOL_FACILITY_METADATA = {
 
 export default function Facilities() {
   const { subpage } = useParams()
+  const location = useLocation()
   const [facilities, setFacilities] = useState(() => getCachedFacilities() || FALLBACK_FACILITIES)
 
   const loadFacilities = () => {
@@ -223,30 +239,108 @@ export default function Facilities() {
     )
   }
 
-  // Display items: combine database facilities with metadata
-  const displayItems = (facilities && facilities.length > 0)
-    ? facilities.map(f => {
-        const metaKey = Object.keys(SCHOOL_FACILITY_METADATA).find(k => k === f.slug || SCHOOL_FACILITY_METADATA[k].aliases.includes(f.slug))
-        const meta = metaKey ? SCHOOL_FACILITY_METADATA[metaKey] : null
-        return {
-          key: f.slug || f.id,
-          title: f.title || meta?.title || 'School Facility',
-          badge: meta?.badge || 'Campus Infrastructure',
-          img: resolveMediaUrl(f.image_url || f.image || f.img || meta?.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
-          lead: f.description || f.desc || meta?.lead || ''
-        }
+  // Display items: guarantee all core facilities are rendered with database overrides
+  const displayItems = useMemo(() => {
+    const list = []
+    const handledKeys = new Set()
+
+    // 1. Map all standard facilities in canonical sequence
+    Object.entries(SCHOOL_FACILITY_METADATA).forEach(([metaKey, meta]) => {
+      const dbMatch = (facilities || []).find(f => {
+        const s = (f.slug || f.id || '').toLowerCase()
+        return s === metaKey || meta.aliases.includes(s)
       })
-    : Object.entries(SCHOOL_FACILITY_METADATA).map(([key, item]) => ({
-        key,
-        ...item
-      }))
+
+      list.push({
+        key: metaKey,
+        aliases: meta.aliases,
+        title: dbMatch?.title || meta.title,
+        badge: meta.badge,
+        img: resolveMediaUrl(dbMatch?.image_url || dbMatch?.image || dbMatch?.img || meta.img, meta.img),
+        lead: dbMatch?.description || dbMatch?.desc || meta.lead
+      })
+      handledKeys.add(metaKey)
+      meta.aliases.forEach(a => handledKeys.add(a))
+    })
+
+    // 2. Add any additional custom facilities from database not already in standard list
+    ;(facilities || []).forEach(f => {
+      const s = (f.slug || f.id || '').toLowerCase()
+      if (s && !handledKeys.has(s)) {
+        list.push({
+          key: f.slug || f.id,
+          aliases: [f.slug, f.id].filter(Boolean),
+          title: f.title || 'School Facility',
+          badge: f.category || 'Campus Facility',
+          img: resolveMediaUrl(f.image_url || f.image || f.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+          lead: f.description || f.desc || ''
+        })
+      }
+    })
+
+    return list
+  }, [facilities])
+
+  // Handle smooth scroll to respective section on mount or hash change
+  useEffect(() => {
+    const rawHash = (location.hash || '').replace('#', '').toLowerCase().trim()
+    if (!rawHash) return
+
+    const scrollToHash = () => {
+      let el = document.getElementById(rawHash)
+      if (!el) {
+        for (const [key, meta] of Object.entries(SCHOOL_FACILITY_METADATA)) {
+          if (key === rawHash || meta.aliases.includes(rawHash)) {
+            el = document.getElementById(key)
+            if (!el) {
+              for (const a of meta.aliases) {
+                el = document.getElementById(a)
+                if (el) break
+              }
+            }
+            break
+          }
+        }
+      }
+
+      if (el) {
+        const headerOffset = 135
+        const elementPosition = el.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth'
+        })
+
+        // Subtle highlight animation cue
+        el.style.transition = 'box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease'
+        el.style.borderColor = '#0284c7'
+        el.style.boxShadow = '0 0 0 3px rgba(2, 132, 199, 0.25), 0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+        el.style.transform = 'translateY(-2px)'
+        setTimeout(() => {
+          if (el) {
+            el.style.borderColor = '#e2e8f0'
+            el.style.boxShadow = 'var(--shadow-sm)'
+            el.style.transform = 'none'
+          }
+        }, 2200)
+      }
+    }
+
+    const t1 = setTimeout(scrollToHash, 90)
+    const t2 = setTimeout(scrollToHash, 350)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
+  }, [location.hash, location.pathname, displayItems])
 
   return (
     <PageShell title="School Facilities &amp; Infrastructure" subtitle="State-of-the-Art Learning Spaces, Labs, Sports &amp; Student Transport | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
 
         {/* Intro */}
-        <div style={{ background: '#ffffff', borderRadius: 12, padding: '32px 28px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
+        <div id="overview" style={{ background: '#ffffff', borderRadius: 12, padding: '32px 28px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', scrollMarginTop: '150px' }}>
           <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '24px', color: 'var(--navy-header)', margin: '0 0 10px' }}>
             Built for Curiosity, Safety &amp; All-Round Growth
           </h2>
@@ -258,7 +352,24 @@ export default function Facilities() {
         {/* Facilities Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
           {displayItems.map((item) => (
-            <div key={item.key} id={String(item.key)} style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column' }}>
+            <div
+              key={item.key}
+              id={String(item.key)}
+              style={{
+                background: '#ffffff',
+                borderRadius: 12,
+                overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                boxShadow: 'var(--shadow-sm)',
+                display: 'flex',
+                flexDirection: 'column',
+                scrollMarginTop: '150px'
+              }}
+            >
+              {/* Invisible anchor spans for all possible alias IDs */}
+              {item.aliases?.map(alias => (
+                <span key={alias} id={alias} style={{ scrollMarginTop: '150px' }} />
+              ))}
               <div style={{ height: 200, overflow: 'hidden' }}>
                 <img
                   src={item.img}

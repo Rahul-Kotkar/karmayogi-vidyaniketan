@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function Labs() {
+  const location = useLocation()
+
+  useEffect(() => {
+    const hash = (location.hash || '').replace('#', '').trim()
+    if (!hash) return
+    const timer = setTimeout(() => {
+      const el = document.getElementById(hash)
+      if (el) {
+        const headerOffset = 135
+        const pos = el.getBoundingClientRect().top + window.pageYOffset - headerOffset
+        window.scrollTo({ top: Math.max(0, pos), behavior: 'smooth' })
+      }
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [location.hash])
+
   return (
     <PageShell title="Science, STEM &amp; Technology Laboratories" subtitle="Hands-on Inventions, Scientific Inquiries &amp; Robotics | Karmayogi Vidyaniketan">
       <div style={{ display: 'grid', gap: 36 }}>
@@ -20,7 +36,7 @@ export default function Labs() {
         {/* 4 Dedicated Laboratories */}
         <div style={{ display: 'grid', gap: 28 }}>
           {/* 1. Science Laboratories */}
-          <div id="science" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+          <div id="science" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', scrollMarginTop: '150px' }}>
             <div style={{ height: '100%', minHeight: 260, overflow: 'hidden' }}>
               <img
                 src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80"
@@ -47,7 +63,7 @@ export default function Labs() {
           </div>
 
           {/* 2. Computer Laboratory */}
-          <div id="computer" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+          <div id="computer" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', scrollMarginTop: '150px' }}>
             <div style={{ height: '100%', minHeight: 260, overflow: 'hidden' }}>
               <img
                 src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
@@ -74,7 +90,7 @@ export default function Labs() {
           </div>
 
           {/* 3. STEM Laboratory */}
-          <div id="stem" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+          <div id="stem" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', scrollMarginTop: '150px' }}>
             <div style={{ height: '100%', minHeight: 260, overflow: 'hidden' }}>
               <img
                 src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
@@ -101,7 +117,7 @@ export default function Labs() {
           </div>
 
           {/* 4. AI & Robotics Lab */}
-          <div id="robotics" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+          <div id="robotics" style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', scrollMarginTop: '150px' }}>
             <div style={{ height: '100%', minHeight: 260, overflow: 'hidden' }}>
               <img
                 src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"

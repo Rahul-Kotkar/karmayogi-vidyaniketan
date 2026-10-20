@@ -118,18 +118,21 @@ export default function Navbar2Row() {
 
     if (path.includes('#')) {
       const [targetPath, hash] = path.split('#')
-      if (location.pathname === targetPath || (!targetPath && hash)) {
+      const isCurrentPage = location.pathname === targetPath || (!targetPath && hash)
+      if (isCurrentPage) {
         setTimeout(() => {
           const el = document.getElementById(hash)
           if (el) {
             const headerOffset = 135
             const elementPosition = el.getBoundingClientRect().top
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+            window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' })
           }
         }, 70)
         return
       }
+      // If navigating across different pages to a hash URL, let the target page mount and handle scrolling
+      return
     }
 
     const html = document.documentElement
@@ -179,16 +182,16 @@ export default function Navbar2Row() {
       label: 'FACILITIES',
       path: '/facilities',
       children: [
-        { label: 'Facilities Overview', path: '/facilities' },
-        { label: 'Infrastructure Overview', path: '/infrastructure' },
+        { label: 'Facilities Overview', path: '/facilities#overview' },
+        { label: 'Infrastructure Overview', path: '/facilities#infrastructure' },
         { label: 'Smart Classrooms', path: '/facilities#smart-classrooms' },
-        { label: 'Science Laboratories', path: '/labs#science' },
-        { label: 'Computer Laboratory', path: '/labs#computer' },
-        { label: 'STEM Laboratory', path: '/labs#stem' },
-        { label: 'AI & Robotics Lab', path: '/labs#robotics' },
-        { label: 'Digital Library', path: '/facilities#library' },
-        { label: 'Transportation Fleet', path: '/transport' },
-        { label: 'Sports Facilities', path: '/sports-facilities' }
+        { label: 'Science Laboratories', path: '/facilities#science-labs' },
+        { label: 'Computer Laboratory', path: '/facilities#computer-lab' },
+        { label: 'STEM Laboratory', path: '/facilities#stem-lab' },
+        { label: 'AI & Robotics Lab', path: '/facilities#ai-robotics' },
+        { label: 'Digital Library', path: '/facilities#digital-library' },
+        { label: 'Transportation Fleet', path: '/facilities#transportation' },
+        { label: 'Sports Facilities', path: '/facilities#sports-facilities' }
       ]
     },
     {
