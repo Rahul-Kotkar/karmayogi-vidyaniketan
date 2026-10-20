@@ -295,8 +295,14 @@ export default function AdminLayout() {
       ),
       children: [
         { id: 'facilities_overview', label: 'Facilities Overview', path: '/admin/facilities' },
-        { id: 'facilities_labs', label: 'Science & STEM Labs', path: '/admin/facilities?tab=labs' },
-        { id: 'facilities_transport', label: 'Transportation', path: '/admin/facilities?tab=transport' },
+        { id: 'facilities_infrastructure', label: 'Infrastructure Overview', path: '/admin/facilities?tab=infrastructure' },
+        { id: 'facilities_classrooms', label: 'Smart Classrooms', path: '/admin/facilities?tab=classrooms' },
+        { id: 'facilities_science', label: 'Science Laboratories', path: '/admin/facilities?tab=science' },
+        { id: 'facilities_computer', label: 'Computer Laboratory', path: '/admin/facilities?tab=computer' },
+        { id: 'facilities_stem', label: 'STEM Laboratory', path: '/admin/facilities?tab=stem' },
+        { id: 'facilities_robotics', label: 'AI & Robotics Lab', path: '/admin/facilities?tab=robotics' },
+        { id: 'facilities_library', label: 'Digital Library', path: '/admin/facilities?tab=library' },
+        { id: 'facilities_transport', label: 'Transportation Fleet', path: '/admin/facilities?tab=transport' },
         { id: 'facilities_sports', label: 'Sports Facilities', path: '/admin/facilities?tab=sports' }
       ]
     },

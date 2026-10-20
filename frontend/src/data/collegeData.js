@@ -96,9 +96,10 @@ export const ROW_2_NAV = [
   },
   { label: "CURRICULUM", path: "/curriculum" },
   {
-    label: "CAMPUS",
-    path: "/infrastructure",
+    label: "FACILITIES",
+    path: "/facilities",
     children: [
+      { label: "Facilities Overview", path: "/facilities" },
       { label: "Infrastructure Overview", path: "/infrastructure" },
       { label: "Smart Classrooms", path: "/facilities#smart-classrooms" },
       { label: "Science Laboratories", path: "/labs#science" },
@@ -107,16 +108,6 @@ export const ROW_2_NAV = [
       { label: "AI & Robotics Lab", path: "/labs#robotics" },
       { label: "Digital Library", path: "/facilities#library" },
       { label: "Transportation Fleet", path: "/transport" },
-      { label: "Sports Facilities", path: "/sports" }
-    ]
-  },
-  {
-    label: "FACILITIES",
-    path: "/facilities",
-    children: [
-      { label: "Facilities Overview", path: "/facilities" },
-      { label: "Science & STEM Labs", path: "/labs" },
-      { label: "Transportation", path: "/transport" },
       { label: "Sports Facilities", path: "/sports-facilities" }
     ]
   },
@@ -204,6 +195,12 @@ export const COURSES = [
 
 // School Facilities
 export const FACILITIES = [
+  {
+    id: "infrastructure",
+    title: "Infrastructure Overview",
+    desc: "Modern two-campus academic ecosystem spanning Isbavi (Primary & Foundation Campus) and Shelve (Main High School Campus), purpose-built with safe, child-friendly spaces.",
+    img: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80"
+  },
   {
     id: "smart-classrooms",
     title: "Smart Classrooms",

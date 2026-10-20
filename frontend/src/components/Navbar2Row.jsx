@@ -175,10 +175,11 @@ export default function Navbar2Row() {
     },
     { key: 'curriculum', label: 'CURRICULUM', path: '/curriculum' },
     {
-      key: 'campus',
-      label: 'CAMPUS',
-      path: '/infrastructure',
+      key: 'facilities',
+      label: 'FACILITIES',
+      path: '/facilities',
       children: [
+        { label: 'Facilities Overview', path: '/facilities' },
         { label: 'Infrastructure Overview', path: '/infrastructure' },
         { label: 'Smart Classrooms', path: '/facilities#smart-classrooms' },
         { label: 'Science Laboratories', path: '/labs#science' },
@@ -187,17 +188,6 @@ export default function Navbar2Row() {
         { label: 'AI & Robotics Lab', path: '/labs#robotics' },
         { label: 'Digital Library', path: '/facilities#library' },
         { label: 'Transportation Fleet', path: '/transport' },
-        { label: 'Sports Facilities', path: '/sports-facilities' }
-      ]
-    },
-    {
-      key: 'facilities',
-      label: 'FACILITIES',
-      path: '/facilities',
-      children: [
-        { label: 'Facilities Overview', path: '/facilities' },
-        { label: 'Science & STEM Labs', path: '/labs' },
-        { label: 'Transportation', path: '/transport' },
         { label: 'Sports Facilities', path: '/sports-facilities' }
       ]
     },

@@ -39,6 +39,13 @@ export default function AdminFacilities() {
   }, [])
 
   const getDefaultCategoryForTab = (tab) => {
+    if (tab === 'infrastructure') return 'Infrastructure'
+    if (tab === 'classrooms') return 'Smart Classrooms'
+    if (tab === 'science') return 'Science Laboratories'
+    if (tab === 'computer') return 'Computer Laboratory'
+    if (tab === 'stem') return 'STEM Laboratory'
+    if (tab === 'robotics') return 'AI & Robotics Lab'
+    if (tab === 'library') return 'Digital Library'
     if (tab === 'labs') return 'Science & STEM Labs'
     if (tab === 'transport') return 'Transportation'
     if (tab === 'sports') return 'Sports Facilities'
@@ -104,7 +111,28 @@ export default function AdminFacilities() {
 
   const matchesTab = (fac, tab) => {
     if (!tab || tab === 'all' || tab === 'overview') return true
-    const text = `${fac.title || ''} ${fac.slug || ''} ${fac.category || ''} ${fac.description || ''}`.toLowerCase()
+    const text = `${fac.title || ''} ${fac.slug || ''} ${fac.category || ''} ${fac.description || ''} ${fac.desc || ''}`.toLowerCase()
+    if (tab === 'infrastructure') {
+      return text.includes('infrastructure') || text.includes('building') || text.includes('campus') || text.includes('foundation')
+    }
+    if (tab === 'classrooms') {
+      return text.includes('classroom') || text.includes('smart') || text.includes('touchscreen') || text.includes('audio-visual')
+    }
+    if (tab === 'science') {
+      return text.includes('physics') || text.includes('chemistry') || text.includes('biology') || (text.includes('science') && text.includes('lab'))
+    }
+    if (tab === 'computer') {
+      return text.includes('computer') || text.includes('coding') || text.includes('digital education') || text.includes('it-lab')
+    }
+    if (tab === 'stem') {
+      return text.includes('stem') || text.includes('engineering') || text.includes('prototypes')
+    }
+    if (tab === 'robotics') {
+      return text.includes('robot') || text.includes('ai') || text.includes('artificial intelligence') || text.includes('arduino')
+    }
+    if (tab === 'library') {
+      return text.includes('library') || text.includes('book') || text.includes('reading') || text.includes('literature')
+    }
     if (tab === 'labs') {
       return text.includes('lab') || text.includes('science') || text.includes('stem') || text.includes('robotics') || text.includes('computer')
     }
@@ -124,7 +152,13 @@ export default function AdminFacilities() {
   const tabCounts = useMemo(() => {
     return {
       all: facilities.length,
-      labs: facilities.filter(f => matchesTab(f, 'labs')).length,
+      infrastructure: facilities.filter(f => matchesTab(f, 'infrastructure')).length,
+      classrooms: facilities.filter(f => matchesTab(f, 'classrooms')).length,
+      science: facilities.filter(f => matchesTab(f, 'science')).length,
+      computer: facilities.filter(f => matchesTab(f, 'computer')).length,
+      stem: facilities.filter(f => matchesTab(f, 'stem')).length,
+      robotics: facilities.filter(f => matchesTab(f, 'robotics')).length,
+      library: facilities.filter(f => matchesTab(f, 'library')).length,
       transport: facilities.filter(f => matchesTab(f, 'transport')).length,
       sports: facilities.filter(f => matchesTab(f, 'sports')).length
     }
@@ -188,11 +222,59 @@ export default function AdminFacilities() {
           </button>
           <button
             type="button"
-            className={`admin-btn admin-btn-sm ${activeTab === 'labs' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
-            onClick={() => setSearchParams({ tab: 'labs' })}
+            className={`admin-btn admin-btn-sm ${activeTab === 'infrastructure' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'infrastructure' })}
             style={{ fontSize: 12 }}
           >
-            Science &amp; STEM Labs ({tabCounts.labs})
+            Infrastructure ({tabCounts.infrastructure})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'classrooms' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'classrooms' })}
+            style={{ fontSize: 12 }}
+          >
+            Smart Classrooms ({tabCounts.classrooms})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'science' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'science' })}
+            style={{ fontSize: 12 }}
+          >
+            Science Labs ({tabCounts.science})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'computer' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'computer' })}
+            style={{ fontSize: 12 }}
+          >
+            Computer Lab ({tabCounts.computer})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'stem' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'stem' })}
+            style={{ fontSize: 12 }}
+          >
+            STEM Lab ({tabCounts.stem})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'robotics' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'robotics' })}
+            style={{ fontSize: 12 }}
+          >
+            AI &amp; Robotics ({tabCounts.robotics})
+          </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'library' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'library' })}
+            style={{ fontSize: 12 }}
+          >
+            Digital Library ({tabCounts.library})
           </button>
           <button
             type="button"
@@ -318,11 +400,16 @@ export default function AdminFacilities() {
                       value={form.category}
                       onChange={e => setForm({ ...form, category: e.target.value })}
                     >
-                      <option value="Science & STEM Labs">Science &amp; STEM Labs</option>
+                      <option value="Infrastructure">Infrastructure</option>
+                      <option value="Smart Classrooms">Smart Classrooms</option>
+                      <option value="Science Laboratories">Science Laboratories</option>
+                      <option value="Computer Laboratory">Computer Laboratory</option>
+                      <option value="STEM Laboratory">STEM Laboratory</option>
+                      <option value="AI & Robotics Lab">AI &amp; Robotics Lab</option>
+                      <option value="Digital Library">Digital Library</option>
                       <option value="Transportation">Transportation</option>
                       <option value="Sports Facilities">Sports Facilities</option>
-                      <option value="Smart Classrooms & Academic">Smart Classrooms &amp; Academic</option>
-                      <option value="Campus & Library">Campus &amp; Library</option>
+                      <option value="Science & STEM Labs">Science &amp; STEM Labs</option>
                       <option value="General Amenities">General Amenities</option>
                     </select>
                   </div>
