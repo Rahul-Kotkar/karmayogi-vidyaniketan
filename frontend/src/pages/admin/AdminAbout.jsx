@@ -182,7 +182,7 @@ export default function AdminAbout() {
             <span className="admin-page-badge">Institutional Profile</span>
           </h1>
           <p>
-            Institutional history, profile overview, vision & mission, quality policy, leadership messages, governing council, and statutory approvals.
+            Institutional history, profile overview, parent trust, vision &amp; mission, leadership messages, governing council, and statutory approvals.
           </p>
         </div>
         <div className="admin-page-actions">
@@ -215,9 +215,8 @@ export default function AdminAbout() {
           { id: 'institute', label: '1. Institute Overview' },
           { id: 'trust', label: '2. Parent Trust (Shri Pandurang Pratishthan)' },
           { id: 'vision', label: '3. Vision & Mission' },
-          { id: 'quality', label: '4. Quality Policy' },
-          { id: 'council', label: '5. Governing Council & Leadership' },
-          { id: 'approvals', label: '6. Affiliations & Approvals' }
+          { id: 'council', label: '4. Governing Council & Leadership' },
+          { id: 'approvals', label: '5. Affiliations & Approvals' }
         ].map(tab => (
           <button
             key={tab.id}
@@ -521,43 +520,6 @@ export default function AdminAbout() {
         </div>
       )}
 
-      {/* TAB 3: QUALITY POLICY */}
-      {activeTab === 'quality' && (
-        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 3: Quality Policy</h3>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, marginBottom: 16 }}>
-            <div>
-              <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Section Tag</label>
-              <input
-                type="text"
-                value={data.qp_tag || ''}
-                onChange={e => handleChange('qp_tag', e.target.value)}
-                style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Section Title</label>
-              <input
-                type="text"
-                value={data.qp_title || ''}
-                onChange={e => handleChange('qp_title', e.target.value)}
-                style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Quality Policy Text</label>
-            <textarea
-              rows={4}
-              value={data.qp_text || ''}
-              onChange={e => handleChange('qp_text', e.target.value)}
-              style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: 14, lineHeight: 1.7 }}
-            />
-          </div>
-        </div>
-      )}
 
       {/* TAB 4: LEADERSHIP DESKS */}
       {activeTab === 'leadership' && (

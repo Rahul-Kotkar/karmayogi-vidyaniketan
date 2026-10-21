@@ -701,10 +701,6 @@ export const DEFAULT_ABOUT_DATA = {
     'To nurture every child’s unique potential through individualized guidance and encouraging mentorship.'
   ],
 
-  // Quality Policy
-  qp_tag: 'Educational Standards',
-  qp_title: 'Our Commitment to Quality Education',
-  qp_text: 'Karmayogi Vidyaniketan is dedicated to delivering learner-centric education aligned with CBSE and State Board standards. We continually evaluate our teaching methodologies, teacher development programs, classroom facilities, and safety standards through systematic feedback and constructive parent-teacher collaboration.',
 
   // Governing Council / Management
   council_tag: 'School Governance',
