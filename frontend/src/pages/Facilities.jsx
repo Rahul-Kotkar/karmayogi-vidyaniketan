@@ -166,28 +166,58 @@ export default function Facilities() {
   // If viewing a specific facility subpage
   let activeDetail = null
   if (subpage) {
-    const rawKey = subpage.toLowerCase().trim()
+    const rawKey = decodeURIComponent(subpage).toLowerCase().trim()
     // First check database facilities
-    const dbMatch = facilities.find(f => (f.slug && f.slug.toLowerCase() === rawKey) || String(f.id) === rawKey)
+    const dbMatch = (facilities || []).find(f => {
+      const slug = (f.slug || '').toLowerCase().trim()
+      const title = (f.title || '').toLowerCase().trim()
+      const id = String(f.id || '').toLowerCase().trim()
+      return slug === rawKey || id === rawKey || title === rawKey
+    })
+
     if (dbMatch) {
-      activeDetail = {
-        title: dbMatch.title,
-        badge: 'Campus Facility',
-        img: resolveMediaUrl(dbMatch.image_url || dbMatch.image || dbMatch.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
-        lead: dbMatch.description || dbMatch.desc || '',
-        features: dbMatch.features || [
+      let rawFeatures = dbMatch.features
+      let parsedFeatures = []
+      if (Array.isArray(rawFeatures) && rawFeatures.length > 0) {
+        parsedFeatures = rawFeatures
+      } else if (typeof rawFeatures === 'string' && rawFeatures.trim()) {
+        try {
+          const json = JSON.parse(rawFeatures)
+          if (Array.isArray(json)) parsedFeatures = json
+          else parsedFeatures = rawFeatures.split('\n').filter(Boolean)
+        } catch {
+          parsedFeatures = rawFeatures.split('\n').filter(Boolean)
+        }
+      }
+      if (parsedFeatures.length === 0) {
+        parsedFeatures = [
           'High-standard facility built to modern educational specifications.',
           'Safe and supportive environment supervised by qualified staff.',
           'Regular maintenance and hygienic standards.'
-        ],
+        ]
+      }
+
+      activeDetail = {
+        title: dbMatch.title || 'Campus Facility',
+        badge: dbMatch.category || 'Campus Facility',
+        img: resolveMediaUrl(dbMatch.image_url || dbMatch.image || dbMatch.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+        lead: dbMatch.description || dbMatch.desc || 'Modern institutional learning and recreational infrastructure for students.',
+        features: parsedFeatures,
         incharge: dbMatch.incharge || 'Campus Administration',
         hours: dbMatch.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
       }
-    } else {
-      // Fallback to metadata
+    } else if (!facilities || facilities.length === 0) {
+      // Fallback to metadata only if DB facilities have not loaded
       for (const [key, meta] of Object.entries(SCHOOL_FACILITY_METADATA)) {
-        if (key === rawKey || meta.aliases.includes(rawKey)) {
-          activeDetail = meta
+        if (key === rawKey || (Array.isArray(meta.aliases) && meta.aliases.includes(rawKey))) {
+          activeDetail = {
+            ...meta,
+            features: Array.isArray(meta.features) ? meta.features : [
+              'High-standard facility built to modern educational specifications.',
+              'Safe and supportive environment supervised by qualified staff.',
+              'Regular maintenance and hygienic standards.'
+            ]
+          }
           break
         }
       }
@@ -195,6 +225,8 @@ export default function Facilities() {
   }
 
   if (activeDetail) {
+    const safeFeatures = Array.isArray(activeDetail.features) ? activeDetail.features : []
+
     return (
       <PageShell title={activeDetail.title} subtitle={activeDetail.badge}>
         <div style={{ display: 'grid', gap: 32 }}>
@@ -219,14 +251,14 @@ export default function Facilities() {
                 Key Infrastructure &amp; Features:
               </h3>
               <ul style={{ margin: '0 0 24px', paddingLeft: 20, fontSize: '14.5px', color: '#475569', lineHeight: 1.8 }}>
-                {activeDetail.features.map((f, i) => (
+                {safeFeatures.map((f, i) => (
                   <li key={i}>{f}</li>
                 ))}
               </ul>
 
               <div style={{ background: '#f8fafc', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14, fontSize: '13.5px', color: 'var(--text-muted)' }}>
-                <div><strong>In-Charge:</strong> {activeDetail.incharge}</div>
-                <div><strong>Operational Hours:</strong> {activeDetail.hours}</div>
+                <div><strong>In-Charge:</strong> {activeDetail.incharge || 'Campus Administration'}</div>
+                <div><strong>Operational Hours:</strong> {activeDetail.hours || '8:00 AM to 2:00 PM'}</div>
               </div>
             </div>
           </div>
@@ -239,46 +271,43 @@ export default function Facilities() {
     )
   }
 
-  // Display items: guarantee all core facilities are rendered with database overrides
+  if (subpage && !activeDetail) {
+    return (
+      <PageShell title="Facility Not Found" subtitle="Campus Facilities | Karmayogi Vidyaniketan">
+        <div style={{ textAlign: 'center', padding: '60px 20px', background: '#ffffff', borderRadius: 12, border: '1px solid #e2e8f0' }}>
+          <h2 style={{ color: 'var(--navy-header)', marginBottom: 12 }}>Facility Not Found</h2>
+          <p style={{ color: '#64748b', marginBottom: 24 }}>The facility you are looking for does not exist or may have been updated.</p>
+          <Link to="/facilities" className="btn btn-primary">&larr; Return to All School Facilities</Link>
+        </div>
+      </PageShell>
+    )
+  }
+
+  // Display items directly synced with database facilities
   const displayItems = useMemo(() => {
-    const list = []
-    const handledKeys = new Set()
-
-    // 1. Map all standard facilities in canonical sequence
-    Object.entries(SCHOOL_FACILITY_METADATA).forEach(([metaKey, meta]) => {
-      const dbMatch = (facilities || []).find(f => {
-        const s = (f.slug || f.id || '').toLowerCase()
-        return s === metaKey || meta.aliases.includes(s)
+    if (Array.isArray(facilities) && facilities.length > 0) {
+      return facilities.map(f => {
+        const slug = (f.slug || f.id || '').toLowerCase()
+        const meta = SCHOOL_FACILITY_METADATA[slug] || {}
+        return {
+          key: slug || String(f.id),
+          aliases: [slug, String(f.id), ...(meta.aliases || [])].filter(Boolean),
+          title: f.title || meta.title || 'School Facility',
+          badge: f.category || meta.badge || 'Campus Facility',
+          img: resolveMediaUrl(f.image_url || f.image || f.img || meta.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+          lead: f.description || f.desc || meta.lead || ''
+        }
       })
+    }
 
-      list.push({
-        key: metaKey,
-        aliases: meta.aliases,
-        title: dbMatch?.title || meta.title,
-        badge: meta.badge,
-        img: resolveMediaUrl(dbMatch?.image_url || dbMatch?.image || dbMatch?.img || meta.img, meta.img),
-        lead: dbMatch?.description || dbMatch?.desc || meta.lead
-      })
-      handledKeys.add(metaKey)
-      meta.aliases.forEach(a => handledKeys.add(a))
-    })
-
-    // 2. Add any additional custom facilities from database not already in standard list
-    ;(facilities || []).forEach(f => {
-      const s = (f.slug || f.id || '').toLowerCase()
-      if (s && !handledKeys.has(s)) {
-        list.push({
-          key: f.slug || f.id,
-          aliases: [f.slug, f.id].filter(Boolean),
-          title: f.title || 'School Facility',
-          badge: f.category || 'Campus Facility',
-          img: resolveMediaUrl(f.image_url || f.image || f.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
-          lead: f.description || f.desc || ''
-        })
-      }
-    })
-
-    return list
+    return Object.entries(SCHOOL_FACILITY_METADATA).map(([metaKey, meta]) => ({
+      key: metaKey,
+      aliases: meta.aliases,
+      title: meta.title,
+      badge: meta.badge,
+      img: resolveMediaUrl(meta.img),
+      lead: meta.lead
+    }))
   }, [facilities])
 
   // Handle smooth scroll to respective section on mount or hash change

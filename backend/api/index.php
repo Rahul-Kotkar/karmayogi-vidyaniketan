@@ -1048,10 +1048,9 @@ if ($resource === 'facilities') {
     if ($method === 'GET') {
         if ($db) {
             try {
-                // Ensure all 10 canonical school facilities exist in DB table
-                static $facChecked = false;
-                if (!$facChecked) {
-                    $facChecked = true;
+                // Only seed defaults if the facilities table is completely empty
+                $count = (int)$db->query("SELECT COUNT(*) FROM facilities")->fetchColumn();
+                if ($count === 0) {
                     $defaultFacilities = [
                         [
                             'title' => 'Infrastructure Overview',
@@ -1135,30 +1134,17 @@ if ($resource === 'facilities') {
                         ]
                     ];
 
-                    $existingSlugs = $db->query("SELECT slug FROM facilities")->fetchAll(PDO::FETCH_COLUMN) ?: [];
-                    $existingSlugsLower = array_map('strtolower', $existingSlugs);
-
                     $insertStmt = $db->prepare("INSERT INTO facilities (title, slug, category, description, image_url, order_index, is_active)
                                                 VALUES (:title, :slug, :cat, :desc, :img, :ord, 1)");
                     foreach ($defaultFacilities as $df) {
-                        $s = strtolower($df['slug']);
-                        $isMissing = !in_array($s, $existingSlugsLower);
-                        if ($s === 'stem-robotics' && in_array('ai-robotics', $existingSlugsLower)) {
-                            $isMissing = false;
-                        }
-                        if ($s === 'library' && in_array('digital-library', $existingSlugsLower)) {
-                            $isMissing = false;
-                        }
-                        if ($isMissing) {
-                            $insertStmt->execute([
-                                ':title' => $df['title'],
-                                ':slug'  => $df['slug'],
-                                ':cat'   => $df['category'],
-                                ':desc'  => $df['description'],
-                                ':img'   => $df['image_url'],
-                                ':ord'   => $df['order_index']
-                            ]);
-                        }
+                        $insertStmt->execute([
+                            ':title' => $df['title'],
+                            ':slug'  => $df['slug'],
+                            ':cat'   => $df['category'],
+                            ':desc'  => $df['description'],
+                            ':img'   => $df['image_url'],
+                            ':ord'   => $df['order_index']
+                        ]);
                     }
                 }
 
@@ -1177,11 +1163,12 @@ if ($resource === 'facilities') {
         }
         if (!$db) Response::error('Database not connected.', 500);
 
+        $slug = preg_replace('/[^a-z0-9-]/', '-', strtolower($b['slug']));
         $stmt = $db->prepare("INSERT INTO facilities (title, slug, category, description, image_url, order_index, is_active)
                               VALUES (:title, :slug, :cat, :desc, :img, :ord, :act)");
         $stmt->execute([
             ':title' => $b['title'],
-            ':slug'  => preg_replace('/[^a-z0-9-]/', '-', strtolower($b['slug'])),
+            ':slug'  => $slug,
             ':cat'   => $b['category'] ?? 'Academic',
             ':desc'  => $b['description'] ?? '',
             ':img'   => $b['image_url'] ?? null,
@@ -1195,10 +1182,20 @@ if ($resource === 'facilities') {
 
     if ($method === 'PUT') {
         $admin = AuthMiddleware::requireAdmin();
-        $id = $_GET['id'] ?? null;
-        if (!$id || !$db) Response::error('Valid Facility ID required', 400);
-
+        $id = $_GET['id'] ?? $subResource ?? null;
         $b = get_json_body();
+        if (!$id && !empty($b['id'])) {
+            $id = $b['id'];
+        }
+        if (!$id && !empty($b['slug'])) {
+            $id = $b['slug'];
+        }
+        if (!$id || !$db) Response::error('Valid Facility ID or Slug required', 400);
+
+        $numericId = is_numeric($id) ? (int)$id : 0;
+        $slugMatch = (string)$id;
+        $cleanSlug = !empty($b['slug']) ? preg_replace('/[^a-z0-9-]/', '-', strtolower($b['slug'])) : $slugMatch;
+
         $stmt = $db->prepare("UPDATE facilities SET
             title = :title,
             slug = :slug,
@@ -1207,28 +1204,58 @@ if ($resource === 'facilities') {
             image_url = :img,
             order_index = :ord,
             is_active = :act
-            WHERE id = :id");
+            WHERE (:id_val > 0 AND id = :id) OR slug = :slug_match");
         $stmt->execute([
-            ':title' => $b['title'],
-            ':slug'  => preg_replace('/[^a-z0-9-]/', '-', strtolower($b['slug'])),
+            ':title' => $b['title'] ?? 'School Facility',
+            ':slug'  => $cleanSlug,
             ':cat'   => $b['category'] ?? 'Academic',
             ':desc'  => $b['description'] ?? '',
             ':img'   => $b['image_url'] ?? null,
             ':ord'   => (int)($b['order_index'] ?? 0),
             ':act'   => isset($b['is_active']) ? (int)$b['is_active'] : 1,
-            ':id'    => $id
+            ':id_val' => $numericId,
+            ':id'    => $numericId,
+            ':slug_match' => $slugMatch
         ]);
-        ActivityLogger::log($admin, 'UPDATE', 'facilities', (string)$id, "Updated facility #{$id}: '{$b['title']}'", $b);
+
+        // If no rows were updated, check if item exists; if not, create it
+        if ($stmt->rowCount() === 0) {
+            $checkStmt = $db->prepare("SELECT id FROM facilities WHERE (:id_val > 0 AND id = :id) OR slug = :slug_match LIMIT 1");
+            $checkStmt->execute([':id_val' => $numericId, ':id' => $numericId, ':slug_match' => $slugMatch]);
+            if (!$checkStmt->fetch()) {
+                $ins = $db->prepare("INSERT INTO facilities (title, slug, category, description, image_url, order_index, is_active)
+                                     VALUES (:title, :slug, :cat, :desc, :img, :ord, :act)");
+                $ins->execute([
+                    ':title' => $b['title'] ?? 'School Facility',
+                    ':slug'  => $cleanSlug,
+                    ':cat'   => $b['category'] ?? 'Academic',
+                    ':desc'  => $b['description'] ?? '',
+                    ':img'   => $b['image_url'] ?? null,
+                    ':ord'   => (int)($b['order_index'] ?? 0),
+                    ':act'   => isset($b['is_active']) ? (int)$b['is_active'] : 1
+                ]);
+            }
+        }
+
+        ActivityLogger::log($admin, 'UPDATE', 'facilities', (string)$id, "Updated facility #{$id}: '" . ($b['title'] ?? '') . "'", $b);
         Response::success(null, 'Facility updated.');
     }
 
     if ($method === 'DELETE') {
         $admin = AuthMiddleware::requireAdmin();
-        $id = $_GET['id'] ?? null;
-        if (!$id || !$db) Response::error('Valid Facility ID required', 400);
+        $id = $_GET['id'] ?? $subResource ?? null;
+        if (!$id) {
+            $b = get_json_body();
+            $id = $b['id'] ?? $b['slug'] ?? null;
+        }
+        if (!$id || !$db) Response::error('Valid Facility ID or Slug required', 400);
 
-        $stmt = $db->prepare("DELETE FROM facilities WHERE id = :id");
-        $stmt->execute([':id' => $id]);
+        $numericId = is_numeric($id) ? (int)$id : 0;
+        $slugMatch = (string)$id;
+
+        $stmt = $db->prepare("DELETE FROM facilities WHERE (:id_val > 0 AND id = :id) OR slug = :slug_match");
+        $stmt->execute([':id_val' => $numericId, ':id' => $numericId, ':slug_match' => $slugMatch]);
+
         ActivityLogger::log($admin, 'DELETE', 'facilities', (string)$id, "Deleted facility #{$id}");
         Response::success(null, 'Facility deleted.');
     }

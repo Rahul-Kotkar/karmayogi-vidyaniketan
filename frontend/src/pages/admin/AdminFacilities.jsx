@@ -116,32 +116,21 @@ export default function AdminFacilities() {
   })
 
   const mergeCanonicalFacilities = (apiList) => {
-    const list = Array.isArray(apiList) ? [...apiList] : []
-
-    CANONICAL_FACILITIES.forEach(canonical => {
-      const match = list.find(f => {
-        const s = (f.slug || f.id || '').toLowerCase()
-        return s === canonical.slug || 
-               (canonical.slug === 'stem-robotics' && s === 'ai-robotics') ||
-               (canonical.slug === 'library' && s === 'digital-library') ||
-               (canonical.slug === 'sports' && s === 'sports-facilities') ||
-               (canonical.slug === 'transport' && s === 'transportation')
-      })
-      if (!match) {
-        list.push({ ...canonical })
-      }
-    })
-
-    // Sort by order_index
-    list.sort((a, b) => (Number(a.order_index) || 0) - (Number(b.order_index) || 0))
-    return list
+    if (Array.isArray(apiList) && apiList.length > 0) {
+      return [...apiList].sort((a, b) => (Number(a.order_index) || 0) - (Number(b.order_index) || 0))
+    }
+    return CANONICAL_FACILITIES
   }
 
   const loadData = async () => {
     setLoading(true)
     try {
       const data = await facilitiesService.getAll()
-      setFacilities(mergeCanonicalFacilities(data))
+      if (Array.isArray(data)) {
+        setFacilities(mergeCanonicalFacilities(data))
+      } else {
+        setFacilities(CANONICAL_FACILITIES)
+      }
     } catch {
       setFacilities(CANONICAL_FACILITIES)
       setMsg({ text: 'Notice: Using local default facilities.', type: 'info' })
@@ -155,17 +144,17 @@ export default function AdminFacilities() {
   }, [])
 
   const getDefaultCategoryForTab = (tab) => {
-    if (tab === 'infrastructure') return 'Campus'
-    if (tab === 'classrooms') return 'Academic'
-    if (tab === 'science') return 'Academic'
-    if (tab === 'computer') return 'Academic'
-    if (tab === 'stem') return 'Innovation'
-    if (tab === 'robotics') return 'Innovation'
-    if (tab === 'library') return 'Academic'
-    if (tab === 'transport') return 'Campus'
-    if (tab === 'sports') return 'Campus'
-    if (tab === 'av') return 'Academic'
-    return 'Academic'
+    if (tab === 'infrastructure') return 'Infrastructure'
+    if (tab === 'classrooms') return 'Smart Classrooms'
+    if (tab === 'science') return 'Science Laboratories'
+    if (tab === 'computer') return 'Computer Laboratory'
+    if (tab === 'stem') return 'STEM Laboratory'
+    if (tab === 'robotics') return 'AI & Robotics Lab'
+    if (tab === 'library') return 'Digital Library'
+    if (tab === 'transport') return 'Transportation'
+    if (tab === 'sports') return 'Sports Facilities'
+    if (tab === 'av') return 'General Amenities'
+    return 'Infrastructure'
   }
 
   const handleOpenModal = (item = null) => {
@@ -174,7 +163,7 @@ export default function AdminFacilities() {
       setForm({
         title: item.title || '',
         slug: item.slug || item.id || '',
-        category: item.category || 'Academic',
+        category: item.category || 'Infrastructure',
         description: item.description || item.desc || '',
         image_url: item.image_url || item.img || '',
         is_active: item.is_active !== undefined ? item.is_active : 1
@@ -211,13 +200,17 @@ export default function AdminFacilities() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const isVirtual = !editingItem?.id || String(editingItem.id).startsWith('fac-')
-      if (isVirtual) {
-        await facilitiesService.create(form)
-        setMsg({ text: 'Facility saved to database successfully', type: 'success' })
-      } else {
-        await facilitiesService.update(editingItem.id, form)
+      if (editingItem) {
+        const targetId = editingItem.id || editingItem.slug
+        await facilitiesService.update(targetId, {
+          ...form,
+          id: editingItem.id,
+          slug: form.slug || editingItem.slug
+        })
         setMsg({ text: 'Facility updated successfully', type: 'success' })
+      } else {
+        await facilitiesService.create(form)
+        setMsg({ text: 'Facility added successfully', type: 'success' })
       }
       setModalOpen(false)
       loadData()
@@ -230,36 +223,37 @@ export default function AdminFacilities() {
     if (!tab || tab === 'all' || tab === 'overview') return true
     const slug = (fac.slug || fac.id || '').toLowerCase()
     const title = (fac.title || '').toLowerCase()
+    const cat = (fac.category || '').toLowerCase()
 
     if (tab === 'infrastructure') {
-      return slug === 'infrastructure' || title.includes('infrastructure')
+      return slug === 'infrastructure' || title.includes('infrastructure') || cat.includes('infrastructure')
     }
     if (tab === 'classrooms') {
-      return slug === 'smart-classrooms' || slug === 'classrooms' || title.includes('classroom')
+      return slug === 'smart-classrooms' || slug === 'classrooms' || title.includes('classroom') || cat.includes('classroom')
     }
     if (tab === 'science') {
-      return slug === 'science-labs' || slug === 'science' || title.includes('science')
+      return slug === 'science-labs' || slug === 'science' || title.includes('science') || cat.includes('science')
     }
     if (tab === 'computer') {
-      return slug === 'computer-lab' || slug === 'computer' || title.includes('computer')
+      return slug === 'computer-lab' || slug === 'computer' || title.includes('computer') || cat.includes('computer')
     }
     if (tab === 'stem') {
-      return slug === 'stem-lab' || (slug.includes('stem') && !slug.includes('robotics')) || title.includes('stem lab')
+      return (slug === 'stem-lab' || (slug.includes('stem') && !slug.includes('robotics')) || title.includes('stem')) && !title.includes('robotics')
     }
     if (tab === 'robotics') {
-      return slug === 'stem-robotics' || slug === 'ai-robotics' || title.includes('robotics') || title.includes('ai & robotics')
+      return slug === 'stem-robotics' || slug === 'ai-robotics' || slug.includes('robotics') || title.includes('robotics') || cat.includes('robotics') || title.includes('ai & robotics')
     }
     if (tab === 'library') {
-      return slug === 'library' || slug === 'digital-library' || title.includes('library')
+      return slug === 'library' || slug === 'digital-library' || title.includes('library') || cat.includes('library')
     }
     if (tab === 'transport') {
-      return slug === 'transport' || slug === 'transportation' || title.includes('transport') || title.includes('bus')
+      return slug === 'transport' || slug === 'transportation' || title.includes('transport') || title.includes('bus') || cat.includes('transport')
     }
     if (tab === 'sports') {
-      return slug === 'sports' || slug === 'sports-facilities' || title.includes('sport') || title.includes('arenas')
+      return slug === 'sports' || slug === 'sports-facilities' || title.includes('sport') || title.includes('arenas') || cat.includes('sport')
     }
     if (tab === 'av') {
-      return slug === 'digital-av-hall' || slug.includes('av-hall') || title.includes('av hall') || title.includes('digital media')
+      return slug === 'digital-av-hall' || slug.includes('av') || title.includes('av hall') || title.includes('digital media') || cat.includes('av') || cat.includes('media')
     }
     return true
   }
@@ -287,11 +281,12 @@ export default function AdminFacilities() {
   const handleDelete = async (item) => {
     if (!window.confirm(`Delete the facility "${item.title}"?`)) return
     try {
-      if (item.id && !String(item.id).startsWith('fac-')) {
-        await facilitiesService.delete(item.id)
+      const targetId = item.id || item.slug
+      if (targetId) {
+        await facilitiesService.delete(targetId)
       }
-      setFacilities(prev => prev.filter(f => f.id !== item.id && f.slug !== item.slug))
-      setMsg({ text: 'Facility removed', type: 'success' })
+      setFacilities(prev => prev.filter(f => f.id !== item.id && (!item.slug || f.slug !== item.slug)))
+      setMsg({ text: 'Facility removed successfully', type: 'success' })
       loadData()
     } catch (err) {
       setMsg({ text: err.message || 'Failed to delete facility', type: 'danger' })
