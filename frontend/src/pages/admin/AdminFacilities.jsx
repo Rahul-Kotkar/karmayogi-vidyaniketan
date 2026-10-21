@@ -2,8 +2,101 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { facilitiesService, uploadService } from '../../services/endpoints.js'
 
+export const CANONICAL_FACILITIES = [
+  {
+    id: 'fac-infra',
+    title: 'Infrastructure Overview',
+    slug: 'infrastructure',
+    category: 'Campus',
+    order_index: 1,
+    image_url: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+    description: 'Spacious, purpose-built multi-acre campuses at Isbavi (Foundation Campus) and Shelve (Main High School Campus) featuring child-safe infrastructure, ventilated classrooms, and expansive playgrounds.'
+  },
+  {
+    id: 'fac-smart',
+    title: 'Smart Classrooms',
+    slug: 'smart-classrooms',
+    category: 'Academic',
+    order_index: 2,
+    image_url: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+    description: 'Equipped with interactive smart boards, digital audio-visual resources, and ergonomic seating.'
+  },
+  {
+    id: 'fac-science',
+    title: 'Science Laboratories',
+    slug: 'science-labs',
+    category: 'Academic',
+    order_index: 3,
+    image_url: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80',
+    description: 'Dedicated, well-equipped physics, chemistry, and biology laboratories for safe practical experiments.'
+  },
+  {
+    id: 'fac-computer',
+    title: 'Computer Laboratory',
+    slug: 'computer-lab',
+    category: 'Academic',
+    order_index: 4,
+    image_url: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
+    description: 'Modern computer facilities for digital education, providing 1:1 computer access, high-speed broadband, and programming platforms.'
+  },
+  {
+    id: 'fac-stem',
+    title: 'STEM Laboratory',
+    slug: 'stem-lab',
+    category: 'Innovation',
+    order_index: 5,
+    image_url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+    description: 'Hands-on science, technology, engineering and mathematics learning where students build mechanical models and test creative ideas.'
+  },
+  {
+    id: 'fac-robotics',
+    title: 'AI & Robotics Lab',
+    slug: 'stem-robotics',
+    category: 'Innovation',
+    order_index: 6,
+    image_url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
+    description: 'State-of-the-art computational studio with Arduino kits, microcontrollers, and coding software.'
+  },
+  {
+    id: 'fac-library',
+    title: 'Central School Library',
+    slug: 'library',
+    category: 'Academic',
+    order_index: 7,
+    image_url: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80',
+    description: 'Rich collection of over 8,000 curriculum texts, reference encyclopedias, and quiet reading zones.'
+  },
+  {
+    id: 'fac-sports',
+    title: 'Sports Grounds & Outdoor Arenas',
+    slug: 'sports',
+    category: 'Campus',
+    order_index: 8,
+    image_url: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
+    description: 'Multi-lane running tracks, football ground, cricket nets, kabaddi mud courts, and volleyball setups.'
+  },
+  {
+    id: 'fac-transport',
+    title: 'School Bus Transportation',
+    slug: 'transport',
+    category: 'Campus',
+    order_index: 9,
+    image_url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+    description: 'Fleet of GPS-monitored yellow school buses with female attendants connecting Pandharpur and nearby towns.'
+  },
+  {
+    id: 'fac-av',
+    title: 'Digital Media & AV Hall',
+    slug: 'digital-av-hall',
+    category: 'Academic',
+    order_index: 10,
+    image_url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+    description: 'Spacious audio-visual hall for seminars, educational screenings, storytelling, and student assemblies.'
+  }
+]
+
 export default function AdminFacilities() {
-  const [facilities, setFacilities] = useState([])
+  const [facilities, setFacilities] = useState(CANONICAL_FACILITIES)
   const [loading, setLoading] = useState(true)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
@@ -16,19 +109,42 @@ export default function AdminFacilities() {
   const [form, setForm] = useState({
     title: '',
     slug: '',
-    category: 'Science & STEM Labs',
+    category: 'Academic',
     description: '',
     image_url: '',
     is_active: 1
   })
 
+  const mergeCanonicalFacilities = (apiList) => {
+    const list = Array.isArray(apiList) ? [...apiList] : []
+
+    CANONICAL_FACILITIES.forEach(canonical => {
+      const match = list.find(f => {
+        const s = (f.slug || f.id || '').toLowerCase()
+        return s === canonical.slug || 
+               (canonical.slug === 'stem-robotics' && s === 'ai-robotics') ||
+               (canonical.slug === 'library' && s === 'digital-library') ||
+               (canonical.slug === 'sports' && s === 'sports-facilities') ||
+               (canonical.slug === 'transport' && s === 'transportation')
+      })
+      if (!match) {
+        list.push({ ...canonical })
+      }
+    })
+
+    // Sort by order_index
+    list.sort((a, b) => (Number(a.order_index) || 0) - (Number(b.order_index) || 0))
+    return list
+  }
+
   const loadData = async () => {
     setLoading(true)
     try {
       const data = await facilitiesService.getAll()
-      setFacilities(data)
+      setFacilities(mergeCanonicalFacilities(data))
     } catch {
-      setMsg({ text: 'Failed to load facilities', type: 'danger' })
+      setFacilities(CANONICAL_FACILITIES)
+      setMsg({ text: 'Notice: Using local default facilities.', type: 'info' })
     } finally {
       setLoading(false)
     }
@@ -39,17 +155,17 @@ export default function AdminFacilities() {
   }, [])
 
   const getDefaultCategoryForTab = (tab) => {
-    if (tab === 'infrastructure') return 'Infrastructure'
-    if (tab === 'classrooms') return 'Smart Classrooms'
-    if (tab === 'science') return 'Science Laboratories'
-    if (tab === 'computer') return 'Computer Laboratory'
-    if (tab === 'stem') return 'STEM Laboratory'
-    if (tab === 'robotics') return 'AI & Robotics Lab'
-    if (tab === 'library') return 'Digital Library'
-    if (tab === 'labs') return 'Science & STEM Labs'
-    if (tab === 'transport') return 'Transportation'
-    if (tab === 'sports') return 'Sports Facilities'
-    return 'Science & STEM Labs'
+    if (tab === 'infrastructure') return 'Campus'
+    if (tab === 'classrooms') return 'Academic'
+    if (tab === 'science') return 'Academic'
+    if (tab === 'computer') return 'Academic'
+    if (tab === 'stem') return 'Innovation'
+    if (tab === 'robotics') return 'Innovation'
+    if (tab === 'library') return 'Academic'
+    if (tab === 'transport') return 'Campus'
+    if (tab === 'sports') return 'Campus'
+    if (tab === 'av') return 'Academic'
+    return 'Academic'
   }
 
   const handleOpenModal = (item = null) => {
@@ -58,7 +174,7 @@ export default function AdminFacilities() {
       setForm({
         title: item.title || '',
         slug: item.slug || item.id || '',
-        category: item.category || 'Science & STEM Labs',
+        category: item.category || 'Academic',
         description: item.description || item.desc || '',
         image_url: item.image_url || item.img || '',
         is_active: item.is_active !== undefined ? item.is_active : 1
@@ -95,12 +211,13 @@ export default function AdminFacilities() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      if (editingItem?.id) {
-        await facilitiesService.update(editingItem.id, form)
-        setMsg({ text: 'Facility updated', type: 'success' })
-      } else {
+      const isVirtual = !editingItem?.id || String(editingItem.id).startsWith('fac-')
+      if (isVirtual) {
         await facilitiesService.create(form)
-        setMsg({ text: 'Facility added', type: 'success' })
+        setMsg({ text: 'Facility saved to database successfully', type: 'success' })
+      } else {
+        await facilitiesService.update(editingItem.id, form)
+        setMsg({ text: 'Facility updated successfully', type: 'success' })
       }
       setModalOpen(false)
       loadData()
@@ -111,36 +228,38 @@ export default function AdminFacilities() {
 
   const matchesTab = (fac, tab) => {
     if (!tab || tab === 'all' || tab === 'overview') return true
-    const text = `${fac.title || ''} ${fac.slug || ''} ${fac.category || ''} ${fac.description || ''} ${fac.desc || ''}`.toLowerCase()
+    const slug = (fac.slug || fac.id || '').toLowerCase()
+    const title = (fac.title || '').toLowerCase()
+
     if (tab === 'infrastructure') {
-      return text.includes('infrastructure') || text.includes('building') || text.includes('campus') || text.includes('foundation')
+      return slug === 'infrastructure' || title.includes('infrastructure')
     }
     if (tab === 'classrooms') {
-      return text.includes('classroom') || text.includes('smart') || text.includes('touchscreen') || text.includes('audio-visual')
+      return slug === 'smart-classrooms' || slug === 'classrooms' || title.includes('classroom')
     }
     if (tab === 'science') {
-      return text.includes('physics') || text.includes('chemistry') || text.includes('biology') || (text.includes('science') && text.includes('lab'))
+      return slug === 'science-labs' || slug === 'science' || title.includes('science')
     }
     if (tab === 'computer') {
-      return text.includes('computer') || text.includes('coding') || text.includes('digital education') || text.includes('it-lab')
+      return slug === 'computer-lab' || slug === 'computer' || title.includes('computer')
     }
     if (tab === 'stem') {
-      return text.includes('stem') || text.includes('engineering') || text.includes('prototypes')
+      return slug === 'stem-lab' || (slug.includes('stem') && !slug.includes('robotics')) || title.includes('stem lab')
     }
     if (tab === 'robotics') {
-      return text.includes('robot') || text.includes('ai') || text.includes('artificial intelligence') || text.includes('arduino')
+      return slug === 'stem-robotics' || slug === 'ai-robotics' || title.includes('robotics') || title.includes('ai & robotics')
     }
     if (tab === 'library') {
-      return text.includes('library') || text.includes('book') || text.includes('reading') || text.includes('literature')
-    }
-    if (tab === 'labs') {
-      return text.includes('lab') || text.includes('science') || text.includes('stem') || text.includes('robotics') || text.includes('computer')
+      return slug === 'library' || slug === 'digital-library' || title.includes('library')
     }
     if (tab === 'transport') {
-      return text.includes('transport') || text.includes('bus') || text.includes('transit') || text.includes('fleet')
+      return slug === 'transport' || slug === 'transportation' || title.includes('transport') || title.includes('bus')
     }
     if (tab === 'sports') {
-      return text.includes('sport') || text.includes('athletic') || text.includes('ground') || text.includes('court') || text.includes('gym')
+      return slug === 'sports' || slug === 'sports-facilities' || title.includes('sport') || title.includes('arenas')
+    }
+    if (tab === 'av') {
+      return slug === 'digital-av-hall' || slug.includes('av-hall') || title.includes('av hall') || title.includes('digital media')
     }
     return true
   }
@@ -160,14 +279,18 @@ export default function AdminFacilities() {
       robotics: facilities.filter(f => matchesTab(f, 'robotics')).length,
       library: facilities.filter(f => matchesTab(f, 'library')).length,
       transport: facilities.filter(f => matchesTab(f, 'transport')).length,
-      sports: facilities.filter(f => matchesTab(f, 'sports')).length
+      sports: facilities.filter(f => matchesTab(f, 'sports')).length,
+      av: facilities.filter(f => matchesTab(f, 'av')).length
     }
   }, [facilities])
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this facility?')) return
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Delete the facility "${item.title}"?`)) return
     try {
-      await facilitiesService.delete(id)
+      if (item.id && !String(item.id).startsWith('fac-')) {
+        await facilitiesService.delete(item.id)
+      }
+      setFacilities(prev => prev.filter(f => f.id !== item.id && f.slug !== item.slug))
       setMsg({ text: 'Facility removed', type: 'success' })
       loadData()
     } catch (err) {
@@ -292,6 +415,14 @@ export default function AdminFacilities() {
           >
             Sports Facilities ({tabCounts.sports})
           </button>
+          <button
+            type="button"
+            className={`admin-btn admin-btn-sm ${activeTab === 'av' ? 'admin-btn-primary' : 'admin-btn-secondary'}`}
+            onClick={() => setSearchParams({ tab: 'av' })}
+            style={{ fontSize: 12 }}
+          >
+            Digital Media &amp; AV ({tabCounts.av})
+          </button>
         </div>
 
         <div className="admin-card-body" style={{ padding: 0 }}>
@@ -335,7 +466,7 @@ export default function AdminFacilities() {
                       </button>
                       <button
                         className="admin-btn admin-btn-danger admin-btn-sm"
-                        onClick={() => handleDelete(fac.id)}
+                        onClick={() => handleDelete(fac)}
                       >
                         Delete
                       </button>

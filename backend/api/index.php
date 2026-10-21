@@ -1048,6 +1048,120 @@ if ($resource === 'facilities') {
     if ($method === 'GET') {
         if ($db) {
             try {
+                // Ensure all 10 canonical school facilities exist in DB table
+                static $facChecked = false;
+                if (!$facChecked) {
+                    $facChecked = true;
+                    $defaultFacilities = [
+                        [
+                            'title' => 'Infrastructure Overview',
+                            'slug' => 'infrastructure',
+                            'category' => 'Campus',
+                            'order_index' => 1,
+                            'image_url' => 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Spacious, purpose-built multi-acre campuses at Isbavi (Foundation Campus) and Shelve (Main High School Campus) featuring child-safe infrastructure, ventilated classrooms, and expansive playgrounds.'
+                        ],
+                        [
+                            'title' => 'Smart Classrooms',
+                            'slug' => 'smart-classrooms',
+                            'category' => 'Academic',
+                            'order_index' => 2,
+                            'image_url' => 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Equipped with interactive smart boards, digital audio-visual resources, and ergonomic seating.'
+                        ],
+                        [
+                            'title' => 'Science Laboratories',
+                            'slug' => 'science-labs',
+                            'category' => 'Academic',
+                            'order_index' => 3,
+                            'image_url' => 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Dedicated, well-equipped physics, chemistry, and biology laboratories for safe practical experiments.'
+                        ],
+                        [
+                            'title' => 'Computer Laboratory',
+                            'slug' => 'computer-lab',
+                            'category' => 'Academic',
+                            'order_index' => 4,
+                            'image_url' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Modern computer facilities for digital education, providing 1:1 computer access, high-speed broadband, and programming platforms.'
+                        ],
+                        [
+                            'title' => 'STEM Laboratory',
+                            'slug' => 'stem-lab',
+                            'category' => 'Innovation',
+                            'order_index' => 5,
+                            'image_url' => 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Hands-on science, technology, engineering and mathematics learning where students build mechanical models and test creative ideas.'
+                        ],
+                        [
+                            'title' => 'AI & Robotics Lab',
+                            'slug' => 'stem-robotics',
+                            'category' => 'Innovation',
+                            'order_index' => 6,
+                            'image_url' => 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'State-of-the-art computational studio with Arduino kits, microcontrollers, and coding software.'
+                        ],
+                        [
+                            'title' => 'Central School Library',
+                            'slug' => 'library',
+                            'category' => 'Academic',
+                            'order_index' => 7,
+                            'image_url' => 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Rich collection of over 8,000 curriculum texts, reference encyclopedias, and quiet reading zones.'
+                        ],
+                        [
+                            'title' => 'Sports Grounds & Outdoor Arenas',
+                            'slug' => 'sports',
+                            'category' => 'Campus',
+                            'order_index' => 8,
+                            'image_url' => 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Multi-lane running tracks, football ground, cricket nets, kabaddi mud courts, and volleyball setups.'
+                        ],
+                        [
+                            'title' => 'School Bus Transportation',
+                            'slug' => 'transport',
+                            'category' => 'Campus',
+                            'order_index' => 9,
+                            'image_url' => 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Fleet of GPS-monitored yellow school buses with female attendants connecting Pandharpur and nearby towns.'
+                        ],
+                        [
+                            'title' => 'Digital Media & AV Hall',
+                            'slug' => 'digital-av-hall',
+                            'category' => 'Academic',
+                            'order_index' => 10,
+                            'image_url' => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+                            'description' => 'Spacious audio-visual hall for seminars, educational screenings, storytelling, and student assemblies.'
+                        ]
+                    ];
+
+                    $existingSlugs = $db->query("SELECT slug FROM facilities")->fetchAll(PDO::FETCH_COLUMN) ?: [];
+                    $existingSlugsLower = array_map('strtolower', $existingSlugs);
+
+                    $insertStmt = $db->prepare("INSERT INTO facilities (title, slug, category, description, image_url, order_index, is_active)
+                                                VALUES (:title, :slug, :cat, :desc, :img, :ord, 1)");
+                    foreach ($defaultFacilities as $df) {
+                        $s = strtolower($df['slug']);
+                        $isMissing = !in_array($s, $existingSlugsLower);
+                        if ($s === 'stem-robotics' && in_array('ai-robotics', $existingSlugsLower)) {
+                            $isMissing = false;
+                        }
+                        if ($s === 'library' && in_array('digital-library', $existingSlugsLower)) {
+                            $isMissing = false;
+                        }
+                        if ($isMissing) {
+                            $insertStmt->execute([
+                                ':title' => $df['title'],
+                                ':slug'  => $df['slug'],
+                                ':cat'   => $df['category'],
+                                ':desc'  => $df['description'],
+                                ':img'   => $df['image_url'],
+                                ':ord'   => $df['order_index']
+                            ]);
+                        }
+                    }
+                }
+
                 $items = $db->query("SELECT * FROM facilities ORDER BY order_index ASC, id ASC")->fetchAll();
                 Response::success($items);
             } catch (\Throwable $eDbFac) {}
