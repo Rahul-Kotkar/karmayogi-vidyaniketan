@@ -97,7 +97,7 @@ export default function Footer() {
           <ul>
             <li>
               <b>Phones:</b>{' '}
-              <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+              <a href={`tel:${String(phone).split(/[,/|;\n]|\bor\b/i)[0].trim().replace(/[^0-9+]/g, '')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                 {phone}
               </a>
             </li>

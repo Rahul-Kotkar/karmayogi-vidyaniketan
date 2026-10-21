@@ -74,16 +74,21 @@ export default function Navbar2Row() {
   }, [mobileOpen])
 
   useEffect(() => {
-    settingsService.get().then(data => {
-      if (data) setCollegeSettings(data)
-    }).catch(() => {})
+    const loadSettings = () => {
+      settingsService.get().then(data => {
+        if (data) setCollegeSettings(data)
+      }).catch(() => {})
+    }
+    loadSettings()
 
     const handleVisibilityUpdate = (e) => {
       if (e.detail) setNavVisibility(e.detail)
     }
     window.addEventListener('nav_visibility_updated', handleVisibilityUpdate)
+    window.addEventListener('settings_updated', loadSettings)
     return () => {
       window.removeEventListener('nav_visibility_updated', handleVisibilityUpdate)
+      window.removeEventListener('settings_updated', loadSettings)
     }
   }, [])
 
@@ -284,6 +289,19 @@ export default function Navbar2Row() {
     { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admission-enquiry' }
   ], [dynamicFacilityChildren])
 
+  // Extract 1st school contact number and sanitize for native mobile dialer
+  const primaryPhone = useMemo(() => {
+    const raw = collegeSettings?.college_phone || COLLEGE.phone || COLLEGE.phones?.[0] || '+91-8459863477'
+    const first = String(raw).split(/[,/|;\n]|\bor\b/i)[0].trim()
+    return first || '+91-8459863477'
+  }, [collegeSettings])
+
+  const dialerHref = useMemo(() => {
+    // Preserve leading '+' and remove all non-digits for standard E.164 dialer protocol
+    const cleanDigits = primaryPhone.replace(/[^\d+]/g, '')
+    return cleanDigits ? `tel:${cleanDigits}` : 'tel:+918459863477'
+  }, [primaryPhone])
+
   return (
     <div className="navbar-2row-wrapper">
       {/* ================= MOBILE BAR HEADER (< 992px) ================= */}
@@ -310,10 +328,10 @@ export default function Navbar2Row() {
         <div className="navbar-mobile-actions">
           {!isScrolled && (
             <a
-              href={`tel:${COLLEGE.phone}`}
+              href={dialerHref}
               className="navbar-mobile-call-btn"
-              aria-label="Call School Helpdesk"
-              title="Call School Desk"
+              aria-label={`Call School Helpdesk ${primaryPhone}`}
+              title={`Call School Desk (${primaryPhone})`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -450,17 +468,17 @@ export default function Navbar2Row() {
           {/* Quick Contact Desk Actions */}
           <div className="mobile-drawer-contact-box">
             <div className="mobile-contact-title">School Admission Desk</div>
-            <a href={`tel:${COLLEGE.phone}`} className="mobile-contact-link">
+            <a href={dialerHref} className="mobile-contact-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              <span>{COLLEGE.phone}</span>
+              <span>{primaryPhone}</span>
             </a>
-            <a href={`mailto:${COLLEGE.email}`} className="mobile-contact-link">
+            <a href={`mailto:${collegeSettings?.college_email || COLLEGE.email}`} className="mobile-contact-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span>{COLLEGE.email}</span>
+              <span>{collegeSettings?.college_email || COLLEGE.email}</span>
             </a>
           </div>
         </div>
