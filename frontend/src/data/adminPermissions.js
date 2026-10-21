@@ -11,17 +11,7 @@ export const ADMIN_PERMISSION_GROUPS = [
       { id: 'dashboard', label: 'Dashboard Overview', path: '/admin/dashboard' },
       { id: 'home', label: 'Homepage Settings & Slides', path: '/admin/home' },
       { id: 'about', label: 'About School Overview', path: '/admin/about' },
-      {
-        id: 'admissions',
-        label: 'Admissions Desk & Fees',
-        path: '/admin/admissions',
-        submenus: [
-          { id: 'adm_overview', label: 'Admissions & Fee Guide', path: '/admin/admissions' },
-          { id: 'adm_fees', label: 'Fee Structure', path: '/admin/admissions?tab=fees' },
-          { id: 'adm_documents', label: 'Required Documents', path: '/admin/admissions?tab=documents' },
-          { id: 'adm_enquiries', label: 'Online Enquiries (Inbox)', path: '/admin/messages?filter=admission' }
-        ]
-      },
+      { id: 'admissions', label: 'Admissions Desk & Fees', path: '/admin/admissions' },
       { id: 'faculty', label: 'Faculty & Staff Roster', path: '/admin/faculty' },
       { id: 'notices', label: 'Circulars & Official Notices', path: '/admin/notices' },
       { id: 'news', label: 'News & Announcements', path: '/admin/news' },

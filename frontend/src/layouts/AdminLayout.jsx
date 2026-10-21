@@ -171,13 +171,7 @@ export default function AdminLayout() {
           <line x1="16" y1="17" x2="8" y2="17" />
           <polyline points="10 9 9 9 8 9" />
         </svg>
-      ),
-      children: [
-        { id: 'adm_overview', label: 'Admissions & Fee Guide', path: '/admin/admissions' },
-        { id: 'adm_fees', label: 'Fee Structure', path: '/admin/admissions?tab=fees' },
-        { id: 'adm_documents', label: 'Required Documents', path: '/admin/admissions?tab=documents' },
-        { id: 'adm_enquiries', label: 'Online Enquiries (Inbox)', path: '/admin/messages?filter=admission' }
-      ]
+      )
     },
     {
       id: 'faculty',
