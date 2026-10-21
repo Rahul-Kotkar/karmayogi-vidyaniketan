@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, ProtectedRoute } from './hooks/useAuth.jsx'
 import PublicLayout from './layouts/PublicLayout.jsx'
 import AdminLayout from './layouts/AdminLayout.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 
 // Public Pages
 import Home from './pages/Home.jsx'
@@ -82,8 +83,9 @@ export default function App() {
   return (
     <AuthProvider>
       <ScrollToTop />
-      <Routes>
-        {/* Admin Login (Standalone) */}
+      <ErrorBoundary>
+        <Routes>
+          {/* Admin Login (Standalone) */}
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Protected Admin Routes */}
@@ -223,6 +225,7 @@ export default function App() {
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>
+      </ErrorBoundary>
     </AuthProvider>
   )
 }

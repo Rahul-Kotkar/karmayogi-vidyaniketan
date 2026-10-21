@@ -164,124 +164,7 @@ export default function Facilities() {
     return () => window.removeEventListener('facilities_updated', loadFacilities)
   }, [])
 
-  // If viewing a specific facility subpage
-  let activeDetail = null
-  if (subpage) {
-    const rawKey = decodeURIComponent(subpage).toLowerCase().trim()
-
-    // 1. Check database facilities by slug, id, or title
-    const dbMatch = (facilities || []).find(f => {
-      const slug = (f.slug || '').toLowerCase().trim()
-      const title = (f.title || '').toLowerCase().trim()
-      const id = String(f.id || '').toLowerCase().trim()
-      return slug === rawKey || id === rawKey || title === rawKey
-    })
-
-    // 2. Check metadata dictionary for key or alias match
-    let meta = SCHOOL_FACILITY_METADATA[rawKey] || null
-    if (!meta) {
-      for (const [key, m] of Object.entries(SCHOOL_FACILITY_METADATA)) {
-        if (key === rawKey || (Array.isArray(m.aliases) && m.aliases.includes(rawKey))) {
-          meta = m
-          break
-        }
-      }
-    }
-
-    if (dbMatch || meta) {
-      let parsedFeatures = []
-      const rawFeatures = dbMatch?.features || meta?.features
-      if (Array.isArray(rawFeatures) && rawFeatures.length > 0) {
-        parsedFeatures = rawFeatures
-      } else if (typeof rawFeatures === 'string' && rawFeatures.trim()) {
-        try {
-          const json = JSON.parse(rawFeatures)
-          if (Array.isArray(json)) parsedFeatures = json
-          else parsedFeatures = rawFeatures.split('\n').filter(Boolean)
-        } catch {
-          parsedFeatures = rawFeatures.split('\n').filter(Boolean)
-        }
-      }
-      if (parsedFeatures.length === 0) {
-        parsedFeatures = meta?.features || [
-          'High-standard facility built to modern educational specifications.',
-          'Safe and supportive environment supervised by qualified staff.',
-          'Regular maintenance and hygienic standards.'
-        ]
-      }
-
-      activeDetail = {
-        title: dbMatch?.title || meta?.title || 'Campus Facility',
-        badge: dbMatch?.category || meta?.badge || 'Campus Facility',
-        img: resolveMediaUrl(dbMatch?.image_url || dbMatch?.image || dbMatch?.img || meta?.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
-        lead: dbMatch?.description || dbMatch?.desc || meta?.lead || 'Modern institutional learning and recreational infrastructure for students.',
-        features: parsedFeatures,
-        incharge: dbMatch?.incharge || meta?.incharge || 'Campus Administration',
-        hours: dbMatch?.hours || meta?.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
-      }
-    }
-  }
-
-  if (activeDetail) {
-    const safeFeatures = Array.isArray(activeDetail.features) ? activeDetail.features : []
-
-    return (
-      <PageShell title={activeDetail.title} subtitle={activeDetail.badge}>
-        <div style={{ display: 'grid', gap: 32 }}>
-          <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-md)' }}>
-            <img
-              src={resolveMediaUrl(activeDetail.img)}
-              alt={activeDetail.title}
-              style={{ width: '100%', height: 360, objectFit: 'cover' }}
-            />
-            <div style={{ padding: '32px 28px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--blue-vibrant)', textTransform: 'uppercase' }}>
-                {activeDetail.badge}
-              </span>
-              <h1 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 14px' }}>
-                {activeDetail.title}
-              </h1>
-              <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.75, marginBottom: 24, whiteSpace: 'pre-line' }}>
-                {activeDetail.lead}
-              </p>
-
-              <h3 style={{ fontSize: '18px', color: 'var(--navy-header)', marginBottom: 12 }}>
-                Key Infrastructure &amp; Features:
-              </h3>
-              <ul style={{ margin: '0 0 24px', paddingLeft: 20, fontSize: '14.5px', color: '#475569', lineHeight: 1.8 }}>
-                {safeFeatures.map((f, i) => (
-                  <li key={i}>{f}</li>
-                ))}
-              </ul>
-
-              <div style={{ background: '#f8fafc', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14, fontSize: '13.5px', color: 'var(--text-muted)' }}>
-                <div><strong>In-Charge:</strong> {activeDetail.incharge || 'Campus Administration'}</div>
-                <div><strong>Operational Hours:</strong> {activeDetail.hours || '8:00 AM to 2:00 PM'}</div>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <Link to="/facilities" className="btn btn-secondary">&larr; Back to All School Facilities</Link>
-          </div>
-        </div>
-      </PageShell>
-    )
-  }
-
-  if (subpage && !activeDetail) {
-    return (
-      <PageShell title="Facility Not Found" subtitle="Campus Facilities | Karmayogi Vidyaniketan">
-        <div style={{ textAlign: 'center', padding: '60px 20px', background: '#ffffff', borderRadius: 12, border: '1px solid #e2e8f0' }}>
-          <h2 style={{ color: 'var(--navy-header)', marginBottom: 12 }}>Facility Not Found</h2>
-          <p style={{ color: '#64748b', marginBottom: 24 }}>The facility you are looking for does not exist or may have been updated.</p>
-          <Link to="/facilities" className="btn btn-primary">&larr; Return to All School Facilities</Link>
-        </div>
-      </PageShell>
-    )
-  }
-
-  // Display items directly synced with database facilities
+  // 1. Display items directly synced with database facilities (unconditional hook)
   const displayItems = useMemo(() => {
     if (Array.isArray(facilities) && facilities.length > 0) {
       return facilities.map(f => {
@@ -308,7 +191,7 @@ export default function Facilities() {
     }))
   }, [facilities])
 
-  // Handle smooth scroll to respective section on mount or hash change
+  // 2. Handle smooth scroll to respective section on mount or hash change (unconditional hook)
   useEffect(() => {
     const rawHash = (location.hash || '').replace('#', '').toLowerCase().trim()
     if (!rawHash) return
@@ -361,6 +244,124 @@ export default function Facilities() {
       clearTimeout(t2)
     }
   }, [location.hash, location.pathname, displayItems])
+
+  // 3. Resolve active subpage facility detail if viewing a subpage (unconditional hook)
+  const activeDetail = useMemo(() => {
+    if (!subpage) return null
+    const rawKey = decodeURIComponent(subpage).toLowerCase().trim()
+
+    // Match database facilities by slug, id, or title
+    const dbMatch = (facilities || []).find(f => {
+      const slug = (f.slug || '').toLowerCase().trim()
+      const title = (f.title || '').toLowerCase().trim()
+      const id = String(f.id || '').toLowerCase().trim()
+      return slug === rawKey || id === rawKey || title === rawKey
+    })
+
+    // Match metadata dictionary for key or alias match
+    let meta = SCHOOL_FACILITY_METADATA[rawKey] || null
+    if (!meta) {
+      for (const [key, m] of Object.entries(SCHOOL_FACILITY_METADATA)) {
+        if (key === rawKey || (Array.isArray(m.aliases) && m.aliases.includes(rawKey))) {
+          meta = m
+          break
+        }
+      }
+    }
+
+    if (!dbMatch && !meta) return null
+
+    let parsedFeatures = []
+    const rawFeatures = dbMatch?.features || meta?.features
+    if (Array.isArray(rawFeatures) && rawFeatures.length > 0) {
+      parsedFeatures = rawFeatures
+    } else if (typeof rawFeatures === 'string' && rawFeatures.trim()) {
+      try {
+        const json = JSON.parse(rawFeatures)
+        if (Array.isArray(json)) parsedFeatures = json
+        else parsedFeatures = rawFeatures.split('\n').filter(Boolean)
+      } catch {
+        parsedFeatures = rawFeatures.split('\n').filter(Boolean)
+      }
+    }
+    if (parsedFeatures.length === 0) {
+      parsedFeatures = meta?.features || [
+        'High-standard facility built to modern educational specifications.',
+        'Safe and supportive environment supervised by qualified staff.',
+        'Regular maintenance and hygienic standards.'
+      ]
+    }
+
+    return {
+      title: dbMatch?.title || meta?.title || 'Campus Facility',
+      badge: dbMatch?.category || meta?.badge || 'Campus Facility',
+      img: resolveMediaUrl(dbMatch?.image_url || dbMatch?.image || dbMatch?.img || meta?.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+      lead: dbMatch?.description || dbMatch?.desc || meta?.lead || 'Modern institutional learning and recreational infrastructure for students.',
+      features: parsedFeatures,
+      incharge: dbMatch?.incharge || meta?.incharge || 'Campus Administration',
+      hours: dbMatch?.hours || meta?.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
+    }
+  }, [subpage, facilities])
+
+  // Subpage View Rendering (executed only after ALL hooks have run)
+  if (subpage) {
+    if (activeDetail) {
+      const safeFeatures = Array.isArray(activeDetail.features) ? activeDetail.features : []
+
+      return (
+        <PageShell title={activeDetail.title} subtitle={activeDetail.badge}>
+          <div style={{ display: 'grid', gap: 32 }}>
+            <div style={{ background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-md)' }}>
+              <img
+                src={resolveMediaUrl(activeDetail.img)}
+                alt={activeDetail.title}
+                style={{ width: '100%', height: 360, objectFit: 'cover' }}
+              />
+              <div style={{ padding: '32px 28px' }}>
+                <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--blue-vibrant)', textTransform: 'uppercase' }}>
+                  {activeDetail.badge}
+                </span>
+                <h1 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 14px' }}>
+                  {activeDetail.title}
+                </h1>
+                <p style={{ fontSize: '16px', color: '#334155', lineHeight: 1.75, marginBottom: 24, whiteSpace: 'pre-line' }}>
+                  {activeDetail.lead}
+                </p>
+
+                <h3 style={{ fontSize: '18px', color: 'var(--navy-header)', marginBottom: 12 }}>
+                  Key Infrastructure &amp; Features:
+                </h3>
+                <ul style={{ margin: '0 0 24px', paddingLeft: 20, fontSize: '14.5px', color: '#475569', lineHeight: 1.8 }}>
+                  {safeFeatures.map((f, i) => (
+                    <li key={i}>{f}</li>
+                  ))}
+                </ul>
+
+                <div style={{ background: '#f8fafc', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14, fontSize: '13.5px', color: 'var(--text-muted)' }}>
+                  <div><strong>In-Charge:</strong> {activeDetail.incharge || 'Campus Administration'}</div>
+                  <div><strong>Operational Hours:</strong> {activeDetail.hours || '8:00 AM to 2:00 PM'}</div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
+              <Link to="/facilities" className="btn btn-secondary">&larr; Back to All School Facilities</Link>
+            </div>
+          </div>
+        </PageShell>
+      )
+    }
+
+    return (
+      <PageShell title="Facility Not Found" subtitle="Campus Facilities | Karmayogi Vidyaniketan">
+        <div style={{ textAlign: 'center', padding: '60px 20px', background: '#ffffff', borderRadius: 12, border: '1px solid #e2e8f0' }}>
+          <h2 style={{ color: 'var(--navy-header)', marginBottom: 12 }}>Facility Not Found</h2>
+          <p style={{ color: '#64748b', marginBottom: 24 }}>The facility you are looking for does not exist or may have been updated.</p>
+          <Link to="/facilities" className="btn btn-primary">&larr; Return to All School Facilities</Link>
+        </div>
+      </PageShell>
+    )
+  }
 
   return (
     <PageShell title="School Facilities &amp; Infrastructure" subtitle="State-of-the-Art Learning Spaces, Labs, Sports &amp; Student Transport | Karmayogi Vidyaniketan">
