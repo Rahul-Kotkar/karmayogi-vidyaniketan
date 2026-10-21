@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { ROW_1_NAV, ROW_2_NAV, COLLEGE } from '../data/collegeData.js'
 import { CollegeLogo } from './Logo.jsx'
-import { getCachedNavVisibility, settingsService, getCachedSettings } from '../services/endpoints.js'
+import { getCachedNavVisibility, settingsService, getCachedSettings, facilitiesService, getCachedFacilities } from '../services/endpoints.js'
 
 export default function Navbar2Row() {
   const [activeDropdown, setActiveDropdown] = useState(null)
@@ -10,6 +10,7 @@ export default function Navbar2Row() {
   const [mobileExpanded, setMobileExpanded] = useState({})
   const [navVisibility, setNavVisibility] = useState(() => getCachedNavVisibility() || { hiddenMenus: [], hiddenSubmenus: {} })
   const [collegeSettings, setCollegeSettings] = useState(() => getCachedSettings() || null)
+  const [facilities, setFacilities] = useState(() => getCachedFacilities() || null)
   const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
 
@@ -86,6 +87,64 @@ export default function Navbar2Row() {
     }
   }, [])
 
+  // Dynamically synchronize facilities from backend/cache
+  useEffect(() => {
+    let mounted = true
+    const loadFacilities = () => {
+      facilitiesService.getAll().then(data => {
+        if (mounted && Array.isArray(data)) {
+          setFacilities(data)
+        }
+      }).catch(() => {})
+    }
+
+    loadFacilities()
+    window.addEventListener('facilities_updated', loadFacilities)
+    return () => {
+      mounted = false
+      window.removeEventListener('facilities_updated', loadFacilities)
+    }
+  }, [])
+
+  // Compute dropdown items for Facilities based only on added and active facilities
+  const dynamicFacilityChildren = useMemo(() => {
+    const overviewItem = { label: 'Facilities Overview', path: '/facilities#overview' }
+
+    if (Array.isArray(facilities)) {
+      if (facilities.length === 0) {
+        return [overviewItem]
+      }
+
+      const activeItems = facilities
+        .filter(f => f.is_active !== 0 && f.is_active !== '0' && f.is_active !== false)
+        .sort((a, b) => (Number(a.order_index) || 0) - (Number(b.order_index) || 0))
+        .map(f => {
+          const slug = f.slug || String(f.id)
+          return {
+            label: f.title || 'Facility',
+            path: `/facilities#${slug}`
+          }
+        })
+
+      return [overviewItem, ...activeItems]
+    }
+
+    return [overviewItem]
+  }, [facilities])
+
+  // Desktop Row 2 Navigation with dynamic facilities
+  const desktopRow2Nav = useMemo(() => {
+    return ROW_2_NAV.map(group => {
+      if (group.label === 'FACILITIES' || group.path === '/facilities') {
+        return {
+          ...group,
+          children: dynamicFacilityChildren
+        }
+      }
+      return group
+    })
+  }, [dynamicFacilityChildren])
+
   const toggleMobileGroup = (groupKey) => {
     setMobileExpanded(prev => ({
       ...prev,
@@ -151,7 +210,7 @@ export default function Navbar2Row() {
   }
 
   // Unified Mobile Navigation Sequence
-  const mobileNavItems = [
+  const mobileNavItems = useMemo(() => [
     { key: 'home', label: 'HOME', path: '/', exact: true },
     { key: 'about', label: 'ABOUT', path: '/about' },
     { key: 'admissions', label: 'ADMISSIONS', path: '/admissions' },
@@ -181,18 +240,7 @@ export default function Navbar2Row() {
       key: 'facilities',
       label: 'FACILITIES',
       path: '/facilities',
-      children: [
-        { label: 'Facilities Overview', path: '/facilities#overview' },
-        { label: 'Infrastructure Overview', path: '/facilities#infrastructure' },
-        { label: 'Smart Classrooms', path: '/facilities#smart-classrooms' },
-        { label: 'Science Laboratories', path: '/facilities#science-labs' },
-        { label: 'Computer Laboratory', path: '/facilities#computer-lab' },
-        { label: 'STEM Laboratory', path: '/facilities#stem-lab' },
-        { label: 'AI & Robotics Lab', path: '/facilities#ai-robotics' },
-        { label: 'Digital Library', path: '/facilities#digital-library' },
-        { label: 'Transportation Fleet', path: '/facilities#transportation' },
-        { label: 'Sports Facilities', path: '/facilities#sports-facilities' }
-      ]
+      children: dynamicFacilityChildren
     },
     {
       key: 'student-life',
@@ -209,7 +257,7 @@ export default function Navbar2Row() {
     },
     { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },
     { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admission-enquiry' }
-  ]
+  ], [dynamicFacilityChildren])
 
   return (
     <div className="navbar-2row-wrapper">
@@ -489,7 +537,7 @@ export default function Navbar2Row() {
             <nav className="nav-deck row-2-deck" aria-label="Campus & Academic Services Navigation">
               <div className="nav-deck-inner">
                 <ul className="nav-items-list row-2-list">
-                  {ROW_2_NAV.filter(item => isMenuVisible(item.label)).map((item, idx) => {
+                  {desktopRow2Nav.filter(item => isMenuVisible(item.label)).map((item, idx) => {
                     const hasChildren = Boolean(item.children && item.children.length > 0)
                     const visibleChildren = hasChildren ? item.children.filter(c => isSubmenuVisible(item.label, c)) : []
                     const hasDropdown = hasChildren && visibleChildren.length > 0
