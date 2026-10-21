@@ -176,13 +176,13 @@ export default function HousesCouncil() {
         <section id="houses" style={{ scrollMarginTop: '130px' }}>
           <div style={{ textAlign: 'center', marginBottom: 26 }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              FOUR PILLARS OF CAMARADERIE
+              {meta.houses_section_badge || 'FOUR PILLARS OF CAMARADERIE'}
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '6px 0 8px' }}>
-              The School House System
+              {meta.houses_section_title || 'The School House System'}
             </h2>
             <p style={{ fontSize: '15px', color: '#64748b', maxWidth: 700, margin: '0 auto' }}>
-              Each house carries a unique philosophy, distinctive color sash, and sacred motto encouraging students to strive for honor and excellence.
+              {meta.houses_section_desc || 'Each house carries a unique philosophy, distinctive color sash, and sacred motto encouraging students to strive for honor and excellence.'}
             </p>
           </div>
 
@@ -263,13 +263,13 @@ export default function HousesCouncil() {
         <section id="council" style={{ scrollMarginTop: '130px' }}>
           <div style={{ textAlign: 'center', marginBottom: 26 }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              DEMOCRATIC STUDENT GOVERNANCE
+              {meta.council_section_badge || 'DEMOCRATIC STUDENT GOVERNANCE'}
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '6px 0 8px' }}>
-              Student Council & Leadership Body
+              {meta.council_section_title || 'Student Council & Leadership Body'}
             </h2>
             <p style={{ fontSize: '15px', color: '#64748b', maxWidth: 700, margin: '0 auto' }}>
-              True leadership is learned by shouldering real accountability. The elected student prefectorial body represents the entire student populace.
+              {meta.council_section_desc || 'True leadership is learned by shouldering real accountability. The elected student prefectorial body represents the entire student populace.'}
             </p>
           </div>
 
@@ -333,37 +333,35 @@ export default function HousesCouncil() {
         }}>
           <div>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              CEREMONY & CODE OF HONOUR
+              {meta.investiture_badge || 'CEREMONY & CODE OF HONOUR'}
             </span>
             <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#002855', margin: '6px 0 12px' }}>
-              The Annual Investiture Ceremony
+              {meta.investiture_title || 'The Annual Investiture Ceremony'}
             </h3>
             <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.7, margin: '0 0 14px' }}>
-              Every academic year commences with an esteemed investiture assembly where newly elected student leaders receive their official badges, house flags, and sashes from the Management and Principal.
+              {meta.investiture_desc || 'Every academic year commences with an esteemed investiture assembly where newly elected student leaders receive their official badges, house flags, and sashes from the Management and Principal.'}
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: '13px', color: '#334155' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CheckCircleIcon size={16} color="#16a34a" />
-                <span>Democratic voting and speech round for candidate selection</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CheckCircleIcon size={16} color="#16a34a" />
-                <span>Solemn student pledge to uphold discipline, empathy, and integrity</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CheckCircleIcon size={16} color="#16a34a" />
-                <span>Mentorship under senior faculty advisors & House Masters</span>
-              </div>
+              {(meta.investiture_points || [
+                'Democratic voting and speech round for candidate selection',
+                'Solemn student pledge to uphold discipline, empathy, and integrity',
+                'Mentorship under senior faculty advisors & House Masters'
+              ]).map((pt, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <CheckCircleIcon size={16} color="#16a34a" />
+                  <span>{pt}</span>
+                </div>
+              ))}
             </div>
           </div>
 
           <div style={{ background: '#ffffff', borderRadius: 10, padding: 22, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
             <h4 style={{ margin: '0 0 10px', fontSize: '16px', color: '#002855', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               <FlagIcon size={18} color="#002855" />
-              The Karmayogi Student Oath
+              {meta.pledge_heading || 'The Karmayogi Student Oath'}
             </h4>
             <blockquote style={{ margin: 0, fontSize: '13px', color: '#475569', lineHeight: 1.7, fontStyle: 'italic', borderLeft: '3px solid #002855', paddingLeft: 12 }}>
-              "We solemnly pledge to serve Karmayogi Vidyaniketan with honor and devotion. We shall lead by personal example, defend the dignity of every classmate, respect the guidance of our teachers, and hold aloft the values of character, courage, and service."
+              "{meta.pledge_text || 'We solemnly pledge to serve Karmayogi Vidyaniketan with honor and devotion. We shall lead by personal example, defend the dignity of every classmate, respect the guidance of our teachers, and hold aloft the values of character, courage, and service.'}"
             </blockquote>
           </div>
         </div>

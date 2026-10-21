@@ -483,7 +483,13 @@ export const DEFAULT_CULTURAL_META = {
       desc: 'Vibrant Lezim drills, Lavani folk choreographies, Garba, and annual Pandharpur Varkari Dindi celebrations connecting children with divine regional roots.',
       tag: 'Heritage Preservation • State Competition Winners'
     }
-  ]
+  ],
+  section_badge: 'FEATURED CELEBRATIONS',
+  section_title: 'Signature Cultural Events & Showcases',
+  cta_title: 'Relive the Memories of Past Karmotsav Events',
+  cta_desc: 'Browse through our high-resolution photo archives showcasing student stage dances, traditional lezim troops, drama recitals, and parent felicitations.',
+  cta_btn_text: 'Explore Photo Gallery',
+  cta_btn_link: '/gallery'
 };
 
 export const DEFAULT_FIELD_TRIPS_META = {
@@ -514,7 +520,13 @@ export const DEFAULT_FIELD_TRIPS_META = {
       title: 'Observation Worksheets',
       desc: 'Structured field questionnaires linking museum and industrial insights to school syllabus.'
     }
-  ]
+  ],
+  section_badge: 'CURATED ITINERARIES',
+  section_title: 'Educational Excursion Destinations',
+  cta_title: 'Safe, Comfortable Student Transportation',
+  cta_desc: "All field trips are conducted using our school's own fleet of serviced yellow school buses, operated by verified drivers and attended by female faculty escorts.",
+  cta_btn_text: 'View School Bus Fleet & Routes',
+  cta_btn_link: '/transport'
 };
 
 export const DEFAULT_COMPETITIONS_META = {
@@ -541,7 +553,13 @@ export const DEFAULT_COMPETITIONS_META = {
       title: 'Personal Doubt Remediation',
       desc: 'One-on-one diagnostic doubt counters clarify trick questions in physics formulas, grammatical nuances, and mental ability logic.'
     }
-  ]
+  ],
+  section_badge: 'EXAM PORTFOLIOS',
+  section_title: 'Recognized Olympiads & Talent Frameworks',
+  cta_title: 'Check Out the Hall of Laurels',
+  cta_desc: 'Discover the students who brought gold medals, state rank certificates, and government drawing grade distinctions back to Karmayogi Vidyaniketan.',
+  cta_btn_text: 'Read Student Laurels & Stats',
+  cta_btn_link: '/student-achievements'
 };
 
 export const DEFAULT_ACHIEVEMENTS_META = {
@@ -556,7 +574,26 @@ export const DEFAULT_ACHIEVEMENTS_META = {
   inquire_btn_text: 'Admission Guidance',
   inquire_btn_link: '/admissions',
   section_badge: 'BY THE NUMBERS',
-  section_title: 'Milestones of Institutional Pride'
+  section_title: 'Milestones of Institutional Pride',
+  pillars: [
+    {
+      title: 'Class 10 Board Excellence',
+      desc: 'Unbroken string of 100% board results with more than 68% candidates securing first-class with distinction. Subject centum (100/100) recorded in Math, Science & Sanskrit.',
+      highlights: ['Special merit scholar felicitations', 'Parent honor evening at Karmotsav']
+    },
+    {
+      title: 'SOF Olympiad Medallists',
+      desc: 'Over 45 gold, silver, and bronze medals earned every academic year in National Science Olympiad (NSO), International Math Olympiad (IMO), and Cyber Olympiad (NCO).',
+      highlights: ['Zonal and State top 100 rank holders', 'Foundation merit certificates & cash honors']
+    },
+    {
+      title: 'Solapur DSO Sports Trophies',
+      desc: 'Dominant victories across Solapur District Sports Office (DSO) championships in Kabaddi, Kho-Kho, 100m/200m track sprints, and regional Chess tournaments.',
+      highlights: ['District division championship winners', 'State tournament qualification track record']
+    }
+  ],
+  felicitation_title: 'Quarterly Felicitation & Merit Assemblies',
+  felicitation_desc: 'We ensure talent does not go unnoticed. Alongside top rank holders, students who demonstrate outstanding personal improvement, artistic passion, or 100% attendance receive commemorative trophies in front of their cheering peers.'
 };
 
 export const DEFAULT_HOUSES_COUNCIL_META = {
@@ -569,7 +606,23 @@ export const DEFAULT_HOUSES_COUNCIL_META = {
   inquire_btn_link: '#council',
   banner_heading: 'Inter-House Championship 2025-26',
   banner_sub: 'Live Standings',
-  banner_desc: 'Year-round sports matches, debate tournaments, science displays, and cultural competitions accumulate points toward the coveted annual Rolling Trophy.'
+  banner_desc: 'Year-round sports matches, debate tournaments, science displays, and cultural competitions accumulate points toward the coveted annual Rolling Trophy.',
+  houses_section_badge: 'FOUR PILLARS OF CAMARADERIE',
+  houses_section_title: 'The School House System',
+  houses_section_desc: 'Each house carries a unique philosophy, distinctive color sash, and sacred motto encouraging students to strive for honor and excellence.',
+  council_section_badge: 'DEMOCRATIC STUDENT GOVERNANCE',
+  council_section_title: 'Student Council & Leadership Body',
+  council_section_desc: 'True leadership is learned by shouldering real accountability. The elected student prefectorial body represents the entire student populace.',
+  investiture_badge: 'CEREMONY & CODE OF HONOUR',
+  investiture_title: 'The Annual Investiture Ceremony',
+  investiture_desc: 'Every academic year commences with an esteemed investiture assembly where newly elected student leaders receive their official badges, house flags, and sashes from the Management and Principal.',
+  investiture_points: [
+    'Democratic voting and speech round for candidate selection',
+    'Official sash and badge investiture by School Management',
+    'House Captain oaths of athletic fair-play and duty'
+  ],
+  pledge_heading: "The Student Leader's Pledge",
+  pledge_text: 'I solemnly pledge to lead with humility, uphold the honor of Karmayogi Vidyaniketan, support my house peers, and serve as an upright role model in discipline, empathy, and athletic spirit.'
 };
 
 export const DEFAULT_SPORTS_META = {
@@ -592,6 +645,66 @@ export const DEFAULT_SPORTS_META = {
     {
       title: 'Competitive DSO & District Representation',
       desc: 'Talented student athletes receive specialized after-school training to compete in Solapur District and State school games.'
+    }
+  ],
+  ihsl_badge: 'HOUSE SYSTEM • ANNUAL TROPHY RACE',
+  ihsl_title: 'Inter-House Sports League (IHSL)',
+  ihsl_desc: 'Every enrolled student belongs to one of four historic houses, battling across weekend fixtures in Cricket, Football, Kabaddi, Kho-Kho, and Track Athletics for the prestigious Annual Best House Rolling Trophy.',
+  house_standings: [
+    { name: 'Prithvi House', element: 'Earth', color: '#16a34a', motto: 'Stability, Resilience & Perseverance', bg: '#f0fdf4', border: '#bbf7d0', points: 445, rank: '2nd' },
+    { name: 'Agni House', element: 'Fire', color: '#dc2626', motto: 'Passion, Zeal & Competitive Courage', bg: '#fef2f2', border: '#fecaca', points: 480, rank: '1st (Champions)' },
+    { name: 'Jal House', element: 'Water', color: '#0284c7', motto: 'Adaptability, Grace & Collective Strength', bg: '#f0f9ff', border: '#bae6fd', points: 410, rank: '3rd' },
+    { name: 'Vayu House', element: 'Air', color: '#d97706', motto: 'Speed, Boundless Intellect & Freedom', bg: '#fffbeb', border: '#fde68a', points: 390, rank: '4th' }
+  ],
+  calendar_title: 'Annual Athletic Calendar & Tournament Milestones',
+  calendar_desc: 'Official inter-school championships, annual sports meets, and coaching clinic timelines.',
+  annual_events: [
+    {
+      timing: 'December',
+      title: 'Karmotsav - Annual Athletic Meet & Sports Gala',
+      desc: 'Grand 3-day Olympic-style sports extravaganza featuring lighting of the school torch, synchronized house march-past, track finals, field events, and championship trophy award ceremony on Shelve sports ground.'
+    },
+    {
+      timing: 'Year-Round (Term 1 & Term 2)',
+      title: 'Inter-House Sports League (IHSL)',
+      desc: 'Regular weekend inter-house fixtures across Cricket, Football, Kabaddi, Kho-Kho, Volleyball, and Chess between Prithvi, Agni, Jal, and Vayu houses fostering healthy rivalry.'
+    },
+    {
+      timing: 'August – February',
+      title: 'District & Divisional DSO Tournaments',
+      desc: 'Official District Sports Office (DSO) school representation across athletic championships, football leagues, and regional martial arts meets.'
+    },
+    {
+      timing: '21st June',
+      title: 'International Yoga Day Demonstration',
+      desc: 'Mass yoga performance involving students, teachers, and school leadership highlighting ancient physical wellness and disciplined living.'
+    }
+  ],
+  schedule_title: 'Weekly Student Physical Training Routine',
+  pe_schedule: [
+    {
+      session_type: 'Morning Fitness & Yoga',
+      timing: '7:45 AM – 8:15 AM',
+      grade_focus: 'All Grades (Nursery – 10)',
+      activities: 'Surya Namaskar, pranayama, posture drills, mass assembly PT'
+    },
+    {
+      session_type: 'Curricular PE Periods',
+      timing: '45 Mins Daily',
+      grade_focus: 'Grade-Wise Rotation',
+      activities: 'Sprint technique, ball control, Kabaddi/Kho-Kho drills, rules study'
+    },
+    {
+      session_type: 'After-School Coaching Clinics',
+      timing: '2:30 PM – 4:30 PM',
+      grade_focus: 'School Squad Athletes',
+      activities: 'Cricket nets, football tactics, 400m track sprints, Karate dojo'
+    },
+    {
+      session_type: 'Saturday Inter-House League',
+      timing: '8:30 AM – 12:00 PM',
+      grade_focus: 'Houses (Prithvi, Agni, Jal, Vayu)',
+      activities: 'Competitive league matches, refereeing practice, cheer spirit'
     }
   ]
 };

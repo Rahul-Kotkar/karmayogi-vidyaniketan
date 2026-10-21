@@ -205,13 +205,15 @@ export default function CompetitionsOlympiads() {
           boxShadow: 'var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1))'
         }}>
           <div>
-            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>Check Out the Hall of Laurels</h3>
+            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>
+              {meta.cta_title || 'Check Out the Hall of Laurels'}
+            </h3>
             <p style={{ fontSize: '14px', color: '#a7f3d0', margin: 0, maxWidth: '700px', lineHeight: 1.6 }}>
-              Discover the students who brought gold medals, state rank certificates, and government drawing grade distinctions back to Karmayogi Vidyaniketan.
+              {meta.cta_desc || 'Discover the students who brought gold medals, state rank certificates, and government drawing grade distinctions back to Karmayogi Vidyaniketan.'}
             </p>
           </div>
-          <Link to="/student-achievements" className="btn btn-secondary" style={{ background: '#ffffff', color: '#064e3b', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            <span>Read Student Laurels &amp; Stats</span>
+          <Link to={meta.cta_btn_link || "/student-achievements"} className="btn btn-secondary" style={{ background: '#ffffff', color: '#064e3b', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <span>{meta.cta_btn_text || 'Read Student Laurels & Stats'}</span>
             <ArrowRightIcon width="16" height="16" />
           </Link>
         </div>

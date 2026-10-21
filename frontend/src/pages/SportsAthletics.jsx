@@ -206,32 +206,32 @@ export default function SportsAthletics() {
         <div style={{ background: '#ffffff', borderRadius: 12, padding: 30, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
           <div style={{ textAlign: 'center', marginBottom: 24 }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--gold, #c9a227)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              HOUSE SYSTEM &bull; ANNUAL TROPHY RACE
+              {meta.ihsl_badge || 'HOUSE SYSTEM • ANNUAL TROPHY RACE'}
             </span>
             <h3 style={{ fontFamily: 'var(--heading-font, serif)', fontSize: '24px', color: 'var(--navy-header, #0f172a)', margin: '6px 0 6px' }}>
-              Inter-House Sports League (IHSL)
+              {meta.ihsl_title || 'Inter-House Sports League (IHSL)'}
             </h3>
             <p style={{ fontSize: '14px', color: '#64748b', maxWidth: 680, margin: '0 auto' }}>
-              Every enrolled student belongs to one of four historic houses, battling across weekend fixtures in Cricket, Football, Kabaddi, Kho-Kho, and Track Athletics for the prestigious Annual Best House Rolling Trophy.
+              {meta.ihsl_desc || 'Every enrolled student belongs to one of four historic houses, battling across weekend fixtures in Cricket, Football, Kabaddi, Kho-Kho, and Track Athletics for the prestigious Annual Best House Rolling Trophy.'}
             </p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 18 }}>
-            {HOUSE_TEAMS.map((h, i) => (
-              <div key={i} style={{ background: h.bg, border: `1.5px solid ${h.border}`, borderRadius: 12, padding: 20, textAlign: 'center' }}>
-                <div style={{ width: 14, height: 14, borderRadius: '50%', background: h.color, margin: '0 auto 10px' }} />
+            {(meta.house_standings || HOUSE_TEAMS).map((h, i) => (
+              <div key={i} style={{ background: h.bg || '#f8fafc', border: `1.5px solid ${h.border || '#cbd5e1'}`, borderRadius: 12, padding: 20, textAlign: 'center' }}>
+                <div style={{ width: 14, height: 14, borderRadius: '50%', background: h.color || '#2563eb', margin: '0 auto 10px' }} />
                 <h4 style={{ fontSize: '17px', fontWeight: 800, color: 'var(--navy-header, #0f172a)', margin: '0 0 4px' }}>
                   {h.name}
                 </h4>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: h.color, textTransform: 'uppercase', marginBottom: 8 }}>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: h.color || '#2563eb', textTransform: 'uppercase', marginBottom: 8 }}>
                   Element: {h.element}
                 </div>
                 <div style={{ fontSize: '12.5px', color: '#475569', fontStyle: 'italic', lineHeight: 1.4, marginBottom: 14 }}>
                   "{h.motto}"
                 </div>
-                <div style={{ borderTop: `1px dashed ${h.border}`, paddingTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ borderTop: `1px dashed ${h.border || '#cbd5e1'}`, paddingTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: '#334155' }}>Points: {h.points}</span>
-                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: h.color, background: '#ffffff', padding: '3px 8px', borderRadius: 999, border: `1px solid ${h.border}` }}>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: h.color || '#2563eb', background: '#ffffff', padding: '3px 8px', borderRadius: 999, border: `1px solid ${h.border || '#cbd5e1'}` }}>
                     {h.rank}
                   </span>
                 </div>
@@ -248,16 +248,16 @@ export default function SportsAthletics() {
             </div>
             <div>
               <h3 style={{ fontFamily: 'var(--heading-font, serif)', fontSize: '22px', color: 'var(--navy-header, #0f172a)', margin: 0 }}>
-                Annual Athletic Calendar &amp; Tournament Milestones
+                {meta.calendar_title || 'Annual Athletic Calendar & Tournament Milestones'}
               </h3>
               <p style={{ fontSize: 13.5, color: '#64748b', margin: '4px 0 0' }}>
-                Official inter-school championships, annual sports meets, and coaching clinic timelines.
+                {meta.calendar_desc || 'Official inter-school championships, annual sports meets, and coaching clinic timelines.'}
               </p>
             </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
-            {ANNUAL_EVENTS.map((evt, idx) => (
+            {(meta.annual_events || ANNUAL_EVENTS).map((evt, idx) => (
               <div key={idx} style={{ background: '#ffffff', borderRadius: 10, padding: 20, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
                 <span style={{ fontSize: '11px', fontWeight: 800, color: '#1d4ed8', background: '#eff6ff', padding: '3px 8px', borderRadius: 4, display: 'inline-block', marginBottom: 8 }}>
                   {evt.timing}
@@ -276,7 +276,7 @@ export default function SportsAthletics() {
         {/* 7. Weekly Student Physical Education Schedule */}
         <div style={{ background: '#ffffff', borderRadius: 12, padding: 28, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
           <h3 style={{ fontFamily: 'var(--heading-font, serif)', fontSize: '20px', color: 'var(--navy-header, #0f172a)', margin: '0 0 16px' }}>
-            Weekly Student Physical Training Routine
+            {meta.schedule_title || 'Weekly Student Physical Training Routine'}
           </h3>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: 600 }}>
@@ -289,30 +289,19 @@ export default function SportsAthletics() {
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '12px 16px', fontWeight: 700, color: '#0f172a' }}>Morning Fitness &amp; Yoga</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>7:45 AM – 8:15 AM</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>All Grades (Nursery – 10)</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>Surya Namaskar, pranayama, posture drills, mass assembly PT</td>
-                </tr>
-                <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '12px 16px', fontWeight: 700, color: '#0f172a' }}>Curricular PE Periods</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>45 Mins Daily</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>Grade-Wise Rotation</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>Sprint technique, ball control, Kabaddi/Kho-Kho drills, rules study</td>
-                </tr>
-                <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '12px 16px', fontWeight: 700, color: '#0f172a' }}>After-School Coaching Clinics</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>2:30 PM – 4:30 PM</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>School Squad Athletes</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>Cricket nets, football tactics, 400m track sprints, Karate dojo</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '12px 16px', fontWeight: 700, color: '#0f172a' }}>Saturday Inter-House League</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>8:30 AM – 12:00 PM</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>Houses (Prithvi, Agni, Jal, Vayu)</td>
-                  <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>Competitive league matches, refereeing practice, cheer spirit</td>
-                </tr>
+                {(meta.pe_schedule || [
+                  { session_type: 'Morning Fitness & Yoga', timing: '7:45 AM – 8:15 AM', grade_focus: 'All Grades (Nursery – 10)', activities: 'Surya Namaskar, pranayama, posture drills, mass assembly PT' },
+                  { session_type: 'Curricular PE Periods', timing: '45 Mins Daily', grade_focus: 'Grade-Wise Rotation', activities: 'Sprint technique, ball control, Kabaddi/Kho-Kho drills, rules study' },
+                  { session_type: 'After-School Coaching Clinics', timing: '2:30 PM – 4:30 PM', grade_focus: 'School Squad Athletes', activities: 'Cricket nets, football tactics, 400m track sprints, Karate dojo' },
+                  { session_type: 'Saturday Inter-House League', timing: '8:30 AM – 12:00 PM', grade_focus: 'Houses (Prithvi, Agni, Jal, Vayu)', activities: 'Competitive league matches, refereeing practice, cheer spirit' }
+                ]).map((row, rIdx) => (
+                  <tr key={rIdx} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: 700, color: '#0f172a' }}>{row.session_type}</td>
+                    <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>{row.timing}</td>
+                    <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>{row.grade_focus}</td>
+                    <td style={{ padding: '12px 16px', color: '#475569', fontSize: 13 }}>{row.activities}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

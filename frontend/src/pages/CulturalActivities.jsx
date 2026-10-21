@@ -231,13 +231,15 @@ export default function CulturalActivities() {
           boxShadow: 'var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1))'
         }}>
           <div>
-            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>Relive the Memories of Past Karmotsav Events</h3>
+            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>
+              {meta.cta_title || 'Relive the Memories of Past Karmotsav Events'}
+            </h3>
             <p style={{ fontSize: '14px', color: '#e0e7ff', margin: 0, maxWidth: '700px', lineHeight: 1.6 }}>
-              Browse through our high-resolution photo archives showcasing student stage dances, traditional lezim troops, drama recitals, and parent felicitations.
+              {meta.cta_desc || 'Browse through our high-resolution photo archives showcasing student stage dances, traditional lezim troops, drama recitals, and parent felicitations.'}
             </p>
           </div>
-          <Link to="/gallery" className="btn btn-secondary" style={{ background: '#ffffff', color: '#4c1d95', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            <span>Explore Photo Gallery</span>
+          <Link to={meta.cta_btn_link || "/gallery"} className="btn btn-secondary" style={{ background: '#ffffff', color: '#4c1d95', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <span>{meta.cta_btn_text || 'Explore Photo Gallery'}</span>
             <ArrowRightIcon width="16" height="16" />
           </Link>
         </div>

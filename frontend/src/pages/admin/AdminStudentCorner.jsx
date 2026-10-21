@@ -170,6 +170,49 @@ export default function AdminStudentCorner() {
     if (file) handleSectionImageUpload('clubs_meta', file, 'clubs')
   }
 
+  // Sports arrays helpers
+  const handleSportsHouseStandingChange = (idx, field, val) => {
+    setData(prev => {
+      const standings = [...(prev.sports_meta?.house_standings || DEFAULT_SPORTS_META.house_standings)]
+      standings[idx] = { ...standings[idx], [field]: val }
+      return {
+        ...prev,
+        sports_meta: {
+          ...(prev.sports_meta || DEFAULT_SPORTS_META),
+          house_standings: standings
+        }
+      }
+    })
+  }
+
+  const handleSportsAnnualEventChange = (idx, field, val) => {
+    setData(prev => {
+      const events = [...(prev.sports_meta?.annual_events || DEFAULT_SPORTS_META.annual_events)]
+      events[idx] = { ...events[idx], [field]: val }
+      return {
+        ...prev,
+        sports_meta: {
+          ...(prev.sports_meta || DEFAULT_SPORTS_META),
+          annual_events: events
+        }
+      }
+    })
+  }
+
+  const handleSportsPeScheduleChange = (idx, field, val) => {
+    setData(prev => {
+      const schedule = [...(prev.sports_meta?.pe_schedule || DEFAULT_SPORTS_META.pe_schedule)]
+      schedule[idx] = { ...schedule[idx], [field]: val }
+      return {
+        ...prev,
+        sports_meta: {
+          ...(prev.sports_meta || DEFAULT_SPORTS_META),
+          pe_schedule: schedule
+        }
+      }
+    })
+  }
+
   // Modal helpers
   const openModal = (type, index = null, initial = {}) => {
     setModalType(type)
@@ -517,6 +560,14 @@ export default function AdminStudentCorner() {
               </div>
             </div>
           </div>
+
+          {/* Section 5: Bottom Photo Gallery CTA Banner */}
+          <CtaBannerEditor
+            title="Bottom Cultural Photo Gallery Banner"
+            subtitle="Configure the bottom purple banner cross-linking to the school photo gallery."
+            meta={data.cultural_meta || DEFAULT_CULTURAL_META}
+            onChange={(f, v) => handleMetaFieldChange('cultural_meta', f, v, DEFAULT_CULTURAL_META)}
+          />
         </div>
       )}
 
@@ -993,6 +1044,14 @@ export default function AdminStudentCorner() {
               </div>
             </div>
           </div>
+
+          {/* Section 5: Bottom Transport Fleet CTA Banner */}
+          <CtaBannerEditor
+            title="Bottom Safe Transport Fleet Banner"
+            subtitle="Configure the bottom banner cross-linking to the school transport & bus fleet."
+            meta={data.field_trips_meta || DEFAULT_FIELD_TRIPS_META}
+            onChange={(f, v) => handleMetaFieldChange('field_trips_meta', f, v, DEFAULT_FIELD_TRIPS_META)}
+          />
         </div>
       )}
 
@@ -1090,6 +1149,14 @@ export default function AdminStudentCorner() {
               </div>
             </div>
           </div>
+
+          {/* Section 5: Bottom Hall of Laurels CTA Banner */}
+          <CtaBannerEditor
+            title="Bottom Hall of Laurels Banner"
+            subtitle="Configure the bottom green banner cross-linking to student achievement laurels."
+            meta={data.competitions_meta || DEFAULT_COMPETITIONS_META}
+            onChange={(f, v) => handleMetaFieldChange('competitions_meta', f, v, DEFAULT_COMPETITIONS_META)}
+          />
         </div>
       )}
 
@@ -1171,6 +1238,48 @@ export default function AdminStudentCorner() {
               </div>
             </div>
           </div>
+
+          {/* Section 4: Three Categories of Accomplishments */}
+          <PillarsEditor
+            title="Three Key Categories of Student Accomplishments"
+            subtitle="Class 10 Board Excellence, SOF Olympiad Medallists, and Solapur DSO Sports Trophies cards."
+            pillars={data.achievements_meta?.pillars || DEFAULT_ACHIEVEMENTS_META.pillars}
+            onChange={(idx, f, v) => handlePillarFieldChange('achievements_meta', idx, f, v, DEFAULT_ACHIEVEMENTS_META)}
+            hasTag={false}
+            cardLabel="Domain"
+          />
+
+          {/* Section 5: Quarterly Felicitation & Merit Assemblies Banner */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Felicitation Culture &amp; Merit Assemblies Banner</h3>
+              <p>Configure the gold callout banner highlighting student awards and assembly honors.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 14 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Banner Heading</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={data.achievements_meta?.felicitation_title || ''}
+                  onChange={e => handleMetaFieldChange('achievements_meta', 'felicitation_title', e.target.value, DEFAULT_ACHIEVEMENTS_META)}
+                  placeholder="Quarterly Felicitation & Merit Assemblies"
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Banner Description</label>
+                <textarea
+                  rows={3}
+                  className="admin-input"
+                  value={data.achievements_meta?.felicitation_desc || ''}
+                  onChange={e => handleMetaFieldChange('achievements_meta', 'felicitation_desc', e.target.value, DEFAULT_ACHIEVEMENTS_META)}
+                  placeholder="We ensure talent does not go unnoticed..."
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -1221,7 +1330,52 @@ export default function AdminStudentCorner() {
               </div>
             </div>
           </div>
-          {/* House System Card */}
+          {/* Section 3: School House System Section Header */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>School House System Section Header</h3>
+              <p>Configure the eyebrow badge, main title, and description intro for the 4 school houses.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Eyebrow Badge</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.houses_council_meta?.houses_section_badge || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'houses_section_badge', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="FOUR PILLARS OF CAMARADERIE"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Main Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.houses_council_meta?.houses_section_title || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'houses_section_title', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="The School House System"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Description</label>
+                <textarea
+                  rows={2}
+                  className="admin-input"
+                  value={data.houses_council_meta?.houses_section_desc || ''}
+                  onChange={e => handleMetaFieldChange('houses_council_meta', 'houses_section_desc', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                  placeholder="Each house carries a unique philosophy, distinctive color sash, and sacred motto..."
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: House System Card */}
           <div className="admin-card">
             <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
@@ -1258,7 +1412,52 @@ export default function AdminStudentCorner() {
             </div>
           </div>
 
-          {/* Student Council Card */}
+          {/* Section 5: Student Council Section Header */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Student Council Section Header</h3>
+              <p>Configure the eyebrow badge, main title, and description intro for the student prefectorial body.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Eyebrow Badge</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.houses_council_meta?.council_section_badge || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'council_section_badge', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="STUDENT PREFECTORIAL BOARD"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Main Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.houses_council_meta?.council_section_title || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'council_section_title', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="Student Council & Leadership Roles"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Description</label>
+                <textarea
+                  rows={2}
+                  className="admin-input"
+                  value={data.houses_council_meta?.council_section_desc || ''}
+                  onChange={e => handleMetaFieldChange('houses_council_meta', 'council_section_desc', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                  placeholder="True leadership is learned by shouldering real accountability..."
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 6: Student Council Leadership Roles Card */}
           <div className="admin-card">
             <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
@@ -1307,6 +1506,80 @@ export default function AdminStudentCorner() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 7: Investiture Ceremony & Student Pledge Oath */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Investiture Ceremony &amp; Student Pledge Oath</h3>
+              <p>Configure the Investiture ceremony card and the solemn student leadership oath displayed at the bottom of the Houses &amp; Council page.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 18 }}>
+              <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gap: 12 }}>
+                <h4 style={{ margin: 0, fontSize: 14, color: '#0f172a' }}>Investiture Ceremony Card</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Eyebrow Badge</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={data.houses_council_meta?.investiture_badge || ''}
+                      onChange={e => handleMetaFieldChange('houses_council_meta', 'investiture_badge', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                      placeholder="CEREMONY & CODE OF HONOUR"
+                      style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Title</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={data.houses_council_meta?.investiture_title || ''}
+                      onChange={e => handleMetaFieldChange('houses_council_meta', 'investiture_title', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                      placeholder="The Annual Investiture Ceremony"
+                      style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Description</label>
+                  <textarea
+                    rows={3}
+                    className="admin-input"
+                    value={data.houses_council_meta?.investiture_desc || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'investiture_desc', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="Every academic year commences with an esteemed investiture assembly..."
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gap: 12 }}>
+                <h4 style={{ margin: 0, fontSize: 14, color: '#0f172a' }}>Student Oath &amp; Pledge</h4>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Oath Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.houses_council_meta?.pledge_heading || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'pledge_heading', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="The Karmayogi Student Oath"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Oath Text</label>
+                  <textarea
+                    rows={3}
+                    className="admin-input"
+                    value={data.houses_council_meta?.pledge_text || ''}
+                    onChange={e => handleMetaFieldChange('houses_council_meta', 'pledge_text', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                    placeholder="We solemnly pledge to serve Karmayogi Vidyaniketan with honor and devotion..."
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1500,6 +1773,241 @@ export default function AdminStudentCorner() {
             </div>
           </div>
         </div>
+
+          {/* Section 5: Inter-House Sports League (IHSL) & Standings */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Inter-House Sports League (IHSL) &amp; Standings</h3>
+              <p>Manage the tournament title, description, and real-time points &amp; rank badges for the 4 Houses.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>League Eyebrow</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.ihsl_badge || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'ihsl_badge', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="HOUSE SYSTEM • ANNUAL TROPHY RACE"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>League Main Title</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.ihsl_title || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'ihsl_title', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="Inter-House Sports League (IHSL)"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>League Description</label>
+                <textarea
+                  rows={2}
+                  className="admin-input"
+                  value={data.sports_meta?.ihsl_desc || ''}
+                  onChange={e => handleMetaFieldChange('sports_meta', 'ihsl_desc', e.target.value, DEFAULT_SPORTS_META)}
+                  placeholder="Every enrolled student belongs to one of four historic houses..."
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+
+              {/* 4 Houses Standings Grid */}
+              <div style={{ marginTop: 8 }}>
+                <h4 style={{ fontSize: 14, margin: '0 0 10px', color: '#0f172a' }}>House Standings (Points &amp; Ranks)</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+                  {(data.sports_meta?.house_standings || DEFAULT_SPORTS_META.house_standings).map((house, hIdx) => (
+                    <div key={hIdx} style={{ background: '#f8fafc', padding: 14, borderRadius: 8, border: `1.5px solid ${house.border || '#cbd5e1'}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                        <div style={{ width: 12, height: 12, borderRadius: '50%', background: house.color || '#2563eb' }} />
+                        <strong style={{ fontSize: 15, color: '#0f172a' }}>{house.name}</strong>
+                        <span style={{ fontSize: 11, color: '#64748b' }}>({house.element})</span>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                        <div>
+                          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Points</label>
+                          <input
+                            type="number"
+                            className="admin-input"
+                            value={house.points ?? ''}
+                            onChange={e => handleSportsHouseStandingChange(hIdx, 'points', Number(e.target.value) || 0)}
+                            style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                          />
+                        </div>
+                        <div>
+                          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Rank Badge</label>
+                          <input
+                            type="text"
+                            className="admin-input"
+                            value={house.rank || ''}
+                            onChange={e => handleSportsHouseStandingChange(hIdx, 'rank', e.target.value)}
+                            placeholder="Rank #1"
+                            style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 6: Annual Sporting Calendar & Tournaments */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Annual Athletic Calendar &amp; Tournament Milestones</h3>
+              <p>Configure the calendar section heading and the 4 scheduled sporting milestones throughout the year.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Calendar Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.calendar_title || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'calendar_title', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="Annual Athletic Calendar & Tournament Milestones"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Calendar Subtitle / Description</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.calendar_desc || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'calendar_desc', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="Official inter-school championships, annual sports meets..."
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+
+              {/* 4 Events Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
+                {(data.sports_meta?.annual_events || DEFAULT_SPORTS_META.annual_events).map((evt, eIdx) => (
+                  <div key={eIdx} style={{ background: '#f8fafc', padding: 14, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gap: 8 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#1e40af' }}>Milestone #{eIdx + 1}</span>
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Season / Timing Badge</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={evt.timing || ''}
+                        onChange={e => handleSportsAnnualEventChange(eIdx, 'timing', e.target.value)}
+                        placeholder="e.g. July – August"
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Event Title</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={evt.title || ''}
+                        onChange={e => handleSportsAnnualEventChange(eIdx, 'title', e.target.value)}
+                        placeholder="e.g. Monsoon Athletics & Cross Country"
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Event Description</label>
+                      <textarea
+                        rows={2}
+                        className="admin-input"
+                        value={evt.desc || ''}
+                        onChange={e => handleSportsAnnualEventChange(eIdx, 'desc', e.target.value)}
+                        placeholder="Description..."
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 12.5, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 7: Weekly Student Physical Education Schedule */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Weekly Student Physical Training Routine (PE Schedule)</h3>
+              <p>Configure the schedule table title and the 4 weekly training session rows.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Schedule Section Heading</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={data.sports_meta?.schedule_title || ''}
+                  onChange={e => handleMetaFieldChange('sports_meta', 'schedule_title', e.target.value, DEFAULT_SPORTS_META)}
+                  placeholder="Weekly Student Physical Training Routine"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+
+              {/* Schedule Table Rows */}
+              <div style={{ display: 'grid', gap: 12 }}>
+                {(data.sports_meta?.pe_schedule || DEFAULT_SPORTS_META.pe_schedule).map((row, rIdx) => (
+                  <div key={rIdx} style={{ background: '#f8fafc', padding: 14, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Session Type</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={row.session_type || ''}
+                        onChange={e => handleSportsPeScheduleChange(rIdx, 'session_type', e.target.value)}
+                        placeholder="e.g. Morning Fitness & Yoga"
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Timing</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={row.timing || ''}
+                        onChange={e => handleSportsPeScheduleChange(rIdx, 'timing', e.target.value)}
+                        placeholder="e.g. 7:45 AM – 8:15 AM"
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Grade Focus</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={row.grade_focus || ''}
+                        onChange={e => handleSportsPeScheduleChange(rIdx, 'grade_focus', e.target.value)}
+                        placeholder="e.g. All Grades"
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 3 }}>Key Activities &amp; Drills</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={row.activities || ''}
+                        onChange={e => handleSportsPeScheduleChange(rIdx, 'activities', e.target.value)}
+                        placeholder="e.g. Surya Namaskar, pranayama..."
+                        style={{ width: '100%', padding: '6px 8px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -2306,6 +2814,70 @@ function SectionHeaderEditor({
               onChange={e => onChangeTitle(e.target.value)}
               placeholder="Section Heading..."
               style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CtaBannerEditor({
+  title = "Bottom Callout Banner",
+  subtitle = "Configure the prominent banner displayed at the bottom of the page.",
+  meta = {},
+  onChange
+}) {
+  return (
+    <div className="admin-card">
+      <div className="admin-card-header">
+        <h3>{title}</h3>
+        <p>{subtitle}</p>
+      </div>
+      <div className="admin-card-body" style={{ display: 'grid', gap: 14 }}>
+        <div>
+          <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Banner Heading</label>
+          <input
+            type="text"
+            className="admin-input"
+            value={meta?.cta_title || ''}
+            onChange={e => onChange('cta_title', e.target.value)}
+            placeholder="Banner Heading..."
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+          />
+        </div>
+        <div>
+          <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Banner Description</label>
+          <textarea
+            rows={2}
+            className="admin-input"
+            value={meta?.cta_desc || ''}
+            onChange={e => onChange('cta_desc', e.target.value)}
+            placeholder="Banner details..."
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+          />
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+            <input
+              type="text"
+              className="admin-input"
+              value={meta?.cta_btn_text || ''}
+              onChange={e => onChange('cta_btn_text', e.target.value)}
+              placeholder="Button Label..."
+              style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Button Destination Link</label>
+            <input
+              type="text"
+              className="admin-input"
+              value={meta?.cta_btn_link || ''}
+              onChange={e => onChange('cta_btn_link', e.target.value)}
+              placeholder="/destination"
+              style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
             />
           </div>
         </div>

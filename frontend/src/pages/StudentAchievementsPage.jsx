@@ -164,73 +164,51 @@ export default function StudentAchievementsPage() {
         </div>
 
         {/* 4. Three Categories of Student Accomplishments */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 10, background: '#eff6ff', color: 'var(--blue-royal, #1d4ed8)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-                <BookOpenIcon size={24} color="#1d4ed8" />
-              </div>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Class 10 Board Excellence</h3>
-              <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: '0 0 14px' }}>
-                Unbroken string of 100% board results with more than 68% candidates securing first-class with distinction. Subject centum (100/100) recorded in Math, Science &amp; Sanskrit.
-              </p>
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, borderTop: '1px solid #f1f5f9', paddingTop: 12, display: 'grid', gap: 6 }}>
-              <li style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircleIcon width="14" height="14" style={{ color: '#2563eb' }} />
-                <span>Special merit scholar felicitations</span>
-              </li>
-              <li style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircleIcon width="14" height="14" style={{ color: '#2563eb' }} />
-                <span>Parent honor evening at Karmotsav</span>
-              </li>
-            </ul>
-          </div>
+        {Array.isArray(meta.pillars) && meta.pillars.length > 0 && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {meta.pillars.map((pillar, idx) => {
+              const icons = [BookOpenIcon, MedalIcon, TrophyIcon]
+              const colors = [
+                { bg: '#eff6ff', color: '#1d4ed8', check: '#2563eb' },
+                { bg: '#fffbeb', color: '#b45309', check: '#d97706' },
+                { bg: '#ecfdf5', color: '#047857', check: '#059669' }
+              ]
+              const IconComp = icons[idx % icons.length]
+              const theme = colors[idx % colors.length]
+              const highlights = Array.isArray(pillar.highlights)
+                ? pillar.highlights
+                : typeof pillar.highlights === 'string'
+                  ? pillar.highlights.split('\n').filter(Boolean)
+                  : []
 
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fffbeb', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-                <MedalIcon size={24} color="#b45309" />
-              </div>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>SOF Olympiad Medallists</h3>
-              <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: '0 0 14px' }}>
-                Over 45 gold, silver, and bronze medals earned every academic year in National Science Olympiad (NSO), International Math Olympiad (IMO), and Cyber Olympiad (NCO).
-              </p>
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, borderTop: '1px solid #f1f5f9', paddingTop: 12, display: 'grid', gap: 6 }}>
-              <li style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircleIcon width="14" height="14" style={{ color: '#d97706' }} />
-                <span>Zonal and State top 100 rank holders</span>
-              </li>
-              <li style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircleIcon width="14" height="14" style={{ color: '#d97706' }} />
-                <span>Foundation merit certificates &amp; cash honors</span>
-              </li>
-            </ul>
+              return (
+                <div key={idx} style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ width: 44, height: 44, borderRadius: 10, background: theme.bg, color: theme.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+                      <IconComp size={24} color={theme.color} />
+                    </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>
+                      {pillar.title}
+                    </h3>
+                    <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: '0 0 14px' }}>
+                      {pillar.desc}
+                    </p>
+                  </div>
+                  {highlights.length > 0 && (
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, borderTop: '1px solid #f1f5f9', paddingTop: 12, display: 'grid', gap: 6 }}>
+                      {highlights.map((h, i) => (
+                        <li key={i} style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
+                          <CheckCircleIcon width="14" height="14" style={{ color: theme.check }} />
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )
+            })}
           </div>
-
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 10, background: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-                <TrophyIcon size={24} color="#047857" />
-              </div>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Solapur DSO Sports Trophies</h3>
-              <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: '0 0 14px' }}>
-                Dominant victories across Solapur District Sports Office (DSO) championships in Kabaddi, Kho-Kho, 100m/200m track sprints, and regional Chess tournaments.
-              </p>
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, borderTop: '1px solid #f1f5f9', paddingTop: 12, display: 'grid', gap: 6 }}>
-              <li style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircleIcon width="14" height="14" style={{ color: '#059669' }} />
-                <span>District division championship winners</span>
-              </li>
-              <li style={{ fontSize: '12.5px', color: '#334155', display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircleIcon width="14" height="14" style={{ color: '#059669' }} />
-                <span>State tournament qualification track record</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+        )}
 
         {/* 5. Felicitation Culture Card */}
         <div style={{
@@ -244,12 +222,14 @@ export default function StudentAchievementsPage() {
           gap: 16
         }}>
           <div>
-            <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#78350f', margin: '0 0 6px' }}>Quarterly Felicitation &amp; Merit Assemblies</h3>
+            <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#78350f', margin: '0 0 6px' }}>
+              {meta.felicitation_title || 'Quarterly Felicitation & Merit Assemblies'}
+            </h3>
             <p style={{ fontSize: '14px', color: '#92400e', margin: 0, maxWidth: '750px', lineHeight: 1.6 }}>
-              We ensure talent does not go unnoticed. Alongside top rank holders, students who demonstrate outstanding personal improvement, artistic passion, or 100% attendance receive commemorative trophies in front of their cheering peers.
+              {meta.felicitation_desc || 'We ensure talent does not go unnoticed. Alongside top rank holders, students who demonstrate outstanding personal improvement, artistic passion, or 100% attendance receive commemorative trophies in front of their cheering peers.'}
             </p>
           </div>
-          <Link to="/notices" className="btn btn-secondary" style={{ background: '#b45309', color: '#ffffff', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <Link to={meta.explore_btn_link || "/notices"} className="btn btn-secondary" style={{ background: '#b45309', color: '#ffffff', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <span>Read Latest School Circulars</span>
             <ArrowRightIcon width="16" height="16" />
           </Link>

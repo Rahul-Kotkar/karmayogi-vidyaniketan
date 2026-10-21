@@ -220,13 +220,15 @@ export default function FieldTrips() {
           boxShadow: 'var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1))'
         }}>
           <div>
-            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>Safe, Comfortable Student Transportation</h3>
+            <h3 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 6px', color: '#ffffff' }}>
+              {meta.cta_title || 'Safe, Comfortable Student Transportation'}
+            </h3>
             <p style={{ fontSize: '14px', color: '#fde68a', margin: 0, maxWidth: '700px', lineHeight: 1.6 }}>
-              All field trips are conducted using our school's own fleet of serviced yellow school buses, operated by verified drivers and attended by female faculty escorts.
+              {meta.cta_desc || "All field trips are conducted using our school's own fleet of serviced yellow school buses, operated by verified drivers and attended by female faculty escorts."}
             </p>
           </div>
-          <Link to="/transport" className="btn btn-secondary" style={{ background: '#ffffff', color: '#78350f', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            <span>View School Bus Fleet &amp; Routes</span>
+          <Link to={meta.cta_btn_link || "/transport"} className="btn btn-secondary" style={{ background: '#ffffff', color: '#78350f', border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <span>{meta.cta_btn_text || 'View School Bus Fleet & Routes'}</span>
             <ArrowRightIcon width="16" height="16" />
           </Link>
         </div>
