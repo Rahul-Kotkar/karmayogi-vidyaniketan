@@ -22,9 +22,13 @@ export default function Footer() {
   }, [])
 
   const phone = settings?.college_phone || COLLEGE.phone
+  const additionalPhone = settings?.college_additional_phone || settings?.additional_phones || '+91-9527632033, +91-8788642412'
   const email = settings?.college_email || COLLEGE.email
   const brandName = settings?.college_name || 'KARMAYOGI VIDYANIKETAN'
-  const address = settings?.college_address || 'Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304.'
+  const primaryCampus = settings?.primary_campus_address || COLLEGE.primary_campus?.address || 'Isbavi, behind MSEDCL Division Office, Link Road, Pandharpur.'
+  const mainCampus = settings?.college_address || settings?.high_school_campus_address || COLLEGE.main_campus?.address || 'Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304.'
+  const hours = settings?.office_hours || settings?.working_hours || 'Mon – Sat: 8:00 AM – 2:00 PM'
+  const location = settings?.college_location || 'Pandharpur, Solapur, Maharashtra'
 
   return (
     <footer className="college-footer">
@@ -73,13 +77,13 @@ export default function Footer() {
             <li style={{ marginBottom: 12 }}>
               <strong style={{ color: '#ffffff', display: 'block' }}>Primary / Foundation Campus</strong>
               <span style={{ fontSize: '13px', color: '#94a3b8' }}>
-                Isbavi, behind MSEDCL Division Office, Link Road, Pandharpur.
+                {primaryCampus}
               </span>
             </li>
             <li style={{ marginBottom: 12 }}>
               <strong style={{ color: '#ffffff', display: 'block' }}>Main High School Campus</strong>
               <span style={{ fontSize: '13px', color: '#94a3b8' }}>
-                {address}
+                {mainCampus}
               </span>
             </li>
             <li>
@@ -91,11 +95,24 @@ export default function Footer() {
         <div className="footer-links-col footer-col-contact">
           <h4>Contact School Desk</h4>
           <ul>
-            <li><b>Phones:</b> {phone}</li>
-            <li><b>Additional:</b> +91-9527632033, +91-8788642412</li>
-            <li><b>Email:</b> <a href={'mailto:' + email}>{email}</a></li>
-            <li><b>Hours:</b> Mon – Sat: 8:00 AM – 2:00 PM</li>
-            <li style={{ marginTop: 8 }}>Pandharpur, Solapur, Maharashtra</li>
+            <li>
+              <b>Phones:</b>{' '}
+              <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                {phone}
+              </a>
+            </li>
+            {additionalPhone && (
+              <li>
+                <b>Additional:</b> {additionalPhone}
+              </li>
+            )}
+            <li>
+              <b>Email:</b> <a href={'mailto:' + email}>{email}</a>
+            </li>
+            <li>
+              <b>Hours:</b> {hours}
+            </li>
+            <li style={{ marginTop: 8 }}>{location}</li>
           </ul>
         </div>
       </div>

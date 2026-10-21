@@ -35,9 +35,12 @@ export default function Contact() {
             foundation: data.foundation_name || prev.foundation,
             name: data.college_name || prev.name,
             address: data.college_address || prev.address,
+            primary_campus_address: data.primary_campus_address || prev.primary_campus?.address,
             phone: data.college_phone || prev.phone,
+            additional_phone: data.college_additional_phone || '+91 95276 32033, +91 87886 42412',
             email: data.college_email || prev.email,
-            website: data.college_website || prev.website
+            website: data.college_website || prev.website,
+            office_hours: data.office_hours || '8:00 AM – 2:00 PM'
           }))
         }
       }).catch(() => {})
@@ -80,6 +83,11 @@ export default function Contact() {
     'Karmayogi Vidyaniketan, Shelve, Pandharpur, Maharashtra'
   )
 
+  const allPhones = [
+    schoolInfo.phone,
+    ...(schoolInfo.additional_phone ? schoolInfo.additional_phone.split(',').map(s => s.trim()) : [])
+  ].filter(Boolean)
+
   return (
     <PageShell
       title="Contact Our School"
@@ -112,7 +120,7 @@ export default function Contact() {
                   1. Foundation / Primary Campus:
                 </span>
                 <p style={{ fontSize: '13px', color: '#475569', marginTop: '4px', lineHeight: 1.4 }}>
-                  Behind MSEDCL Division Office, Link Road, Isbavi, Pandharpur - 413304
+                  {schoolInfo.primary_campus_address || 'Behind MSEDCL Division Office, Link Road, Isbavi, Pandharpur - 413304'}
                 </p>
               </div>
 
@@ -121,7 +129,7 @@ export default function Contact() {
                   2. High School &amp; Residential Campus:
                 </span>
                 <p style={{ fontSize: '13px', color: '#475569', marginTop: '4px', lineHeight: 1.4 }}>
-                  Shelve, Pandharpur, Dist. Solapur, Maharashtra - 413304
+                  {schoolInfo.address || 'Shelve, Pandharpur, Dist. Solapur, Maharashtra - 413304'}
                 </p>
               </div>
 
@@ -156,15 +164,11 @@ export default function Contact() {
                   Admission &amp; Office Helplines
                 </span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '4px' }}>
-                  <a href="tel:+918459863477" className="contact-info-phone">
-                    +91 84598 63477
-                  </a>
-                  <a href="tel:+919527632033" className="contact-info-phone">
-                    +91 95276 32033
-                  </a>
-                  <a href="tel:+918788642412" className="contact-info-phone">
-                    +91 87886 42412
-                  </a>
+                  {allPhones.map((ph, idx) => (
+                    <a key={idx} href={`tel:${ph.replace(/[^0-9+]/g, '')}`} className="contact-info-phone">
+                      {ph}
+                    </a>
+                  ))}
                 </div>
               </div>
 
@@ -173,10 +177,10 @@ export default function Contact() {
                   Official Email Address
                 </span>
                 <a
-                  href="mailto:vijaymadane3@gmail.com"
+                  href={`mailto:${schoolInfo.email || 'vijaymadane3@gmail.com'}`}
                   className="contact-info-link"
                 >
-                  vijaymadane3@gmail.com
+                  {schoolInfo.email || 'vijaymadane3@gmail.com'}
                 </a>
               </div>
 
@@ -191,7 +195,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* 3. Office & Counseling Hours Card */}
+          {/* 3. Office & Visiting Hours Card */}
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
@@ -206,7 +210,7 @@ export default function Contact() {
             <div className="contact-hours-list">
               <div className="contact-hours-row bordered">
                 <span style={{ fontWeight: 600 }}>Monday – Saturday:</span>
-                <span style={{ color: '#0f172a', fontWeight: 700 }}>8:00 AM – 2:00 PM</span>
+                <span style={{ color: '#0f172a', fontWeight: 700 }}>{schoolInfo.office_hours || '8:00 AM – 2:00 PM'}</span>
               </div>
               <div className="contact-hours-row">
                 <span style={{ fontWeight: 600, color: '#dc2626' }}>Sunday:</span>
