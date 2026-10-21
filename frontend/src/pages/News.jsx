@@ -5,7 +5,7 @@ import heroBuildingImg from '../assets/hero_building.png'
 import { pagesService, getCachedHomeData } from '../services/endpoints.js'
 import { NEWS as DEFAULT_NEWS } from '../data/collegeData.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
-import { SearchIcon, CalendarIcon } from '../components/Icons.jsx'
+import { SearchIcon, CalendarIcon, CloseIcon } from '../components/Icons.jsx'
 
 function parseNewsDate(item) {
   if (item?.displayDate) return item.displayDate
@@ -16,7 +16,7 @@ function parseNewsDate(item) {
     const mIdx = parseInt(isoMatch[2], 10) - 1
     return {
       day: isoMatch[3],
-      month: months[mIdx] || 'SEP',
+      month: months[mIdx] || 'OCT',
       year: isoMatch[1]
     }
   }
@@ -28,7 +28,7 @@ function parseNewsDate(item) {
       year: textMatch[3] || '2026'
     }
   }
-  return { day: '10', month: 'SEP', year: '2026' }
+  return { day: '19', month: 'OCT', year: '2026' }
 }
 
 export default function News() {
@@ -84,12 +84,46 @@ export default function News() {
 
   return (
     <PageShell
-      title="News & Bulletins"
+      title="School News & Media"
       subtitle="Latest announcements, academic achievements, and school campus updates."
     >
+      <style>{`
+        .news-card-horizontal {
+          display: flex;
+          flex-direction: row;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+          transition: all 0.2s ease;
+        }
+        .news-card-horizontal:hover {
+          box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
+          border-color: #cbd5e1;
+        }
+        .news-card-img-wrap {
+          width: 320px;
+          min-width: 320px;
+          position: relative;
+          background: #0f172a;
+          overflow: hidden;
+        }
+        @media (max-width: 768px) {
+          .news-card-horizontal {
+            flex-direction: column !important;
+          }
+          .news-card-img-wrap {
+            width: 100% !important;
+            min-width: 100% !important;
+            height: 220px !important;
+          }
+        }
+      `}</style>
+
       {/* Top Controls: Search & Category Pills */}
-      <div style={{ marginBottom: 30 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 20 }}>
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
             {allTags.map(tag => (
               <button
@@ -97,11 +131,11 @@ export default function News() {
                 type="button"
                 onClick={() => setSelectedTag(tag)}
                 style={{
-                  padding: '6px 14px',
+                  padding: '6px 16px',
                   borderRadius: 20,
                   border: '1px solid',
-                  borderColor: selectedTag === tag ? '#1d4ed8' : '#e2e8f0',
-                  background: selectedTag === tag ? '#1d4ed8' : '#ffffff',
+                  borderColor: selectedTag === tag ? '#002855' : '#e2e8f0',
+                  background: selectedTag === tag ? '#002855' : '#ffffff',
                   color: selectedTag === tag ? '#ffffff' : '#334155',
                   fontSize: 12,
                   fontWeight: 700,
@@ -136,24 +170,39 @@ export default function News() {
         </div>
       </div>
 
-      {/* Grid of News Cards */}
-      <h3
-        style={{
-          fontFamily: "var(--heading-font, Georgia, serif)",
-          fontSize: 22,
-          color: '#0f172a',
-          margin: '0 0 20px',
-          fontWeight: 700,
-          letterSpacing: '-0.2px'
-        }}
-      >
-        All News &amp; Bulletins ({filtered.length})
-      </h3>
+      {/* Header Row: All News & Bulletins + Count Badge */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
+        <h3
+          style={{
+            fontFamily: "var(--heading-font, Georgia, serif)",
+            fontSize: 22,
+            color: '#0f172a',
+            margin: 0,
+            fontWeight: 700,
+            letterSpacing: '-0.2px'
+          }}
+        >
+          All News &amp; Bulletins
+        </h3>
+        <span
+          style={{
+            background: '#e0f2fe',
+            color: '#0369a1',
+            fontSize: 12,
+            fontWeight: 700,
+            padding: '4px 12px',
+            borderRadius: 20
+          }}
+        >
+          {filtered.length} {filtered.length === 1 ? 'Article' : 'Articles'}
+        </span>
+      </div>
 
+      {/* News Cards List */}
       {loading && filtered.length === 0 ? (
-        <div className="news-grid-cards">
+        <div style={{ display: 'grid', gap: 20 }}>
           {[1, 2, 3].map(k => (
-            <div key={k} style={{ background: '#f8fafc', height: 260, borderRadius: 12, border: '1px solid #e2e8f0' }} />
+            <div key={k} style={{ background: '#f8fafc', height: 200, borderRadius: 12, border: '1px solid #e2e8f0' }} />
           ))}
         </div>
       ) : filtered.length === 0 ? (
@@ -166,7 +215,7 @@ export default function News() {
               padding: '8px 16px',
               borderRadius: 6,
               border: 'none',
-              background: '#1d4ed8',
+              background: '#002855',
               color: '#ffffff',
               fontWeight: 600,
               fontSize: 13,
@@ -177,7 +226,7 @@ export default function News() {
           </button>
         </div>
       ) : (
-        <div className="news-grid-cards" style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
           {filtered.map((item, idx) => {
             const b = parseNewsDate(item)
             const cardId = item.id || idx
@@ -185,21 +234,9 @@ export default function News() {
             const fallbackImg = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80'
 
             return (
-              <article
-                key={cardId}
-                style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                {/* Full-width Card Banner Thumbnail */}
-                <div style={{ width: '100%', height: 230, position: 'relative', background: '#e2e8f0', overflow: 'hidden' }}>
+              <article key={cardId} className="news-card-horizontal">
+                {/* Left Image Section */}
+                <div className="news-card-img-wrap">
                   <img
                     src={resolveMediaUrl(item.image, fallbackImg)}
                     alt={item.title}
@@ -209,36 +246,80 @@ export default function News() {
                     }}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   />
-                  {/* Category Pill Tag - Overlaid Top-Right */}
+
+                  {/* Date Overlay Badge: Top Left */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 14,
+                      left: 14,
+                      background: 'rgba(15, 23, 42, 0.92)',
+                      backdropFilter: 'blur(4px)',
+                      borderRadius: 8,
+                      padding: '6px 12px',
+                      textAlign: 'center',
+                      minWidth: 54,
+                      border: '1px solid rgba(255, 255, 255, 0.12)'
+                    }}
+                  >
+                    <div style={{ fontSize: 20, fontWeight: 800, color: '#ffffff', lineHeight: 1 }}>
+                      {b.day}
+                    </div>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: '#38bdf8', letterSpacing: 0.8, textTransform: 'uppercase', marginTop: 3 }}>
+                      {b.month}
+                    </div>
+                    <div style={{ fontSize: 9.5, fontWeight: 600, color: '#94a3b8' }}>
+                      {b.year}
+                    </div>
+                  </div>
+
+                  {/* Category Tag Overlay Badge: Top Right */}
                   <div
                     style={{
                       position: 'absolute',
                       top: 14,
                       right: 14,
-                      background: '#1d4ed8',
-                      color: '#ffffff',
-                      borderRadius: 4,
-                      padding: '4px 12px',
-                      fontSize: 11,
-                      fontWeight: 700,
+                      background: 'rgba(15, 23, 42, 0.92)',
+                      color: '#facc15',
+                      border: '1px solid rgba(250, 204, 21, 0.4)',
+                      borderRadius: 6,
+                      padding: '4px 10px',
+                      fontSize: 10.5,
+                      fontWeight: 800,
                       letterSpacing: 0.8,
                       textTransform: 'uppercase'
                     }}
                   >
-                    {item.tag || 'ACADEMICS'}
+                    {item.tag || 'NEWS'}
                   </div>
                 </div>
 
-                {/* Card Content */}
-                <div style={{ padding: '22px 24px 20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  {/* Date with Calendar Icon */}
-                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6, textTransform: 'uppercase' }}>
-                    <CalendarIcon size={13} color="#64748b" />
-                    <span>{b.month} {b.day}, {b.year}</span>
+                {/* Right Content Section */}
+                <div style={{ padding: '24px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  {/* Top Meta: Category Pill + Calendar Date */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                    <span
+                      style={{
+                        background: '#e0f2fe',
+                        color: '#0369a1',
+                        padding: '3px 12px',
+                        borderRadius: 20,
+                        fontSize: 11,
+                        fontWeight: 800,
+                        letterSpacing: 0.8,
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      {item.tag || 'NEWS'}
+                    </span>
+                    <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 5, textTransform: 'uppercase' }}>
+                      <CalendarIcon size={13} color="#64748b" />
+                      <span>{b.month} {b.day}, {b.year}</span>
+                    </span>
                   </div>
 
                   {/* Headline Title */}
-                  <h4 style={{ fontSize: 17.5, fontWeight: 700, color: '#0f172a', margin: '0 0 10px', lineHeight: 1.4 }}>
+                  <h4 style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', margin: '0 0 10px', lineHeight: 1.35 }}>
                     {item.title}
                   </h4>
 
@@ -246,25 +327,35 @@ export default function News() {
                   <p
                     className={`card-desc-clamp ${isExpanded ? 'is-expanded' : ''}`}
                     style={{
-                      fontSize: 13.5,
+                      fontSize: 14,
                       color: '#475569',
-                      lineHeight: 1.55,
-                      margin: '0 0 16px'
+                      lineHeight: 1.6,
+                      margin: '0 0 18px',
+                      whiteSpace: 'pre-line'
                     }}
                   >
                     {item.desc}
                   </p>
 
-                  {/* Footer Row */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: 12, marginTop: 'auto' }}>
+                  {/* Bottom Actions Row */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderTop: '1px solid #f1f5f9',
+                      paddingTop: 14,
+                      marginTop: 'auto'
+                    }}
+                  >
                     <button
                       type="button"
                       onClick={() => toggleCard(cardId)}
                       style={{
                         border: 'none',
                         background: 'none',
-                        color: '#1d4ed8',
-                        fontSize: 13,
+                        color: '#0284c7',
+                        fontSize: 13.5,
                         fontWeight: 700,
                         cursor: 'pointer',
                         padding: 0,
@@ -276,29 +367,36 @@ export default function News() {
                       {isExpanded ? 'Read Less ↑' : 'Read More →'}
                     </button>
 
-                    {item.link ? (
-                      <Link to={item.link} style={{ fontSize: 12, color: '#64748b', textDecoration: 'none' }}>
-                        View Details
-                      </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setActiveStory(item)}
-                        style={{
-                          border: 'none',
-                          background: 'none',
-                          fontSize: 12,
-                          color: '#64748b',
-                          cursor: 'pointer',
-                          padding: 0,
-                          transition: 'color 0.15s ease'
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#1d4ed8'}
-                        onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
-                      >
-                        Popup View
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => setActiveStory(item)}
+                      style={{
+                        border: '1px solid #cbd5e1',
+                        background: '#ffffff',
+                        color: '#334155',
+                        padding: '6px 14px',
+                        borderRadius: 6,
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                        transition: 'all 0.15s ease'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.borderColor = '#0284c7'
+                        e.currentTarget.style.color = '#0284c7'
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.borderColor = '#cbd5e1'
+                        e.currentTarget.style.color = '#334155'
+                      }}
+                    >
+                      <span>Popup View</span>
+                      <span style={{ fontSize: 13 }}>↗</span>
+                    </button>
                   </div>
                 </div>
               </article>
@@ -353,8 +451,8 @@ export default function News() {
             )}
             <div style={{ padding: '24px 28px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span style={{ fontSize: 11, background: '#eff6ff', color: '#1d4ed8', padding: '3px 10px', borderRadius: 4, fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase' }}>
-                  {activeStory.tag || 'COLLEGE NEWS'}
+                <span style={{ fontSize: 11, background: '#eff6ff', color: '#0284c7', padding: '3px 10px', borderRadius: 4, fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase' }}>
+                  {activeStory.tag || 'SCHOOL NEWS'}
                 </span>
                 <span style={{ fontSize: 12.5, color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                   <CalendarIcon size={13} color="#64748b" />
@@ -375,7 +473,7 @@ export default function News() {
                   <Link
                     to={activeStory.link}
                     style={{
-                      background: '#1d4ed8',
+                      background: '#002855',
                       color: '#ffffff',
                       padding: '8px 18px',
                       borderRadius: 6,
