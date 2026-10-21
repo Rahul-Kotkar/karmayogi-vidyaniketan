@@ -113,6 +113,9 @@ export function setCachedAcademicsData(data) {
   }
 }
 
+export const cacheAcademicsData = setCachedAcademicsData
+
+
 export function getCachedDisclosuresData() {
   return getLocalCache('disclosures_data', null)
 }

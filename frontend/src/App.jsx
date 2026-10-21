@@ -64,6 +64,7 @@ import AdminHospital from './pages/admin/AdminHospital.jsx'
 import AdminMandatoryDisclosures from './pages/admin/AdminMandatoryDisclosures.jsx'
 import AdminEvents from './pages/admin/AdminEvents.jsx'
 import AdminCourses from './pages/admin/AdminCourses.jsx'
+import AdminCurriculum from './pages/admin/AdminCurriculum.jsx'
 import AdminPages from './pages/admin/AdminPages.jsx'
 import AdminMessages from './pages/admin/AdminMessages.jsx'
 import AdminRBAC from './pages/admin/AdminRBAC.jsx'
@@ -133,7 +134,8 @@ export default function App() {
 
           {/* Admin Management Utilities */}
           <Route path="events" element={<AdminAccessGuard permissionId="events"><AdminEvents /></AdminAccessGuard>} />
-          <Route path="courses" element={<AdminAccessGuard permissionId="academics"><AdminCourses /></AdminAccessGuard>} />
+          <Route path="curriculum" element={<AdminAccessGuard permissionId="academics"><AdminCurriculum /></AdminAccessGuard>} />
+          <Route path="courses" element={<AdminAccessGuard permissionId="academics"><AdminCurriculum /></AdminAccessGuard>} />
           <Route path="pages" element={<AdminAccessGuard permissionId="settings"><AdminPages /></AdminAccessGuard>} />
           <Route path="messages" element={<AdminAccessGuard permissionId="messages"><AdminMessages /></AdminAccessGuard>} />
           <Route path="settings" element={<AdminAccessGuard permissionId="settings"><AdminSettings /></AdminAccessGuard>} />

@@ -65,8 +65,8 @@ export const ADMIN_PERMISSION_GROUPS = [
       },
       {
         id: 'courses',
-        label: 'Curriculum & Grade Structure',
-        path: '/admin/courses'
+        label: 'Curriculum & Subjects Framework',
+        path: '/admin/curriculum'
       },
       {
         id: 'facilities',
