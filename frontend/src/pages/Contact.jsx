@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { COLLEGE } from '../data/collegeData.js'
 import { contactService, settingsService } from '../services/endpoints.js'
@@ -15,6 +16,7 @@ const QUICK_TOPICS = [
 
 export default function Contact() {
   const [schoolInfo, setSchoolInfo] = useState(COLLEGE)
+  const location = useLocation()
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -25,6 +27,23 @@ export default function Contact() {
   const [loading, setLoading] = useState(false)
   const [feedback, setFeedback] = useState({ text: '', type: '' })
   const [activeTopic, setActiveTopic] = useState('')
+
+  // Smooth scroll to section when navigating with #hash
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '')
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) {
+          const headerOffset = 130
+          const elementPosition = el.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+        }
+      }, 150)
+      return () => clearTimeout(timer)
+    }
+  }, [location.hash])
 
   useEffect(() => {
     const loadSettings = () => {
@@ -412,7 +431,7 @@ export default function Contact() {
       </div>
 
       {/* ================= INTERACTIVE CAMPUS MAP SECTION ================= */}
-      <div className="contact-map-container">
+      <div id="map" className="contact-map-container">
         <iframe
           title="School Campus Location Map"
           width="100%"

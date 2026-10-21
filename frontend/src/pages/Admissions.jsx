@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { DEFAULT_ADMISSIONS_DATA, COLLEGE } from '../data/collegeData.js'
 import { pagesService, getCachedAdmissionsData } from '../services/endpoints.js'
@@ -8,6 +8,7 @@ import { CheckIcon, CreditCardIcon, CalendarIcon } from '../components/Icons.jsx
 export default function Admissions() {
   const [admissionsData, setAdmissionsData] = useState(() => getCachedAdmissionsData() || DEFAULT_ADMISSIONS_DATA)
   const [activeFaq, setActiveFaq] = useState(null)
+  const location = useLocation()
 
   const loadAdmissions = () => {
     pagesService.getBySlug('admissions').then(page => {
@@ -45,6 +46,17 @@ export default function Admissions() {
       window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
     }
   }
+
+  // Smooth scroll to section when navigating with #hash
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '')
+      const timer = setTimeout(() => {
+        scrollToSection(id)
+      }, 150)
+      return () => clearTimeout(timer)
+    }
+  }, [location.hash])
 
   const processSteps = (Array.isArray(admissionsData.process_steps) && admissionsData.process_steps.length > 0)
     ? admissionsData.process_steps

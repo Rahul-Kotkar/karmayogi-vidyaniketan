@@ -354,7 +354,7 @@ export default function AdmissionEnquiry() {
             <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 12px' }}>
               Birth Certificate, Aadhaar Card copy, previous school LC/TC, and passport size photographs are required upon confirmation.
             </p>
-            <Link to="/admissions" style={{ fontSize: '13.5px', color: '#002855', fontWeight: 700, textDecoration: 'none' }}>
+            <Link to="/admissions#documents" style={{ fontSize: '13.5px', color: '#002855', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               View full documents list &rarr;
             </Link>
           </div>
@@ -366,7 +366,7 @@ export default function AdmissionEnquiry() {
             <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 12px' }}>
               Transparent, fee-regulated structure with zero capitation fee. Term installments and online digital payment available.
             </p>
-            <Link to="/admissions" style={{ fontSize: '13.5px', color: '#002855', fontWeight: 700, textDecoration: 'none' }}>
+            <Link to="/admissions#fees" style={{ fontSize: '13.5px', color: '#002855', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               View detailed fee breakdown &rarr;
             </Link>
           </div>
@@ -378,7 +378,7 @@ export default function AdmissionEnquiry() {
             <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 12px' }}>
               Parents are welcome to tour our Isbavi and Shelve campuses Monday through Saturday from 9:00 AM to 5:00 PM.
             </p>
-            <Link to="/contact" style={{ fontSize: '13.5px', color: '#002855', fontWeight: 700, textDecoration: 'none' }}>
+            <Link to="/contact#map" style={{ fontSize: '13.5px', color: '#002855', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               Get directions &amp; campus maps &rarr;
             </Link>
           </div>
