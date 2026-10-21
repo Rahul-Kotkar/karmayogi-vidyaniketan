@@ -5,6 +5,7 @@ import {
   DEFAULT_STUDENT_CORNER_DATA,
   DEFAULT_CULTURAL_EVENTS,
   DEFAULT_STUDENT_CLUBS,
+  DEFAULT_CLUBS_META,
   DEFAULT_FIELD_TRIPS,
   DEFAULT_COMPETITIONS,
   DEFAULT_STUDENT_ACHIEVEMENTS,
@@ -65,6 +66,7 @@ export default function AdminStudentCorner() {
               ...parsed,
               cultural: Array.isArray(parsed.cultural) && parsed.cultural.length > 0 ? parsed.cultural : prev.cultural,
               clubs: Array.isArray(parsed.clubs) && parsed.clubs.length > 0 ? parsed.clubs : prev.clubs,
+              clubs_meta: parsed.clubs_meta ? { ...DEFAULT_CLUBS_META, ...parsed.clubs_meta } : (prev.clubs_meta || DEFAULT_CLUBS_META),
               fieldTrips: Array.isArray(parsed.fieldTrips) && parsed.fieldTrips.length > 0 ? parsed.fieldTrips : prev.fieldTrips,
               competitions: Array.isArray(parsed.competitions) && parsed.competitions.length > 0 ? parsed.competitions : prev.competitions,
               achievements: Array.isArray(parsed.achievements) && parsed.achievements.length > 0 ? parsed.achievements : prev.achievements,
@@ -94,11 +96,52 @@ export default function AdminStudentCorner() {
         title: 'Student Life, Activities & Achievements',
         content_html: JSON.stringify(data)
       })
+      window.dispatchEvent(new CustomEvent('page_student_corner_updated', { detail: { content_html: JSON.stringify(data) } }))
       setMsg({ text: 'Student Life changes saved successfully and synced with the public website.', type: 'success' })
     } catch (err) {
       setMsg({ text: err.message || 'Failed to save changes', type: 'danger' })
     } finally {
       setSaving(false)
+    }
+  }
+
+  // Clubs metadata helpers
+  const handleClubsMetaChange = (field, val) => {
+    setData(prev => ({
+      ...prev,
+      clubs_meta: {
+        ...(prev.clubs_meta || DEFAULT_CLUBS_META),
+        [field]: val
+      }
+    }))
+  }
+
+  const handleClubsPillarChange = (idx, field, val) => {
+    setData(prev => {
+      const currentPillars = [...(prev.clubs_meta?.pillars || DEFAULT_CLUBS_META.pillars)]
+      currentPillars[idx] = { ...currentPillars[idx], [field]: val }
+      return {
+        ...prev,
+        clubs_meta: {
+          ...(prev.clubs_meta || DEFAULT_CLUBS_META),
+          pillars: currentPillars
+        }
+      }
+    })
+  }
+
+  const handleClubsImageUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    try {
+      setMsg({ text: 'Uploading clubs hero image...', type: 'info' })
+      const url = await uploadService.uploadFile(file, 'clubs')
+      if (url) {
+        handleClubsMetaChange('image', url)
+        setMsg({ text: 'Clubs hero image uploaded successfully!', type: 'success' })
+      }
+    } catch (err) {
+      setMsg({ text: 'Failed to upload image: ' + err.message, type: 'danger' })
     }
   }
 
@@ -422,59 +465,369 @@ export default function AdminStudentCorner() {
       {/* TAB 2: CLUBS & ACTIVITIES */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'clubs' && (
-        <div className="admin-card">
-          <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <h3>Hobby Clubs &amp; Enrichment Societies</h3>
-              <p>Configure weekly extracurricular clubs (STEM, Literary, Fine Arts, Eco Club, Performing Arts).</p>
-            </div>
-            <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Hero Banner Settings */}
+          <div className="admin-card">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>Hero Banner &amp; Header Settings</h3>
+                <p>Configure the top introduction, action buttons, and feature hero image on the Clubs page.</p>
+              </div>
               <button
                 className="admin-btn admin-btn-secondary"
-                onClick={() => resetSection('clubs', DEFAULT_STUDENT_CLUBS, 'Clubs & Activities')}
+                onClick={() => {
+                  setData(prev => ({
+                    ...prev,
+                    clubs_meta: { ...DEFAULT_CLUBS_META }
+                  }))
+                }}
               >
-                Reset to Presets
-              </button>
-              <button
-                className="admin-btn admin-btn-primary"
-                onClick={() => openModal('club', null, { title: '', description: '', activities: '' })}
-              >
-                + Add Hobby Club
+                Reset Header to Default
               </button>
             </div>
-          </div>
-          <div className="admin-card-body">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
-              {(data.clubs || []).map((club, idx) => (
-                <div key={club.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{club.title}</h4>
-                    <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{club.description}</p>
-                    {club.activities && club.activities.length > 0 && (
-                      <div style={{ fontSize: 12, color: '#64748b', marginBottom: 12 }}>
-                        <strong>Activities:</strong>
-                        <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
-                          {club.activities.map((a, i) => <li key={i}>{a}</li>)}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-secondary"
-                      onClick={() => openModal('club', idx, { ...club, activities: (club.activities || []).join('\n') })}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-danger"
-                      onClick={() => deleteItem('clubs', idx, 'hobby club')}
-                    >
-                      Delete
-                    </button>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Eyebrow Badge</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.clubs_meta?.badge || ''}
+                    onChange={e => handleClubsMetaChange('badge', e.target.value)}
+                    placeholder="e.g. CO-CURRICULAR EXPLORATION"
+                    style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Main Page Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.clubs_meta?.title || ''}
+                    onChange={e => handleClubsMetaChange('title', e.target.value)}
+                    placeholder="e.g. Discovering Passions, Building Future Skills"
+                    style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Lead Introduction Paragraph</label>
+                <textarea
+                  rows={3}
+                  className="admin-input"
+                  value={data.clubs_meta?.lead || ''}
+                  onChange={e => handleClubsMetaChange('lead', e.target.value)}
+                  placeholder="Summary paragraph describing regular class pause, club schedule, and student exploration..."
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+
+              {/* Call to action buttons */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 8 }}>Primary Action Button</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 10 }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={data.clubs_meta?.explore_btn_text || ''}
+                        onChange={e => handleClubsMetaChange('explore_btn_text', e.target.value)}
+                        placeholder="Explore Science & STEM Labs"
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Destination Link</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={data.clubs_meta?.explore_btn_link || ''}
+                        onChange={e => handleClubsMetaChange('explore_btn_link', e.target.value)}
+                        placeholder="/labs"
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
                   </div>
                 </div>
-              ))}
+
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 8 }}>Secondary Action Button</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 10 }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={data.clubs_meta?.inquire_btn_text || ''}
+                        onChange={e => handleClubsMetaChange('inquire_btn_text', e.target.value)}
+                        placeholder="Inquire About Club Programs"
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Destination Link</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={data.clubs_meta?.inquire_btn_link || ''}
+                        onChange={e => handleClubsMetaChange('inquire_btn_link', e.target.value)}
+                        placeholder="/contact"
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Hero Image Section */}
+              <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 12 }}>Hero Split Image &amp; Floating Overlay</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, alignItems: 'center' }}>
+                  <div style={{ maxWidth: 220, height: 130, borderRadius: 8, overflow: 'hidden', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #cbd5e1' }}>
+                    {data.clubs_meta?.image ? (
+                      <img src={data.clubs_meta.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <span style={{ fontSize: 12, color: '#94a3b8' }}>No Image Preview</span>
+                    )}
+                  </div>
+                  <div style={{ display: 'grid', gap: 10 }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Image URL</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={data.clubs_meta?.image || ''}
+                        onChange={e => handleClubsMetaChange('image', e.target.value)}
+                        placeholder="https://images.unsplash.com/..."
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Or Upload Image File:</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleClubsImageUpload}
+                        style={{ fontSize: 12 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, marginTop: 14 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Floating Overlay Subtitle</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={data.clubs_meta?.image_sub || ''}
+                      onChange={e => handleClubsMetaChange('image_sub', e.target.value)}
+                      placeholder="e.g. Hands-On Learning"
+                      style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Floating Overlay Main Heading</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={data.clubs_meta?.image_tag || ''}
+                      onChange={e => handleClubsMetaChange('image_tag', e.target.value)}
+                      placeholder="e.g. STEM & Robotics Tinkering Hub"
+                      style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: 3 Operational Pillars */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Schedule &amp; Operational Pillars (3 Highlight Boxes)</h3>
+              <p>Edit the 3 feature highlight cards shown below the hero (Weekly Hours, Faculty Mentors, Exhibitions).</p>
+            </div>
+            <div className="admin-card-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                {(data.clubs_meta?.pillars || DEFAULT_CLUBS_META.pillars).map((pillar, idx) => (
+                  <div key={idx} style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gap: 10 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', textTransform: 'uppercase' }}>
+                      Pillar Card #{idx + 1}
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Card Title</label>
+                      <input
+                        type="text"
+                        className="admin-input"
+                        value={pillar.title || ''}
+                        onChange={e => handleClubsPillarChange(idx, 'title', e.target.value)}
+                        placeholder="e.g. Dedicated Weekly Hours"
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Description</label>
+                      <textarea
+                        rows={3}
+                        className="admin-input"
+                        value={pillar.desc || ''}
+                        onChange={e => handleClubsPillarChange(idx, 'desc', e.target.value)}
+                        placeholder="Card details..."
+                        style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: Clubs Section Titles & Bottom CTA */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Section Headings &amp; Facilities Banner</h3>
+              <p>Configure section titles and the bottom equipped labs banner.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Clubs Section Badge</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.clubs_meta?.section_badge || ''}
+                    onChange={e => handleClubsMetaChange('section_badge', e.target.value)}
+                    placeholder="ACTIVE SOCIETIES"
+                    style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Clubs Section Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.clubs_meta?.section_title || ''}
+                    onChange={e => handleClubsMetaChange('section_title', e.target.value)}
+                    placeholder="Explore Our Student Clubs"
+                    style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gap: 12 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>Bottom Facilities CTA Banner</div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Banner Title</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.clubs_meta?.cta_title || ''}
+                    onChange={e => handleClubsMetaChange('cta_title', e.target.value)}
+                    placeholder="Equipped Labs Supporting Club Innovations"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Banner Description</label>
+                  <textarea
+                    rows={2}
+                    className="admin-input"
+                    value={data.clubs_meta?.cta_desc || ''}
+                    onChange={e => handleClubsMetaChange('cta_desc', e.target.value)}
+                    placeholder="From our fully air-conditioned computer center..."
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={data.clubs_meta?.cta_btn_text || ''}
+                      onChange={e => handleClubsMetaChange('cta_btn_text', e.target.value)}
+                      placeholder="Visit Science & STEM Labs"
+                      style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Button Destination Link</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={data.clubs_meta?.cta_btn_link || ''}
+                      onChange={e => handleClubsMetaChange('cta_btn_link', e.target.value)}
+                      placeholder="/labs"
+                      style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Hobby Clubs & Societies List */}
+          <div className="admin-card">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>Active Student Clubs ({data.clubs?.length || 0})</h3>
+                <p>Configure weekly extracurricular clubs (STEM, Literary, Fine Arts, Eco Club, Performing Arts).</p>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  className="admin-btn admin-btn-secondary"
+                  onClick={() => resetSection('clubs', DEFAULT_STUDENT_CLUBS, 'Clubs & Activities')}
+                >
+                  Reset to Presets
+                </button>
+                <button
+                  className="admin-btn admin-btn-primary"
+                  onClick={() => openModal('club', null, { title: '', description: '', activities: '', icon: 'Sparkles' })}
+                >
+                  + Add Hobby Club
+                </button>
+              </div>
+            </div>
+            <div className="admin-card-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                {(data.clubs || []).map((club, idx) => (
+                  <div key={club.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                        <h4 style={{ fontSize: 16, margin: 0, color: '#0f172a' }}>{club.title}</h4>
+                        <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 6, background: '#e0f2fe', color: '#0369a1', fontWeight: 600 }}>{club.icon || 'Sparkles'}</span>
+                      </div>
+                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{club.description}</p>
+                      {club.activities && club.activities.length > 0 && (
+                        <div style={{ fontSize: 12, color: '#64748b', marginBottom: 12 }}>
+                          <strong>Activities:</strong>
+                          <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                            {club.activities.map((a, i) => <li key={i}>{a}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-secondary"
+                        onClick={() => openModal('club', idx, { ...club, activities: (club.activities || []).join('\n') })}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-danger"
+                        onClick={() => deleteItem('clubs', idx, 'hobby club')}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -953,6 +1306,22 @@ export default function AdminStudentCorner() {
                       placeholder="Students tinker with circuits, coding, and models..."
                       style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
                     />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Club Icon</label>
+                    <select
+                      className="admin-input"
+                      value={formValues.icon || 'Sparkles'}
+                      onChange={e => setFormValues(prev => ({ ...prev, icon: e.target.value }))}
+                      style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                    >
+                      <option value="Sparkles">Sparkles (STEM / Science / Tinkering)</option>
+                      <option value="BookOpen">BookOpen (Literary / Debating / Writing)</option>
+                      <option value="Music">Music (Drama / Performing Arts / Vocals)</option>
+                      <option value="Palette">Palette (Fine Arts / Craft / Painting)</option>
+                      <option value="Compass">Compass (Eco Club / Heritage / Nature)</option>
+                      <option value="Users">Users (Social Service / Red Cross / Community)</option>
+                    </select>
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Key Activities (One per line)</label>

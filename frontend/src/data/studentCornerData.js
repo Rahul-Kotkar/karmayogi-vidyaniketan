@@ -423,6 +423,39 @@ export const DEFAULT_SPORTS_TEAMS = [
   }
 ];
 
+export const DEFAULT_CLUBS_META = {
+  badge: 'CO-CURRICULAR EXPLORATION',
+  title: 'Discovering Passions, Building Future Skills',
+  lead: 'Every Wednesday and Saturday afternoon at Karmayogi Vidyaniketan, regular class schedules pause for club hours. Students are encouraged to choose specialized interest societies spanning robotics, debate, public speaking, gardening, and visual arts, fostering lifelong hobbies and career spark.',
+  image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
+  image_tag: 'STEM & Robotics Tinkering Hub',
+  image_sub: 'Hands-On Learning',
+  explore_btn_text: 'Explore Science & STEM Labs',
+  explore_btn_link: '/labs',
+  inquire_btn_text: 'Inquire About Club Programs',
+  inquire_btn_link: '/contact',
+  pillars: [
+    {
+      title: 'Dedicated Weekly Hours',
+      desc: 'Every Wednesday afternoon and Saturday morning are reserved exclusively for mentored club activities.'
+    },
+    {
+      title: 'Faculty & Industry Mentors',
+      desc: 'Trained subject teachers alongside visiting robotics engineers and artists provide structured guidance.'
+    },
+    {
+      title: 'Exhibition & Certifications',
+      desc: 'Students present working models, art displays, and wall magazines during the annual Science & Arts Day.'
+    }
+  ],
+  section_badge: 'ACTIVE SOCIETIES',
+  section_title: 'Explore Our Student Clubs',
+  cta_title: 'Equipped Labs Supporting Club Innovations',
+  cta_desc: 'From our fully air-conditioned computer center to STEM electronics tables and art studios, students have unrestricted access to premium facilities.',
+  cta_btn_text: 'Visit Science & STEM Labs',
+  cta_btn_link: '/labs'
+};
+
 export const DEFAULT_STUDENT_CORNER_DATA = {
   overview: {
     title: 'Student Life, Activities & Achievements',
@@ -430,6 +463,7 @@ export const DEFAULT_STUDENT_CORNER_DATA = {
   },
   cultural: DEFAULT_CULTURAL_EVENTS,
   clubs: DEFAULT_STUDENT_CLUBS,
+  clubs_meta: DEFAULT_CLUBS_META,
   fieldTrips: DEFAULT_FIELD_TRIPS,
   competitions: DEFAULT_COMPETITIONS,
   achievements: DEFAULT_STUDENT_ACHIEVEMENTS,
