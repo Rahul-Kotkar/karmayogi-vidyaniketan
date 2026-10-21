@@ -304,31 +304,17 @@ export default function AdminAdmissions() {
             Configures the topmost hero card on the user-side Admissions page.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, marginBottom: 16 }}>
-            <div>
-              <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
-                Academic Year Badge
-              </label>
-              <input
-                type="text"
-                value={data.academic_year || 'ACADEMIC YEAR 2026–27'}
-                onChange={e => handleChange('academic_year', e.target.value)}
-                style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-                placeholder="e.g. ACADEMIC YEAR 2026–27"
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
-                Admission Status Tagline
-              </label>
-              <input
-                type="text"
-                value={data.admissions_open_text || 'Admissions Open (Nursery to Grade 10)'}
-                onChange={e => handleChange('admissions_open_text', e.target.value)}
-                style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-                placeholder="e.g. Admissions Open (Nursery to Grade 10)"
-              />
-            </div>
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
+              Academic Year Badge
+            </label>
+            <input
+              type="text"
+              value={data.academic_year || 'ACADEMIC YEAR 2026–27'}
+              onChange={e => handleChange('academic_year', e.target.value)}
+              style={{ width: '100%', maxWidth: 400, padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
+              placeholder="e.g. ACADEMIC YEAR 2026–27"
+            />
           </div>
 
           <div style={{ marginBottom: 16 }}>
@@ -406,19 +392,19 @@ export default function AdminAdmissions() {
               Displayed as the 4 distinctive feature cards on the user website:
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0', borderLeft: '4px solid #002855' }}>
+              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
                 <strong style={{ fontSize: 13, color: '#002855' }}>Strict Zero-Donation</strong>
                 <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Purely transparent admission based on age and seat availability.</p>
               </div>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0', borderLeft: '4px solid #002855' }}>
+              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
                 <strong style={{ fontSize: 13, color: '#002855' }}>Dual Campuses</strong>
                 <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Isbavi Primary &amp; Shelve High School campuses in Pandharpur.</p>
               </div>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0', borderLeft: '4px solid #002855' }}>
+              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
                 <strong style={{ fontSize: 13, color: '#002855' }}>Holistic Foundation</strong>
                 <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Classroom depth, AI/STEM robotics labs, and athletic coaching.</p>
               </div>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0', borderLeft: '4px solid #002855' }}>
+              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
                 <strong style={{ fontSize: 13, color: '#002855' }}>Safe Transportation</strong>
                 <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Serviced fleet of GPS buses covering city and surrounding rural routes.</p>
               </div>

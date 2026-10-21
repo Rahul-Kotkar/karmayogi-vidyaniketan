@@ -119,9 +119,6 @@ export default function Admissions() {
             }}>
               ACADEMIC YEAR 2026–27
             </span>
-            <span style={{ fontSize: '13px', color: '#16a34a', fontWeight: 700 }}>
-              &bull; Admissions Open (Nursery to Grade 10)
-            </span>
           </div>
 
           <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '28px', color: '#002855', margin: '0 0 14px', lineHeight: 1.3 }}>
@@ -144,7 +141,7 @@ export default function Admissions() {
               { title: "Holistic Foundation", desc: "Classroom depth, AI/STEM robotics labs, and athletic coaching." },
               { title: "Safe Transportation", desc: "Serviced fleet of GPS buses covering city and surrounding rural routes." }
             ].map((feature, i) => (
-              <div key={i} style={{ background: '#f8fafc', padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0', borderLeft: '4px solid #002855' }}>
+              <div key={i} style={{ background: '#f8fafc', padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#002855', marginBottom: 4 }}>
                   {feature.title}
                 </div>
