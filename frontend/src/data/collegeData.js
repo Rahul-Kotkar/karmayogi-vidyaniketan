@@ -679,6 +679,12 @@ export const DEFAULT_ABOUT_DATA = {
   institute_p1: "Karmayogi Vidyaniketan, widely known as Karmayogi Public School, is a co-educational institution located in Pandharpur, Solapur district, Maharashtra. The school operates under the visionary management of Shri Pandurang Pratishthan, Pandharpur.",
   institute_p2: "The school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship. Combining modern educational tools, smart classrooms, experiential science and robotics laboratories with strong Indian values, we prepare students to excel in higher education and life.",
 
+  // Parent Trust / Shri Pandurang Pratishthan
+  trust_title: 'Shri Pandurang Pratishthan, Pandharpur',
+  trust_subtitle: 'Parent Governance Organization & Legacy of Service',
+  trust_p1: 'Shri Pandurang Pratishthan is a renowned public charitable trust registered in the holy pilgrimage city of Pandharpur, Solapur district, Maharashtra. Established with the noble philosophy of rural upliftment, cooperative growth, and accessible learning, the trust stewards top-tier educational campuses catering to thousands of young learners.',
+  trust_p2: 'Under the enduring inspiration of late founder स्व. सुधाकरपंत परिचारक and the forward-looking management council, Karmayogi Vidyaniketan / Karmayogi Public School serves as the flagship school campus, providing equal educational opportunity, advanced pedagogy, and holistic student support to boys and girls across the Solapur region.',
+
   // Vision & Mission
   vm_tag: 'School Philosophy',
   vm_title: 'Vision & Mission',

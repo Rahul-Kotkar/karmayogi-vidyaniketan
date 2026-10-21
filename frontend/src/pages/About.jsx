@@ -351,15 +351,31 @@ export default function About() {
             ======================================================== */}
         <section id="management" className="about-block">
           <div className="about-section-header">
-            <h2 className="about-section-title">Shri Pandurang Pratishthan, Pandharpur</h2>
-            <p className="about-section-subtitle">Parent Governance Organization &amp; Legacy of Service</p>
+            <h2 className="about-section-title">
+              {data.trust_title || 'Shri Pandurang Pratishthan, Pandharpur'}
+            </h2>
+            <p className="about-section-subtitle">
+              {data.trust_subtitle || 'Parent Governance Organization & Legacy of Service'}
+            </p>
           </div>
-          <div style={{ background: '#f8fafc', padding: '28px 26px', borderRadius: 12, border: '1px solid #e2e8f0', lineHeight: 1.85, fontSize: '15.5px', color: '#334155' }}>
+          <div style={{ background: '#f8fafc', padding: '28px 26px', borderRadius: 12, border: '1px solid #e2e8f0', lineHeight: 1.85, fontSize: '15.5px', color: '#334155', whiteSpace: 'pre-line' }}>
             <p style={{ marginBottom: 14 }}>
-              <strong>Shri Pandurang Pratishthan</strong> is a renowned public charitable trust registered in the holy pilgrimage city of Pandharpur, Solapur district, Maharashtra. Established with the noble philosophy of rural upliftment, cooperative growth, and accessible learning, the trust stewards top-tier educational campuses catering to thousands of young learners.
+              {data.trust_p1 ? (
+                data.trust_p1
+              ) : (
+                <>
+                  <strong>Shri Pandurang Pratishthan</strong> is a renowned public charitable trust registered in the holy pilgrimage city of Pandharpur, Solapur district, Maharashtra. Established with the noble philosophy of rural upliftment, cooperative growth, and accessible learning, the trust stewards top-tier educational campuses catering to thousands of young learners.
+                </>
+              )}
             </p>
             <p style={{ margin: 0 }}>
-              Under the enduring inspiration of late founder <strong>स्व. सुधाकरपंत परिचारक</strong> and the forward-looking management council, <strong>Karmayogi Vidyaniketan / Karmayogi Public School</strong> serves as the flagship school campus, providing equal educational opportunity, advanced pedagogy, and holistic student support to boys and girls across the Solapur region.
+              {data.trust_p2 ? (
+                data.trust_p2
+              ) : (
+                <>
+                  Under the enduring inspiration of late founder <strong>स्व. सुधाकरपंत परिचारक</strong> and the forward-looking management council, <strong>Karmayogi Vidyaniketan / Karmayogi Public School</strong> serves as the flagship school campus, providing equal educational opportunity, advanced pedagogy, and holistic student support to boys and girls across the Solapur region.
+                </>
+              )}
             </p>
           </div>
         </section>

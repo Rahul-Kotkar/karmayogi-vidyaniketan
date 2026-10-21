@@ -75,10 +75,10 @@ export default function AdminAbout() {
     try {
       await pagesService.save({
         slug: 'about',
-        title: data.institute_title || 'About Karmayogi Institute of Physiotherapy',
+        title: data.institute_title || 'About Karmayogi Vidyaniketan',
         content_html: JSON.stringify(data),
-        meta_title: `${data.institute_title || 'About Us'} | Karmayogi College of Physiotherapy`,
-        meta_description: data.institute_subtitle || 'About Karmayogi Institute of Physiotherapy, Pandharpur'
+        meta_title: `${data.institute_title || 'About Us'} | Karmayogi Vidyaniketan`,
+        meta_description: data.institute_subtitle || 'About Karmayogi Vidyaniketan, Pandharpur'
       })
       setMsg({ text: 'About page updated successfully! Live website has been refreshed.', type: 'success' })
     } catch (err) {
@@ -213,10 +213,11 @@ export default function AdminAbout() {
       <div className="admin-tabs" style={{ marginBottom: 20 }}>
         {[
           { id: 'institute', label: '1. Institute Overview' },
-          { id: 'vision', label: '2. Vision & Mission' },
-          { id: 'quality', label: '3. Quality Policy' },
-          { id: 'council', label: '4. Governing Council & Leadership' },
-          { id: 'approvals', label: '5. Affiliations & Approvals' }
+          { id: 'trust', label: '2. Parent Trust (Shri Pandurang Pratishthan)' },
+          { id: 'vision', label: '3. Vision & Mission' },
+          { id: 'quality', label: '4. Quality Policy' },
+          { id: 'council', label: '5. Governing Council & Leadership' },
+          { id: 'approvals', label: '6. Affiliations & Approvals' }
         ].map(tab => (
           <button
             key={tab.id}
@@ -349,10 +350,64 @@ export default function AdminAbout() {
         </div>
       )}
 
-      {/* TAB 2: VISION & MISSION */}
+      {/* TAB 2: PARENT TRUST / SHRI PANDURANG PRATISHTHAN */}
+      {activeTab === 'trust' && (
+        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 2: Parent Trust (Shri Pandurang Pratishthan, Pandharpur)</h3>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 16 }}>
+            <div>
+              <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Trust Heading</label>
+              <input
+                type="text"
+                value={data.trust_title !== undefined ? data.trust_title : 'Shri Pandurang Pratishthan, Pandharpur'}
+                onChange={e => handleChange('trust_title', e.target.value)}
+                style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
+                placeholder="Shri Pandurang Pratishthan, Pandharpur"
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Trust Subtitle</label>
+              <input
+                type="text"
+                value={data.trust_subtitle !== undefined ? data.trust_subtitle : 'Parent Governance Organization & Legacy of Service'}
+                onChange={e => handleChange('trust_subtitle', e.target.value)}
+                style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
+                placeholder="Parent Governance Organization & Legacy of Service"
+              />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
+              Trust Overview Paragraph 1 (Public Charitable Trust &amp; Educational Mission)
+            </label>
+            <textarea
+              rows={4}
+              value={data.trust_p1 !== undefined ? data.trust_p1 : 'Shri Pandurang Pratishthan is a renowned public charitable trust registered in the holy pilgrimage city of Pandharpur, Solapur district, Maharashtra. Established with the noble philosophy of rural upliftment, cooperative growth, and accessible learning, the trust stewards top-tier educational campuses catering to thousands of young learners.'}
+              onChange={e => handleChange('trust_p1', e.target.value)}
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: 14, lineHeight: 1.6 }}
+            />
+          </div>
+
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>
+              Founder Inspiration Paragraph 2 (Late Founder स्व. सुधाकरपंत परिचारक &amp; School Vision)
+            </label>
+            <textarea
+              rows={4}
+              value={data.trust_p2 !== undefined ? data.trust_p2 : 'Under the enduring inspiration of late founder स्व. सुधाकरपंत परिचारक and the forward-looking management council, Karmayogi Vidyaniketan / Karmayogi Public School serves as the flagship school campus, providing equal educational opportunity, advanced pedagogy, and holistic student support to boys and girls across the Solapur region.'}
+              onChange={e => handleChange('trust_p2', e.target.value)}
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: 14, lineHeight: 1.6 }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: VISION & MISSION */}
       {activeTab === 'vision' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 2: Vision &amp; Mission</h3>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #0b2545)', fontSize: 18 }}>Section 3: Vision &amp; Mission</h3>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, marginBottom: 16 }}>
             <div>
