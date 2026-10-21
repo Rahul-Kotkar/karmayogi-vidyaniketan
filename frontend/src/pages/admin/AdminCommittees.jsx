@@ -819,45 +819,41 @@ export default function AdminCommittees() {
 
       {/* Modal: Add New Committee */}
       {showAddCommitteeModal && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000
-          }}
-        >
-          <div style={{ background: '#ffffff', borderRadius: 8, padding: 24, maxWidth: 520, width: '92%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.15)' }}>
-            <h3 style={{ fontSize: 18, margin: '0 0 14px', color: 'var(--navy-header)' }}>
-              Add New Institutional Committee
-            </h3>
-            <div className="admin-form-group">
-              <label className="admin-label">Committee Name *</label>
-              <input
-                type="text"
-                className="admin-input"
-                placeholder="e.g. Infection Control & Hospital Safety Committee"
-                value={newCommitteeName}
-                onChange={(e) => setNewCommitteeName(e.target.value)}
-              />
+        <div className="admin-modal-backdrop">
+          <div className="admin-modal" style={{ maxWidth: 520 }}>
+            <div className="admin-modal-header">
+              <h3>Add New Institutional Committee</h3>
+              <button
+                type="button"
+                className="admin-modal-close"
+                onClick={() => setShowAddCommitteeModal(false)}
+              >
+                &times;
+              </button>
             </div>
-            <div className="admin-form-group">
-              <label className="admin-label">Designation / Statutory Category</label>
-              <input
-                type="text"
-                className="admin-input"
-                placeholder="e.g. Clinical Safety & Infection Prevention Cell"
-                value={newCommitteeDesignation}
-                onChange={(e) => setNewCommitteeDesignation(e.target.value)}
-              />
+            <div className="admin-modal-body">
+              <div className="admin-form-group">
+                <label className="admin-label">Committee Name *</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  placeholder="e.g. Infection Control & Hospital Safety Committee"
+                  value={newCommitteeName}
+                  onChange={(e) => setNewCommitteeName(e.target.value)}
+                />
+              </div>
+              <div className="admin-form-group">
+                <label className="admin-label">Designation / Statutory Category</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  placeholder="e.g. Clinical Safety & Infection Prevention Cell"
+                  value={newCommitteeDesignation}
+                  onChange={(e) => setNewCommitteeDesignation(e.target.value)}
+                />
+              </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 20 }}>
+            <div className="admin-modal-footer">
               <button
                 type="button"
                 className="admin-btn admin-btn-secondary"

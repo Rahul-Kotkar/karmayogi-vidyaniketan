@@ -900,7 +900,7 @@ export default function AdminDepartments() {
             </div>
 
             <form onSubmit={handleSaveDepartment}>
-              <div className="admin-modal-body" style={{ maxHeight: '72vh', overflowY: 'auto' }}>
+              <div className="admin-modal-body">
                 <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '24px' }}>
                   {/* Left Column: Form Fields */}
                   <div>

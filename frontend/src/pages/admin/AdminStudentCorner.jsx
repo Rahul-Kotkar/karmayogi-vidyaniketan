@@ -845,22 +845,23 @@ export default function AdminStudentCorner() {
       {/* EDIT MODAL DIALOG */}
       {/* --------------------------------------------------------------------- */}
       {modalType && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(3px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ background: '#ffffff', borderRadius: 14, width: '100%', maxWidth: 560, maxHeight: '90vh', overflowY: 'auto', padding: 24, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <h3 style={{ margin: 0, fontSize: 18, color: '#0f172a' }}>
+        <div className="admin-modal-backdrop">
+          <div className="admin-modal" style={{ maxWidth: 580 }}>
+            <div className="admin-modal-header">
+              <h3>
                 {editingIndex !== null ? 'Edit Item' : 'Add New Item'}
               </h3>
               <button
                 type="button"
+                className="admin-modal-close"
                 onClick={closeModal}
-                style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#64748b' }}
               >
-                ×
+                &times;
               </button>
             </div>
 
-            <form onSubmit={handleModalSubmit} style={{ display: 'grid', gap: 14 }}>
+            <form onSubmit={handleModalSubmit}>
+              <div className="admin-modal-body" style={{ display: 'grid', gap: 14 }}>
               {/* CULTURAL FORM */}
               {modalType === 'cultural' && (
                 <>
@@ -1315,7 +1316,9 @@ export default function AdminStudentCorner() {
                 </>
               )}
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
+              </div>
+
+              <div className="admin-modal-footer">
                 <button
                   type="button"
                   className="admin-btn admin-btn-secondary"

@@ -440,7 +440,7 @@ export default function AdminFaculty() {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="admin-modal-body" style={{ maxHeight: '78vh', overflowY: 'auto' }}>
+              <div className="admin-modal-body">
                 {/* Section 1: Core Details */}
                 <div style={{ marginBottom: 16 }}>
                   <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#071d3a', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>

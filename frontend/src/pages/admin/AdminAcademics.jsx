@@ -1696,7 +1696,7 @@ export default function AdminAcademics() {
           ======================================================== */}
       {showSubjectModal && (
         <div className="admin-modal-overlay">
-          <div className="admin-modal-card" style={{ maxWidth: 640 }}>
+          <div className="admin-modal" style={{ maxWidth: 640 }}>
             <div className="admin-modal-header">
               <h3>{editingSubjectId ? 'Edit Curriculum Subject' : 'Add New Curriculum Subject'}</h3>
               <button
@@ -1708,7 +1708,7 @@ export default function AdminAcademics() {
               </button>
             </div>
 
-            <div className="admin-modal-body" style={{ maxHeight: '72vh', overflowY: 'auto' }}>
+            <div className="admin-modal-body">
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 14, marginBottom: 14 }}>
                 <div className="admin-form-group">
                   <label className="admin-label">Subject Name *</label>

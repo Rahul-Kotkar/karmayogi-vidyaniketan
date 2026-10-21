@@ -441,34 +441,10 @@ export default function AdminNews() {
 
       {/* Edit / Create News Item Modal */}
       {modalOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            padding: 16
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: '#ffffff',
-              borderRadius: 8,
-              width: '100%',
-              maxWidth: 580,
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)'
-            }}
-          >
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: 17 }}>
+        <div className="admin-modal-backdrop">
+          <div className="admin-modal" style={{ maxWidth: 580 }}>
+            <div className="admin-modal-header">
+              <h3>
                 {editingItem ? 'Edit News Article' : 'Create New News Article'}
               </h3>
               <button
@@ -477,15 +453,13 @@ export default function AdminNews() {
                 onClick={() => setModalOpen(false)}
                 title="Close"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                &times;
               </button>
             </div>
 
-            <form onSubmit={handleSaveModal} style={{ padding: 20 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <form onSubmit={handleSaveModal}>
+              <div className="admin-modal-body">
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <div className="admin-form-group">
                   <label>Category / Tag *</label>
                   <input
@@ -605,9 +579,10 @@ export default function AdminNews() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, borderTop: '1px solid #f1f5f9', paddingTop: 14 }}>
-                <button type="button" className="admin-btn admin-btn-outline" onClick={() => setModalOpen(false)}>
+            <div className="admin-modal-footer">
+                <button type="button" className="admin-btn admin-btn-secondary" onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="admin-btn admin-btn-primary">

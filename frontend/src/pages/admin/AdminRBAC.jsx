@@ -483,30 +483,8 @@ export default function AdminRBAC() {
 
       {/* Modal: Create / Edit Admin & Permissions */}
       {modalOpen && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(15, 23, 42, 0.65)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: 16
-        }}>
-          <div style={{
-            background: '#ffffff',
-            borderRadius: 8,
-            maxWidth: 860,
-            width: '100%',
-            maxHeight: '92vh',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-            overflow: 'hidden'
-          }}>
+        <div className="admin-modal-backdrop">
+          <div className="admin-modal" style={{ maxWidth: 860 }}>
             {/* Modal Header */}
             <div style={{
               padding: '18px 24px',
@@ -812,30 +790,8 @@ export default function AdminRBAC() {
 
       {/* User-Specific Activity & Audit Logs Modal */}
       {userLogsModalTarget && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(15, 23, 42, 0.7)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: 16
-        }}>
-          <div style={{
-            background: '#ffffff',
-            borderRadius: 12,
-            maxWidth: 1200,
-            width: '100%',
-            maxHeight: '94vh',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-            overflow: 'hidden'
-          }}>
+        <div className="admin-modal-backdrop">
+          <div className="admin-modal" style={{ maxWidth: 1200 }}>
             {/* Modal Header */}
             <div style={{
               padding: '16px 24px',

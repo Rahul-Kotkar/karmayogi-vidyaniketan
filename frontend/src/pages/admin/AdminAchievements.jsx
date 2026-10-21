@@ -451,138 +451,113 @@ export default function AdminAchievements() {
 
       {/* Edit / Create Achievement Modal */}
       {modalOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            padding: 16
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: '#ffffff',
-              borderRadius: 8,
-              width: '100%',
-              maxWidth: 560,
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)'
-            }}
-          >
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: 17 }}>
+        <div className="admin-modal-backdrop">
+          <div className="admin-modal" style={{ maxWidth: 560 }}>
+            <div className="admin-modal-header">
+              <h3>
                 {editingItem ? 'Edit Achievement Card' : 'Create New Achievement Card'}
               </h3>
               <button
                 type="button"
+                className="admin-modal-close"
                 onClick={() => setModalOpen(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', padding: 4 }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+                &times;
               </button>
             </div>
 
-            <form onSubmit={handleSaveModal} style={{ padding: 20 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14 }}>
+            <form onSubmit={handleSaveModal}>
+              <div className="admin-modal-body">
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14 }}>
+                  <div className="admin-form-group">
+                    <label>Display Number *</label>
+                    <input
+                      type="text"
+                      required
+                      className="admin-input"
+                      value={form.num}
+                      onChange={e => setForm({ ...form, num: e.target.value })}
+                      placeholder="e.g. 01, 02"
+                    />
+                  </div>
+                  <div className="admin-form-group">
+                    <label>Category Tag *</label>
+                    <input
+                      type="text"
+                      required
+                      className="admin-input"
+                      value={form.tag}
+                      onChange={e => setForm({ ...form, tag: e.target.value.toUpperCase() })}
+                      placeholder="e.g. COMPETITIONS, ACADEMIC EXCELLENCE"
+                    />
+                  </div>
+                </div>
+
                 <div className="admin-form-group">
-                  <label>Display Number *</label>
+                  <label>Badge Icon Symbol</label>
+                  <select
+                    className="admin-input"
+                    value={form.iconType}
+                    onChange={e => setForm({ ...form, iconType: e.target.value })}
+                  >
+                    {AVAILABLE_ICONS.map(i => (
+                      <option key={i.id} value={i.id}>
+                        {i.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="admin-form-group">
+                  <label>Achievement Title *</label>
                   <input
                     type="text"
                     required
                     className="admin-input"
-                    value={form.num}
-                    onChange={e => setForm({ ...form, num: e.target.value })}
-                    placeholder="e.g. 01, 02"
+                    value={form.title}
+                    onChange={e => setForm({ ...form, title: e.target.value })}
+                    placeholder="e.g. First Prize – State Physiotherapy Quiz 2026"
                   />
                 </div>
+
                 <div className="admin-form-group">
-                  <label>Category Tag *</label>
-                  <input
-                    type="text"
+                  <label>Description / Narrative *</label>
+                  <textarea
+                    rows="3"
                     required
-                    className="admin-input"
-                    value={form.tag}
-                    onChange={e => setForm({ ...form, tag: e.target.value.toUpperCase() })}
-                    placeholder="e.g. COMPETITIONS, ACADEMIC EXCELLENCE"
+                    className="admin-textarea"
+                    value={form.detail}
+                    onChange={e => setForm({ ...form, detail: e.target.value })}
+                    placeholder="Team of three BPT students won the state-level quiz organized by IAP Maharashtra branch."
                   />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 14 }}>
+                  <div className="admin-form-group">
+                    <label>Target Page Link</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={form.link}
+                      onChange={e => setForm({ ...form, link: e.target.value })}
+                      placeholder="/events, /research, /academics"
+                    />
+                  </div>
+                  <div className="admin-form-group">
+                    <label>Button Label</label>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={form.linkText}
+                      onChange={e => setForm({ ...form, linkText: e.target.value })}
+                      placeholder="Know More"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="admin-form-group">
-                <label>Badge Icon Symbol</label>
-                <select
-                  className="admin-input"
-                  value={form.iconType}
-                  onChange={e => setForm({ ...form, iconType: e.target.value })}
-                >
-                  {AVAILABLE_ICONS.map(i => (
-                    <option key={i.id} value={i.id}>
-                      {i.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="admin-form-group">
-                <label>Achievement Title *</label>
-                <input
-                  type="text"
-                  required
-                  className="admin-input"
-                  value={form.title}
-                  onChange={e => setForm({ ...form, title: e.target.value })}
-                  placeholder="e.g. First Prize – State Physiotherapy Quiz 2026"
-                />
-              </div>
-
-              <div className="admin-form-group">
-                <label>Description / Narrative *</label>
-                <textarea
-                  rows="3"
-                  required
-                  className="admin-textarea"
-                  value={form.detail}
-                  onChange={e => setForm({ ...form, detail: e.target.value })}
-                  placeholder="Team of three BPT students won the state-level quiz organized by IAP Maharashtra branch."
-                />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 14 }}>
-                <div className="admin-form-group">
-                  <label>Target Page Link</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    value={form.link}
-                    onChange={e => setForm({ ...form, link: e.target.value })}
-                    placeholder="/events, /research, /academics"
-                  />
-                </div>
-                <div className="admin-form-group">
-                  <label>Button Label</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    value={form.linkText}
-                    onChange={e => setForm({ ...form, linkText: e.target.value })}
-                    placeholder="Know More"
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, borderTop: '1px solid #f1f5f9', paddingTop: 14 }}>
-                <button type="button" className="admin-btn admin-btn-outline" onClick={() => setModalOpen(false)}>
+              <div className="admin-modal-footer">
+                <button type="button" className="admin-btn admin-btn-secondary" onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="admin-btn admin-btn-primary">
