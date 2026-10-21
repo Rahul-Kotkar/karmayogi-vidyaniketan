@@ -12,7 +12,7 @@ export default function MobileMenu() {
   return (
     <div className="mobile-nav">
       <div className="mobile-bar">
-        <span className="brand">College of Physiotherapy</span>
+        <span className="brand">Karmayogi Vidyaniketan</span>
         <button 
           className="hamburger" 
           aria-label="Toggle navigation menu"

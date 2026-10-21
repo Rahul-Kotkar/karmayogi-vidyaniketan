@@ -240,7 +240,7 @@ export default function AdminStudentCorner() {
         <div>
           <h1>
             Student Life &amp; Activities Management
-            <span className="admin-page-badge">Campus Services</span>
+            <span className="admin-page-badge" style={{ marginLeft: 10, verticalAlign: 'middle' }}>Campus Services</span>
           </h1>
           <p>
             Configure cultural events, clubs, field trips, olympiad competitions, achievements, houses, and student council.

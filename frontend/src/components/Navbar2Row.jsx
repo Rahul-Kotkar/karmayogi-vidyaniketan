@@ -213,7 +213,17 @@ export default function Navbar2Row() {
   const mobileNavItems = useMemo(() => [
     { key: 'home', label: 'HOME', path: '/', exact: true },
     { key: 'about', label: 'ABOUT', path: '/about' },
-    { key: 'admissions', label: 'ADMISSIONS', path: '/admissions' },
+    {
+      key: 'admissions',
+      label: 'ADMISSIONS',
+      path: '/admissions',
+      children: [
+        { label: 'Admissions & Fee Guide', path: '/admissions' },
+        { label: 'Fee Structure', path: '/admissions#fees' },
+        { label: 'Required Documents', path: '/admissions#documents' },
+        { label: 'Online Enquiry', path: '/admission-enquiry' }
+      ]
+    },
     { key: 'faculty', label: 'FACULTY', path: '/faculty' },
     { key: 'notices', label: 'NOTICES', path: '/notices' },
     { key: 'news', label: 'NEWS', path: '/news' },
@@ -247,12 +257,13 @@ export default function Navbar2Row() {
       label: 'STUDENT LIFE',
       path: '/student-life',
       children: [
-        { label: 'Sports & Athletics', path: '/sports-athletics' },
         { label: 'Cultural Activities', path: '/cultural-activities' },
         { label: 'Clubs & Activities', path: '/clubs-activities' },
         { label: 'Field Trips & Excursions', path: '/field-trips' },
         { label: 'Competitions & Olympiads', path: '/competitions-olympiads' },
-        { label: 'Student Achievements', path: '/student-achievements' }
+        { label: 'Student Achievements', path: '/student-achievements' },
+        { label: 'Houses & Council', path: '/student-life#houses' },
+        { label: 'Sports & Athletics', path: '/sports-athletics' }
       ]
     },
     { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },

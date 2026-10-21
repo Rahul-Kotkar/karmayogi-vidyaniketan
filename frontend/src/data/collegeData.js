@@ -71,7 +71,16 @@ export const SOCIAL_LINKS = [
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
   { label: "ABOUT", path: "/about" },
-  { label: "ADMISSIONS", path: "/admissions" },
+  {
+    label: "ADMISSIONS",
+    path: "/admissions",
+    children: [
+      { label: "Admissions & Fee Guide", path: "/admissions" },
+      { label: "Fee Structure", path: "/admissions#fees" },
+      { label: "Required Documents", path: "/admissions#documents" },
+      { label: "Online Enquiry", path: "/admission-enquiry" }
+    ]
+  },
   { label: "FACULTY", path: "/faculty" },
   { label: "NOTICES", path: "/notices" },
   { label: "NEWS", path: "/news" },
@@ -115,12 +124,13 @@ export const ROW_2_NAV = [
     label: "STUDENT LIFE",
     path: "/student-life",
     children: [
-      { label: "Sports & Athletics", path: "/sports-athletics" },
       { label: "Cultural Activities", path: "/cultural-activities" },
       { label: "Clubs & Activities", path: "/clubs-activities" },
       { label: "Field Trips & Excursions", path: "/field-trips" },
       { label: "Competitions & Olympiads", path: "/competitions-olympiads" },
-      { label: "Student Achievements", path: "/student-achievements" }
+      { label: "Student Achievements", path: "/student-achievements" },
+      { label: "Houses & Council", path: "/student-life#houses" },
+      { label: "Sports & Athletics", path: "/sports-athletics" }
     ]
   },
   { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },
