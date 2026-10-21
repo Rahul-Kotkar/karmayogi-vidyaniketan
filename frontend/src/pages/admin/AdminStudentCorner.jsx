@@ -4,14 +4,20 @@ import { pagesService, uploadService } from '../../services/endpoints.js'
 import {
   DEFAULT_STUDENT_CORNER_DATA,
   DEFAULT_CULTURAL_EVENTS,
+  DEFAULT_CULTURAL_META,
   DEFAULT_STUDENT_CLUBS,
   DEFAULT_CLUBS_META,
   DEFAULT_FIELD_TRIPS,
+  DEFAULT_FIELD_TRIPS_META,
   DEFAULT_COMPETITIONS,
+  DEFAULT_COMPETITIONS_META,
   DEFAULT_STUDENT_ACHIEVEMENTS,
+  DEFAULT_ACHIEVEMENTS_META,
   DEFAULT_STUDENT_HOUSES,
   DEFAULT_STUDENT_COUNCIL,
-  DEFAULT_SPORTS_TEAMS
+  DEFAULT_HOUSES_COUNCIL_META,
+  DEFAULT_SPORTS_TEAMS,
+  DEFAULT_SPORTS_META
 } from '../../data/studentCornerData.js'
 import {
   TheaterIcon,
@@ -65,14 +71,20 @@ export default function AdminStudentCorner() {
               ...prev,
               ...parsed,
               cultural: Array.isArray(parsed.cultural) && parsed.cultural.length > 0 ? parsed.cultural : prev.cultural,
+              cultural_meta: parsed.cultural_meta ? { ...DEFAULT_CULTURAL_META, ...parsed.cultural_meta } : (prev.cultural_meta || DEFAULT_CULTURAL_META),
               clubs: Array.isArray(parsed.clubs) && parsed.clubs.length > 0 ? parsed.clubs : prev.clubs,
               clubs_meta: parsed.clubs_meta ? { ...DEFAULT_CLUBS_META, ...parsed.clubs_meta } : (prev.clubs_meta || DEFAULT_CLUBS_META),
               fieldTrips: Array.isArray(parsed.fieldTrips) && parsed.fieldTrips.length > 0 ? parsed.fieldTrips : prev.fieldTrips,
+              field_trips_meta: parsed.field_trips_meta ? { ...DEFAULT_FIELD_TRIPS_META, ...parsed.field_trips_meta } : (prev.field_trips_meta || DEFAULT_FIELD_TRIPS_META),
               competitions: Array.isArray(parsed.competitions) && parsed.competitions.length > 0 ? parsed.competitions : prev.competitions,
+              competitions_meta: parsed.competitions_meta ? { ...DEFAULT_COMPETITIONS_META, ...parsed.competitions_meta } : (prev.competitions_meta || DEFAULT_COMPETITIONS_META),
               achievements: Array.isArray(parsed.achievements) && parsed.achievements.length > 0 ? parsed.achievements : prev.achievements,
+              achievements_meta: parsed.achievements_meta ? { ...DEFAULT_ACHIEVEMENTS_META, ...parsed.achievements_meta } : (prev.achievements_meta || DEFAULT_ACHIEVEMENTS_META),
               houses: Array.isArray(parsed.houses) && parsed.houses.length > 0 ? parsed.houses : prev.houses,
               council: Array.isArray(parsed.council) && parsed.council.length > 0 ? parsed.council : prev.council,
-              sportsTeams: Array.isArray(parsed.sportsTeams) && parsed.sportsTeams.length > 0 ? parsed.sportsTeams : (prev.sportsTeams || DEFAULT_SPORTS_TEAMS)
+              houses_council_meta: parsed.houses_council_meta ? { ...DEFAULT_HOUSES_COUNCIL_META, ...parsed.houses_council_meta } : (prev.houses_council_meta || DEFAULT_HOUSES_COUNCIL_META),
+              sportsTeams: Array.isArray(parsed.sportsTeams) && parsed.sportsTeams.length > 0 ? parsed.sportsTeams : (prev.sportsTeams || DEFAULT_SPORTS_TEAMS),
+              sports_meta: parsed.sports_meta ? { ...DEFAULT_SPORTS_META, ...parsed.sports_meta } : (prev.sports_meta || DEFAULT_SPORTS_META)
             }))
           } catch {
             // Keep default structured data
@@ -105,44 +117,57 @@ export default function AdminStudentCorner() {
     }
   }
 
-  // Clubs metadata helpers
-  const handleClubsMetaChange = (field, val) => {
+  // Generic metadata helpers
+  const handleMetaFieldChange = (sectionMetaKey, field, val, defaultMeta) => {
     setData(prev => ({
       ...prev,
-      clubs_meta: {
-        ...(prev.clubs_meta || DEFAULT_CLUBS_META),
+      [sectionMetaKey]: {
+        ...(prev[sectionMetaKey] || defaultMeta),
         [field]: val
       }
     }))
   }
 
-  const handleClubsPillarChange = (idx, field, val) => {
+  const handlePillarFieldChange = (sectionMetaKey, idx, field, val, defaultMeta) => {
     setData(prev => {
-      const currentPillars = [...(prev.clubs_meta?.pillars || DEFAULT_CLUBS_META.pillars)]
+      const currentPillars = [...(prev[sectionMetaKey]?.pillars || defaultMeta.pillars)]
       currentPillars[idx] = { ...currentPillars[idx], [field]: val }
       return {
         ...prev,
-        clubs_meta: {
-          ...(prev.clubs_meta || DEFAULT_CLUBS_META),
+        [sectionMetaKey]: {
+          ...(prev[sectionMetaKey] || defaultMeta),
           pillars: currentPillars
         }
       }
     })
   }
 
-  const handleClubsImageUpload = async (e) => {
-    const file = e.target.files?.[0]
+  const handleSectionImageUpload = async (sectionMetaKey, file, folder = 'student_corner') => {
     if (!file) return
     try {
-      setMsg({ text: 'Uploading clubs hero image...', type: 'info' })
-      const url = await uploadService.uploadFile(file, 'clubs')
+      setMsg({ text: 'Uploading image...', type: 'info' })
+      const url = await uploadService.uploadFile(file, folder)
       if (url) {
-        handleClubsMetaChange('image', url)
-        setMsg({ text: 'Clubs hero image uploaded successfully!', type: 'success' })
+        setData(prev => ({
+          ...prev,
+          [sectionMetaKey]: {
+            ...prev[sectionMetaKey],
+            image: url
+          }
+        }))
+        setMsg({ text: 'Image uploaded successfully!', type: 'success' })
       }
     } catch (err) {
       setMsg({ text: 'Failed to upload image: ' + err.message, type: 'danger' })
     }
+  }
+
+  // Clubs metadata helpers
+  const handleClubsMetaChange = (field, val) => handleMetaFieldChange('clubs_meta', field, val, DEFAULT_CLUBS_META)
+  const handleClubsPillarChange = (idx, field, val) => handlePillarFieldChange('clubs_meta', idx, field, val, DEFAULT_CLUBS_META)
+  const handleClubsImageUpload = (e) => {
+    const file = e.target.files?.[0]
+    if (file) handleSectionImageUpload('clubs_meta', file, 'clubs')
   }
 
   // Modal helpers
@@ -397,65 +422,99 @@ export default function AdminStudentCorner() {
       {/* TAB 1: CULTURAL ACTIVITIES */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'cultural' && (
-        <div className="admin-card">
-          <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <h3>Cultural Activities &amp; Annual Gathering (Karmotsav)</h3>
-              <p>Manage theatrical stage showcases, classical dance, music ensembles, and cultural festival celebrations.</p>
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Hero Banner Settings */}
+          <HeroBannerEditor
+            title="Cultural Activities Hero Banner & Header"
+            subtitle="Configure top introduction, buttons, and featured cultural showcase hero image."
+            meta={data.cultural_meta || DEFAULT_CULTURAL_META}
+            defaultMeta={DEFAULT_CULTURAL_META}
+            onChange={(f, v) => handleMetaFieldChange('cultural_meta', f, v, DEFAULT_CULTURAL_META)}
+            onImageUpload={(file) => handleSectionImageUpload('cultural_meta', file, 'cultural')}
+            onReset={() => handleMetaFieldChange('cultural_meta', null, null, DEFAULT_CULTURAL_META)}
+          />
+
+          {/* Section 2: 3 Operational Pillars */}
+          <PillarsEditor
+            title="Three Pillars of Cultural Expression"
+            subtitle="Stage Drama, Music Ensembles, Folk Dance & Dindi highlight cards."
+            pillars={data.cultural_meta?.pillars || DEFAULT_CULTURAL_META.pillars}
+            onChange={(idx, f, v) => handlePillarFieldChange('cultural_meta', idx, f, v, DEFAULT_CULTURAL_META)}
+            hasTag={true}
+            cardLabel="Cultural Pillar"
+          />
+
+          {/* Section 3: Section Header */}
+          <SectionHeaderEditor
+            badge={data.cultural_meta?.section_badge || ''}
+            title={data.cultural_meta?.section_title || ''}
+            onChangeBadge={(v) => handleMetaFieldChange('cultural_meta', 'section_badge', v, DEFAULT_CULTURAL_META)}
+            onChangeTitle={(v) => handleMetaFieldChange('cultural_meta', 'section_title', v, DEFAULT_CULTURAL_META)}
+            badgeLabel="Events Section Eyebrow Badge"
+            titleLabel="Events Section Main Heading"
+          />
+
+          {/* Section 4: Cultural Activities & Gathering List */}
+          <div className="admin-card">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>Cultural Activities &amp; Annual Gathering (Karmotsav)</h3>
+                <p>Manage theatrical stage showcases, classical dance, music ensembles, and cultural festival celebrations.</p>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  className="admin-btn admin-btn-secondary"
+                  onClick={() => resetSection('cultural', DEFAULT_CULTURAL_EVENTS, 'Cultural Activities')}
+                >
+                  Reset to Presets
+                </button>
+                <button
+                  className="admin-btn admin-btn-primary"
+                  onClick={() => openModal('cultural', null, { title: '', badge: 'Cultural Event', tag: 'Stage Arts', desc: '', highlights: '' })}
+                >
+                  + Add Cultural Event
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                className="admin-btn admin-btn-secondary"
-                onClick={() => resetSection('cultural', DEFAULT_CULTURAL_EVENTS, 'Cultural Activities')}
-              >
-                Reset to Presets
-              </button>
-              <button
-                className="admin-btn admin-btn-primary"
-                onClick={() => openModal('cultural', null, { title: '', badge: 'Cultural Event', tag: 'Stage Arts', desc: '', highlights: '' })}
-              >
-                + Add Cultural Event
-              </button>
-            </div>
-          </div>
-          <div className="admin-card-body">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
-              {(data.cultural || []).map((item, idx) => (
-                <div key={item.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#f3e8ff', color: '#7e22ce' }}>
-                        {item.badge}
-                      </span>
-                      <span style={{ fontSize: 11.5, color: '#64748b' }}>{item.tag}</span>
-                    </div>
-                    <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{item.title}</h4>
-                    <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{item.desc}</p>
-                    {item.highlights && item.highlights.length > 0 && (
-                      <div style={{ fontSize: 12, color: '#64748b', marginBottom: 12 }}>
-                        <strong>Highlights:</strong>
-                        <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
-                          {item.highlights.map((h, i) => <li key={i}>{h}</li>)}
-                        </ul>
+            <div className="admin-card-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                {(data.cultural || []).map((item, idx) => (
+                  <div key={item.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#f3e8ff', color: '#7e22ce' }}>
+                          {item.badge}
+                        </span>
+                        <span style={{ fontSize: 11.5, color: '#64748b' }}>{item.tag}</span>
                       </div>
-                    )}
+                      <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{item.title}</h4>
+                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{item.desc}</p>
+                      {item.highlights && item.highlights.length > 0 && (
+                        <div style={{ fontSize: 12, color: '#64748b', marginBottom: 12 }}>
+                          <strong>Highlights:</strong>
+                          <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                            {item.highlights.map((h, i) => <li key={i}>{h}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-secondary"
+                        onClick={() => openModal('cultural', idx, { ...item, highlights: (item.highlights || []).join('\n') })}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-danger"
+                        onClick={() => deleteItem('cultural', idx, 'cultural event')}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-secondary"
-                      onClick={() => openModal('cultural', idx, { ...item, highlights: (item.highlights || []).join('\n') })}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-danger"
-                      onClick={() => deleteItem('cultural', idx, 'cultural event')}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -837,67 +896,101 @@ export default function AdminStudentCorner() {
       {/* TAB 3: FIELD TRIPS & EXCURSIONS */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'field-trips' && (
-        <div className="admin-card">
-          <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <h3>Field Trips &amp; Educational Excursions</h3>
-              <p>Manage outdoor excursions connecting classroom lessons with history, science centres, and agricultural reserves.</p>
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Hero Banner Settings */}
+          <HeroBannerEditor
+            title="Field Trips & Excursions Hero Banner & Header"
+            subtitle="Configure top introduction, buttons, and excursion feature hero image."
+            meta={data.field_trips_meta || DEFAULT_FIELD_TRIPS_META}
+            defaultMeta={DEFAULT_FIELD_TRIPS_META}
+            onChange={(f, v) => handleMetaFieldChange('field_trips_meta', f, v, DEFAULT_FIELD_TRIPS_META)}
+            onImageUpload={(file) => handleSectionImageUpload('field_trips_meta', file, 'field_trips')}
+            onReset={() => handleMetaFieldChange('field_trips_meta', null, null, DEFAULT_FIELD_TRIPS_META)}
+          />
+
+          {/* Section 2: 4 Pillars of Safety */}
+          <PillarsEditor
+            title="Four Pillars of Tour Safety & Care"
+            subtitle="Edit the 4 safety and experiential learning highlight cards shown below the hero."
+            pillars={data.field_trips_meta?.pillars || DEFAULT_FIELD_TRIPS_META.pillars}
+            onChange={(idx, f, v) => handlePillarFieldChange('field_trips_meta', idx, f, v, DEFAULT_FIELD_TRIPS_META)}
+            hasTag={true}
+            cardLabel="Safety Pillar"
+          />
+
+          {/* Section 3: Section Header */}
+          <SectionHeaderEditor
+            badge={data.field_trips_meta?.section_badge || ''}
+            title={data.field_trips_meta?.section_title || ''}
+            onChangeBadge={(v) => handleMetaFieldChange('field_trips_meta', 'section_badge', v, DEFAULT_FIELD_TRIPS_META)}
+            onChangeTitle={(v) => handleMetaFieldChange('field_trips_meta', 'section_title', v, DEFAULT_FIELD_TRIPS_META)}
+            badgeLabel="Trips Section Eyebrow Badge"
+            titleLabel="Trips Section Main Heading"
+          />
+
+          {/* Section 4: Field Trips List */}
+          <div className="admin-card">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>Field Trips &amp; Educational Excursions</h3>
+                <p>Manage outdoor excursions connecting classroom lessons with history, science centres, and agricultural reserves.</p>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  className="admin-btn admin-btn-secondary"
+                  onClick={() => resetSection('fieldTrips', DEFAULT_FIELD_TRIPS, 'Field Trips')}
+                >
+                  Reset to Presets
+                </button>
+                <button
+                  className="admin-btn admin-btn-primary"
+                  onClick={() => openModal('trip', null, { title: '', destination: '', category: 'History & Heritage', desc: '', highlights: '' })}
+                >
+                  + Add Field Trip
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                className="admin-btn admin-btn-secondary"
-                onClick={() => resetSection('fieldTrips', DEFAULT_FIELD_TRIPS, 'Field Trips')}
-              >
-                Reset to Presets
-              </button>
-              <button
-                className="admin-btn admin-btn-primary"
-                onClick={() => openModal('trip', null, { title: '', destination: '', category: 'History & Heritage', desc: '', highlights: '' })}
-              >
-                + Add Field Trip
-              </button>
-            </div>
-          </div>
-          <div className="admin-card-body">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
-              {(data.fieldTrips || []).map((trip, idx) => (
-                <div key={trip.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#fef3c7', color: '#92400e' }}>
-                        {trip.category}
-                      </span>
-                      <span style={{ fontSize: 11.5, color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                        <MapPinIcon size={12} color="#64748b" /> {trip.destination}
-                      </span>
-                    </div>
-                    <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{trip.title}</h4>
-                    <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{trip.desc}</p>
-                    {trip.highlights && trip.highlights.length > 0 && (
-                      <div style={{ fontSize: 12, color: '#64748b', marginBottom: 12 }}>
-                        <strong>Highlights:</strong>
-                        <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
-                          {trip.highlights.map((h, i) => <li key={i}>{h}</li>)}
-                        </ul>
+            <div className="admin-card-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                {(data.fieldTrips || []).map((trip, idx) => (
+                  <div key={trip.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#fef3c7', color: '#92400e' }}>
+                          {trip.category}
+                        </span>
+                        <span style={{ fontSize: 11.5, color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <MapPinIcon size={12} color="#64748b" /> {trip.destination}
+                        </span>
                       </div>
-                    )}
+                      <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{trip.title}</h4>
+                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{trip.desc}</p>
+                      {trip.highlights && trip.highlights.length > 0 && (
+                        <div style={{ fontSize: 12, color: '#64748b', marginBottom: 12 }}>
+                          <strong>Highlights:</strong>
+                          <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                            {trip.highlights.map((h, i) => <li key={i}>{h}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-secondary"
+                        onClick={() => openModal('trip', idx, { ...trip, highlights: (trip.highlights || []).join('\n') })}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-danger"
+                        onClick={() => deleteItem('fieldTrips', idx, 'field trip')}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-secondary"
-                      onClick={() => openModal('trip', idx, { ...trip, highlights: (trip.highlights || []).join('\n') })}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-danger"
-                      onClick={() => deleteItem('fieldTrips', idx, 'field trip')}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -907,60 +1000,94 @@ export default function AdminStudentCorner() {
       {/* TAB 4: COMPETITIONS & OLYMPIADS */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'competitions' && (
-        <div className="admin-card">
-          <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <h3>Competitions &amp; Olympiad Mentorship</h3>
-              <p>Configure Science &amp; Math Olympiads, State Talent Search exams, drawing exams, and debating fixtures.</p>
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Hero Banner Settings */}
+          <HeroBannerEditor
+            title="Competitions & Olympiads Hero Banner & Header"
+            subtitle="Configure top introduction, buttons, and Olympiad mentorship hero image."
+            meta={data.competitions_meta || DEFAULT_COMPETITIONS_META}
+            defaultMeta={DEFAULT_COMPETITIONS_META}
+            onChange={(f, v) => handleMetaFieldChange('competitions_meta', f, v, DEFAULT_COMPETITIONS_META)}
+            onImageUpload={(file) => handleSectionImageUpload('competitions_meta', file, 'competitions')}
+            onReset={() => handleMetaFieldChange('competitions_meta', null, null, DEFAULT_COMPETITIONS_META)}
+          />
+
+          {/* Section 2: 3-Step Mentoring Framework */}
+          <PillarsEditor
+            title="Three-Step Mentoring Framework"
+            subtitle="Early Talent Identification, Weekly Mock Tests, Personal Mentoring cards."
+            pillars={data.competitions_meta?.pillars || DEFAULT_COMPETITIONS_META.pillars}
+            onChange={(idx, f, v) => handlePillarFieldChange('competitions_meta', idx, f, v, DEFAULT_COMPETITIONS_META)}
+            hasTag={false}
+            cardLabel="Step"
+          />
+
+          {/* Section 3: Section Header */}
+          <SectionHeaderEditor
+            badge={data.competitions_meta?.section_badge || ''}
+            title={data.competitions_meta?.section_title || ''}
+            onChangeBadge={(v) => handleMetaFieldChange('competitions_meta', 'section_badge', v, DEFAULT_COMPETITIONS_META)}
+            onChangeTitle={(v) => handleMetaFieldChange('competitions_meta', 'section_title', v, DEFAULT_COMPETITIONS_META)}
+            badgeLabel="Competitions Section Eyebrow Badge"
+            titleLabel="Competitions Section Main Heading"
+          />
+
+          {/* Section 4: Competitions List */}
+          <div className="admin-card">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>Competitions &amp; Olympiad Mentorship</h3>
+                <p>Configure Science &amp; Math Olympiads, State Talent Search exams, drawing exams, and debating fixtures.</p>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  className="admin-btn admin-btn-secondary"
+                  onClick={() => resetSection('competitions', DEFAULT_COMPETITIONS, 'Competitions & Olympiads')}
+                >
+                  Reset to Presets
+                </button>
+                <button
+                  className="admin-btn admin-btn-primary"
+                  onClick={() => openModal('competition', null, { name: '', org: '', subjects: '', badge: 'National Level', desc: '' })}
+                >
+                  + Add Competition
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                className="admin-btn admin-btn-secondary"
-                onClick={() => resetSection('competitions', DEFAULT_COMPETITIONS, 'Competitions & Olympiads')}
-              >
-                Reset to Presets
-              </button>
-              <button
-                className="admin-btn admin-btn-primary"
-                onClick={() => openModal('competition', null, { name: '', org: '', subjects: '', badge: 'National Level', desc: '' })}
-              >
-                + Add Competition
-              </button>
-            </div>
-          </div>
-          <div className="admin-card-body">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
-              {(data.competitions || []).map((comp, idx) => (
-                <div key={comp.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#dcfce7', color: '#166534' }}>
-                        {comp.badge}
-                      </span>
-                      <span style={{ fontSize: 11.5, color: '#64748b' }}>{comp.org}</span>
+            <div className="admin-card-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                {(data.competitions || []).map((comp, idx) => (
+                  <div key={comp.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#dcfce7', color: '#166534' }}>
+                          {comp.badge}
+                        </span>
+                        <span style={{ fontSize: 11.5, color: '#64748b' }}>{comp.org}</span>
+                      </div>
+                      <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{comp.name}</h4>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#1d4ed8', background: '#eff6ff', padding: '3px 8px', borderRadius: 6, display: 'inline-block', marginBottom: 8 }}>
+                        Subjects: {comp.subjects}
+                      </div>
+                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{comp.desc}</p>
                     </div>
-                    <h4 style={{ fontSize: 16, margin: '0 0 6px', color: '#0f172a' }}>{comp.name}</h4>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#1d4ed8', background: '#eff6ff', padding: '3px 8px', borderRadius: 6, display: 'inline-block', marginBottom: 8 }}>
-                      Subjects: {comp.subjects}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-secondary"
+                        onClick={() => openModal('competition', idx, comp)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-danger"
+                        onClick={() => deleteItem('competitions', idx, 'competition')}
+                      >
+                        Delete
+                      </button>
                     </div>
-                    <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 12px' }}>{comp.desc}</p>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-secondary"
-                      onClick={() => openModal('competition', idx, comp)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-danger"
-                      onClick={() => deleteItem('competitions', idx, 'competition')}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -970,54 +1097,78 @@ export default function AdminStudentCorner() {
       {/* TAB 5: STUDENT ACHIEVEMENTS */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'achievements' && (
-        <div className="admin-card">
-          <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <h3>Student Achievements &amp; Laurels</h3>
-              <p>Configure board toppers, Olympiad medals, district sports trophies, and outstanding school records.</p>
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Hero Banner Settings */}
+          <HeroBannerEditor
+            title="Student Achievements Hero Banner & Header"
+            subtitle="Configure top introduction, buttons, and honors showcase hero image."
+            meta={data.achievements_meta || DEFAULT_ACHIEVEMENTS_META}
+            defaultMeta={DEFAULT_ACHIEVEMENTS_META}
+            onChange={(f, v) => handleMetaFieldChange('achievements_meta', f, v, DEFAULT_ACHIEVEMENTS_META)}
+            onImageUpload={(file) => handleSectionImageUpload('achievements_meta', file, 'achievements')}
+            onReset={() => handleMetaFieldChange('achievements_meta', null, null, DEFAULT_ACHIEVEMENTS_META)}
+          />
+
+          {/* Section 2: Section Header */}
+          <SectionHeaderEditor
+            badge={data.achievements_meta?.section_badge || ''}
+            title={data.achievements_meta?.section_title || ''}
+            onChangeBadge={(v) => handleMetaFieldChange('achievements_meta', 'section_badge', v, DEFAULT_ACHIEVEMENTS_META)}
+            onChangeTitle={(v) => handleMetaFieldChange('achievements_meta', 'section_title', v, DEFAULT_ACHIEVEMENTS_META)}
+            badgeLabel="Stats Section Eyebrow Badge"
+            titleLabel="Stats Section Main Heading"
+          />
+
+          {/* Section 3: Achievements List */}
+          <div className="admin-card">
+            <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3>Student Achievements &amp; Laurels</h3>
+                <p>Configure board toppers, Olympiad medals, district sports trophies, and outstanding school records.</p>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  className="admin-btn admin-btn-secondary"
+                  onClick={() => resetSection('achievements', DEFAULT_STUDENT_ACHIEVEMENTS, 'Achievements')}
+                >
+                  Reset to Presets
+                </button>
+                <button
+                  className="admin-btn admin-btn-primary"
+                  onClick={() => openModal('achievement', null, { stat: '100%', title: '', desc: '' })}
+                >
+                  + Add Achievement Stat
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                className="admin-btn admin-btn-secondary"
-                onClick={() => resetSection('achievements', DEFAULT_STUDENT_ACHIEVEMENTS, 'Achievements')}
-              >
-                Reset to Presets
-              </button>
-              <button
-                className="admin-btn admin-btn-primary"
-                onClick={() => openModal('achievement', null, { stat: '100%', title: '', desc: '' })}
-              >
-                + Add Achievement Stat
-              </button>
-            </div>
-          </div>
-          <div className="admin-card-body">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-              {(data.achievements || []).map((item, idx) => (
-                <div key={item.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', textAlign: 'center' }}>
-                  <div>
-                    <div style={{ fontSize: 36, fontWeight: 800, color: '#d97706', marginBottom: 4 }}>
-                      {item.stat}
+            <div className="admin-card-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+                {(data.achievements || []).map((item, idx) => (
+                  <div key={item.id || idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', textAlign: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: 36, fontWeight: 800, color: '#d97706', marginBottom: 4 }}>
+                        {item.stat}
+                      </div>
+                      <h4 style={{ fontSize: 15, margin: '0 0 6px', color: '#0f172a' }}>{item.title}</h4>
+                      <p style={{ fontSize: 12.5, color: '#64748b', lineHeight: 1.5, margin: '0 0 12px' }}>{item.desc}</p>
                     </div>
-                    <h4 style={{ fontSize: 15, margin: '0 0 6px', color: '#0f172a' }}>{item.title}</h4>
-                    <p style={{ fontSize: 12.5, color: '#64748b', lineHeight: 1.5, margin: '0 0 12px' }}>{item.desc}</p>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-secondary"
+                        onClick={() => openModal('achievement', idx, item)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="admin-btn admin-btn-sm admin-btn-danger"
+                        onClick={() => deleteItem('achievements', idx, 'achievement stat')}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: 8, borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-secondary"
-                      onClick={() => openModal('achievement', idx, item)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="admin-btn admin-btn-sm admin-btn-danger"
-                      onClick={() => deleteItem('achievements', idx, 'achievement stat')}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1027,7 +1178,49 @@ export default function AdminStudentCorner() {
       {/* TAB 6: HOUSES & STUDENT COUNCIL */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'houses-council' && (
-        <div style={{ display: 'grid', gap: 20 }}>
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Hero Banner */}
+          <HeroBannerEditor
+            title="Houses & Student Council Hero Banner"
+            subtitle="Configure top introduction, and explore buttons for the Houses & Council page."
+            meta={data.houses_council_meta || DEFAULT_HOUSES_COUNCIL_META}
+            defaultMeta={DEFAULT_HOUSES_COUNCIL_META}
+            onChange={(f, v) => handleMetaFieldChange('houses_council_meta', f, v, DEFAULT_HOUSES_COUNCIL_META)}
+            onReset={() => handleMetaFieldChange('houses_council_meta', null, null, DEFAULT_HOUSES_COUNCIL_META)}
+            hasImage={false}
+          />
+
+          {/* Section 2: Championship Banner Box */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Annual Rolling Championship Trophy Banner</h3>
+              <p>Customize the right-hand side banner explaining the inter-house shield competitions.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Banner Heading</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={data.houses_council_meta?.banner_heading || ''}
+                  onChange={e => handleMetaFieldChange('houses_council_meta', 'banner_heading', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                  placeholder="Annual Inter-House Championship"
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Banner Description</label>
+                <textarea
+                  rows={3}
+                  className="admin-input"
+                  value={data.houses_council_meta?.banner_desc || ''}
+                  onChange={e => handleMetaFieldChange('houses_council_meta', 'banner_desc', e.target.value, DEFAULT_HOUSES_COUNCIL_META)}
+                  placeholder="Throughout the academic year, houses compete for the prestigious Cock-House Championship Shield..."
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
           {/* House System Card */}
           <div className="admin-card">
             <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1124,7 +1317,122 @@ export default function AdminStudentCorner() {
       {/* TAB 7: SPORTS & ATHLETICS SQUADS */}
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'sports' && (
-        <div className="admin-card">
+        <div style={{ display: 'grid', gap: 24 }}>
+          {/* Section 1: Bridge Callout Banner */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Bridge Callout Banner (Facilities Cross-Link)</h3>
+              <p>Top callout distinguishing student competitive squads from campus physical grounds.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Banner Eyebrow</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.bridge_badge || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'bridge_badge', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="CAMPUS INFRASTRUCTURE VS STUDENT ATHLETICS"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Callout Text</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.bridge_text || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'bridge_text', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="Looking for physical playground specifications..."
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.bridge_btn_text || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'bridge_btn_text', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="Explore Sports Facilities"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Button Link</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.bridge_btn_link || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'bridge_btn_link', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="/sports-facilities"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Sports Philosophy & Ethos */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h3>Sports Philosophy &amp; Ethos</h3>
+              <p>Introduction heading, badge, and philosophy statement for the athletics section.</p>
+            </div>
+            <div className="admin-card-body" style={{ display: 'grid', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Eyebrow Badge</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.badge || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'badge', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="PHYSICAL EDUCATION & WELLNESS"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Main Heading</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={data.sports_meta?.title || ''}
+                    onChange={e => handleMetaFieldChange('sports_meta', 'title', e.target.value, DEFAULT_SPORTS_META)}
+                    placeholder="Building Champions on Field and in Character"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 4 }}>Philosophy Lead Paragraph</label>
+                <textarea
+                  rows={3}
+                  className="admin-input"
+                  value={data.sports_meta?.lead || ''}
+                  onChange={e => handleMetaFieldChange('sports_meta', 'lead', e.target.value, DEFAULT_SPORTS_META)}
+                  placeholder="Sports at Karmayogi Vidyaniketan go far beyond fitness..."
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: 3 Athletic Pillars */}
+          <PillarsEditor
+            title="Athletic Pillars & Training Focus"
+            subtitle="Daily Physical Literacy, Competitive Training & NIS Mentorship, Sportsmanship cards."
+            pillars={data.sports_meta?.pillars || DEFAULT_SPORTS_META.pillars}
+            onChange={(idx, f, v) => handlePillarFieldChange('sports_meta', idx, f, v, DEFAULT_SPORTS_META)}
+            hasTag={false}
+            cardLabel="Athletic Pillar"
+          />
+
+          {/* Section 4: Official School Sports Teams */}
+          <div className="admin-card">
           <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
             <div>
               <h3>Student Sports Squads, Coaching &amp; Athletic Competitions</h3>
@@ -1191,6 +1499,7 @@ export default function AdminStudentCorner() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       )}
 
@@ -1706,6 +2015,301 @@ export default function AdminStudentCorner() {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+function HeroBannerEditor({ 
+  title = "Hero Banner & Header Settings", 
+  subtitle = "Configure the top introduction, action buttons, and feature hero image.", 
+  meta = {}, 
+  defaultMeta = {}, 
+  onChange, 
+  onImageUpload, 
+  onReset,
+  hasImage = true
+}) {
+  return (
+    <div className="admin-card">
+      <div className="admin-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <h3>{title}</h3>
+          <p>{subtitle}</p>
+        </div>
+        {onReset && (
+          <button className="admin-btn admin-btn-secondary" onClick={onReset}>
+            Reset Header to Default
+          </button>
+        )}
+      </div>
+      <div className="admin-card-body" style={{ display: 'grid', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Eyebrow Badge</label>
+            <input
+              type="text"
+              className="admin-input"
+              value={meta?.badge || ''}
+              onChange={e => onChange('badge', e.target.value)}
+              placeholder="e.g. FEATURE BADGE"
+              style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Main Page Heading</label>
+            <input
+              type="text"
+              className="admin-input"
+              value={meta?.title || ''}
+              onChange={e => onChange('title', e.target.value)}
+              placeholder="Page Heading..."
+              style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>Lead Introduction Paragraph</label>
+          <textarea
+            rows={3}
+            className="admin-input"
+            value={meta?.lead || ''}
+            onChange={e => onChange('lead', e.target.value)}
+            placeholder="Introduction text..."
+            style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+          />
+        </div>
+
+        {/* Buttons */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 8 }}>Primary Action Button</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 10 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={meta?.explore_btn_text || ''}
+                  onChange={e => onChange('explore_btn_text', e.target.value)}
+                  placeholder="Button Label"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Destination Link</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={meta?.explore_btn_link || ''}
+                  onChange={e => onChange('explore_btn_link', e.target.value)}
+                  placeholder="/destination"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 8 }}>Secondary Action Button</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 10 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Button Label</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={meta?.inquire_btn_text || ''}
+                  onChange={e => onChange('inquire_btn_text', e.target.value)}
+                  placeholder="Button Label"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Destination Link</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={meta?.inquire_btn_link || ''}
+                  onChange={e => onChange('inquire_btn_link', e.target.value)}
+                  placeholder="/contact"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero image */}
+        {hasImage && (
+          <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 12 }}>Hero Split Image &amp; Floating Overlay</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, alignItems: 'center' }}>
+              <div style={{ maxWidth: 220, height: 130, borderRadius: 8, overflow: 'hidden', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #cbd5e1' }}>
+                {meta?.image ? (
+                  <img src={meta.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <span style={{ fontSize: 12, color: '#94a3b8' }}>No Image Preview</span>
+                )}
+              </div>
+              <div style={{ display: 'grid', gap: 10 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Image URL</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={meta?.image || ''}
+                    onChange={e => onChange('image', e.target.value)}
+                    placeholder="https://images.unsplash.com/..."
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Or Upload Image File:</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => onImageUpload && onImageUpload(e.target.files?.[0])}
+                    style={{ fontSize: 12 }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, marginTop: 14 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Floating Overlay Subtitle</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={meta?.image_sub || ''}
+                  onChange={e => onChange('image_sub', e.target.value)}
+                  placeholder="e.g. Subtitle Tag"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Floating Overlay Main Heading</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={meta?.image_tag || ''}
+                  onChange={e => onChange('image_tag', e.target.value)}
+                  placeholder="e.g. Main Image Title"
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function PillarsEditor({
+  title = "Pillars & Key Highlights",
+  subtitle = "Edit the highlight cards shown on this page.",
+  pillars = [],
+  onChange,
+  hasTag = false,
+  cardLabel = "Highlight Card"
+}) {
+  return (
+    <div className="admin-card">
+      <div className="admin-card-header">
+        <h3>{title}</h3>
+        <p>{subtitle}</p>
+      </div>
+      <div className="admin-card-body">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          {pillars.map((pillar, idx) => (
+            <div key={idx} style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', display: 'grid', gap: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', textTransform: 'uppercase' }}>
+                {cardLabel} #{idx + 1}
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Title</label>
+                <input
+                  type="text"
+                  className="admin-input"
+                  value={pillar.title || ''}
+                  onChange={e => onChange(idx, 'title', e.target.value)}
+                  placeholder="Title..."
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Description</label>
+                <textarea
+                  rows={3}
+                  className="admin-input"
+                  value={pillar.desc || ''}
+                  onChange={e => onChange(idx, 'desc', e.target.value)}
+                  placeholder="Description..."
+                  style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              {hasTag && (
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, color: '#64748b', marginBottom: 4 }}>Bottom Subtext / Tag</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={pillar.tag || ''}
+                    onChange={e => onChange(idx, 'tag', e.target.value)}
+                    placeholder="e.g. 100% Student Reach"
+                    style={{ width: '100%', padding: '7px 10px', fontSize: 13, borderRadius: 6, border: '1px solid #cbd5e1' }}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function SectionHeaderEditor({
+  badge = '',
+  title = '',
+  onChangeBadge,
+  onChangeTitle,
+  badgeLabel = "Section Eyebrow Badge",
+  titleLabel = "Section Main Heading"
+}) {
+  return (
+    <div className="admin-card">
+      <div className="admin-card-header">
+        <h3>Section Header &amp; Subtitle</h3>
+        <p>Customise the title and badge preceding the items list.</p>
+      </div>
+      <div className="admin-card-body">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+          <div>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>{badgeLabel}</label>
+            <input
+              type="text"
+              className="admin-input"
+              value={badge}
+              onChange={e => onChangeBadge(e.target.value)}
+              placeholder="e.g. FEATURED ITEMS"
+              style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 5 }}>{titleLabel}</label>
+            <input
+              type="text"
+              className="admin-input"
+              value={title}
+              onChange={e => onChangeTitle(e.target.value)}
+              placeholder="Section Heading..."
+              style={{ width: '100%', padding: '9px 12px', borderRadius: 6, border: '1px solid #cbd5e1' }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

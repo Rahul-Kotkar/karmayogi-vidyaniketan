@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { pagesService } from '../services/endpoints.js'
-import { DEFAULT_COMPETITIONS } from '../data/studentCornerData.js'
+import { DEFAULT_COMPETITIONS, DEFAULT_COMPETITIONS_META } from '../data/studentCornerData.js'
 import { 
   CheckCircleIcon, 
   ArrowRightIcon,
@@ -11,8 +11,9 @@ import {
 
 export default function CompetitionsOlympiads() {
   const [competitions, setCompetitions] = useState(DEFAULT_COMPETITIONS)
+  const [meta, setMeta] = useState(DEFAULT_COMPETITIONS_META)
 
-  useEffect(() => {
+  const loadData = () => {
     pagesService.getBySlug('student-corner').then(res => {
       if (res?.content_html) {
         try {
@@ -20,9 +21,31 @@ export default function CompetitionsOlympiads() {
           if (Array.isArray(parsed.competitions) && parsed.competitions.length > 0) {
             setCompetitions(parsed.competitions)
           }
+          if (parsed.competitions_meta) {
+            setMeta({ ...DEFAULT_COMPETITIONS_META, ...parsed.competitions_meta })
+          }
         } catch {}
       }
     }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdate = (e) => {
+      if (e.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          if (Array.isArray(parsed.competitions) && parsed.competitions.length > 0) {
+            setCompetitions(parsed.competitions)
+          }
+          if (parsed.competitions_meta) {
+            setMeta({ ...DEFAULT_COMPETITIONS_META, ...parsed.competitions_meta })
+          }
+        } catch {}
+      }
+    }
+    window.addEventListener('page_student_corner_updated', handleUpdate)
+    return () => window.removeEventListener('page_student_corner_updated', handleUpdate)
   }, [])
 
   return (
@@ -44,88 +67,84 @@ export default function CompetitionsOlympiads() {
           alignItems: 'stretch'
         }}>
           <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#047857', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
-              EXCELLENCE & TALENT SEARCH
-            </span>
+            {meta.badge && (
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#047857', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
+                {meta.badge}
+              </span>
+            )}
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '0 0 14px', lineHeight: 1.3 }}>
-              Grooming Young Minds for National & Global Arenas
+              {meta.title}
             </h2>
             <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.75, margin: '0 0 22px' }}>
-              At <strong>Karmayogi Vidyaniketan</strong>, competitive exams are treated not as stressful filters, but as inspiring opportunities to test one's intellectual mettle. We run specialized preparatory modules for SOF Science &amp; Mathematics Olympiads, State Talent Search (MTS), and Government Drawing Grade Certifications.
+              {meta.lead}
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/student-achievements" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                <span>View Olympiad Medal Winners</span>
+              <Link to={meta.explore_btn_link || "/student-achievements"} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <span>{meta.explore_btn_text || 'View Olympiad Medal Winners'}</span>
                 <ArrowRightIcon width="16" height="16" />
               </Link>
-              <Link to="/academics/subjects" className="btn btn-secondary">
-                <span>Academic Curriculum Details</span>
+              <Link to={meta.inquire_btn_link || "/academics/subjects"} className="btn btn-secondary">
+                <span>{meta.inquire_btn_text || 'Academic Curriculum Details'}</span>
               </Link>
             </div>
           </div>
 
           <div style={{ minHeight: 280, position: 'relative', overflow: 'hidden' }}>
             <img 
-              src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80" 
-              alt="Student participating in national quiz competition" 
+              src={meta.image || "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80"} 
+              alt={meta.image_tag || "Student participating in national quiz competition"} 
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: '16px 20px',
-              background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
-              color: '#ffffff'
-            }}>
-              <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#6ee7b7', letterSpacing: '0.8px' }}>Competitive Mentorship</div>
-              <div style={{ fontSize: '16px', fontWeight: 700 }}>Olympiads, Quizzes &amp; Talent Searches</div>
-            </div>
+            {(meta.image_sub || meta.image_tag) && (
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '16px 20px',
+                background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
+                color: '#ffffff'
+              }}>
+                {meta.image_sub && (
+                  <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#6ee7b7', letterSpacing: '0.8px' }}>
+                    {meta.image_sub}
+                  </div>
+                )}
+                {meta.image_tag && (
+                  <div style={{ fontSize: '16px', fontWeight: 700 }}>
+                    {meta.image_tag}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* 3. Three-Step Mentoring Framework */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '18px', marginBottom: 14 }}>
-              1
-            </div>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Weekend Preparatory Batches</h3>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-              Senior faculty conduct Saturday advanced problem-solving sessions breaking down higher-order thinking (HOTS) math and logical reasoning puzzles.
-            </p>
+        {/* 2. Three-Step Mentoring Framework */}
+        {Array.isArray(meta.pillars) && meta.pillars.length > 0 && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {meta.pillars.map((pillar, idx) => (
+              <div key={idx} style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '18px', marginBottom: 14 }}>
+                  {idx + 1}
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>{pillar.title}</h3>
+                <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                  {pillar.desc}
+                </p>
+              </div>
+            ))}
           </div>
+        )}
 
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '18px', marginBottom: 14 }}>
-              2
-            </div>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Simulated OMR Mock Tests</h3>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-              Timed mock examinations using standard optical mark reader (OMR) answer sheets eliminate exam-day anxiety and train students in speed strategy.
-            </p>
-          </div>
-
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 26, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '18px', marginBottom: 14 }}>
-              3
-            </div>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 8px' }}>Personal Doubt Remediation</h3>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-              Small-group faculty clinics analyze incorrect answers, clarify scientific principles, and celebrate gradual score improvements.
-            </p>
-          </div>
-        </div>
-
-        {/* 4. Recognized Olympiads Grid */}
+        {/* 3. Recognized Olympiads Grid */}
         <div>
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#065f46', textTransform: 'uppercase', letterSpacing: '1px', background: '#d1fae5', padding: '4px 12px', borderRadius: 12 }}>
-              EXAM PORTFOLIOS
+              {meta.section_badge || 'EXAM PORTFOLIOS'}
             </span>
             <h3 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '24px', color: 'var(--navy-header, #0f172a)', margin: '10px 0 0' }}>
-              Recognized Olympiads &amp; Talent Frameworks
+              {meta.section_title || 'Recognized Olympiads & Talent Frameworks'}
             </h3>
           </div>
 

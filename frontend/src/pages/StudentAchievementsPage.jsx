@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { pagesService } from '../services/endpoints.js'
-import { DEFAULT_STUDENT_ACHIEVEMENTS } from '../data/studentCornerData.js'
+import { DEFAULT_STUDENT_ACHIEVEMENTS, DEFAULT_ACHIEVEMENTS_META } from '../data/studentCornerData.js'
 import { 
   CheckCircleIcon, 
   ArrowRightIcon,
@@ -14,8 +14,9 @@ import {
 
 export default function StudentAchievementsPage() {
   const [achievements, setAchievements] = useState(DEFAULT_STUDENT_ACHIEVEMENTS)
+  const [meta, setMeta] = useState(DEFAULT_ACHIEVEMENTS_META)
 
-  useEffect(() => {
+  const loadData = () => {
     pagesService.getBySlug('student-corner').then(res => {
       if (res?.content_html) {
         try {
@@ -23,9 +24,31 @@ export default function StudentAchievementsPage() {
           if (Array.isArray(parsed.achievements) && parsed.achievements.length > 0) {
             setAchievements(parsed.achievements)
           }
+          if (parsed.achievements_meta) {
+            setMeta({ ...DEFAULT_ACHIEVEMENTS_META, ...parsed.achievements_meta })
+          }
         } catch {}
       }
     }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdate = (e) => {
+      if (e.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          if (Array.isArray(parsed.achievements) && parsed.achievements.length > 0) {
+            setAchievements(parsed.achievements)
+          }
+          if (parsed.achievements_meta) {
+            setMeta({ ...DEFAULT_ACHIEVEMENTS_META, ...parsed.achievements_meta })
+          }
+        } catch {}
+      }
+    }
+    window.addEventListener('page_student_corner_updated', handleUpdate)
+    return () => window.removeEventListener('page_student_corner_updated', handleUpdate)
   }, [])
 
   return (
@@ -47,55 +70,67 @@ export default function StudentAchievementsPage() {
           alignItems: 'stretch'
         }}>
           <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
-              HALL OF EXCELLENCE
-            </span>
+            {meta.badge && (
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
+                {meta.badge}
+              </span>
+            )}
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '0 0 14px', lineHeight: 1.3 }}>
-              Every Year, Our Students Make Pandharpur Proud
+              {meta.title}
             </h2>
             <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.75, margin: '0 0 22px' }}>
-              The greatest testament to an institution’s dedication is the caliber of its students. From consistent <strong>100% Class 10 Board exam pass records</strong> to gold medals in international science Olympiads and district sports trophies, our scholars embody discipline, intellect, and grit.
+              {meta.lead}
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/notices" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                <span>View Recent Merit Circulars</span>
+              <Link to={meta.explore_btn_link || "/notices"} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <span>{meta.explore_btn_text || 'View Recent Merit Circulars'}</span>
                 <ArrowRightIcon width="16" height="16" />
               </Link>
-              <Link to="/admissions" className="btn btn-secondary">
-                <span>Admission Guidance</span>
+              <Link to={meta.inquire_btn_link || "/admissions"} className="btn btn-secondary">
+                <span>{meta.inquire_btn_text || 'Admission Guidance'}</span>
               </Link>
             </div>
           </div>
 
           <div style={{ minHeight: 280, position: 'relative', overflow: 'hidden' }}>
             <img 
-              src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80" 
-              alt="Student championship ceremony" 
+              src={meta.image || "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80"} 
+              alt={meta.image_tag || "Student championship ceremony"} 
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: '16px 20px',
-              background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
-              color: '#ffffff'
-            }}>
-              <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#fbbf24', letterSpacing: '0.8px' }}>Merit &amp; Laurels</div>
-              <div style={{ fontSize: '16px', fontWeight: 700 }}>Annual Academic &amp; Sports Trophies</div>
-            </div>
+            {(meta.image_sub || meta.image_tag) && (
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '16px 20px',
+                background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
+                color: '#ffffff'
+              }}>
+                {meta.image_sub && (
+                  <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#fbbf24', letterSpacing: '0.8px' }}>
+                    {meta.image_sub}
+                  </div>
+                )}
+                {meta.image_tag && (
+                  <div style={{ fontSize: '16px', fontWeight: 700 }}>
+                    {meta.image_tag}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* 3. Dynamic Key Metric Cards */}
+        {/* 2. Dynamic Key Metric Cards */}
         <div>
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase', letterSpacing: '1px', background: '#fef3c7', padding: '4px 12px', borderRadius: 12 }}>
-              BY THE NUMBERS
+              {meta.section_badge || 'BY THE NUMBERS'}
             </span>
             <h3 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '24px', color: 'var(--navy-header, #0f172a)', margin: '10px 0 0' }}>
-              Milestones of Institutional Pride
+              {meta.section_title || 'Milestones of Institutional Pride'}
             </h3>
           </div>
 

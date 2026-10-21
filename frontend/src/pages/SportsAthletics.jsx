@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { pagesService } from '../services/endpoints.js'
-import { DEFAULT_SPORTS_TEAMS } from '../data/studentCornerData.js'
+import { DEFAULT_SPORTS_TEAMS, DEFAULT_SPORTS_META } from '../data/studentCornerData.js'
 import { ActivityIcon, ShieldIcon, MedalIcon, CalendarIcon } from '../components/Icons.jsx'
 
 const HOUSE_TEAMS = [
@@ -35,10 +35,13 @@ const ANNUAL_EVENTS = [
   }
 ]
 
+const SPORTS_PILLAR_ICONS = [ActivityIcon, ShieldIcon, MedalIcon]
+
 export default function SportsAthletics() {
   const [teams, setTeams] = useState(DEFAULT_SPORTS_TEAMS)
+  const [meta, setMeta] = useState(DEFAULT_SPORTS_META)
 
-  useEffect(() => {
+  const loadData = () => {
     pagesService.getBySlug('student-corner').then(page => {
       if (page?.content_html) {
         try {
@@ -46,9 +49,31 @@ export default function SportsAthletics() {
           if (Array.isArray(parsed.sportsTeams) && parsed.sportsTeams.length > 0) {
             setTeams(parsed.sportsTeams)
           }
+          if (parsed.sports_meta) {
+            setMeta({ ...DEFAULT_SPORTS_META, ...parsed.sports_meta })
+          }
         } catch {}
       }
     }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdate = (e) => {
+      if (e.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          if (Array.isArray(parsed.sportsTeams) && parsed.sportsTeams.length > 0) {
+            setTeams(parsed.sportsTeams)
+          }
+          if (parsed.sports_meta) {
+            setMeta({ ...DEFAULT_SPORTS_META, ...parsed.sports_meta })
+          }
+        } catch {}
+      }
+    }
+    window.addEventListener('page_student_corner_updated', handleUpdate)
+    return () => window.removeEventListener('page_student_corner_updated', handleUpdate)
   }, [])
 
   return (
@@ -72,62 +97,55 @@ export default function SportsAthletics() {
         }}>
           <div>
             <div style={{ fontSize: 11.5, fontWeight: 800, color: '#1d4ed8', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: 2 }}>
-              CAMPUS INFRASTRUCTURE VS STUDENT ATHLETICS
+              {meta.bridge_badge || 'CAMPUS INFRASTRUCTURE VS STUDENT ATHLETICS'}
             </div>
             <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a' }}>
-              Looking for physical playground specifications, track dimensions, and indoor arena facilities?
+              {meta.bridge_text || 'Looking for physical playground specifications, track dimensions, and indoor arena facilities?'}
             </div>
           </div>
           <Link
-            to="/sports-facilities"
+            to={meta.bridge_btn_link || "/sports-facilities"}
             className="btn btn-primary"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
           >
-            <span>Explore Sports Facilities</span>
+            <span>{meta.bridge_btn_text || 'Explore Sports Facilities'}</span>
             <span>&rarr;</span>
           </Link>
         </div>
 
-        {/* 3. Sports Philosophy & Athletic Ethos */}
+        {/* 2. Sports Philosophy & Athletic Ethos */}
         <div style={{ background: '#ffffff', borderRadius: 12, padding: '32px 28px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--blue-vibrant, #1a56db)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              PHYSICAL RIGOUR &bull; LEADERSHIP &bull; CHARACTER
-            </span>
-          </div>
+          {meta.badge && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--blue-vibrant, #1a56db)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                {meta.badge}
+              </span>
+            </div>
+          )}
           <h2 style={{ fontFamily: 'var(--heading-font, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '0 0 12px' }}>
-            Nurturing Healthy Minds, Competitive Grit &amp; Team Camaraderie
+            {meta.title}
           </h2>
           <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.75, margin: '0 0 20px' }}>
-            At Karmayogi Vidyaniketan / Karmayogi Public School, physical education is not merely a scheduled period—it is a central pillar of student character formation. From daily morning yoga and posture correction to competitive district-level tournament coaching, our student athletes learn resilience, strategic decision-making, and gracious sportsmanship under the mentorship of certified coaches.
+            {meta.lead}
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
-            <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
-              <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ActivityIcon size={18} color="#1d4ed8" /> Daily Physical Literacy
-              </div>
-              <p style={{ fontSize: '13.5px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-                Every student participates in 45-minute daily physical education, aerobic conditioning, cross-country jogs, and motor skill agility.
-              </p>
+          {Array.isArray(meta.pillars) && meta.pillars.length > 0 && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+              {meta.pillars.map((pillar, idx) => {
+                const IconComp = SPORTS_PILLAR_ICONS[idx % SPORTS_PILLAR_ICONS.length]
+                return (
+                  <div key={idx} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <IconComp size={18} color="#1d4ed8" /> {pillar.title}
+                    </div>
+                    <p style={{ fontSize: '13.5px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                      {pillar.desc}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
-            <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
-              <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <ShieldIcon size={18} color="#1d4ed8" /> Self-Defense &amp; Yoga
-              </div>
-              <p style={{ fontSize: '13.5px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-                Daily morning Surya Namaskar, pranayama meditation, and Karate belt grading empowering confidence and self-defense skills.
-              </p>
-            </div>
-            <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
-              <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <MedalIcon size={18} color="#1d4ed8" /> DSO Championship Track
-              </div>
-              <p style={{ fontSize: '13.5px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-                Structured school squad preparation for District Sports Office (DSO) tournaments, CBSE cluster meets, and state athletic federations.
-              </p>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* 4. Official School Sports Teams & Squads */}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { pagesService } from '../services/endpoints.js'
-import { DEFAULT_FIELD_TRIPS } from '../data/studentCornerData.js'
+import { DEFAULT_FIELD_TRIPS, DEFAULT_FIELD_TRIPS_META } from '../data/studentCornerData.js'
 import { 
   CheckCircleIcon, 
   ArrowRightIcon,
@@ -13,10 +13,13 @@ import {
   BookOpenIcon
 } from '../components/Icons.jsx'
 
+const FIELD_TRIP_PILLAR_ICONS = [BusIcon, UsersIcon, StethoscopeIcon, BookOpenIcon]
+
 export default function FieldTrips() {
   const [fieldTrips, setFieldTrips] = useState(DEFAULT_FIELD_TRIPS)
+  const [meta, setMeta] = useState(DEFAULT_FIELD_TRIPS_META)
 
-  useEffect(() => {
+  const loadData = () => {
     pagesService.getBySlug('student-corner').then(res => {
       if (res?.content_html) {
         try {
@@ -24,9 +27,31 @@ export default function FieldTrips() {
           if (Array.isArray(parsed.fieldTrips) && parsed.fieldTrips.length > 0) {
             setFieldTrips(parsed.fieldTrips)
           }
+          if (parsed.field_trips_meta) {
+            setMeta({ ...DEFAULT_FIELD_TRIPS_META, ...parsed.field_trips_meta })
+          }
         } catch {}
       }
     }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdate = (e) => {
+      if (e.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          if (Array.isArray(parsed.fieldTrips) && parsed.fieldTrips.length > 0) {
+            setFieldTrips(parsed.fieldTrips)
+          }
+          if (parsed.field_trips_meta) {
+            setMeta({ ...DEFAULT_FIELD_TRIPS_META, ...parsed.field_trips_meta })
+          }
+        } catch {}
+      }
+    }
+    window.addEventListener('page_student_corner_updated', handleUpdate)
+    return () => window.removeEventListener('page_student_corner_updated', handleUpdate)
   }, [])
 
   return (
@@ -48,87 +73,85 @@ export default function FieldTrips() {
           alignItems: 'stretch'
         }}>
           <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
-              LEARNING BEYOND CLASSROOM WALLS
-            </span>
+            {meta.badge && (
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
+                {meta.badge}
+              </span>
+            )}
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '0 0 14px', lineHeight: 1.3 }}>
-              Connecting Textbook Concepts with Real-World Wonder
+              {meta.title}
             </h2>
             <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.75, margin: '0 0 22px' }}>
-              At <strong>Karmayogi Vidyaniketan</strong>, we believe true curiosity awakens when students step into the real world. Carefully planned educational journeys to historical forts of Maharashtra, astronomical observatories, modern cooperative dairy plants, and agricultural science institutes enrich academic depth and build lifelong camaraderie.
+              {meta.lead}
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/transport" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                <span>Safe Fleet & Transport Info</span>
+              <Link to={meta.explore_btn_link || "/transport"} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <span>{meta.explore_btn_text || 'Safe Fleet & Transport Info'}</span>
                 <ArrowRightIcon width="16" height="16" />
               </Link>
-              <Link to="/contact" className="btn btn-secondary">
-                <span>Inquire About Annual Excursions</span>
+              <Link to={meta.inquire_btn_link || "/contact"} className="btn btn-secondary">
+                <span>{meta.inquire_btn_text || 'Inquire About Annual Excursions'}</span>
               </Link>
             </div>
           </div>
 
           <div style={{ minHeight: 280, position: 'relative', overflow: 'hidden' }}>
             <img 
-              src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80" 
-              alt="Students on outdoor heritage excursion" 
+              src={meta.image || "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80"} 
+              alt={meta.image_tag || "Students on outdoor heritage excursion"} 
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: '16px 20px',
-              background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
-              color: '#ffffff'
-            }}>
-              <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#fbbf24', letterSpacing: '0.8px' }}>Annual Excursion</div>
-              <div style={{ fontSize: '16px', fontWeight: 700 }}>Heritage, Science & Industrial Tours</div>
-            </div>
+            {(meta.image_sub || meta.image_tag) && (
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '16px 20px',
+                background: 'linear-gradient(to top, rgba(15,23,42,0.85), transparent)',
+                color: '#ffffff'
+              }}>
+                {meta.image_sub && (
+                  <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: '#fbbf24', letterSpacing: '0.8px' }}>
+                    {meta.image_sub}
+                  </div>
+                )}
+                {meta.image_tag && (
+                  <div style={{ fontSize: '16px', fontWeight: 700 }}>
+                    {meta.image_tag}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* 3. Four Pillars of Tour Safety & Care */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', textAlign: 'center' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-              <BusIcon size={24} color="#b45309" />
-            </div>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 6px' }}>GPS-Tracked Yellow Buses</h3>
-            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>Speed-governed school vehicles with real-time transit updates for school coordinators.</p>
+        {/* 2. Four Pillars of Tour Safety & Care */}
+        {Array.isArray(meta.pillars) && meta.pillars.length > 0 && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+            {meta.pillars.map((pillar, idx) => {
+              const IconComp = FIELD_TRIP_PILLAR_ICONS[idx % FIELD_TRIP_PILLAR_ICONS.length]
+              return (
+                <div key={idx} style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', textAlign: 'center' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                    <IconComp size={24} color="#b45309" />
+                  </div>
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 6px' }}>{pillar.title}</h3>
+                  <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>{pillar.desc}</p>
+                </div>
+              )
+            })}
           </div>
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', textAlign: 'center' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-              <UsersIcon size={24} color="#b45309" />
-            </div>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 6px' }}>Female Caretakers & Faculty</h3>
-            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>Strict 1:12 teacher-student escort ratio with trained female attendants on every tour.</p>
-          </div>
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', textAlign: 'center' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-              <StethoscopeIcon size={24} color="#b45309" />
-            </div>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 6px' }}>First-Aid & Medical Kits</h3>
-            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>Comprehensive travel medical kits, hydration stations, and on-call physician tie-ups.</p>
-          </div>
-          <div style={{ background: '#ffffff', borderRadius: 12, padding: 24, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05))', textAlign: 'center' }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#fef3c7', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-              <BookOpenIcon size={24} color="#b45309" />
-            </div>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--navy-header, #0f172a)', margin: '0 0 6px' }}>Observation Worksheets</h3>
-            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>Structured field questionnaires linking museum and industrial insights to school syllabus.</p>
-          </div>
-        </div>
+        )}
 
-        {/* 4. Curated Itineraries Section */}
+        {/* 3. Curated Itineraries Section */}
         <div>
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase', letterSpacing: '1px', background: '#fef3c7', padding: '4px 12px', borderRadius: 12 }}>
-              CURATED ITINERARIES
+              {meta.section_badge || 'CURATED ITINERARIES'}
             </span>
             <h3 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '24px', color: 'var(--navy-header, #0f172a)', margin: '10px 0 0' }}>
-              Educational Excursion Destinations
+              {meta.section_title || 'Educational Excursion Destinations'}
             </h3>
           </div>
 

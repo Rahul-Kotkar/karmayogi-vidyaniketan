@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { pagesService } from '../services/endpoints.js'
-import { DEFAULT_STUDENT_HOUSES, DEFAULT_STUDENT_COUNCIL } from '../data/studentCornerData.js'
+import { DEFAULT_STUDENT_HOUSES, DEFAULT_STUDENT_COUNCIL, DEFAULT_HOUSES_COUNCIL_META } from '../data/studentCornerData.js'
 import { 
   ShieldIcon, 
   CrownIcon, 
@@ -52,8 +52,9 @@ const HOUSE_THEMES = {
 export default function HousesCouncil() {
   const [houses, setHouses] = useState(DEFAULT_STUDENT_HOUSES)
   const [council, setCouncil] = useState(DEFAULT_STUDENT_COUNCIL)
+  const [meta, setMeta] = useState(DEFAULT_HOUSES_COUNCIL_META)
 
-  useEffect(() => {
+  const loadData = () => {
     pagesService.getBySlug('student-corner').then(res => {
       if (res?.content_html) {
         try {
@@ -64,9 +65,34 @@ export default function HousesCouncil() {
           if (Array.isArray(parsed.council) && parsed.council.length > 0) {
             setCouncil(parsed.council)
           }
+          if (parsed.houses_council_meta) {
+            setMeta({ ...DEFAULT_HOUSES_COUNCIL_META, ...parsed.houses_council_meta })
+          }
         } catch {}
       }
     }).catch(() => {})
+  }
+
+  useEffect(() => {
+    loadData()
+    const handleUpdate = (e) => {
+      if (e.detail?.content_html) {
+        try {
+          const parsed = JSON.parse(e.detail.content_html)
+          if (Array.isArray(parsed.houses) && parsed.houses.length > 0) {
+            setHouses(parsed.houses)
+          }
+          if (Array.isArray(parsed.council) && parsed.council.length > 0) {
+            setCouncil(parsed.council)
+          }
+          if (parsed.houses_council_meta) {
+            setMeta({ ...DEFAULT_HOUSES_COUNCIL_META, ...parsed.houses_council_meta })
+          }
+        } catch {}
+      }
+    }
+    window.addEventListener('page_student_corner_updated', handleUpdate)
+    return () => window.removeEventListener('page_student_corner_updated', handleUpdate)
   }, [])
 
   return (
@@ -88,21 +114,23 @@ export default function HousesCouncil() {
           alignItems: 'stretch'
         }}>
           <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
-              COMRADERIE & DEMOCRATIC GOVERNANCE
-            </span>
+            {meta.badge && (
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
+                {meta.badge}
+              </span>
+            )}
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '0 0 14px', lineHeight: 1.3 }}>
-              Four Pillars of Teamwork, One Unified School Family
+              {meta.title}
             </h2>
             <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.75, margin: '0 0 22px' }}>
-              At <strong>Karmayogi Vidyaniketan</strong>, every student upon enrollment is inducted into one of four historic houses inspired by universal elements: <strong>Prithvi, Agni, Jal, and Vayu</strong>. Guided by House Masters and elected student prefects, this system instills healthy sportsmanship, peer mentorship, and leadership responsibility across all school grades.
+              {meta.lead}
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <a href="#houses" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                <ShieldIcon size={16} /> Explore the 4 Houses
+              <a href={meta.explore_btn_link || "#houses"} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <ShieldIcon size={16} /> <span>{meta.explore_btn_text || 'Explore the 4 Houses'}</span>
               </a>
-              <a href="#council" className="btn btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                <CrownIcon size={16} /> Student Council
+              <a href={meta.inquire_btn_link || "#council"} className="btn btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <CrownIcon size={16} /> <span>{meta.inquire_btn_text || 'Student Council'}</span>
               </a>
             </div>
           </div>
@@ -118,10 +146,10 @@ export default function HousesCouncil() {
           }}>
             <h3 style={{ fontSize: '19px', margin: 0, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 10, color: '#f8fafc' }}>
               <TrophyIcon size={22} color="#fbbf24" />
-              Annual Inter-House Championship
+              {meta.banner_heading || 'Annual Inter-House Championship'}
             </h3>
             <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.65, margin: 0 }}>
-              Throughout the academic year, houses compete for the prestigious <strong>Cock-House Championship Shield</strong> across four competitive domains:
+              {meta.banner_desc || 'Throughout the academic year, houses compete for the prestigious Cock-House Championship Shield across four competitive domains:'}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
               <div style={{ background: 'rgba(255,255,255,0.08)', padding: '12px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)' }}>

@@ -456,20 +456,166 @@ export const DEFAULT_CLUBS_META = {
   cta_btn_link: '/labs'
 };
 
+export const DEFAULT_CULTURAL_META = {
+  badge: 'SIGNATURE ANNUAL GATHERING & ARTS',
+  title: "Where Every Child's Talent Finds a Grand Stage",
+  lead: "Cultural celebrations are the vibrant heartbeat of Karmayogi Vidyaniketan. From our flagship annual gathering 'Karmotsav' to devotional Ashadhi Ekadashi Dindi processions and classical musical recitals, we empower young learners to overcome stage inhibitions, express their heritage, and master theatrical teamwork.",
+  image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
+  image_tag: 'Karmotsav Cultural Carnival',
+  image_sub: 'Annual Gathering',
+  explore_btn_text: 'View Cultural Photo Gallery',
+  explore_btn_link: '/gallery',
+  inquire_btn_text: 'Upcoming Cultural Calendar',
+  inquire_btn_link: '/events',
+  pillars: [
+    {
+      title: 'Stage Drama & Theatrics',
+      desc: 'Marathi historical plays, English one-act drama, street plays on social awareness, and moral storytelling that instill articulation and courage.',
+      tag: '100% Student Inclusion • Professional Mentorship'
+    },
+    {
+      title: 'Music & Vocal Ensembles',
+      desc: 'Trained vocal music gurus instruct students in classical ragas, Sanskrit shloka chanting, patriotic anthems, harmonium, and rhythmic tabla accompaniments.',
+      tag: 'Dedicated Music Studios • Morning Assembly Choirs'
+    },
+    {
+      title: 'Folk Dance & Cultural Processions',
+      desc: 'Vibrant Lezim drills, Lavani folk choreographies, Garba, and annual Pandharpur Varkari Dindi celebrations connecting children with divine regional roots.',
+      tag: 'Heritage Preservation • State Competition Winners'
+    }
+  ]
+};
+
+export const DEFAULT_FIELD_TRIPS_META = {
+  badge: 'LEARNING BEYOND CLASSROOM WALLS',
+  title: 'Connecting Textbook Concepts with Real-World Wonder',
+  lead: 'At Karmayogi Vidyaniketan, we believe true curiosity awakens when students step into the real world. Carefully planned educational journeys to historical forts of Maharashtra, astronomical observatories, modern cooperative dairy plants, and agricultural science institutes enrich academic depth and build lifelong camaraderie.',
+  image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80',
+  image_tag: 'Heritage, Science & Industrial Tours',
+  image_sub: 'Annual Excursion',
+  explore_btn_text: 'Safe Fleet & Transport Info',
+  explore_btn_link: '/transport',
+  inquire_btn_text: 'Inquire About Annual Excursions',
+  inquire_btn_link: '/contact',
+  pillars: [
+    {
+      title: 'GPS-Tracked Yellow Buses',
+      desc: 'Speed-governed school vehicles with real-time transit updates for school coordinators.'
+    },
+    {
+      title: 'Female Caretakers & Faculty',
+      desc: 'Strict 1:12 teacher-student escort ratio with trained female attendants on every tour.'
+    },
+    {
+      title: 'First-Aid & Medical Kits',
+      desc: 'Comprehensive travel medical kits, hydration stations, and on-call physician tie-ups.'
+    },
+    {
+      title: 'Observation Worksheets',
+      desc: 'Structured field questionnaires linking museum and industrial insights to school syllabus.'
+    }
+  ]
+};
+
+export const DEFAULT_COMPETITIONS_META = {
+  badge: 'EXCELLENCE & TALENT SEARCH',
+  title: 'Grooming Young Minds for National & Global Arenas',
+  lead: 'At Karmayogi Vidyaniketan, competitive exams are treated not as stressful filters, but as inspiring opportunities to test one’s intellectual mettle. We run specialized preparatory modules for SOF Science & Mathematics Olympiads, State Talent Search (MTS), and Government Drawing Grade Certifications.',
+  image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80',
+  image_tag: 'Olympiads, Quizzes & Talent Searches',
+  image_sub: 'Competitive Mentorship',
+  explore_btn_text: 'View Olympiad Medal Winners',
+  explore_btn_link: '/student-achievements',
+  inquire_btn_text: 'Academic Curriculum Details',
+  inquire_btn_link: '/academics/subjects',
+  pillars: [
+    {
+      title: 'Weekend Preparatory Batches',
+      desc: 'Senior faculty conduct Saturday advanced problem-solving sessions breaking down higher-order thinking (HOTS) math and logical reasoning puzzles.'
+    },
+    {
+      title: 'Simulated OMR Mock Tests',
+      desc: 'Timed mock examinations using standard optical mark reader (OMR) answer sheets eliminate exam-day anxiety and train students in speed strategy.'
+    },
+    {
+      title: 'Personal Doubt Remediation',
+      desc: 'One-on-one diagnostic doubt counters clarify trick questions in physics formulas, grammatical nuances, and mental ability logic.'
+    }
+  ]
+};
+
+export const DEFAULT_ACHIEVEMENTS_META = {
+  badge: 'HALL OF EXCELLENCE',
+  title: 'Every Year, Our Students Make Pandharpur Proud',
+  lead: 'The greatest testament to an institution’s dedication is the caliber of its students. From consistent 100% Class 10 Board exam pass records to gold medals in international science Olympiads and district sports trophies, our scholars embody discipline, intellect, and grit.',
+  image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80',
+  image_tag: 'Annual Academic & Sports Trophies',
+  image_sub: 'Merit & Laurels',
+  explore_btn_text: 'View Recent Merit Circulars',
+  explore_btn_link: '/notices',
+  inquire_btn_text: 'Admission Guidance',
+  inquire_btn_link: '/admissions',
+  section_badge: 'BY THE NUMBERS',
+  section_title: 'Milestones of Institutional Pride'
+};
+
+export const DEFAULT_HOUSES_COUNCIL_META = {
+  badge: 'COMRADERIE & DEMOCRATIC GOVERNANCE',
+  title: 'Four Pillars of Teamwork, One Unified School Family',
+  lead: 'At Karmayogi Vidyaniketan, every student upon enrollment is inducted into one of four historic houses inspired by universal elements: Prithvi, Agni, Jal, and Vayu. Guided by House Masters and elected student prefects, this system instills healthy sportsmanship, peer mentorship, and leadership responsibility across all school grades.',
+  explore_btn_text: 'Explore the 4 Houses',
+  explore_btn_link: '#houses',
+  inquire_btn_text: 'Student Council',
+  inquire_btn_link: '#council',
+  banner_heading: 'Inter-House Championship 2025-26',
+  banner_sub: 'Live Standings',
+  banner_desc: 'Year-round sports matches, debate tournaments, science displays, and cultural competitions accumulate points toward the coveted annual Rolling Trophy.'
+};
+
+export const DEFAULT_SPORTS_META = {
+  bridge_badge: 'CAMPUS INFRASTRUCTURE VS STUDENT ATHLETICS',
+  bridge_text: 'Looking for physical playground specifications, track dimensions, and indoor arena facilities?',
+  bridge_btn_text: 'Explore Sports Facilities',
+  bridge_btn_link: '/sports-facilities',
+  badge: 'PHYSICAL RIGOUR • LEADERSHIP • CHARACTER',
+  title: 'Nurturing Healthy Minds, Competitive Grit & Team Camaraderie',
+  lead: 'At Karmayogi Vidyaniketan / Karmayogi Public School, physical education is not merely a scheduled period—it is a central pillar of student character formation. From daily morning yoga and posture correction to competitive district-level tournament coaching, our student athletes learn resilience, strategic decision-making, and gracious sportsmanship under the mentorship of certified coaches.',
+  pillars: [
+    {
+      title: 'Daily Physical Literacy',
+      desc: 'Every student participates in 45-minute daily physical education, aerobic conditioning, cross-country jogs, and motor skill agility.'
+    },
+    {
+      title: 'Multi-Sport Training Grounds',
+      desc: 'Dedicated football grounds, standard cricket pitch with turf nets, dual volleyball courts, and Kho-Kho & Kabaddi dojos on campus.'
+    },
+    {
+      title: 'Competitive DSO & District Representation',
+      desc: 'Talented student athletes receive specialized after-school training to compete in Solapur District and State school games.'
+    }
+  ]
+};
+
 export const DEFAULT_STUDENT_CORNER_DATA = {
   overview: {
     title: 'Student Life, Activities & Achievements',
     lead: 'At Karmayogi Vidyaniketan, education extends far beyond textbooks into athletics, stage arts, hobby clubs, adventurous field trips, and competitive triumphs.'
   },
   cultural: DEFAULT_CULTURAL_EVENTS,
+  cultural_meta: DEFAULT_CULTURAL_META,
   clubs: DEFAULT_STUDENT_CLUBS,
   clubs_meta: DEFAULT_CLUBS_META,
   fieldTrips: DEFAULT_FIELD_TRIPS,
+  field_trips_meta: DEFAULT_FIELD_TRIPS_META,
   competitions: DEFAULT_COMPETITIONS,
+  competitions_meta: DEFAULT_COMPETITIONS_META,
   achievements: DEFAULT_STUDENT_ACHIEVEMENTS,
+  achievements_meta: DEFAULT_ACHIEVEMENTS_META,
   houses: DEFAULT_STUDENT_HOUSES,
   council: DEFAULT_STUDENT_COUNCIL,
+  houses_council_meta: DEFAULT_HOUSES_COUNCIL_META,
   sportsTeams: DEFAULT_SPORTS_TEAMS,
+  sports_meta: DEFAULT_SPORTS_META,
   activities: DEFAULT_CAMPUS_ACTIVITIES,
   spaces: DEFAULT_BEYOND_CLASSROOM_SPACES
 };
