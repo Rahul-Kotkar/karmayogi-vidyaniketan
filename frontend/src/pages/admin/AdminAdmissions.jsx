@@ -95,14 +95,6 @@ export default function AdminAdmissions() {
     }
   }
 
-  // Reset to default presets
-  const handleResetPresets = () => {
-    if (window.confirm('Reset all admission content, process steps, eligibility, documents, fee table, and FAQs to default school presets?')) {
-      setData(DEFAULT_ADMISSIONS_DATA)
-      setMsg({ text: 'Reset to default school presets. Remember to click "Save All Changes" to persist.', type: 'info' })
-    }
-  }
-
   // Modal helpers
   const openModal = (type, index = null, initial = {}) => {
     setModalType(type)
@@ -252,13 +244,6 @@ export default function AdminAdmissions() {
             </svg>
             Preview Public Page
           </Link>
-          <button
-            type="button"
-            className="admin-btn admin-btn-secondary"
-            onClick={handleResetPresets}
-          >
-            Reset to Presets
-          </button>
           <button
             type="button"
             onClick={handleSaveAll}
