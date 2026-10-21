@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
-import { FACILITIES as FALLBACK_FACILITIES, COLLEGE } from '../data/collegeData.js'
+import { CANONICAL_FACILITIES } from './admin/AdminFacilities.jsx'
+import { COLLEGE } from '../data/collegeData.js'
 import { facilitiesService, getCachedFacilities, setCachedFacilities } from '../services/endpoints.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
@@ -146,7 +147,7 @@ const SCHOOL_FACILITY_METADATA = {
 export default function Facilities() {
   const { subpage } = useParams()
   const location = useLocation()
-  const [facilities, setFacilities] = useState(() => getCachedFacilities() || FALLBACK_FACILITIES)
+  const [facilities, setFacilities] = useState(() => getCachedFacilities() || CANONICAL_FACILITIES)
 
   const loadFacilities = () => {
     facilitiesService.getAll().then(list => {
@@ -167,7 +168,8 @@ export default function Facilities() {
   let activeDetail = null
   if (subpage) {
     const rawKey = decodeURIComponent(subpage).toLowerCase().trim()
-    // First check database facilities
+
+    // 1. Check database facilities by slug, id, or title
     const dbMatch = (facilities || []).find(f => {
       const slug = (f.slug || '').toLowerCase().trim()
       const title = (f.title || '').toLowerCase().trim()
@@ -175,9 +177,20 @@ export default function Facilities() {
       return slug === rawKey || id === rawKey || title === rawKey
     })
 
-    if (dbMatch) {
-      let rawFeatures = dbMatch.features
+    // 2. Check metadata dictionary for key or alias match
+    let meta = SCHOOL_FACILITY_METADATA[rawKey] || null
+    if (!meta) {
+      for (const [key, m] of Object.entries(SCHOOL_FACILITY_METADATA)) {
+        if (key === rawKey || (Array.isArray(m.aliases) && m.aliases.includes(rawKey))) {
+          meta = m
+          break
+        }
+      }
+    }
+
+    if (dbMatch || meta) {
       let parsedFeatures = []
+      const rawFeatures = dbMatch?.features || meta?.features
       if (Array.isArray(rawFeatures) && rawFeatures.length > 0) {
         parsedFeatures = rawFeatures
       } else if (typeof rawFeatures === 'string' && rawFeatures.trim()) {
@@ -190,7 +203,7 @@ export default function Facilities() {
         }
       }
       if (parsedFeatures.length === 0) {
-        parsedFeatures = [
+        parsedFeatures = meta?.features || [
           'High-standard facility built to modern educational specifications.',
           'Safe and supportive environment supervised by qualified staff.',
           'Regular maintenance and hygienic standards.'
@@ -198,28 +211,13 @@ export default function Facilities() {
       }
 
       activeDetail = {
-        title: dbMatch.title || 'Campus Facility',
-        badge: dbMatch.category || 'Campus Facility',
-        img: resolveMediaUrl(dbMatch.image_url || dbMatch.image || dbMatch.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
-        lead: dbMatch.description || dbMatch.desc || 'Modern institutional learning and recreational infrastructure for students.',
+        title: dbMatch?.title || meta?.title || 'Campus Facility',
+        badge: dbMatch?.category || meta?.badge || 'Campus Facility',
+        img: resolveMediaUrl(dbMatch?.image_url || dbMatch?.image || dbMatch?.img || meta?.img, 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80'),
+        lead: dbMatch?.description || dbMatch?.desc || meta?.lead || 'Modern institutional learning and recreational infrastructure for students.',
         features: parsedFeatures,
-        incharge: dbMatch.incharge || 'Campus Administration',
-        hours: dbMatch.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
-      }
-    } else if (!facilities || facilities.length === 0) {
-      // Fallback to metadata only if DB facilities have not loaded
-      for (const [key, meta] of Object.entries(SCHOOL_FACILITY_METADATA)) {
-        if (key === rawKey || (Array.isArray(meta.aliases) && meta.aliases.includes(rawKey))) {
-          activeDetail = {
-            ...meta,
-            features: Array.isArray(meta.features) ? meta.features : [
-              'High-standard facility built to modern educational specifications.',
-              'Safe and supportive environment supervised by qualified staff.',
-              'Regular maintenance and hygienic standards.'
-            ]
-          }
-          break
-        }
+        incharge: dbMatch?.incharge || meta?.incharge || 'Campus Administration',
+        hours: dbMatch?.hours || meta?.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
       }
     }
   }

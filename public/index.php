@@ -20,10 +20,7 @@ require_once __DIR__ . '/../app/Controllers/MigrationsController.php';
 // 2. Load environment variables from root .env
 \App\Config\Env::load(__DIR__ . '/../.env');
 
-// 3. Auto-heal / restore media files missing on disk from database LONGBLOB / persistent backup
-\App\Helpers\MediaStorage::syncAllToDisk();
-
-// 4. Parse incoming request URI
+// 3. Parse incoming request URI
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 $parsedUrl = parse_url($requestUri);
 $path = trim($parsedUrl['path'] ?? '/', '/');
