@@ -49,7 +49,9 @@ export default function AdminAdmissions() {
               eligibility_programs: Array.isArray(parsed.eligibility_programs) && parsed.eligibility_programs.length > 0 ? parsed.eligibility_programs : (prev.eligibility_programs || DEFAULT_ADMISSIONS_DATA.eligibility_programs),
               documents_categories: Array.isArray(parsed.documents_categories) && parsed.documents_categories.length > 0 ? parsed.documents_categories : (prev.documents_categories || DEFAULT_ADMISSIONS_DATA.documents_categories),
               fees_table: Array.isArray(parsed.fees_table) && parsed.fees_table.length > 0 ? parsed.fees_table : (prev.fees_table || DEFAULT_ADMISSIONS_DATA.fees_table),
-              faqs: Array.isArray(parsed.faqs) && parsed.faqs.length > 0 ? parsed.faqs : (prev.faqs || DEFAULT_ADMISSIONS_DATA.faqs)
+              faqs: Array.isArray(parsed.faqs) && parsed.faqs.length > 0 ? parsed.faqs : (prev.faqs || DEFAULT_ADMISSIONS_DATA.faqs),
+              payment_modes: Array.isArray(parsed.payment_modes) && parsed.payment_modes.length > 0 ? parsed.payment_modes : (prev.payment_modes || DEFAULT_ADMISSIONS_DATA.payment_modes),
+              installment_facilities: parsed.installment_facilities || prev.installment_facilities || DEFAULT_ADMISSIONS_DATA.installment_facilities
             }))
           } catch {
             setData(DEFAULT_ADMISSIONS_DATA)
@@ -835,6 +837,96 @@ export default function AdminAdmissions() {
               style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
               placeholder="Fees are payable via Net Banking, UPI, Demand Draft, or at the school cash counter..."
             />
+          </div>
+
+          {/* Payment Modes & Installment Facilities Editor */}
+          <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid #e2e8f0' }}>
+            <h4 style={{ margin: '0 0 16px', color: '#0b2545', fontSize: 16 }}>
+              Payment Facilities &amp; Installments Rules (User-Side Cards)
+            </h4>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
+              {/* Card 1: Accepted Payment Modes */}
+              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: 18 }}>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: 13.5, color: '#002855', marginBottom: 6 }}>
+                  💳 Accepted Payment Modes (One per line)
+                </label>
+                <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 10px' }}>
+                  List the accepted payment methods shown on the website:
+                </p>
+                <textarea
+                  rows={6}
+                  value={
+                    Array.isArray(data.payment_modes)
+                      ? data.payment_modes.join('\n')
+                      : (DEFAULT_ADMISSIONS_DATA.payment_modes || []).join('\n')
+                  }
+                  onChange={e => {
+                    const lines = e.target.value.split('\n').map(s => s.trim()).filter(Boolean)
+                    handleChange('payment_modes', lines)
+                  }}
+                  style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: 13, lineHeight: 1.6 }}
+                  placeholder="Net Banking / NEFT / RTGS to official school bank account&#10;UPI (Google Pay, PhonePe, Paytm, BHIM)&#10;Demand Draft (DD)..."
+                />
+              </div>
+
+              {/* Card 2: Installment Facilities */}
+              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: 18 }}>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: 13.5, color: '#002855', marginBottom: 6 }}>
+                  📅 Installment Facilities &amp; Terms
+                </label>
+                <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 10px' }}>
+                  Introduction text for term installments:
+                </p>
+                <input
+                  type="text"
+                  value={data.installment_facilities?.intro ?? (DEFAULT_ADMISSIONS_DATA.installment_facilities?.intro || '')}
+                  onChange={e => {
+                    const intro = e.target.value
+                    setData(prev => ({
+                      ...prev,
+                      installment_facilities: {
+                        ...(prev.installment_facilities || DEFAULT_ADMISSIONS_DATA.installment_facilities),
+                        intro
+                      }
+                    }))
+                  }}
+                  style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: 13, marginBottom: 12 }}
+                  placeholder="To avoid financial burden on parents, fees can be deposited in convenient term installments:"
+                />
+
+                <label style={{ display: 'block', fontWeight: 600, fontSize: 12.5, color: '#334155', marginBottom: 6 }}>
+                  Installment Terms (Format: <code>Term Name | Description</code>):
+                </label>
+                <textarea
+                  rows={4}
+                  value={
+                    Array.isArray(data.installment_facilities?.terms)
+                      ? data.installment_facilities.terms.map(t => `${t.name} | ${t.desc}`).join('\n')
+                      : (DEFAULT_ADMISSIONS_DATA.installment_facilities?.terms || []).map(t => `${t.name} | ${t.desc}`).join('\n')
+                  }
+                  onChange={e => {
+                    const raw = e.target.value
+                    const parsedTerms = raw.split('\n').filter(Boolean).map(line => {
+                      const parts = line.split('|')
+                      return {
+                        name: (parts[0] || '').trim(),
+                        desc: (parts.slice(1).join('|') || '').trim()
+                      }
+                    })
+                    setData(prev => ({
+                      ...prev,
+                      installment_facilities: {
+                        ...(prev.installment_facilities || DEFAULT_ADMISSIONS_DATA.installment_facilities),
+                        terms: parsedTerms
+                      }
+                    }))
+                  }}
+                  style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: 13, lineHeight: 1.6 }}
+                  placeholder="Term 1 | At the time of enrollment / academic session commencement&#10;Term 2 | Mid-term installment following the Diwali vacation"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}

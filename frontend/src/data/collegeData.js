@@ -885,6 +885,21 @@ export const DEFAULT_ADMISSIONS_DATA = {
   ],
   fees_notes: "Fees include regular classroom instruction, computer laboratories, STEM/robotics practicals, library access, and school sports training. Uniforms, books, and external board examination fees are separate. Sibling concessions are facilitated as per school norms.",
 
+  payment_modes: [
+    "Net Banking / NEFT / RTGS to official school bank account",
+    "UPI (Google Pay, PhonePe, Paytm, BHIM)",
+    "Demand Draft (DD) in favor of \"Karmayogi Vidyaniketan\" payable at Pandharpur",
+    "Official school fee collection desk (Monday to Saturday)"
+  ],
+
+  installment_facilities: {
+    intro: "To avoid financial burden on parents, fees can be deposited in convenient term installments:",
+    terms: [
+      { name: "Term 1", desc: "At the time of enrollment / academic session commencement" },
+      { name: "Term 2", desc: "Mid-term installment following the Diwali vacation" }
+    ]
+  },
+
   faqs: [
     {
       q: "Is there any donation or capitation fee for admission?",

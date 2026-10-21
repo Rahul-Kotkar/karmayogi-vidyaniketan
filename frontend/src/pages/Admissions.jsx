@@ -367,10 +367,12 @@ export default function Admissions() {
                 <CreditCardIcon size={18} color="#002855" /> Accepted Payment Modes
               </h3>
               <ul style={{ margin: 0, paddingLeft: 18, fontSize: '13.5px', color: '#475569', lineHeight: 1.75 }}>
-                <li>Net Banking / NEFT / RTGS to official school bank account</li>
-                <li>UPI (Google Pay, PhonePe, Paytm, BHIM)</li>
-                <li>Demand Draft (DD) in favor of <em>"Karmayogi Vidyaniketan"</em> payable at Pandharpur</li>
-                <li>Official school fee collection desk (Monday to Saturday)</li>
+                {(Array.isArray(admissionsData.payment_modes) && admissionsData.payment_modes.length > 0
+                  ? admissionsData.payment_modes
+                  : DEFAULT_ADMISSIONS_DATA.payment_modes
+                ).map((mode, i) => (
+                  <li key={i}>{mode}</li>
+                ))}
               </ul>
             </div>
 
@@ -379,11 +381,17 @@ export default function Admissions() {
                 <CalendarIcon size={18} color="#002855" /> Installment Facilities
               </h3>
               <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: '0 0 8px' }}>
-                To avoid financial burden on parents, fees can be deposited in convenient term installments:
+                {admissionsData.installment_facilities?.intro || DEFAULT_ADMISSIONS_DATA.installment_facilities?.intro || 'To avoid financial burden on parents, fees can be deposited in convenient term installments:'}
               </p>
               <ul style={{ margin: 0, paddingLeft: 18, fontSize: '13.5px', color: '#475569', lineHeight: 1.75 }}>
-                <li><strong>Term 1:</strong> At the time of enrollment / academic session commencement</li>
-                <li><strong>Term 2:</strong> Mid-term installment following the Diwali vacation</li>
+                {(Array.isArray(admissionsData.installment_facilities?.terms) && admissionsData.installment_facilities.terms.length > 0
+                  ? admissionsData.installment_facilities.terms
+                  : (DEFAULT_ADMISSIONS_DATA.installment_facilities?.terms || [])
+                ).map((t, i) => (
+                  <li key={i}>
+                    <strong>{t.name}:</strong> {t.desc}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
