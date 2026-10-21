@@ -70,26 +70,8 @@ export const SOCIAL_LINKS = [
 // Row 1: Primary Institutional Navigation
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
-  {
-    label: "ABOUT",
-    path: "/about",
-    children: [
-      { label: "About School Overview", path: "/about" },
-      { label: "Vision & Mission", path: "/vision-mission" },
-      { label: "Principal's Message", path: "/principal-message" },
-      { label: "School Management", path: "/about#management" }
-    ]
-  },
-  {
-    label: "ADMISSIONS",
-    path: "/admissions",
-    children: [
-      { label: "Admissions & Fee Guide", path: "/admissions" },
-      { label: "Fee Structure", path: "/admissions#fees" },
-      { label: "Required Documents", path: "/admissions#documents" },
-      { label: "Online Enquiry", path: "/admission-enquiry" }
-    ]
-  },
+  { label: "ABOUT", path: "/about" },
+  { label: "ADMISSIONS", path: "/admissions" },
   { label: "FACULTY", path: "/faculty" },
   { label: "NOTICES", path: "/notices" },
   { label: "NEWS", path: "/news" },

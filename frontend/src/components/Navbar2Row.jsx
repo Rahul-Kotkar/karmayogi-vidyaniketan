@@ -212,28 +212,8 @@ export default function Navbar2Row() {
   // Unified Mobile Navigation Sequence
   const mobileNavItems = useMemo(() => [
     { key: 'home', label: 'HOME', path: '/', exact: true },
-    {
-      key: 'about',
-      label: 'ABOUT',
-      path: '/about',
-      children: [
-        { label: 'About School Overview', path: '/about' },
-        { label: 'Vision & Mission', path: '/vision-mission' },
-        { label: "Principal's Message", path: '/principal-message' },
-        { label: 'School Management', path: '/about#management' }
-      ]
-    },
-    {
-      key: 'admissions',
-      label: 'ADMISSIONS',
-      path: '/admissions',
-      children: [
-        { label: 'Admissions & Fee Guide', path: '/admissions' },
-        { label: 'Fee Structure', path: '/admissions#fees' },
-        { label: 'Required Documents', path: '/admissions#documents' },
-        { label: 'Online Enquiry', path: '/admission-enquiry' }
-      ]
-    },
+    { key: 'about', label: 'ABOUT', path: '/about' },
+    { key: 'admissions', label: 'ADMISSIONS', path: '/admissions' },
     { key: 'faculty', label: 'FACULTY', path: '/faculty' },
     { key: 'notices', label: 'NOTICES', path: '/notices' },
     { key: 'news', label: 'NEWS', path: '/news' },
