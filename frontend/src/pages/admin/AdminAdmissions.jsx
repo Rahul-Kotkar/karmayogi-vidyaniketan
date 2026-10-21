@@ -379,46 +379,6 @@ export default function AdminAdmissions() {
             />
           </div>
 
-          {/* Prospectus / Application Form PDF Upload */}
-          <div style={{ background: '#f8fafc', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0', marginBottom: 20 }}>
-            <h4 style={{ margin: '0 0 10px', fontSize: 15, color: '#0b2545' }}>
-              School Prospectus / Application Form Document
-            </h4>
-            <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 12px' }}>
-              Upload an official PDF for prospective parents to download from the admissions portal.
-            </p>
-            <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-              <input
-                type="text"
-                value={data.app_form_download_url || ''}
-                onChange={e => handleChange('app_form_download_url', e.target.value)}
-                placeholder="https://... or upload PDF using the button on the right"
-                style={{ flex: 1, minWidth: 260, padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-              />
-              <label className="admin-btn admin-btn-secondary" style={{ cursor: 'pointer', margin: 0 }}>
-                {uploadingPdf ? 'Uploading PDF...' : 'Upload PDF Document'}
-                <input
-                  type="file"
-                  accept=".pdf,application/pdf"
-                  onChange={handlePdfUpload}
-                  style={{ display: 'none' }}
-                  disabled={uploadingPdf}
-                />
-              </label>
-              {data.app_form_download_url && (
-                <a
-                  href={data.app_form_download_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="admin-btn admin-btn-secondary"
-                  style={{ textDecoration: 'none' }}
-                >
-                  View PDF &rarr;
-                </a>
-              )}
-            </div>
-          </div>
-
           {/* 4 Feature Highlights Banner on User-Side (Editable) */}
           <div style={{ background: '#f8fafc', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0', marginTop: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
