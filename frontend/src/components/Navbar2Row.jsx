@@ -266,7 +266,6 @@ export default function Navbar2Row() {
         { label: 'Sports & Athletics', path: '/sports-athletics' }
       ]
     },
-    { key: 'infrastructure', label: 'SCHOOL INFRASTRUCTURE', path: '/infrastructure' },
     { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admission-enquiry' }
   ], [dynamicFacilityChildren])
 

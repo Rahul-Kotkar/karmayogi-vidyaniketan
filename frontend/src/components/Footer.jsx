@@ -54,7 +54,7 @@ export default function Footer() {
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/academics">Academics</Link></li>
             <li><Link to="/admissions">Admissions</Link></li>
-            <li><Link to="/infrastructure">Campus</Link></li>
+            <li><Link to="/curriculum">Curriculum</Link></li>
             <li><Link to="/facilities">Facilities</Link></li>
             <li><Link to="/labs">Science &amp; STEM Labs</Link></li>
             <li><Link to="/student-life">Student Life</Link></li>

@@ -349,25 +349,14 @@ export default function AdminLayout() {
         </svg>
       ),
       children: [
-        { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/student-corner?tab=sports' },
         { id: 'sl_cultural', label: 'Cultural Activities', path: '/admin/student-corner?tab=cultural' },
         { id: 'sl_clubs', label: 'Clubs & Activities', path: '/admin/student-corner?tab=clubs' },
         { id: 'sl_field_trips', label: 'Field Trips & Excursions', path: '/admin/student-corner?tab=field-trips' },
         { id: 'sl_competitions', label: 'Competitions & Olympiads', path: '/admin/student-corner?tab=competitions' },
-        { id: 'sl_achievements', label: 'Student Achievements', path: '/admin/student-corner?tab=achievements' }
+        { id: 'sl_achievements', label: 'Student Achievements', path: '/admin/student-corner?tab=achievements' },
+        { id: 'sl_houses', label: 'Houses & Council', path: '/admin/student-corner?tab=houses-council' },
+        { id: 'sl_sports', label: 'Sports & Athletics', path: '/admin/student-corner?tab=sports' }
       ]
-    },
-    {
-      id: 'infrastructure',
-      label: 'SCHOOL INFRASTRUCTURE',
-      path: '/admin/facilities?tab=infrastructure',
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="12 2 2 7 12 12 22 7 12 2" />
-          <polyline points="2 17 12 22 22 17" />
-          <polyline points="2 12 12 17 22 12" />
-        </svg>
-      )
     },
     {
       id: 'admission_enquiry',

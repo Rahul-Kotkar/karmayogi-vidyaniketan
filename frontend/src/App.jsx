@@ -171,7 +171,7 @@ export default function App() {
           <Route path="/facilities" element={<Facilities />} />
           <Route path="/facilities/:subpage" element={<Facilities />} />
           <Route path="/facilities/sports" element={<SportsFacilities />} />
-          <Route path="/infrastructure" element={<Infrastructure />} />
+          <Route path="/infrastructure" element={<Navigate to="/facilities" replace />} />
           <Route path="/labs" element={<Labs />} />
           <Route path="/sports-facilities" element={<SportsFacilities />} />
           <Route path="/sports-athletics" element={<SportsAthletics />} />

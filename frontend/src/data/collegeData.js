@@ -133,7 +133,6 @@ export const ROW_2_NAV = [
       { label: "Sports & Athletics", path: "/sports-athletics" }
     ]
   },
-  { label: "SCHOOL INFRASTRUCTURE", path: "/infrastructure" },
   { label: "ADMISSION ENQUIRY", path: "/admission-enquiry" }
 ];
 
