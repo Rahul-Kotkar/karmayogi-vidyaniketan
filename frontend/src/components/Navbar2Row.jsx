@@ -257,7 +257,7 @@ export default function Navbar2Row() {
         { label: 'Field Trips & Excursions', path: '/field-trips' },
         { label: 'Competitions & Olympiads', path: '/competitions-olympiads' },
         { label: 'Student Achievements', path: '/student-achievements' },
-        { label: 'Houses & Council', path: '/student-life#houses' },
+        { label: 'Houses & Council', path: '/houses-council' },
         { label: 'Sports & Athletics', path: '/sports-athletics' }
       ]
     },

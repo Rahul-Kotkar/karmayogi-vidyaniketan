@@ -31,6 +31,7 @@ import ClubsActivities from './pages/ClubsActivities.jsx'
 import FieldTrips from './pages/FieldTrips.jsx'
 import CompetitionsOlympiads from './pages/CompetitionsOlympiads.jsx'
 import StudentAchievementsPage from './pages/StudentAchievementsPage.jsx'
+import HousesCouncil from './pages/HousesCouncil.jsx'
 import Transportation from './pages/Transportation.jsx'
 import Faculty from './pages/Faculty.jsx'
 import StudentCorner from './pages/StudentCorner.jsx'
@@ -181,6 +182,8 @@ export default function App() {
           <Route path="/field-trips" element={<FieldTrips />} />
           <Route path="/competitions-olympiads" element={<CompetitionsOlympiads />} />
           <Route path="/student-achievements" element={<StudentAchievementsPage />} />
+          <Route path="/houses-council" element={<HousesCouncil />} />
+          <Route path="/houses" element={<HousesCouncil />} />
           
           {/* Subpage Aliases */}
           <Route path="/student-life/sports" element={<SportsAthletics />} />
@@ -190,6 +193,9 @@ export default function App() {
           <Route path="/student-life/field-trips" element={<FieldTrips />} />
           <Route path="/student-life/competitions" element={<CompetitionsOlympiads />} />
           <Route path="/student-life/achievements" element={<StudentAchievementsPage />} />
+          <Route path="/student-life/houses" element={<HousesCouncil />} />
+          <Route path="/student-life/houses-council" element={<HousesCouncil />} />
+          <Route path="/student-life/council" element={<HousesCouncil />} />
           <Route path="/student-life" element={<StudentLife />} />
           <Route path="/student-life/:subpage" element={<StudentLife />} />
           <Route path="/hostel" element={<Navigate to="/facilities" replace />} />
