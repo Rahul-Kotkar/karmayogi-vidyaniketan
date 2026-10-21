@@ -546,6 +546,16 @@ export const HERO_IMAGE = "https://images.unsplash.com/photo-1580582932707-520ae
 
 export const PRINCIPAL_PHOTO = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80";
 
+export const DEFAULT_PRINCIPAL_MESSAGE = `Dear Parents, Students and Well-Wishers,
+
+It gives me immense pleasure to welcome you to Karmayogi Vidyaniketan (widely known as Karmayogi Public School), Pandharpur, operating under the visionary management of Shri Pandurang Pratishthan. Schooling is the sacred crucible where a child's character, intellect, curiosity, discipline, and emotional values take permanent shape.
+
+Our school aims to provide a balanced education that develops academic ability, confidence, discipline, creativity, physical fitness and responsible citizenship. We combine modern smart classrooms, experiential science laboratories, and state-of-the-art STEM, AI and Robotics exposure with timeless Indian values and culture.
+
+From our nurturing Pre-Primary foundational wing (Nursery, Jr. KG, Sr. KG) through our activity-rich Primary school and structured Secondary school board examination tracks (CBSE & State Board), our experienced teaching faculty mentors every learner with individualized attention, patience, and encouraging guidance.
+
+Alongside academic rigor, we provide expansive sports grounds, athletic coaching, vibrant cultural festivals, and reliable school bus transportation. I warmly invite you to explore our campuses and join hands with us in shaping bright young minds for a fulfilling future.`;
+
 export const HERO_SLIDES = [
   {
     id: 1,

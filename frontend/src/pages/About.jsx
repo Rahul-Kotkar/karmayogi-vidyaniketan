@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import PageShell from '../components/PageShell.jsx'
 import { Link, useLocation } from 'react-router-dom'
 import instituteBuildingImg from '../assets/hero_building.png'
-import { pagesService, getCachedAboutData } from '../services/endpoints.js'
-import { DEFAULT_ABOUT_DATA, COLLEGE, PRINCIPAL_PHOTO } from '../data/collegeData.js'
+import { pagesService, getCachedAboutData, getCachedHomeData } from '../services/endpoints.js'
+import { DEFAULT_ABOUT_DATA, COLLEGE, PRINCIPAL_PHOTO, DEFAULT_PRINCIPAL_MESSAGE } from '../data/collegeData.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function About() {
   const [isPrincipalExpanded, setIsPrincipalExpanded] = useState(false)
+  const [homeData, setHomeData] = useState(() => getCachedHomeData())
   const [data, setData] = useState(() => {
     const cached = getCachedAboutData()
     if (cached) {
@@ -42,6 +43,16 @@ export default function About() {
           } catch {}
         }
       } catch {}
+
+      try {
+        const homePage = await pagesService.getBySlug('home')
+        if (homePage && homePage.content_html) {
+          try {
+            const parsed = JSON.parse(homePage.content_html)
+            setHomeData(parsed)
+          } catch {}
+        }
+      } catch {}
     }
     load()
 
@@ -63,8 +74,26 @@ export default function About() {
       }
     }
 
+    const onHomeUpdated = (e) => {
+      if (e?.detail?.content_html) {
+        try {
+          setHomeData(JSON.parse(e.detail.content_html))
+        } catch {}
+      } else {
+        pagesService.getBySlug('home').then(hp => {
+          if (hp?.content_html) {
+            try { setHomeData(JSON.parse(hp.content_html)) } catch {}
+          }
+        }).catch(() => {})
+      }
+    }
+
     window.addEventListener('page_about_updated', onAboutUpdated)
-    return () => window.removeEventListener('page_about_updated', onAboutUpdated)
+    window.addEventListener('page_home_updated', onHomeUpdated)
+    return () => {
+      window.removeEventListener('page_about_updated', onAboutUpdated)
+      window.removeEventListener('page_home_updated', onHomeUpdated)
+    }
   }, [])
 
   // Handle hash scrolling on page load
@@ -240,87 +269,82 @@ export default function About() {
         {/* ========================================================
             3. PRINCIPAL'S WELCOME MESSAGE (FROM THE DESK OF)
             ======================================================== */}
-        <section id="principal-message" className="principal-desk-section">
-          <div className="principal-desk-header">
-            <span className="principal-desk-eyebrow">FROM THE DESK OF</span>
-            <h2 className="principal-desk-title">Principal's Message</h2>
-            <div className="principal-desk-bar"></div>
-          </div>
+        {(() => {
+          const principalPhoto = resolveMediaUrl(
+            homeData?.principal_photo_url || data?.principal_photo_url,
+            PRINCIPAL_PHOTO
+          )
+          const principalName = homeData?.principal_name || data?.principal_name || 'Mr. Vijay Madane'
+          const principalDesignation = homeData?.principal_designation || data?.principal_designation || 'Principal / Academic Director'
+          const principalMessageRaw = (homeData?.principal_message || data?.principal_message || DEFAULT_PRINCIPAL_MESSAGE).trim()
+          const cleanedPrincipalMessage = principalMessageRaw.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
 
-          <div className="principal-desk-grid">
-            {/* Left Column: Principal Profile Card */}
-            <div className="principal-desk-card">
-              <img
-                src={resolveMediaUrl(data.principal_photo_url, PRINCIPAL_PHOTO)}
-                alt={`${data.principal_name || 'Mr. Vijay Madane'} - Principal, Karmayogi Vidyaniketan`}
-                className="principal-desk-photo"
-              />
-              <div className="principal-desk-meta">
-                <h3 className="principal-desk-name">
-                  {data.principal_name || 'Mr. Vijay Madane'}
-                </h3>
-                <p className="principal-desk-qual">
-                  {data.principal_designation || 'Principal, M.Sc., M.Ed., Ph.D. (Pursuing)'}
-                </p>
-                <p className="principal-desk-inst">
-                  {COLLEGE?.name || 'Karmayogi Vidyaniketan'}
-                </p>
-              </div>
-            </div>
-
-            {/* Right Column: Message Narrative */}
-            <div className="principal-desk-content">
-              <div className="principal-desk-salutation">
-                Dear Students,
+          return (
+            <section id="principal-message" className="principal-desk-section">
+              <div className="principal-desk-header">
+                <span className="principal-desk-eyebrow">
+                  {homeData?.principal_sub || 'FROM THE DESK OF'}
+                </span>
+                <h2 className="principal-desk-title">
+                  {homeData?.principal_title || "Principal's Message"}
+                </h2>
+                <div className="principal-desk-bar"></div>
               </div>
 
-              <p className="principal-desk-p">
-                Welcome to KARMAYOGI VIDYANIKETAN, Pandharpur. The Aim of School is to enrich Students with the profound Knowledge of Academics, Interdisciplinary Subjects and Research &amp; Creative Excellence and to provide unmatched quality Education per Excellence, to develop the Best minds that has to Explore and revel in the joy of the Learning.
-              </p>
+              <div className="principal-desk-grid">
+                {/* Left Column: Principal Profile Card */}
+                <div className="principal-desk-card">
+                  <img
+                    src={principalPhoto}
+                    alt={`${principalName} - Principal, Karmayogi Vidyaniketan`}
+                    className="principal-desk-photo"
+                  />
+                  <div className="principal-desk-meta">
+                    <h3 className="principal-desk-name">
+                      {principalName}
+                    </h3>
+                    <p className="principal-desk-qual" style={{ whiteSpace: 'pre-line' }}>
+                      {principalDesignation}
+                    </p>
+                    <p className="principal-desk-inst">
+                      {COLLEGE?.name || 'Karmayogi Vidyaniketan'}
+                    </p>
+                  </div>
+                </div>
 
-              <p className="principal-desk-p">
-                We are fortunate to have a Talented, Experienced, highly Committed Teaching and supporting staff here. Who ensure a positive learning environment of our Students
-              </p>
-
-              {!isPrincipalExpanded ? (
-                <>
-                  <div className="principal-desk-dots">...</div>
-                  <button
-                    type="button"
-                    className="principal-desk-readmore"
-                    onClick={() => setIsPrincipalExpanded(true)}
+                {/* Right Column: Message Narrative */}
+                <div className="principal-desk-content">
+                  <div
+                    className={`principal-message-text ${isPrincipalExpanded ? 'is-expanded' : 'is-clamped'}`}
+                    style={{
+                      fontSize: '15px',
+                      lineHeight: 1.8,
+                      color: '#334155',
+                      whiteSpace: 'pre-line',
+                      textAlign: 'justify'
+                    }}
                   >
-                    Read More &rarr;
-                  </button>
-                </>
-              ) : (
-                <div className="principal-desk-expanded">
-                  <p className="principal-desk-p">
-                    Schooling is the sacred crucible where a child's character, curiosity, discipline, and emotional values take permanent shape. Operating under the visionary leadership of <strong>Shri Pandurang Pratishthan, Pandharpur</strong>, our school pairs rigorous academic instruction in CBSE and State Board tracks with interactive smart classrooms, experiential science laboratories, and 21st-century AI &amp; Robotics exposure.
-                  </p>
-                  <p className="principal-desk-p">
-                    Alongside scholastic excellence, we prioritize sports stamina, physical fitness, traditional Indian arts, and ethical mindfulness. With dedicated GPS-monitored school bus transportation connecting Pandharpur town and surrounding rural zones, we ensure every student enjoys safe, stress-free travel.
-                  </p>
-                  <p className="principal-desk-p">
-                    I warmly invite parents to partner with us in inspiring the leaders, thinkers, and noble citizens of tomorrow.
-                  </p>
-                  <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+                    {cleanedPrincipalMessage}
+                  </div>
+
+                  <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
                     <button
                       type="button"
                       className="principal-desk-readmore"
-                      onClick={() => setIsPrincipalExpanded(false)}
+                      onClick={() => setIsPrincipalExpanded(!isPrincipalExpanded)}
+                      aria-expanded={isPrincipalExpanded}
                     >
-                      Read Less &uarr;
+                      {isPrincipalExpanded ? 'Read Less ↑' : 'Read Full Message →'}
                     </button>
                     <Link to="/principal-message" className="principal-desk-readmore" style={{ fontSize: '14px', color: '#475569', fontWeight: 600 }}>
-                      View Full Letter Page &rarr;
+                      View Full Letter Page →
                     </Link>
                   </div>
                 </div>
-              )}
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
+          )
+        })()}
 
         {/* ========================================================
             4. PARENT TRUST / SHRI PANDURANG PRATISHTHAN
