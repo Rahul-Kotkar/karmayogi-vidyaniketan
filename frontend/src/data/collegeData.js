@@ -743,6 +743,12 @@ export const DEFAULT_ABOUT_DATA = {
 export const DEFAULT_ADMISSIONS_DATA = {
   intro_title: "Admissions Open 2026–27",
   intro_lead: "Give your child an environment where learning, character and confidence grow together. Karmayogi Vidyaniketan invites applications for Nursery to Grade 10 for the upcoming academic year.",
+  admission_pillars: [
+    { title: "Strict Zero-Donation", desc: "Purely transparent admission based on age and seat availability." },
+    { title: "Dual Campuses", desc: "Isbavi Primary & Shelve High School campuses in Pandharpur." },
+    { title: "Holistic Foundation", desc: "Classroom depth, AI/STEM robotics labs, and athletic coaching." },
+    { title: "Safe Transportation", desc: "Serviced fleet of GPS buses covering city and surrounding rural routes." }
+  ],
 
   process_intro: "We follow a transparent, child-friendly 5-step admission process designed to understand each learner and ensure a welcoming transition into our school family:",
   process_steps: [

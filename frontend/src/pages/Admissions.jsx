@@ -62,6 +62,15 @@ export default function Admissions() {
     ? admissionsData.fees_table
     : DEFAULT_ADMISSIONS_DATA.fees_table
 
+  const admissionPillars = (Array.isArray(admissionsData.admission_pillars) && admissionsData.admission_pillars.length > 0)
+    ? admissionsData.admission_pillars
+    : (DEFAULT_ADMISSIONS_DATA.admission_pillars || [
+        { title: "Strict Zero-Donation", desc: "Purely transparent admission based on age and seat availability." },
+        { title: "Dual Campuses", desc: "Isbavi Primary & Shelve High School campuses in Pandharpur." },
+        { title: "Holistic Foundation", desc: "Classroom depth, AI/STEM robotics labs, and athletic coaching." },
+        { title: "Safe Transportation", desc: "Serviced fleet of GPS buses covering city and surrounding rural routes." }
+      ])
+
   const faqsList = (Array.isArray(admissionsData.faqs) && admissionsData.faqs.length > 0)
     ? admissionsData.faqs
     : (DEFAULT_ADMISSIONS_DATA.faqs || [
@@ -135,12 +144,7 @@ export default function Admissions() {
             gap: 16,
             marginBottom: 28
           }}>
-            {[
-              { title: "Strict Zero-Donation", desc: "Purely transparent admission based on age and seat availability." },
-              { title: "Dual Campuses", desc: "Isbavi Primary & Shelve High School campuses in Pandharpur." },
-              { title: "Holistic Foundation", desc: "Classroom depth, AI/STEM robotics labs, and athletic coaching." },
-              { title: "Safe Transportation", desc: "Serviced fleet of GPS buses covering city and surrounding rural routes." }
-            ].map((feature, i) => (
+            {admissionPillars.map((feature, i) => (
               <div key={i} style={{ background: '#f8fafc', padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#002855', marginBottom: 4 }}>
                   {feature.title}

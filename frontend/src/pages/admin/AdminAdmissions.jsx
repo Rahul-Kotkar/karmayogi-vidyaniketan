@@ -51,7 +51,8 @@ export default function AdminAdmissions() {
               fees_table: Array.isArray(parsed.fees_table) && parsed.fees_table.length > 0 ? parsed.fees_table : (prev.fees_table || DEFAULT_ADMISSIONS_DATA.fees_table),
               faqs: Array.isArray(parsed.faqs) && parsed.faqs.length > 0 ? parsed.faqs : (prev.faqs || DEFAULT_ADMISSIONS_DATA.faqs),
               payment_modes: Array.isArray(parsed.payment_modes) && parsed.payment_modes.length > 0 ? parsed.payment_modes : (prev.payment_modes || DEFAULT_ADMISSIONS_DATA.payment_modes),
-              installment_facilities: parsed.installment_facilities || prev.installment_facilities || DEFAULT_ADMISSIONS_DATA.installment_facilities
+              installment_facilities: parsed.installment_facilities || prev.installment_facilities || DEFAULT_ADMISSIONS_DATA.installment_facilities,
+              admission_pillars: Array.isArray(parsed.admission_pillars) && parsed.admission_pillars.length > 0 ? parsed.admission_pillars : (prev.admission_pillars || DEFAULT_ADMISSIONS_DATA.admission_pillars)
             }))
           } catch {
             setData(DEFAULT_ADMISSIONS_DATA)
@@ -70,6 +71,41 @@ export default function AdminAdmissions() {
 
   const handleChange = (field, val) => {
     setData(prev => ({ ...prev, [field]: val }))
+  }
+
+  // Pillar management helpers
+  const handlePillarChange = (index, field, value) => {
+    setData(prev => {
+      const current = Array.isArray(prev.admission_pillars) && prev.admission_pillars.length > 0
+        ? [...prev.admission_pillars]
+        : [...(DEFAULT_ADMISSIONS_DATA.admission_pillars || [])]
+      current[index] = { ...current[index], [field]: value }
+      return { ...prev, admission_pillars: current }
+    })
+  }
+
+  const handleAddPillar = () => {
+    setData(prev => {
+      const current = Array.isArray(prev.admission_pillars) && prev.admission_pillars.length > 0
+        ? [...prev.admission_pillars]
+        : [...(DEFAULT_ADMISSIONS_DATA.admission_pillars || [])]
+      return {
+        ...prev,
+        admission_pillars: [...current, { title: "New Highlight", desc: "Brief description of this admission pillar..." }]
+      }
+    })
+  }
+
+  const handleRemovePillar = (index) => {
+    setData(prev => {
+      const current = Array.isArray(prev.admission_pillars) && prev.admission_pillars.length > 0
+        ? [...prev.admission_pillars]
+        : [...(DEFAULT_ADMISSIONS_DATA.admission_pillars || [])]
+      return {
+        ...prev,
+        admission_pillars: current.filter((_, i) => i !== index)
+      }
+    })
   }
 
   // Save changes to backend
@@ -383,31 +419,76 @@ export default function AdminAdmissions() {
             </div>
           </div>
 
-          {/* 4 Feature Highlights Banner on User-Side */}
-          <div style={{ background: '#f8fafc', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-            <h4 style={{ margin: '0 0 10px', fontSize: 15, color: '#0b2545' }}>
-              Admission Pillars (User-Side Highlights)
-            </h4>
-            <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 14px' }}>
-              Displayed as the 4 distinctive feature cards on the user website:
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
-                <strong style={{ fontSize: 13, color: '#002855' }}>Strict Zero-Donation</strong>
-                <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Purely transparent admission based on age and seat availability.</p>
+          {/* 4 Feature Highlights Banner on User-Side (Editable) */}
+          <div style={{ background: '#f8fafc', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0', marginTop: 20 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
+              <div>
+                <h4 style={{ margin: 0, fontSize: 16, color: '#0b2545', fontWeight: 700 }}>
+                  Admission Pillars (User-Side Highlights)
+                </h4>
+                <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
+                  Directly edit the 4 distinctive highlight cards displayed on the user-facing Admissions page:
+                </p>
               </div>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
-                <strong style={{ fontSize: 13, color: '#002855' }}>Dual Campuses</strong>
-                <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Isbavi Primary &amp; Shelve High School campuses in Pandharpur.</p>
-              </div>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
-                <strong style={{ fontSize: 13, color: '#002855' }}>Holistic Foundation</strong>
-                <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Classroom depth, AI/STEM robotics labs, and athletic coaching.</p>
-              </div>
-              <div style={{ background: '#fff', padding: 12, borderRadius: 6, border: '1px solid #e2e8f0' }}>
-                <strong style={{ fontSize: 13, color: '#002855' }}>Safe Transportation</strong>
-                <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0' }}>Serviced fleet of GPS buses covering city and surrounding rural routes.</p>
-              </div>
+              <button
+                type="button"
+                onClick={handleAddPillar}
+                className="admin-btn admin-btn-secondary"
+                style={{ fontSize: 13, padding: '6px 14px' }}
+              >
+                + Add Card
+              </button>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+              {(Array.isArray(data.admission_pillars) && data.admission_pillars.length > 0
+                ? data.admission_pillars
+                : (DEFAULT_ADMISSIONS_DATA.admission_pillars || [])
+              ).map((pillar, idx) => (
+                <div key={idx} style={{ background: '#ffffff', padding: 14, borderRadius: 8, border: '1px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Card {idx + 1}
+                    </span>
+                    {(data.admission_pillars || DEFAULT_ADMISSIONS_DATA.admission_pillars || []).length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePillar(idx)}
+                        style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 12, fontWeight: 600, padding: 0 }}
+                        title="Remove Card"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#334155', marginBottom: 4 }}>
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      value={pillar.title || ''}
+                      onChange={e => handlePillarChange(idx, 'title', e.target.value)}
+                      placeholder="e.g. Strict Zero-Donation"
+                      style={{ width: '100%', padding: '8px 10px', fontSize: 13, border: '1px solid #cbd5e1', borderRadius: 6, fontWeight: 600, color: '#002855' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#334155', marginBottom: 4 }}>
+                      Description
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={pillar.desc || ''}
+                      onChange={e => handlePillarChange(idx, 'desc', e.target.value)}
+                      placeholder="Card description..."
+                      style={{ width: '100%', padding: '8px 10px', fontSize: 12.5, border: '1px solid #cbd5e1', borderRadius: 6, color: '#475569', resize: 'vertical', lineHeight: 1.5 }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
