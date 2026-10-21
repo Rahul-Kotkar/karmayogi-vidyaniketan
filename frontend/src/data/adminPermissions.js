@@ -10,17 +10,7 @@ export const ADMIN_PERMISSION_GROUPS = [
     menus: [
       { id: 'dashboard', label: 'Dashboard Overview', path: '/admin/dashboard' },
       { id: 'home', label: 'Homepage Settings & Slides', path: '/admin/home' },
-      {
-        id: 'about',
-        label: 'About School Overview',
-        path: '/admin/about',
-        submenus: [
-          { id: 'about_overview', label: 'About School Overview', path: '/admin/about?tab=institute' },
-          { id: 'about_vision', label: 'Vision & Mission', path: '/admin/about?tab=vision' },
-          { id: 'about_principal', label: "Principal's Message", path: '/admin/about?tab=principal' },
-          { id: 'about_council', label: 'School Management', path: '/admin/about?tab=council' }
-        ]
-      },
+      { id: 'about', label: 'About School Overview', path: '/admin/about' },
       {
         id: 'admissions',
         label: 'Admissions Desk & Fees',
