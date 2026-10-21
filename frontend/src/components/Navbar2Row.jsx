@@ -212,7 +212,17 @@ export default function Navbar2Row() {
   // Unified Mobile Navigation Sequence
   const mobileNavItems = useMemo(() => [
     { key: 'home', label: 'HOME', path: '/', exact: true },
-    { key: 'about', label: 'ABOUT', path: '/about' },
+    {
+      key: 'about',
+      label: 'ABOUT',
+      path: '/about',
+      children: [
+        { label: 'About School Overview', path: '/about' },
+        { label: 'Vision & Mission', path: '/vision-mission' },
+        { label: "Principal's Message", path: '/principal-message' },
+        { label: 'School Management', path: '/about#management' }
+      ]
+    },
     {
       key: 'admissions',
       label: 'ADMISSIONS',
@@ -264,6 +274,31 @@ export default function Navbar2Row() {
         { label: 'Student Achievements', path: '/student-achievements' },
         { label: 'Houses & Council', path: '/student-life#houses' },
         { label: 'Sports & Athletics', path: '/sports-athletics' }
+      ]
+    },
+    {
+      key: 'committees',
+      label: 'COMMITTEES',
+      path: '/committees',
+      children: [
+        { label: 'Overview of Committees', path: '/committees' },
+        { label: 'School Managing Committee (SMC)', path: '/committees/smc' },
+        { label: 'Parent-Teacher Association (PTA)', path: '/committees/pta' },
+        { label: 'Child Safety & Protection (POCSO)', path: '/committees/pocso-safety' },
+        { label: 'Anti-Bullying & Disciplinary', path: '/committees/anti-bullying' },
+        { label: 'Academic Quality Council', path: '/committees/academic-council' }
+      ]
+    },
+    {
+      key: 'mandatory-disclosures',
+      label: 'MANDATORY DISCLOSURES',
+      path: '/mandatory-disclosures',
+      children: [
+        { label: 'Disclosures Overview', path: '/mandatory-disclosures' },
+        { label: 'Affiliation & Board Mandates', path: '/mandatory-disclosures/muhs' },
+        { label: 'Institutional Policies', path: '/mandatory-disclosures/policies' },
+        { label: 'Government Approvals & NOC', path: '/mandatory-disclosures/approvals' },
+        { label: 'Annual Reports & Audits', path: '/mandatory-disclosures/reports' }
       ]
     },
     { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admission-enquiry' }

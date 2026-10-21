@@ -70,7 +70,16 @@ export const SOCIAL_LINKS = [
 // Row 1: Primary Institutional Navigation
 export const ROW_1_NAV = [
   { label: "HOME", path: "/" },
-  { label: "ABOUT", path: "/about" },
+  {
+    label: "ABOUT",
+    path: "/about",
+    children: [
+      { label: "About School Overview", path: "/about" },
+      { label: "Vision & Mission", path: "/vision-mission" },
+      { label: "Principal's Message", path: "/principal-message" },
+      { label: "School Management", path: "/about#management" }
+    ]
+  },
   {
     label: "ADMISSIONS",
     path: "/admissions",
@@ -131,6 +140,29 @@ export const ROW_2_NAV = [
       { label: "Student Achievements", path: "/student-achievements" },
       { label: "Houses & Council", path: "/student-life#houses" },
       { label: "Sports & Athletics", path: "/sports-athletics" }
+    ]
+  },
+  {
+    label: "COMMITTEES",
+    path: "/committees",
+    children: [
+      { label: "Overview of Committees", path: "/committees" },
+      { label: "School Managing Committee (SMC)", path: "/committees/smc" },
+      { label: "Parent-Teacher Association (PTA)", path: "/committees/pta" },
+      { label: "Child Safety & Protection (POCSO)", path: "/committees/pocso-safety" },
+      { label: "Anti-Bullying & Disciplinary", path: "/committees/anti-bullying" },
+      { label: "Academic Quality Council", path: "/committees/academic-council" }
+    ]
+  },
+  {
+    label: "MANDATORY DISCLOSURES",
+    path: "/mandatory-disclosures",
+    children: [
+      { label: "Disclosures Overview", path: "/mandatory-disclosures" },
+      { label: "Affiliation & Board Mandates", path: "/mandatory-disclosures/muhs" },
+      { label: "Institutional Policies", path: "/mandatory-disclosures/policies" },
+      { label: "Government Approvals & NOC", path: "/mandatory-disclosures/approvals" },
+      { label: "Annual Reports & Audits", path: "/mandatory-disclosures/reports" }
     ]
   },
   { label: "ADMISSION ENQUIRY", path: "/admission-enquiry" }

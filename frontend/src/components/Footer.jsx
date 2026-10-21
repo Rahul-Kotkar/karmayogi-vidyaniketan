@@ -58,6 +58,8 @@ export default function Footer() {
             <li><Link to="/facilities">Facilities</Link></li>
             <li><Link to="/labs">Science &amp; STEM Labs</Link></li>
             <li><Link to="/student-life">Student Life</Link></li>
+            <li><Link to="/committees">Committees</Link></li>
+            <li><Link to="/mandatory-disclosures">Mandatory Disclosures</Link></li>
             <li><Link to="/transport">Transportation</Link></li>
             <li><Link to="/gallery">Gallery</Link></li>
             <li><Link to="/events">Events</Link></li>
