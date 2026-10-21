@@ -840,14 +840,50 @@ export const DEFAULT_ADMISSIONS_DATA = {
     }
   ],
 
-  fees_intro: "Karmayogi Vidyaniketan maintains an affordable, transparent fee structure approved by school management without capitation fees or hidden charges:",
+  fees_intro: "Karmayogi Vidyaniketan maintains an affordable, transparent school fee structure approved by the School Management Committee (SMC) with zero donation and no capitation fees:",
   fees_table: [
-    { category: "Pre-Primary (Nursery, Jr. & Sr. KG)", tuition_fee: "Affordable", dev_fee: "Included", total_fee: "As per Prospectus", scholarship: "Available for eligible wards", payable: "Term-wise installments" },
-    { category: "Primary School (Grades 1 to 5)", tuition_fee: "Affordable", dev_fee: "Included", total_fee: "As per Prospectus", scholarship: "Available for eligible wards", payable: "Term-wise installments" },
-    { category: "Secondary School (Grades 6 to 10)", tuition_fee: "Affordable", dev_fee: "Included", total_fee: "As per Prospectus", scholarship: "Available for eligible wards", payable: "Term-wise installments" },
-    { category: "School Bus Transport (Optional)", tuition_fee: "Based on distance", dev_fee: "Safety equipped", total_fee: "Route-wise charges", scholarship: "Subsidized routes", payable: "Term-wise installments" }
+    {
+      category: "Pre-Primary (Nursery, Jr. & Sr. KG)",
+      admission_fee: "₹ 1,500 (One-Time)",
+      tuition_fee: "₹ 14,000 / Year",
+      term_fee: "₹ 3,000 (Activity & Play Kits)",
+      total_fee: "₹ 18,500 / Year",
+      payable: "2 Terms (June & Nov)"
+    },
+    {
+      category: "Primary School (Grades 1 to 5)",
+      admission_fee: "₹ 2,000 (One-Time)",
+      tuition_fee: "₹ 18,000 / Year",
+      term_fee: "₹ 4,000 (STEM, Computer & Sports)",
+      total_fee: "₹ 24,000 / Year",
+      payable: "2 Terms (June & Nov)"
+    },
+    {
+      category: "Middle School (Grades 6 to 8)",
+      admission_fee: "₹ 2,000 (One-Time)",
+      tuition_fee: "₹ 21,000 / Year",
+      term_fee: "₹ 5,000 (Science Lab, AI & Sports)",
+      total_fee: "₹ 28,000 / Year",
+      payable: "2 Terms (June & Nov)"
+    },
+    {
+      category: "Secondary School (Grades 9 & 10)",
+      admission_fee: "₹ 2,500 (One-Time)",
+      tuition_fee: "₹ 24,000 / Year",
+      term_fee: "₹ 6,000 (Board Prep, Labs & Library)",
+      total_fee: "₹ 32,500 / Year",
+      payable: "2 Terms (June & Nov)"
+    },
+    {
+      category: "School Bus Transport (Optional)",
+      admission_fee: "Nil",
+      tuition_fee: "Distance Slabs (₹6,000 – ₹12,000)",
+      term_fee: "GPS & Escort Included",
+      total_fee: "Route-Wise",
+      payable: "Half-Yearly Installments"
+    }
   ],
-  fees_notes: "Fees are payable via Net Banking, UPI, Demand Draft, or at the school cash counter against an official receipt. Term-wise installments are facilitated for parents.",
+  fees_notes: "Fees include regular classroom instruction, computer laboratories, STEM/robotics practicals, library access, and school sports training. Uniforms, books, and external board examination fees are separate. Sibling concessions are facilitated as per school norms.",
 
   faqs: [
     {

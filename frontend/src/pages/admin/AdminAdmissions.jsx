@@ -739,7 +739,7 @@ export default function AdminAdmissions() {
             <button
               type="button"
               className="admin-btn admin-btn-primary"
-              onClick={() => openModal('feeRow', null, { category: '', tuition_fee: 'Affordable', dev_fee: 'Included', payable: 'Term-wise installments' })}
+              onClick={() => openModal('feeRow', null, { category: '', admission_fee: '₹ 2,000 (One-Time)', tuition_fee: '₹ 18,000 / Year', term_fee: '₹ 4,000 (Sports & Labs)', total_fee: '₹ 24,000 / Year', payable: '2 Terms (June & Nov)' })}
             >
               + Add Fee Row
             </button>
@@ -754,38 +754,46 @@ export default function AdminAdmissions() {
               value={data.fees_intro || ''}
               onChange={e => handleChange('fees_intro', e.target.value)}
               style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-              placeholder="Karmayogi Vidyaniketan maintains an affordable, transparent fee structure approved by school management..."
+              placeholder="Karmayogi Vidyaniketan maintains an affordable, transparent school fee structure approved by school management..."
             />
           </div>
 
           {/* Fee Table */}
           <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: 8, marginBottom: 20 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13, minWidth: 700 }}>
               <thead>
                 <tr style={{ background: '#002855', color: '#ffffff' }}>
-                  <th style={{ padding: '12px 16px' }}>Division / Class</th>
-                  <th style={{ padding: '12px 16px' }}>Tuition Component</th>
-                  <th style={{ padding: '12px 16px' }}>Activity &amp; Sports</th>
-                  <th style={{ padding: '12px 16px' }}>Payment Mode</th>
-                  <th style={{ padding: '12px 16px', textAlign: 'right' }}>Actions</th>
+                  <th style={{ padding: '12px 14px' }}>Class / Standard</th>
+                  <th style={{ padding: '12px 14px' }}>Admission Fee (One-Time)</th>
+                  <th style={{ padding: '12px 14px' }}>Tuition Fee (Annual)</th>
+                  <th style={{ padding: '12px 14px' }}>Term &amp; Activity Fee</th>
+                  <th style={{ padding: '12px 14px' }}>Total Annual Fee</th>
+                  <th style={{ padding: '12px 14px' }}>Payment Schedule</th>
+                  <th style={{ padding: '12px 14px', textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {(data.fees_table || []).map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0', background: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
-                    <td style={{ padding: '12px 16px', fontWeight: 700, color: '#002855' }}>
+                    <td style={{ padding: '12px 14px', fontWeight: 700, color: '#002855' }}>
                       {row.category}
                     </td>
-                    <td style={{ padding: '12px 16px', color: '#334155' }}>
+                    <td style={{ padding: '12px 14px', color: '#334155' }}>
+                      {row.admission_fee || '₹ 2,000 (New)'}
+                    </td>
+                    <td style={{ padding: '12px 14px', color: '#334155' }}>
                       {row.tuition_fee}
                     </td>
-                    <td style={{ padding: '12px 16px', color: '#334155' }}>
-                      {row.dev_fee}
+                    <td style={{ padding: '12px 14px', color: '#334155' }}>
+                      {row.term_fee || row.dev_fee || 'Included'}
                     </td>
-                    <td style={{ padding: '12px 16px', color: '#002855', fontWeight: 600 }}>
+                    <td style={{ padding: '12px 14px', color: '#002855', fontWeight: 700 }}>
+                      {row.total_fee || 'As per Prospectus'}
+                    </td>
+                    <td style={{ padding: '12px 14px', color: '#166534', fontWeight: 600 }}>
                       {row.payable}
                     </td>
-                    <td style={{ padding: '12px 16px', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    <td style={{ padding: '12px 14px', textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <button
                         type="button"
                         className="admin-btn admin-btn-secondary"
@@ -807,7 +815,7 @@ export default function AdminAdmissions() {
                 ))}
                 {(data.fees_table || []).length === 0 && (
                   <tr>
-                    <td colSpan={5} style={{ padding: 24, textAlign: 'center', color: '#94a3b8' }}>
+                    <td colSpan={7} style={{ padding: 24, textAlign: 'center', color: '#94a3b8' }}>
                       No fee rows configured. Click "+ Add Fee Row" above.
                     </td>
                   </tr>
@@ -1124,7 +1132,7 @@ export default function AdminAdmissions() {
                   <>
                     <div>
                       <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
-                        Class / Division *
+                        Class / Standard *
                       </label>
                       <input
                         type="text"
@@ -1138,39 +1146,66 @@ export default function AdminAdmissions() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                       <div>
                         <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
-                          Tuition Component
+                          Admission Fee (One-Time)
                         </label>
                         <input
                           type="text"
-                          value={formValues.tuition_fee || ''}
-                          onChange={e => setFormValues(prev => ({ ...prev, tuition_fee: e.target.value }))}
+                          value={formValues.admission_fee || ''}
+                          onChange={e => setFormValues(prev => ({ ...prev, admission_fee: e.target.value }))}
                           style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-                          placeholder="Affordable"
+                          placeholder="e.g. ₹ 2,000 (One-Time)"
                         />
                       </div>
                       <div>
                         <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
-                          Activity &amp; Sports
+                          Tuition Fee (Annual) *
                         </label>
                         <input
                           type="text"
-                          value={formValues.dev_fee || ''}
-                          onChange={e => setFormValues(prev => ({ ...prev, dev_fee: e.target.value }))}
+                          required
+                          value={formValues.tuition_fee || ''}
+                          onChange={e => setFormValues(prev => ({ ...prev, tuition_fee: e.target.value }))}
                           style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-                          placeholder="Included"
+                          placeholder="e.g. ₹ 18,000 / Year"
+                        />
+                      </div>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                      <div>
+                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
+                          Term &amp; Activity Fee (Sports/Labs)
+                        </label>
+                        <input
+                          type="text"
+                          value={formValues.term_fee || formValues.dev_fee || ''}
+                          onChange={e => setFormValues(prev => ({ ...prev, term_fee: e.target.value, dev_fee: e.target.value }))}
+                          style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
+                          placeholder="e.g. ₹ 4,000 (STEM & Sports)"
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
+                          Total Annual Fee
+                        </label>
+                        <input
+                          type="text"
+                          value={formValues.total_fee || ''}
+                          onChange={e => setFormValues(prev => ({ ...prev, total_fee: e.target.value }))}
+                          style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
+                          placeholder="e.g. ₹ 24,000 / Year"
                         />
                       </div>
                     </div>
                     <div>
                       <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 6, color: '#334155' }}>
-                        Payment Frequency / Mode
+                        Payment Schedule / Installment Mode
                       </label>
                       <input
                         type="text"
                         value={formValues.payable || ''}
                         onChange={e => setFormValues(prev => ({ ...prev, payable: e.target.value }))}
                         style={{ width: '100%', padding: '9px 12px', border: '1px solid #cbd5e1', borderRadius: 6 }}
-                        placeholder="Term-wise installments"
+                        placeholder="e.g. 2 Terms (June & Nov)"
                       />
                     </div>
                   </>

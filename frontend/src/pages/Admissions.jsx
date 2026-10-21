@@ -322,29 +322,37 @@ export default function Admissions() {
           </div>
 
           <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: 10, marginBottom: 24 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: 620 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: 720 }}>
               <thead>
                 <tr style={{ background: '#002855', color: '#ffffff' }}>
-                  <th style={{ padding: '14px 18px', fontSize: '14px' }}>Division / Class</th>
-                  <th style={{ padding: '14px 18px', fontSize: '14px' }}>Tuition Component</th>
-                  <th style={{ padding: '14px 18px', fontSize: '14px' }}>Activity &amp; Sports</th>
-                  <th style={{ padding: '14px 18px', fontSize: '14px' }}>Payment Mode</th>
+                  <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Class / Standard</th>
+                  <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Admission Fee (One-Time)</th>
+                  <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Tuition Fee (Annual)</th>
+                  <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Term &amp; Activity Fee</th>
+                  <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Total Annual Fee</th>
+                  <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Installment Schedule</th>
                 </tr>
               </thead>
               <tbody>
                 {feesTable.map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0', background: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
-                    <td style={{ padding: '14px 18px', fontWeight: 700, color: '#002855', fontSize: '14.5px' }}>
+                    <td style={{ padding: '14px 18px', fontWeight: 700, color: '#002855', fontSize: '14px' }}>
                       {row.category}
                     </td>
-                    <td style={{ padding: '14px 18px', color: '#334155', fontSize: '14px' }}>
+                    <td style={{ padding: '14px 18px', color: '#334155', fontSize: '13.5px' }}>
+                      {row.admission_fee || '₹ 2,000 (New)'}
+                    </td>
+                    <td style={{ padding: '14px 18px', color: '#334155', fontSize: '13.5px' }}>
                       {row.tuition_fee}
                     </td>
-                    <td style={{ padding: '14px 18px', color: '#334155', fontSize: '14px' }}>
-                      {row.dev_fee}
+                    <td style={{ padding: '14px 18px', color: '#334155', fontSize: '13.5px' }}>
+                      {row.term_fee || row.dev_fee || 'Included'}
                     </td>
-                    <td style={{ padding: '14px 18px', color: '#002855', fontWeight: 600, fontSize: '13.5px' }}>
-                      {row.payable}
+                    <td style={{ padding: '14px 18px', color: '#002855', fontWeight: 700, fontSize: '14px' }}>
+                      {row.total_fee || 'As per Prospectus'}
+                    </td>
+                    <td style={{ padding: '14px 18px', color: '#166534', fontWeight: 600, fontSize: '13px' }}>
+                      {row.payable || 'Term-wise installments'}
                     </td>
                   </tr>
                 ))}
