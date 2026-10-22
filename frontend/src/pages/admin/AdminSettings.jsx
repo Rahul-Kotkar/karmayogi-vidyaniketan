@@ -6,7 +6,7 @@ import defaultFounderImg from '../../assets/founder.png'
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
     college_name: 'Karmayogi Vidyaniketan',
-    school_subname: 'Karmayogi Public School',
+    school_subname: '',
     foundation_name: 'Shri Pandurang Pratishthan, Pandharpur',
     college_logo_url: '',
     founder_photo_url: '',
@@ -166,16 +166,18 @@ export default function AdminSettings() {
               }}>
                 {settings.college_name || 'Karmayogi Vidyaniketan'}
               </h2>
-              <div style={{
-                fontSize: '15px',
-                fontWeight: 700,
-                color: '#c9a227',
-                letterSpacing: '0.6px',
-                marginTop: '1px',
-                marginBottom: '4px'
-              }}>
-                {settings.school_subname || 'Karmayogi Public School'}
-              </div>
+              {settings.school_subname && (
+                <div style={{
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  color: '#c9a227',
+                  letterSpacing: '0.6px',
+                  marginTop: '1px',
+                  marginBottom: '4px'
+                }}>
+                  {settings.school_subname}
+                </div>
+              )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
                 {[
                   settings.affiliation_line_1,

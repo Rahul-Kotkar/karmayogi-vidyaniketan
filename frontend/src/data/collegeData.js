@@ -22,7 +22,7 @@ export {
 export const COLLEGE = {
   foundation: "Shri Pandurang Pratishthan, Pandharpur",
   name: "Karmayogi Vidyaniketan",
-  subname: "Karmayogi Public School",
+  subname: "",
   founder_name: "स्व. सुधाकरपंत परिचारक",
   motto: "Shape Young Minds. Build Strong Futures.",
   mottoAuthor: "Shri Pandurang Pratishthan, Pandharpur",

@@ -377,7 +377,7 @@ export default function Navbar2Row() {
             <CollegeLogo src={collegeSettings?.college_logo_url} className="mobile-drawer-crest" />
             <div className="mobile-drawer-titles">
               <div className="mobile-drawer-title">{collegeSettings?.college_name || "Karmayogi Vidyaniketan"}</div>
-              <div className="mobile-drawer-sub">Karmayogi Public School • Pandharpur</div>
+              <div className="mobile-drawer-sub">Pandharpur</div>
             </div>
           </div>
           <button

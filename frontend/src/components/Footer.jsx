@@ -35,9 +35,6 @@ export default function Footer() {
       <div className="footer-top">
         <div className="footer-about">
           <div className="footer-brand">{brandName}</div>
-          <div style={{ fontSize: '14px', fontWeight: 700, color: '#c9a227', marginBottom: '8px' }}>
-            Karmayogi Public School
-          </div>
           <p>
             {COLLEGE.foundation.replace("'s", '')}, Pandharpur<br />
             English Medium • Co-Educational • Nursery to Grade 10<br />

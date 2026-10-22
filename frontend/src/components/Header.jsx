@@ -118,11 +118,6 @@ export default function Header() {
             <h1 className="header-college-title">
               <Link to="/">{college.name}</Link>
             </h1>
-            {college.subname && (
-              <div className="header-school-subname" style={{ fontSize: '14.5px', fontWeight: 700, color: 'var(--gold, #c9a227)', letterSpacing: '0.6px', marginTop: '1px', marginBottom: '3px' }}>
-                {college.subname}
-              </div>
-            )}
             <div className="header-affiliations">
               {college.lines.map((line, idx) => (
                 <p key={idx} className="affiliation-line">{line}</p>
