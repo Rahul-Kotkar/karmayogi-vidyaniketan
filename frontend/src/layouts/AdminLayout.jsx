@@ -653,7 +653,7 @@ export default function AdminLayout() {
         <div className="admin-sidebar-footer">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ fontSize: 10.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.4px' }}>Active User</div>
+              <div style={{ fontSize: 10.5, color: 'rgba(255, 255, 255, 0.82)', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.4px' }}>Active User</div>
               <strong style={{ color: '#ffffff', fontSize: 13, display: 'block', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {user?.name || 'Administrator'}
               </strong>

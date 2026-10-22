@@ -35,7 +35,7 @@
 .admin-sidebar {
   width: 260px;
   background: var(--admin-sidebar-bg);
-  color: #cbd5e1;
+  color: #ffffff;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -126,9 +126,10 @@
 
 .admin-nav-section-title {
   padding: 8px 18px 6px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #64748b;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #ffffff;
+  opacity: 0.85;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -144,12 +145,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 14px;
+  padding: 9px 14px;
   margin: 2px 10px;
   border-radius: 6px;
-  color: #cbd5e1;
-  font-size: 12.5px;
-  font-weight: 500;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.15s ease;
   position: relative;
@@ -158,39 +159,42 @@
 
 .admin-nav a:hover,
 .admin-nav-parent-link:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
 
 .admin-nav a.active,
 .admin-nav-parent-link.active {
-  background: #0b63e5;
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(11, 99, 229, 0.3);
+  background: #ffffff;
+  color: #2050a4;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .admin-nav-icon {
-  font-size: 15px;
+  font-size: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 18px;
-  color: #94a3b8;
+  color: #ffffff;
   opacity: 1;
 }
 .admin-nav a:hover .admin-nav-icon,
-.admin-nav-parent-link:hover .admin-nav-icon,
+.admin-nav-parent-link:hover .admin-nav-icon {
+  color: #ffffff;
+}
 .admin-nav a.active .admin-nav-icon,
 .admin-nav-parent-link.active .admin-nav-icon {
-  color: #ffffff;
+  color: #2050a4;
 }
 
 .admin-nav a .badge {
   margin-left: auto;
-  background: #0b63e5;
-  color: #fff;
+  background: #ffffff;
+  color: #2050a4;
   font-size: 11px;
+  font-weight: 700;
   padding: 2px 7px;
   border-radius: 10px;
 }
@@ -210,24 +214,35 @@
   justify-content: center;
   width: 18px;
   height: 18px;
-  color: #64748b;
-  transition: transform 0.2s ease, color 0.2s ease;
+  color: #ffffff;
+  opacity: 0.85;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .admin-nav-parent-link:hover .admin-nav-caret {
-  color: #cbd5e1;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.admin-nav-parent-link.active .admin-nav-caret {
+  color: #2050a4;
+  opacity: 1;
 }
 
 .admin-nav-caret.is-open {
   transform: rotate(90deg);
-  color: #38bdf8;
+  color: #ffffff;
+  opacity: 1;
+}
+.admin-nav-parent-link.active .admin-nav-caret.is-open {
+  color: #2050a4;
 }
 
 .admin-nav-submenu {
   list-style: none;
   padding: 2px 0 4px 12px;
   margin: 2px 10px 6px 24px;
-  border-left: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.28);
 }
 
 .admin-nav-subitem {
@@ -238,10 +253,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 8px;
+  padding: 6px 10px;
   margin: 1px 0;
   border-radius: 4px;
-  color: #94a3b8;
+  color: #ffffff;
+  opacity: 0.92;
   font-size: 12px;
   font-weight: 500;
   text-decoration: none;
@@ -249,42 +265,46 @@
 }
 
 .admin-nav-subitem a:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
+  opacity: 1;
 }
 
 .admin-nav-subitem a.active {
-  background: rgba(56, 189, 248, 0.12);
-  color: #38bdf8;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+  font-weight: 700;
+  opacity: 1;
 }
 
 .admin-subnav-bullet {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.25);
-  transition: background-color 0.15s ease;
+  background-color: #ffffff;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
   flex-shrink: 0;
 }
 
+.admin-nav-subitem a:hover .admin-subnav-bullet,
 .admin-nav-subitem a.active .admin-subnav-bullet {
-  background-color: #38bdf8;
+  opacity: 1;
 }
 
 .admin-sidebar-footer {
   padding: 12px 16px;
-  border-top: 1px solid var(--admin-sidebar-border);
-  background: var(--admin-sidebar-footer-bg);
-  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: #173d7d;
+  color: #ffffff;
 }
 
 .admin-sidebar-logout-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
   border-radius: 6px;
-  padding: 5px 10px;
+  padding: 6px 12px;
   font-size: 11.5px;
   font-weight: 600;
   display: inline-flex;
