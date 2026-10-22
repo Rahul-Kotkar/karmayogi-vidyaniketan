@@ -20,18 +20,15 @@ export {
 };
 
 export const COLLEGE = {
-  foundation: "Shri Pandurang Pratishthan, Pandharpur",
+  foundation: "SHRI PANDURANG PRATISHTHAN'S",
   name: "Karmayogi Vidyaniketan",
-  subname: "",
-  founder_name: "स्व. सुधाकरपंत परिचारक",
+  subname: "Pre-Primary, Primary & Secondary School",
+  founder_top_label: "Karmayogi",
+  founder_name: "Late Sudhakarpant Paricharak",
   motto: "Shape Young Minds. Build Strong Futures.",
   mottoAuthor: "Shri Pandurang Pratishthan, Pandharpur",
   lines: [
-    "Managed by Shri Pandurang Pratishthan, Pandharpur",
-    "English Medium | Co-Educational | Nursery to Grade 10",
-    "CBSE & Maharashtra State Board Curriculum Tracks",
-    "Safe GPS-Monitored School Bus Fleet Covering Pandharpur & Environs",
-    "Office Hours: Mon–Sat 8:00 AM – 2:00 PM (Sunday Closed)"
+    "Pre-Primary, Primary & Secondary School"
   ],
   address: "Isbavi & Shelve, Pandharpur, Dist: Solapur, Maharashtra - 413304",
   primary_campus: {

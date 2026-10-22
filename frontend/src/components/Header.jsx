@@ -17,6 +17,7 @@ function formatCollegeSettings(data) {
     trust_logo_url: null,
     college_logo_url: data.college_logo_url || null,
     founder_photo_url: data.founder_photo_url || null,
+    founder_top_label: data.founder_top_label || DEFAULT_COLLEGE.founder_top_label || 'Karmayogi',
     founder_name: data.founder_name || DEFAULT_COLLEGE.founder_name,
     lines: [
       data.affiliation_line_1,
@@ -32,6 +33,24 @@ function formatCollegeSettings(data) {
       data.affiliation_line_5
     ].filter(Boolean) : DEFAULT_COLLEGE.lines
   }
+}
+
+function formatFoundation(foundation) {
+  if (!foundation) return "Shri Pandurang Pratishthan, Pandharpur's"
+  const f = String(foundation).trim()
+  if (/^shri pandurang pratishthan/i.test(f)) {
+    return "Shri Pandurang Pratishthan, Pandharpur's"
+  }
+  return f
+}
+
+function renderSchoolTitle(name) {
+  const cleanName = (name || 'Karmayogi Vidyaniketan').trim()
+  return (
+    <Link to="/" className="header-title-link">
+      <span className="brand-title-main">{cleanName.toUpperCase()}</span>
+    </Link>
+  )
 }
 
 export default function Header() {
@@ -102,7 +121,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 2. Main Institutional Branding Header */}
+      {/* 2. Main Institutional Branding Header (Image 1 Style) */}
       <div className="main-college-header">
         <div className="header-inner-grid">
           {/* Left: Logo */}
@@ -112,33 +131,32 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Center-Left: Foundation & School Name + Affiliation */}
+          {/* Center: Foundation & School Name + Subtitle */}
           <div className="header-center-info">
-            <div className="header-foundation-name">{college.foundation}</div>
+            <div className="header-foundation-name">
+              {formatFoundation(college.foundation)}
+            </div>
+
             <h1 className="header-college-title">
-              <Link to="/">{college.name}</Link>
+              {renderSchoolTitle(college.name)}
             </h1>
+
             <div className="header-affiliations">
-              {college.lines.map((line, idx) => (
-                <p key={idx} className="affiliation-line">{line}</p>
-              ))}
+              <p className="affiliation-line">
+                {college.subname || (college.lines && college.lines[0]) || "Pre-Primary, Primary & Secondary School"}
+              </p>
             </div>
           </div>
 
           {/* Right: Founder Photo & Name */}
           <div className="header-founder-section">
             <div className="founder-card-wrap">
+              <span className="founder-top-label">
+                {college.founder_top_label || "Karmayogi"}
+              </span>
               <FounderPortrait src={college.founder_photo_url} />
               <div className="founder-caption-name">
-                {college.founder_name && college.founder_name !== "स्व. सुधाकरपंत परिचारक" ? (
-                  college.founder_name
-                ) : (
-                  <>
-                    स्व. सुधाकरपंत
-                    <br />
-                    परिचारक
-                  </>
-                )}
+                {college.founder_name || "Late Sudhakarpant Paricharak"}
               </div>
             </div>
           </div>

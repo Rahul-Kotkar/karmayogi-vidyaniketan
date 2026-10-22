@@ -226,7 +226,7 @@ export default function AdminDashboard() {
             <div style={{ fontSize: 11.5, fontWeight: 700, color: '#c2410c', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
               Shri Pandurang Pratishthan, Pandharpur
             </div>
-            <div style={{ fontSize: 16.5, fontWeight: 800, color: '#002855' }}>
+            <div style={{ fontSize: 16.5, fontWeight: 800, color: '#2050a4' }}>
               Karmayogi Vidyaniketan <span style={{ fontSize: 14, fontWeight: 700, color: '#c9a227', marginLeft: 6 }}>Karmayogi Public School</span>
             </div>
           </div>

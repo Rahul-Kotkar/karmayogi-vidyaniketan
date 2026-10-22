@@ -5,13 +5,13 @@
 
 :root {
   --admin-bg: #f8fafc;
-  --admin-sidebar-bg: #071d3a;            /* Matches institutional navy var(--navy-deep) */
-  --admin-sidebar-footer-bg: #05162e;     /* Matches website footer-dark */
+  --admin-sidebar-bg: #2050a4;            /* Matches institutional navy var(--navy-deep) */
+  --admin-sidebar-footer-bg: #143673;     /* Matches website footer-dark */
   --admin-sidebar-border: rgba(255, 255, 255, 0.08);
   --admin-text-main: #0f172a;
   --admin-text-muted: #64748b;
-  --admin-primary-blue: #071d3a;
-  --admin-primary-hover: #0b2545;
+  --admin-primary-blue: #2050a4;
+  --admin-primary-hover: #2050a4;
   --admin-accent-blue: #0b63e5;
   --admin-accent-royal: #0284c7;
   --admin-accent-gold: #c9a227;
@@ -31,7 +31,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/* Sidebar (Matches Website Footer #05162e) */
+/* Sidebar (Matches Website Footer #143673) */
 .admin-sidebar {
   width: 260px;
   background: var(--admin-sidebar-bg);
@@ -335,14 +335,14 @@
   border-radius: 6px;
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
-  color: #071d3a;
+  color: #2050a4;
   cursor: pointer;
   padding: 0;
   transition: all 0.15s ease;
 }
 .admin-mobile-toggle:hover {
   background: #e2e8f0;
-  color: #002855;
+  color: #2050a4;
 }
 @media (max-width: 900px) {
   .admin-mobile-toggle {
@@ -733,7 +733,7 @@
 .admin-stat-link {
   font-size: 12px;
   font-weight: 600;
-  color: #0b2545;
+  color: #2050a4;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -997,15 +997,15 @@ label.admin-btn svg {
 
 .admin-btn-primary,
 label.admin-btn-primary {
-  background: #071d3a;
+  background: #2050a4;
   color: #ffffff !important;
-  border: 1px solid #071d3a;
+  border: 1px solid #2050a4;
   box-shadow: 0 1px 3px rgba(7, 29, 58, 0.25);
 }
 .admin-btn-primary:hover,
 label.admin-btn-primary:hover {
-  background: #0b2545;
-  border-color: #0b2545;
+  background: #2050a4;
+  border-color: #2050a4;
   color: #ffffff !important;
   text-decoration: none;
   box-shadow: 0 3px 8px rgba(7, 29, 58, 0.25);
@@ -1166,7 +1166,7 @@ label.admin-btn-sm,
 .admin-modal-title {
   font-size: 16px;
   font-weight: 700;
-  color: #071d3a;
+  color: #2050a4;
   margin: 0;
   display: flex;
   align-items: center;

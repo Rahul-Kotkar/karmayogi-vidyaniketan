@@ -454,7 +454,7 @@ export default function TrainingPlacement() {
                     >
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <span style={{ fontWeight: 800, color: '#05162e', fontSize: 15 }}>
+                          <span style={{ fontWeight: 800, color: '#143673', fontSize: 15 }}>
                             Year {row.year}
                           </span>
                           <span className="placement-badge placement-badge-success" style={{ fontSize: 11 }}>
@@ -558,7 +558,7 @@ export default function TrainingPlacement() {
                     <span style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', color: '#1d4ed8', background: '#eff6ff', padding: '3px 8px', borderRadius: 999, border: '1px solid #bfdbfe' }}>
                       {coursewiseOutcomes?.bpt?.level || 'Undergraduate'}
                     </span>
-                    <h3 style={{ fontSize: 19, fontWeight: 800, color: '#05162e', margin: '6px 0 2px', fontFamily: 'var(--heading-font)' }}>
+                    <h3 style={{ fontSize: 19, fontWeight: 800, color: '#143673', margin: '6px 0 2px', fontFamily: 'var(--heading-font)' }}>
                       {coursewiseOutcomes?.bpt?.program || 'B.P.T (Bachelor of Physiotherapy)'}
                     </h3>
                     <p style={{ fontSize: 12.5, color: '#64748b', margin: 0 }}>
@@ -626,7 +626,7 @@ export default function TrainingPlacement() {
                     <span style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', color: '#7c3aed', background: '#f5f3ff', padding: '3px 8px', borderRadius: 999, border: '1px solid #ddd6fe' }}>
                       {coursewiseOutcomes?.mpt?.level || 'Postgraduate'}
                     </span>
-                    <h3 style={{ fontSize: 19, fontWeight: 800, color: '#05162e', margin: '6px 0 2px', fontFamily: 'var(--heading-font)' }}>
+                    <h3 style={{ fontSize: 19, fontWeight: 800, color: '#143673', margin: '6px 0 2px', fontFamily: 'var(--heading-font)' }}>
                       {coursewiseOutcomes?.mpt?.program || 'M.P.T (Master of Physiotherapy)'}
                     </h3>
                     <p style={{ fontSize: 12.5, color: '#64748b', margin: 0 }}>

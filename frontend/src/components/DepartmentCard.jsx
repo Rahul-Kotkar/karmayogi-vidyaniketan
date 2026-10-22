@@ -320,13 +320,13 @@ export default function DepartmentCard({ department }) {
               {/* Head of Department Card */}
               <div className="dept-modal-hod-card">
                 <div className="dept-modal-hod-avatar">
-                  <StethoscopeIcon size={24} color="#002855" />
+                  <StethoscopeIcon size={24} color="#2050a4" />
                 </div>
                 <div>
                   <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.6px', color: '#64748b', textTransform: 'uppercase' }}>
                     Head of Department (HOD)
                   </div>
-                  <div style={{ fontSize: '16px', fontWeight: 800, color: '#05162e', marginTop: '2px' }}>
+                  <div style={{ fontSize: '16px', fontWeight: 800, color: '#143673', marginTop: '2px' }}>
                     {department.head || 'To be announced'}
                   </div>
                   {(department.headDesignation || department.headQualification) && (

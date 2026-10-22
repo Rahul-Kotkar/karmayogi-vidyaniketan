@@ -66,11 +66,6 @@ export const ADMIN_PERMISSION_GROUPS = [
         ]
       },
       {
-        id: 'departments',
-        label: 'College Departments',
-        path: '/admin/departments'
-      },
-      {
         id: 'student_corner',
         label: 'Student Life & Activities',
         path: '/admin/student-corner',
@@ -81,37 +76,6 @@ export const ADMIN_PERMISSION_GROUPS = [
           { id: 'sl_field_trips', label: 'Field Trips & Excursions', path: '/admin/student-corner?tab=field-trips' },
           { id: 'sl_competitions', label: 'Competitions & Olympiads', path: '/admin/student-corner?tab=competitions' },
           { id: 'sl_achievements', label: 'Student Achievements', path: '/admin/student-corner?tab=achievements' }
-        ]
-      },
-      {
-        id: 'research',
-        label: 'Research & Innovation',
-        path: '/admin/research',
-        submenus: [
-          { id: 'res_overview', label: 'R&D Center Overview', path: '/admin/research?tab=overview' },
-          { id: 'res_centers', label: 'Specialized Research Centers', path: '/admin/research?tab=centers' },
-          { id: 'res_projects', label: 'Active & Completed Projects', path: '/admin/research?tab=projects' },
-          { id: 'res_publications', label: 'Faculty Publications', path: '/admin/research?tab=publications' },
-          { id: 'res_patents', label: 'Patents & IPR Innovations', path: '/admin/research?tab=patents' },
-          { id: 'res_scholars', label: 'Ph.D. Scholars Desk', path: '/admin/research?tab=scholars' },
-          { id: 'res_funded', label: 'Funded Research Grants', path: '/admin/research?tab=funded' },
-          { id: 'res_conferences', label: 'Conference Presentations', path: '/admin/research?tab=conferences' },
-          { id: 'res_journal', label: 'KJPRS College Journal', path: '/admin/research?tab=journal' },
-          { id: 'res_achievements', label: 'Research Awards & Honors', path: '/admin/research?tab=achievements' }
-        ]
-      },
-      {
-        id: 'placement',
-        label: 'Training & Placement',
-        path: '/admin/training-placement',
-        submenus: [
-          { id: 'tp_highlights', label: '1. Highlights & Top Stats', path: '/admin/training-placement?tab=highlights' },
-          { id: 'tp_recruiters', label: '2. Recruiter Network', path: '/admin/training-placement?tab=recruiters' },
-          { id: 'tp_yearly', label: '3. Year-Wise Placements', path: '/admin/training-placement?tab=yearly' },
-          { id: 'tp_outcomes', label: '4. Course-Wise Outcomes', path: '/admin/training-placement?tab=outcomes' },
-          { id: 'tp_prep', label: '5. Prep Program (Stages)', path: '/admin/training-placement?tab=prep' },
-          { id: 'tp_officer', label: '6. TPO\'s Desk', path: '/admin/training-placement?tab=officer' },
-          { id: 'tp_testimonials', label: '7. Student Success Stories', path: '/admin/training-placement?tab=testimonials' }
         ]
       },
       {

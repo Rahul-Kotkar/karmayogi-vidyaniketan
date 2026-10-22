@@ -432,7 +432,7 @@ export default function Facilities() {
           <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.85)', maxWidth: 600, margin: '0 auto 20px' }}>
             We warmly welcome parents and students for a guided tour of our classrooms, laboratories, library, and sports grounds.
           </p>
-          <Link to="/contact" className="btn btn-primary" style={{ background: '#002855', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
+          <Link to="/contact" className="btn btn-primary" style={{ background: '#2050a4', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
             Schedule a School Visit &rarr;
           </Link>
         </div>

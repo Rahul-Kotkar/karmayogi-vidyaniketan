@@ -159,7 +159,7 @@ export default function AdminEvents() {
                   <tr key={e.id}>
                     <td style={{ color: '#5c6672', whiteSpace: 'nowrap' }}>{e.date}</td>
                     <td>
-                      <strong style={{ color: '#071d3a' }}>{e.title}</strong>
+                      <strong style={{ color: '#2050a4' }}>{e.title}</strong>
                       <div style={{ fontSize: 12, color: '#5c6672', marginTop: 2 }}>
                         {e.description || e.desc}
                       </div>

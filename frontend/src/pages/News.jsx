@@ -134,8 +134,8 @@ export default function News() {
                   padding: '6px 16px',
                   borderRadius: 20,
                   border: '1px solid',
-                  borderColor: selectedTag === tag ? '#002855' : '#e2e8f0',
-                  background: selectedTag === tag ? '#002855' : '#ffffff',
+                  borderColor: selectedTag === tag ? '#2050a4' : '#e2e8f0',
+                  background: selectedTag === tag ? '#2050a4' : '#ffffff',
                   color: selectedTag === tag ? '#ffffff' : '#334155',
                   fontSize: 12,
                   fontWeight: 700,
@@ -215,7 +215,7 @@ export default function News() {
               padding: '8px 16px',
               borderRadius: 6,
               border: 'none',
-              background: '#002855',
+              background: '#2050a4',
               color: '#ffffff',
               fontWeight: 600,
               fontSize: 13,
@@ -473,7 +473,7 @@ export default function News() {
                   <Link
                     to={activeStory.link}
                     style={{
-                      background: '#002855',
+                      background: '#2050a4',
                       color: '#ffffff',
                       padding: '8px 18px',
                       borderRadius: 6,

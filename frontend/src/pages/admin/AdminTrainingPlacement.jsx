@@ -626,7 +626,7 @@ export default function AdminTrainingPlacement() {
                   </div>
                 </div>
 
-                <h4 style={{ fontSize: 15, fontWeight: 700, color: '#0b2545', margin: '20px 0 12px' }}>
+                <h4 style={{ fontSize: 15, fontWeight: 700, color: '#2050a4', margin: '20px 0 12px' }}>
                   Top 4 Placement Key Metric Cards
                 </h4>
                 <p style={{ fontSize: 13, color: '#64748b', marginBottom: 14 }}>
@@ -861,7 +861,7 @@ export default function AdminTrainingPlacement() {
                       <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#1d4ed8', background: '#eff6ff', padding: '3px 8px', borderRadius: 999, border: '1px solid #bfdbfe' }}>
                         Undergraduate
                       </span>
-                      <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#05162e' }}>B.P.T (Bachelor of Physiotherapy)</h4>
+                      <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#143673' }}>B.P.T (Bachelor of Physiotherapy)</h4>
                     </div>
 
                     <div className="admin-form-group" style={{ marginBottom: 12 }}>
@@ -912,7 +912,7 @@ export default function AdminTrainingPlacement() {
                       <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#7c3aed', background: '#f5f3ff', padding: '3px 8px', borderRadius: 999, border: '1px solid #ddd6fe' }}>
                         Postgraduate
                       </span>
-                      <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#05162e' }}>M.P.T (Master of Physiotherapy)</h4>
+                      <h4 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#143673' }}>M.P.T (Master of Physiotherapy)</h4>
                     </div>
 
                     <div className="admin-form-group" style={{ marginBottom: 12 }}>
@@ -1053,7 +1053,7 @@ export default function AdminTrainingPlacement() {
                   <div className="admin-form-group full-width" style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 16, background: '#f8fafc' }}>
                     <label style={{ fontSize: 14, fontWeight: 700 }}>Officer Portrait Photo</label>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginTop: 8 }}>
-                      <div style={{ width: 80, height: 100, borderRadius: 8, overflow: 'hidden', border: '2px solid #cbd5e1', background: '#05162e', flexShrink: 0 }}>
+                      <div style={{ width: 80, height: 100, borderRadius: 8, overflow: 'hidden', border: '2px solid #cbd5e1', background: '#143673', flexShrink: 0 }}>
                         <img
                           src={data.officer?.photo_url ? resolveMediaUrl(data.officer.photo_url) : defaultTpoPhoto}
                           alt="TPO Preview"

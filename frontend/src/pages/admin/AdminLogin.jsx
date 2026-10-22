@@ -42,7 +42,7 @@ export default function AdminLogin() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #05162e 0%, #0a2540 50%, #0f2d59 100%)',
+      background: 'linear-gradient(135deg, #143673 0%, #0a2540 50%, #0f2d59 100%)',
       padding: 16,
       fontFamily: 'var(--body-font, sans-serif)'
     }}>
@@ -80,7 +80,7 @@ export default function AdminLogin() {
             Shri Pandurang Pratishthan's
           </div>
           <h2 style={{
-            color: '#05162e',
+            color: '#143673',
             fontSize: 20,
             fontWeight: 800,
             margin: '6px 0 4px',

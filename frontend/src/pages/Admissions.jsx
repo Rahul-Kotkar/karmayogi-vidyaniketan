@@ -130,7 +130,7 @@ export default function Admissions() {
             <span style={{
               display: 'inline-block',
               background: '#e0f2fe',
-              color: '#002855',
+              color: '#2050a4',
               fontSize: '11px',
               fontWeight: 800,
               padding: '4px 12px',
@@ -142,7 +142,7 @@ export default function Admissions() {
             </span>
           </div>
 
-          <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '28px', color: '#002855', margin: '0 0 14px', lineHeight: 1.3 }}>
+          <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '28px', color: '#2050a4', margin: '0 0 14px', lineHeight: 1.3 }}>
             Welcoming Every Learner into the Karmayogi Family
           </h2>
 
@@ -158,7 +158,7 @@ export default function Admissions() {
           }}>
             {admissionPillars.map((feature, i) => (
               <div key={i} style={{ background: '#f8fafc', padding: '16px 18px', borderRadius: 10, border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#002855', marginBottom: 4 }}>
+                <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#2050a4', marginBottom: 4 }}>
                   {feature.title}
                 </div>
                 <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5 }}>
@@ -197,7 +197,7 @@ export default function Admissions() {
           }}
         >
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
               STEP-BY-STEP ADMISSION PROCEDURE
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 10px' }}>
@@ -211,7 +211,7 @@ export default function Admissions() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
             {processSteps.map((step, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 22, borderRadius: 10, border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#002855', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, fontSize: '16px' }}>
+                <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#2050a4', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, fontSize: '16px' }}>
                   {idx + 1}
                 </div>
                 <h3 style={{ fontSize: '17px', color: 'var(--navy-header)', margin: '0 0 8px' }}>
@@ -237,7 +237,7 @@ export default function Admissions() {
           }}
         >
           <div style={{ marginBottom: 24 }}>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
               AGE CRITERIA &amp; GUIDELINES
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 8px' }}>
@@ -250,8 +250,8 @@ export default function Admissions() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: 20 }}>
             {eligibilityPrograms.map((prog, idx) => (
-              <div key={idx} style={{ background: '#f8fafc', padding: 24, borderRadius: 10, border: '1px solid #e2e8f0', borderTop: '4px solid #002855' }}>
-                <span style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+              <div key={idx} style={{ background: '#f8fafc', padding: 24, borderRadius: 10, border: '1px solid #e2e8f0', borderTop: '4px solid #2050a4' }}>
+                <span style={{ fontSize: '11px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
                   {prog.duration}
                 </span>
                 <h3 style={{ fontSize: '18px', color: 'var(--navy-header)', margin: '6px 0 14px' }}>
@@ -279,7 +279,7 @@ export default function Admissions() {
           }}
         >
           <div style={{ marginBottom: 24 }}>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
               VERIFICATION CHECKLIST
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 8px' }}>
@@ -294,8 +294,8 @@ export default function Admissions() {
             {documentsCategories.map((cat, idx) => (
               <div key={idx} style={{ background: '#f8fafc', padding: 22, borderRadius: 10, border: '1px solid #e2e8f0' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 6, background: '#e0f2fe', color: '#002855', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CheckIcon size={14} color="#002855" strokeWidth={2.8} />
+                  <div style={{ width: 28, height: 28, borderRadius: 6, background: '#e0f2fe', color: '#2050a4', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <CheckIcon size={14} color="#2050a4" strokeWidth={2.8} />
                   </div>
                   <h3 style={{ fontSize: '16.5px', color: 'var(--navy-header)', margin: 0 }}>
                     {cat.title}
@@ -323,7 +323,7 @@ export default function Admissions() {
           }}
         >
           <div style={{ marginBottom: 24 }}>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
               AFFORDABLE &bull; TRANSPARENT &bull; NO DONATION
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 8px' }}>
@@ -337,7 +337,7 @@ export default function Admissions() {
           <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: 10, marginBottom: 24 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: 720 }}>
               <thead>
-                <tr style={{ background: '#002855', color: '#ffffff' }}>
+                <tr style={{ background: '#2050a4', color: '#ffffff' }}>
                   <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Class / Standard</th>
                   <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Admission Fee (One-Time)</th>
                   <th style={{ padding: '14px 18px', fontSize: '13.5px' }}>Tuition Fee (Annual)</th>
@@ -349,7 +349,7 @@ export default function Admissions() {
               <tbody>
                 {feesTable.map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0', background: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
-                    <td style={{ padding: '14px 18px', fontWeight: 700, color: '#002855', fontSize: '14px' }}>
+                    <td style={{ padding: '14px 18px', fontWeight: 700, color: '#2050a4', fontSize: '14px' }}>
                       {row.category}
                     </td>
                     <td style={{ padding: '14px 18px', color: '#334155', fontSize: '13.5px' }}>
@@ -361,7 +361,7 @@ export default function Admissions() {
                     <td style={{ padding: '14px 18px', color: '#334155', fontSize: '13.5px' }}>
                       {row.term_fee || row.dev_fee || 'Included'}
                     </td>
-                    <td style={{ padding: '14px 18px', color: '#002855', fontWeight: 700, fontSize: '14px' }}>
+                    <td style={{ padding: '14px 18px', color: '#2050a4', fontWeight: 700, fontSize: '14px' }}>
                       {row.total_fee || 'As per Prospectus'}
                     </td>
                     <td style={{ padding: '14px 18px', color: '#166534', fontWeight: 600, fontSize: '13px' }}>
@@ -376,8 +376,8 @@ export default function Admissions() {
           {/* Payment Rules & Modes */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div style={{ background: '#f8fafc', padding: 22, borderRadius: 10, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '16.5px', color: '#002855', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CreditCardIcon size={18} color="#002855" /> Accepted Payment Modes
+              <h3 style={{ fontSize: '16.5px', color: '#2050a4', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <CreditCardIcon size={18} color="#2050a4" /> Accepted Payment Modes
               </h3>
               <ul style={{ margin: 0, paddingLeft: 18, fontSize: '13.5px', color: '#475569', lineHeight: 1.75 }}>
                 {(Array.isArray(admissionsData.payment_modes) && admissionsData.payment_modes.length > 0
@@ -390,8 +390,8 @@ export default function Admissions() {
             </div>
 
             <div style={{ background: '#f8fafc', padding: 22, borderRadius: 10, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '16.5px', color: '#002855', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CalendarIcon size={18} color="#002855" /> Installment Facilities
+              <h3 style={{ fontSize: '16.5px', color: '#2050a4', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <CalendarIcon size={18} color="#2050a4" /> Installment Facilities
               </h3>
               <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: '0 0 8px' }}>
                 {admissionsData.installment_facilities?.intro || DEFAULT_ADMISSIONS_DATA.installment_facilities?.intro || 'To avoid financial burden on parents, fees can be deposited in convenient term installments:'}
@@ -426,7 +426,7 @@ export default function Admissions() {
           }}
         >
           <div style={{ marginBottom: 24 }}>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
               FREQUENTLY ASKED QUESTIONS
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font)', fontSize: '26px', color: 'var(--navy-header)', margin: '6px 0 8px' }}>
@@ -467,12 +467,12 @@ export default function Admissions() {
                       textAlign: 'left'
                     }}
                   >
-                    <h4 style={{ fontSize: '15.5px', color: '#002855', margin: 0, fontWeight: 700 }}>
+                    <h4 style={{ fontSize: '15.5px', color: '#2050a4', margin: 0, fontWeight: 700 }}>
                       {faq.q}
                     </h4>
                     <span style={{
                       fontSize: '18px',
-                      color: '#002855',
+                      color: '#2050a4',
                       fontWeight: 800,
                       transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                       transition: 'transform 0.2s ease',
@@ -505,7 +505,7 @@ export default function Admissions() {
           gap: 20
         }}>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 800, color: '#002855', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 4 }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 4 }}>
               ADMISSION COUNSELING &amp; CAMPUS TOURS
             </div>
             <h3 style={{ fontSize: '19px', color: 'var(--navy-header)', margin: '0 0 6px' }}>

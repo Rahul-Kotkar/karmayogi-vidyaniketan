@@ -445,7 +445,7 @@ export default function AdminFacilities() {
                       />
                     </td>
                     <td>
-                      <strong style={{ color: '#071d3a' }}>{fac.title}</strong>
+                      <strong style={{ color: '#2050a4' }}>{fac.title}</strong>
                     </td>
                     <td>
                       <span className="admin-badge badge-info">{fac.category || 'Facility'}</span>

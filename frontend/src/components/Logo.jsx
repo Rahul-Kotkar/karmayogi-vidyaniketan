@@ -43,7 +43,7 @@ export function FounderPortrait({ src }) {
     <div className="header-founder-portrait">
       <img
         src={resolved}
-        alt="Late Shri Pandurang Pratishthan Patron / Founder"
+        alt="Late Sudhakarpant Paricharak"
         className="founder-portrait-img"
       />
     </div>

@@ -6,20 +6,16 @@ import defaultFounderImg from '../../assets/founder.png'
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
     college_name: 'Karmayogi Vidyaniketan',
-    school_subname: '',
-    foundation_name: 'Shri Pandurang Pratishthan, Pandharpur',
+    school_subname: 'Karmayogi Public School',
+    foundation_name: "Shri Pandurang Pratishthan, Pandharpur's",
     college_logo_url: '',
     founder_photo_url: '',
-    founder_name: 'स्व. सुधाकरपंत परिचारक',
+    founder_top_label: 'Karmayogi',
+    founder_name: 'Late Sudhakarpant Paricharak',
     college_address: 'Primary Campus: Behind MSEDCL Division Office, Link Road, Isbavi | High School Campus: Shelve, Pandharpur - 413304',
     college_phone: '+91-8459863477',
     college_email: 'vijaymadane3@gmail.com',
-    college_website: 'www.karmayogividyaniketan.com',
-    affiliation_line_1: 'Managed by Shri Pandurang Pratishthan, Pandharpur',
-    affiliation_line_2: 'English Medium | Co-Educational | Nursery to Grade 10',
-    affiliation_line_3: 'CBSE & Maharashtra State Board Curriculum Tracks',
-    affiliation_line_4: 'Safe GPS-Monitored School Bus Fleet Covering Pandharpur & Environs',
-    affiliation_line_5: 'Office Hours: Mon–Sat 8:00 AM – 2:00 PM (Sunday Closed)'
+    college_website: 'www.karmayogividyaniketan.com'
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -38,7 +34,7 @@ export default function AdminSettings() {
         setSettings(prev => ({ ...prev, [`${key}_logo_url`]: url }))
       }
       setMsg({
-        text: `${key === 'founder' ? 'Founder portrait' : (key === 'trust' ? 'Left Trust' : 'Right College') + ' logo'} uploaded successfully! Remember to save settings below.`,
+        text: `${key === 'founder' ? 'Founder portrait' : 'School emblem logo'} uploaded successfully! Remember to save settings below.`,
         type: 'success'
       })
     } catch (err) {
@@ -69,7 +65,9 @@ export default function AdminSettings() {
     setSaving(true)
     try {
       await settingsService.update(settings)
-      setMsg({ text: 'Institutional settings & logos updated successfully! Changes are live across header and all pages.', type: 'success' })
+      // Broadcast settings update to Header across tabs / components
+      window.dispatchEvent(new CustomEvent('settings_updated', { detail: settings }))
+      setMsg({ text: 'Institutional settings & logos updated successfully! Changes are live across the website header and all pages.', type: 'success' })
     } catch (err) {
       setMsg({ text: err.message || 'Failed to save settings', type: 'danger' })
     } finally {
@@ -84,7 +82,7 @@ export default function AdminSettings() {
           <span className="admin-page-badge">School Identity &amp; Profile</span>
           <h1>Institutional &amp; Website Settings</h1>
           <p style={{ color: '#5c6672', margin: '4px 0 0', fontSize: 13.5 }}>
-            Update institutional identity, header branding, contact details, affiliation lines, and founder details.
+            Manage header branding, school identity, physical campus address, contact info, and logos.
           </p>
         </div>
         <div className="admin-page-actions">
@@ -112,144 +110,169 @@ export default function AdminSettings() {
       )}
 
       {/* Live Preview of Header Institutional Banner */}
-      <div className="admin-card" style={{ overflow: 'hidden', border: '1.5px solid #cbd5e1', marginBottom: 24, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
+      <div className="admin-card" style={{ overflow: 'hidden', border: '1.5px solid #cbd5e1', marginBottom: 24, boxShadow: '0 4px 14px rgba(0,0,0,0.06)' }}>
         <div className="admin-card-header" style={{ background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', borderBottom: '1px solid #e2e8f0' }}>
           <div>
             <h3 style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ display: 'inline-block', width: 9, height: 9, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 0 3px rgba(34,197,94,0.2)' }}></span>
               Live Website Header Banner Preview
             </h3>
-            <span style={{ fontSize: 12, color: '#64748b' }}>Rendered across public pages and identical to website branding</span>
+            <span style={{ fontSize: 12, color: '#64748b' }}>Pixel-perfect preview of your public header banner and top utility bar</span>
           </div>
           <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 10px', background: '#e0f2fe', color: '#0369a1', borderRadius: 999, border: '1px solid #bae6fd' }}>
             Live Sync
           </span>
         </div>
-        <div style={{ background: '#ffffff', padding: '24px 20px' }}>
+
+        {/* 1. Dark Navy Blue Top Utility Bar Preview */}
+        <div style={{
+          background: '#0b2347',
+          color: '#e2e8f0',
+          fontSize: '11.5px',
+          padding: '6px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 10,
+          borderBottom: '1px solid rgba(255,255,255,0.08)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+            <span>📍 {settings.college_address || 'Primary Campus: Link Road, Isbavi | High School Campus: Shelve, Pandharpur'}</span>
+            <span>📞 {settings.college_phone || '+91-8459863477'}</span>
+            <span>✉️ {settings.college_email || 'vijaymadane3@gmail.com'}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, opacity: 0.9 }}>
+            <span>Facebook</span> • <span>Instagram</span> • <span>YouTube</span>
+          </div>
+        </div>
+
+        {/* 2. Royal Blue Institutional Branding Banner Preview */}
+        <div style={{ background: '#2050a4', padding: '18px 24px' }}>
           <div style={{
-            maxWidth: 1200,
+            maxWidth: 1180,
             margin: '0 auto',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 'clamp(20px, 3.5vw, 48px)',
-            flexWrap: 'wrap',
+            gap: 'clamp(36px, 4.5vw, 72px)',
             textAlign: 'center'
           }}>
             {/* Left: Emblem */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-              <div style={{ width: 90, height: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ maxHeight: 80, maxWidth: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src={settings.college_logo_url || defaultCollegeLogo}
                   alt="School Emblem Logo"
-                  style={{ maxHeight: 85, maxWidth: 85, objectFit: 'contain' }}
+                  style={{ maxHeight: 72, maxWidth: 84, objectFit: 'contain' }}
                 />
               </div>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#002855', letterSpacing: '1.5px', marginTop: 4 }}>
-                KARMAYOGI
-              </span>
             </div>
 
             {/* Center: Institutional Text */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', minWidth: 280, maxWidth: 680 }}>
-              <div style={{ color: '#c2410c', fontSize: 14, fontWeight: 600, letterSpacing: '0.4px', marginBottom: 2 }}>
-                {settings.foundation_name || 'Shri Pandurang Pratishthan, Pandharpur'}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', minWidth: 0, flex: '0 1 auto' }}>
+              <div style={{
+                color: '#ffffff',
+                fontFamily: "Arial, 'Helvetica Neue', sans-serif",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: '0.4px',
+                marginBottom: 3
+              }}>
+                {settings.foundation_name || "Shri Pandurang Pratishthan, Pandharpur's"}
               </div>
               <h2 style={{
-                margin: '1px 0 2px',
-                fontFamily: 'serif',
-                color: '#002855',
-                fontSize: 'clamp(22px, 2.6vw, 32px)',
-                fontWeight: 900,
-                letterSpacing: '0.3px',
-                lineHeight: 1.15
+                margin: '1px 0 3px',
+                fontFamily: "'Oswald', 'Montserrat', 'Arial Black', Impact, -apple-system, sans-serif",
+                color: '#ffffff',
+                fontSize: 'clamp(19px, 2.35vw, 32px)',
+                fontWeight: 700,
+                letterSpacing: '0.8px',
+                lineHeight: 1.15,
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap'
               }}>
                 {settings.college_name || 'Karmayogi Vidyaniketan'}
               </h2>
-              {settings.school_subname && (
-                <div style={{
-                  fontSize: '15px',
-                  fontWeight: 700,
-                  color: '#c9a227',
-                  letterSpacing: '0.6px',
-                  marginTop: '1px',
-                  marginBottom: '4px'
-                }}>
-                  {settings.school_subname}
-                </div>
-              )}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
-                {[
-                  settings.affiliation_line_1,
-                  settings.affiliation_line_2,
-                  settings.affiliation_line_3,
-                  settings.affiliation_line_4,
-                  settings.affiliation_line_5
-                ].filter(Boolean).map((line, idx) => (
-                  <p key={idx} style={{
-                    margin: 0,
-                    fontSize: '12.5px',
-                    lineHeight: 1.45,
-                    color: '#4b5563',
-                    textAlign: 'center'
-                  }}>
-                    {line}
-                  </p>
-                ))}
+              <div style={{
+                fontSize: '13px',
+                fontWeight: 700,
+                color: '#ffffff',
+                fontFamily: "Arial, 'Helvetica Neue', sans-serif",
+                letterSpacing: '0.4px',
+                marginTop: '2px',
+                opacity: 0.95
+              }}>
+                {settings.school_subname || 'Karmayogi Public School'}
               </div>
             </div>
 
             {/* Right: Founder */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+              <span style={{
+                display: 'block',
+                fontFamily: "Arial, 'Helvetica Neue', sans-serif",
+                fontSize: 11,
+                fontWeight: 700,
+                color: '#ffffff',
+                letterSpacing: '0.3px',
+                marginBottom: 3,
+                textAlign: 'center'
+              }}>
+                {settings.founder_top_label || 'Karmayogi'}
+              </span>
               <div style={{
-                width: 84,
-                height: 84,
-                borderRadius: '50%',
-                border: '3.5px solid #dbeafe',
+                width: 60,
+                height: 72,
+                borderRadius: 7,
+                background: '#ffffff',
+                padding: 2.5,
                 overflow: 'hidden',
-                boxShadow: '0 4px 12px rgba(0,40,85,0.1)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                background: '#fff'
+                justifyContent: 'center'
               }}>
                 <img
                   src={settings.founder_photo_url || defaultFounderImg}
                   alt="Founder"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', borderRadius: 5 }}
                 />
               </div>
               <div style={{
-                marginTop: 6,
-                fontSize: '12.5px',
+                marginTop: 5,
+                fontSize: '11px',
                 fontWeight: 700,
-                color: '#002855',
+                color: '#ffffff',
+                fontFamily: "Arial, 'Helvetica Neue', sans-serif",
                 textAlign: 'center',
-                lineHeight: 1.3
+                lineHeight: 1.3,
+                whiteSpace: 'nowrap',
+                letterSpacing: '0.2px'
               }}>
-                {settings.founder_name || 'स्व. सुधाकरपंत परिचारक'}
+                {settings.founder_name || 'Late Sudhakarpant Paricharak'}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Header Logos Section */}
+      {/* Header Logos & Founder Portrait Section */}
       <div className="admin-card" style={{ marginBottom: 24 }}>
         <div className="admin-card-header">
-          <h3>Header Logos &amp; Founder Portrait</h3>
-          <span style={{ fontSize: 12, color: '#5c6672' }}>Displayed in the header brand section of every page</span>
+          <h3>Header Logos &amp; Founder Identity</h3>
+          <span style={{ fontSize: 12, color: '#5c6672' }}>Upload official crest and founder portrait images</span>
         </div>
         <div className="admin-card-body">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
             {/* School Crest Logo */}
-            <div style={{ border: '1px solid #e2e8f0', borderRadius: 6, padding: 16, background: '#f8fafc' }}>
-              <h4 style={{ margin: '0 0 8px', color: '#0f172a' }}>1. School Emblem Crest (Left)</h4>
+            <div style={{ border: '1px solid #e2e8f0', borderRadius: 8, padding: 18, background: '#f8fafc' }}>
+              <h4 style={{ margin: '0 0 6px', color: '#0f172a' }}>1. School Emblem Crest (Left)</h4>
               <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 12px' }}>
-                Appears as the primary crest emblem in the institutional header.
+                Appears on the blue institutional header to the left of the school name.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
-                <div style={{ width: 80, height: 80, border: '1px solid #cbd5e1', borderRadius: 4, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div style={{ width: 85, height: 85, border: '1px solid #cbd5e1', borderRadius: 6, background: '#2050a4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                   <img
                     src={settings.college_logo_url || defaultCollegeLogo}
                     alt="School Logo Preview"
@@ -263,7 +286,7 @@ export default function AdminSettings() {
                       <polyline points="17 8 12 3 7 8"/>
                       <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    Choose Image
+                    Choose Logo Image
                     <input
                       type="file"
                       accept="image/*"
@@ -271,11 +294,11 @@ export default function AdminSettings() {
                       style={{ display: 'none' }}
                     />
                   </label>
-                  {uploadingLogo.college && <div style={{ fontSize: 11, color: '#0284c7', marginTop: 4 }}>Uploading logo...</div>}
+                  {uploadingLogo.college && <div style={{ fontSize: 11, color: '#2050a4', marginTop: 4 }}>Uploading logo...</div>}
                 </div>
               </div>
               <div className="admin-form-group" style={{ margin: 0 }}>
-                <label style={{ fontSize: 12 }}>Or Image URL</label>
+                <label style={{ fontSize: 12 }}>Or Direct Logo Image URL</label>
                 <input
                   type="text"
                   className="admin-input"
@@ -287,18 +310,18 @@ export default function AdminSettings() {
               </div>
             </div>
 
-            {/* Founder / Patron Portrait & Caption */}
-            <div style={{ border: '1px solid #e2e8f0', borderRadius: 6, padding: 16, background: '#f8fafc' }}>
-              <h4 style={{ margin: '0 0 8px', color: '#0f172a' }}>2. Founder Portrait &amp; Caption (Right)</h4>
+            {/* Founder / Patron Portrait & Identity */}
+            <div style={{ border: '1px solid #e2e8f0', borderRadius: 8, padding: 18, background: '#f8fafc' }}>
+              <h4 style={{ margin: '0 0 6px', color: '#0f172a' }}>2. Founder Portrait &amp; Identity (Right)</h4>
               <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 12px' }}>
-                Circular portrait and founder name placed to the right of header identity text.
+                Portrait card and captions placed to the right of header identity banner.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
-                <div style={{ width: 78, height: 78, borderRadius: '50%', border: '3px solid #dbeafe', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', boxShadow: '0 2px 6px rgba(0,0,0,0.08)' }}>
+                <div style={{ width: 72, height: 86, borderRadius: 8, background: '#2050a4', padding: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }}>
                   <img
                     src={settings.founder_photo_url || defaultFounderImg}
                     alt="Founder Preview"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', borderRadius: 6, background: '#fff' }}
                   />
                 </div>
                 <div>
@@ -308,7 +331,7 @@ export default function AdminSettings() {
                       <polyline points="17 8 12 3 7 8"/>
                       <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    Choose Photo
+                    Choose Portrait Photo
                     <input
                       type="file"
                       accept="image/*"
@@ -316,10 +339,10 @@ export default function AdminSettings() {
                       style={{ display: 'none' }}
                     />
                   </label>
-                  {uploadingLogo.founder && <div style={{ fontSize: 11, color: '#0284c7', marginTop: 4 }}>Uploading portrait...</div>}
+                  {uploadingLogo.founder && <div style={{ fontSize: 11, color: '#2050a4', marginTop: 4 }}>Uploading portrait...</div>}
                 </div>
               </div>
-              <div className="admin-form-group" style={{ margin: '0 0 8px' }}>
+              <div className="admin-form-group" style={{ margin: '0 0 10px' }}>
                 <label style={{ fontSize: 12 }}>Founder Portrait Photo URL</label>
                 <input
                   type="text"
@@ -330,25 +353,40 @@ export default function AdminSettings() {
                   onChange={e => setSettings({ ...settings, founder_photo_url: e.target.value })}
                 />
               </div>
-              <div className="admin-form-group" style={{ margin: 0 }}>
-                <label style={{ fontSize: 12 }}>Founder Caption Name</label>
-                <input
-                  type="text"
-                  className="admin-input"
-                  style={{ fontSize: 12 }}
-                  placeholder="स्व. सुधाकरपंत परिचारक"
-                  value={settings.founder_name || ''}
-                  onChange={e => setSettings({ ...settings, founder_name: e.target.value })}
-                />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12 }}>Founder Top Label</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    style={{ fontSize: 12 }}
+                    placeholder="Karmayogi"
+                    value={settings.founder_top_label || ''}
+                    onChange={e => setSettings({ ...settings, founder_top_label: e.target.value })}
+                  />
+                </div>
+                <div className="admin-form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: 12 }}>Founder Caption Name</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    style={{ fontSize: 12 }}
+                    placeholder="Late Sudhakarpant Paricharak"
+                    value={settings.founder_name || ''}
+                    onChange={e => setSettings({ ...settings, founder_name: e.target.value })}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Institutional Identity & Contact Details Form */}
       <div className="admin-card">
         <div className="admin-card-header">
           <h3>School Identity &amp; Contact Information</h3>
+          <span style={{ fontSize: 12, color: '#5c6672' }}>All fields are editable and synchronize in real-time</span>
         </div>
 
         <form onSubmit={handleSubmit} className="admin-card-body">
@@ -359,14 +397,14 @@ export default function AdminSettings() {
                 type="text"
                 required
                 className="admin-input"
-                placeholder="Shri Pandurang Pratishthan, Pandharpur"
+                placeholder="Shri Pandurang Pratishthan, Pandharpur's"
                 value={settings.foundation_name || ''}
                 onChange={e => setSettings({ ...settings, foundation_name: e.target.value })}
               />
             </div>
 
             <div className="admin-form-group">
-              <label>School Name (Main Heading)</label>
+              <label>School Name (Main Heading - Single Line)</label>
               <input
                 type="text"
                 required
@@ -378,7 +416,7 @@ export default function AdminSettings() {
             </div>
 
             <div className="admin-form-group">
-              <label>School Subname / Branch (Gold Subheading)</label>
+              <label>School Subtitle / Branch</label>
               <input
                 type="text"
                 className="admin-input"
@@ -420,7 +458,7 @@ export default function AdminSettings() {
                 type="text"
                 required
                 className="admin-input"
-                placeholder="www.karmayogividyaniketan.com"
+                placeholder="www.karmayogividyaniketan.edu.in"
                 value={settings.college_website || ''}
                 onChange={e => setSettings({ ...settings, college_website: e.target.value })}
               />
@@ -428,7 +466,7 @@ export default function AdminSettings() {
           </div>
 
           <div className="admin-form-group">
-            <label>School Campus Physical Address</label>
+            <label>School Campus Physical Address (Displayed in Green Top Bar)</label>
             <input
               type="text"
               required
@@ -436,65 +474,6 @@ export default function AdminSettings() {
               placeholder="Primary Campus: Behind MSEDCL Division Office, Link Road, Isbavi | High School Campus: Shelve, Pandharpur - 413304"
               value={settings.college_address || ''}
               onChange={e => setSettings({ ...settings, college_address: e.target.value })}
-            />
-          </div>
-
-          <h4 style={{ marginTop: 24, marginBottom: 12, color: '#071d3a', borderBottom: '1px solid #e2e8f0', paddingBottom: 6 }}>
-            Header Affiliation &amp; Operations Details (5 Lines)
-          </h4>
-
-          <div className="admin-form-group">
-            <label>Header Line 1: Management Body</label>
-            <input
-              type="text"
-              className="admin-input"
-              placeholder="Managed by Shri Pandurang Pratishthan, Pandharpur"
-              value={settings.affiliation_line_1 || ''}
-              onChange={e => setSettings({ ...settings, affiliation_line_1: e.target.value })}
-            />
-          </div>
-
-          <div className="admin-form-group">
-            <label>Header Line 2: Medium &amp; Grade Track</label>
-            <input
-              type="text"
-              className="admin-input"
-              placeholder="English Medium | Co-Educational | Nursery to Grade 10"
-              value={settings.affiliation_line_2 || ''}
-              onChange={e => setSettings({ ...settings, affiliation_line_2: e.target.value })}
-            />
-          </div>
-
-          <div className="admin-form-group">
-            <label>Header Line 3: Curriculum Boards</label>
-            <input
-              type="text"
-              className="admin-input"
-              placeholder="CBSE & Maharashtra State Board Curriculum Tracks"
-              value={settings.affiliation_line_3 || ''}
-              onChange={e => setSettings({ ...settings, affiliation_line_3: e.target.value })}
-            />
-          </div>
-
-          <div className="admin-form-group">
-            <label>Header Line 4: Transport &amp; Fleet Operations</label>
-            <input
-              type="text"
-              className="admin-input"
-              placeholder="Safe GPS-Monitored School Bus Fleet Covering Pandharpur & Environs"
-              value={settings.affiliation_line_4 || ''}
-              onChange={e => setSettings({ ...settings, affiliation_line_4: e.target.value })}
-            />
-          </div>
-
-          <div className="admin-form-group">
-            <label>Header Line 5: Office Hours &amp; Working Timings</label>
-            <input
-              type="text"
-              className="admin-input"
-              placeholder="Office Hours: Mon–Sat 8:00 AM – 2:00 PM (Sunday Closed)"
-              value={settings.affiliation_line_5 || ''}
-              onChange={e => setSettings({ ...settings, affiliation_line_5: e.target.value })}
             />
           </div>
 

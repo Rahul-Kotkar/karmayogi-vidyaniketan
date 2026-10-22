@@ -181,7 +181,7 @@ export default function AdminNotices() {
                         {n.notice_date || n.date}
                       </td>
                       <td>
-                        <strong style={{ color: '#071d3a' }}>{n.title}</strong>
+                        <strong style={{ color: '#2050a4' }}>{n.title}</strong>
                         {n.body && (
                           <div style={{ fontSize: 12, color: '#5c6672', marginTop: 4, maxHeight: 38, overflow: 'hidden' }}>
                             {n.body}
