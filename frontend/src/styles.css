@@ -651,9 +651,9 @@ img, video, iframe, embed, object {
   display: block;
   font-family: 'Oswald', 'Montserrat', 'Arial Black', Impact, -apple-system, sans-serif;
   color: #ffffff;
-  font-size: clamp(19px, 2.35vw, 32px);
+  font-size: clamp(14px, 2.25vw, 32px);
   font-weight: 700;
-  letter-spacing: clamp(0.7px, 0.09vw, 1.4px);
+  letter-spacing: clamp(0.4px, 0.09vw, 1.4px);
   line-height: 1.2;
   text-transform: uppercase;
   text-align: center;
@@ -2601,8 +2601,11 @@ img, video, iframe, embed, object {
   .navbar-mobile-header.is-scrolled .navbar-mobile-college-name {
     color: #ffffff !important;
     font-family: 'Oswald', 'Montserrat', 'Arial Black', Impact, sans-serif !important;
+    font-size: clamp(14px, 3.8vw, 17.5px) !important;
     font-weight: 700 !important;
     letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
   }
   .navbar-mobile-brand {
     display: flex;
@@ -3343,9 +3346,17 @@ img, video, iframe, embed, object {
     line-height: 1.25;
   }
   .header-college-title a {
-    font-size: clamp(14.5px, 4vw, 18px);
+    font-size: clamp(13px, 3.8vw, 16.5px);
     line-height: 1.2;
     letter-spacing: 0.1px;
+  }
+  .brand-title-main {
+    font-size: clamp(13px, 3.8vw, 16.5px) !important;
+    letter-spacing: 0.3px !important;
+    line-height: 1.2 !important;
+  }
+  .brand-title-sub {
+    font-size: clamp(13px, 3.8vw, 16.5px) !important;
   }
   .header-affiliations {
     margin-top: 2px;
@@ -3689,7 +3700,14 @@ img, video, iframe, embed, object {
     height: 42px;
   }
   .header-college-title a {
-    font-size: 13.5px;
+    font-size: 13px;
+  }
+  .brand-title-main {
+    font-size: 13px !important;
+    letter-spacing: 0.25px !important;
+  }
+  .brand-title-sub {
+    font-size: 13px !important;
   }
   .header-foundation-name {
     font-size: 10px;
