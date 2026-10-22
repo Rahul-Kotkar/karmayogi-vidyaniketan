@@ -44,6 +44,16 @@ function formatFoundation(foundation) {
   return f
 }
 
+function formatFounderCaption(name) {
+  if (!name) return "स्व. सुधाकरपंत परिचारक"
+  let clean = String(name).trim()
+  // Correct common Devanagari typo: "श्रध्येय" -> "श्रद्धेय"
+  clean = clean.replace(/श्रध्येय/g, 'श्रद्धेय')
+  // Remove unnecessary trailing dot after श्रद्धेय
+  clean = clean.replace(/श्रद्धेय\./g, 'श्रद्धेय')
+  return clean
+}
+
 function renderSchoolTitle(name) {
   const cleanName = (name || 'Karmayogi Vidyaniketan').trim()
   return (
@@ -156,7 +166,7 @@ export default function Header() {
               </span>
               <FounderPortrait src={college.founder_photo_url} />
               <div className="founder-caption-name">
-                {college.founder_name || "Late Sudhakarpant Paricharak"}
+                {formatFounderCaption(college.founder_name)}
               </div>
             </div>
           </div>

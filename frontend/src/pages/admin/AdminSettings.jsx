@@ -3,6 +3,14 @@ import { settingsService, uploadService } from '../../services/endpoints.js'
 import defaultCollegeLogo from '../../assets/college_logo.png'
 import defaultFounderImg from '../../assets/founder.png'
 
+function formatFounderCaption(name) {
+  if (!name) return "स्व. सुधाकरपंत परिचारक"
+  let clean = String(name).trim()
+  clean = clean.replace(/श्रध्येय/g, 'श्रद्धेय')
+  clean = clean.replace(/श्रद्धेय\./g, 'श्रद्धेय')
+  return clean
+}
+
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
     college_name: 'Karmayogi Vidyaniketan',
@@ -11,7 +19,7 @@ export default function AdminSettings() {
     college_logo_url: '',
     founder_photo_url: '',
     founder_top_label: 'Karmayogi',
-    founder_name: 'Late Sudhakarpant Paricharak',
+    founder_name: 'स्व. सुधाकरपंत परिचारक',
     college_address: 'Primary Campus: Behind MSEDCL Division Office, Link Road, Isbavi | High School Campus: Shelve, Pandharpur - 413304',
     college_phone: '+91-8459863477',
     college_email: 'vijaymadane3@gmail.com',
@@ -244,13 +252,13 @@ export default function AdminSettings() {
                 fontSize: '11px',
                 fontWeight: 700,
                 color: '#ffffff',
-                fontFamily: "Arial, 'Helvetica Neue', sans-serif",
+                fontFamily: "'Mukta', 'Noto Sans Devanagari', Arial, 'Helvetica Neue', sans-serif",
                 textAlign: 'center',
                 lineHeight: 1.3,
                 whiteSpace: 'nowrap',
                 letterSpacing: '0.2px'
               }}>
-                {settings.founder_name || 'Late Sudhakarpant Paricharak'}
+                {formatFounderCaption(settings.founder_name)}
               </div>
             </div>
           </div>
@@ -371,7 +379,7 @@ export default function AdminSettings() {
                     type="text"
                     className="admin-input"
                     style={{ fontSize: 12 }}
-                    placeholder="Late Sudhakarpant Paricharak"
+                    placeholder="स्व. सुधाकरपंत परिचारक"
                     value={settings.founder_name || ''}
                     onChange={e => setSettings({ ...settings, founder_name: e.target.value })}
                   />

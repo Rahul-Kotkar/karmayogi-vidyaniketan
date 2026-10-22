@@ -24,7 +24,7 @@ export const COLLEGE = {
   name: "Karmayogi Vidyaniketan",
   subname: "Pre-Primary, Primary & Secondary School",
   founder_top_label: "Karmayogi",
-  founder_name: "Late Sudhakarpant Paricharak",
+  founder_name: "स्व. सुधाकरपंत परिचारक",
   motto: "Shape Young Minds. Build Strong Futures.",
   mottoAuthor: "Shri Pandurang Pratishthan, Pandharpur",
   lines: [

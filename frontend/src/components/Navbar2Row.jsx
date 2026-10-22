@@ -303,7 +303,7 @@ export default function Navbar2Row() {
   }, [primaryPhone])
 
   return (
-    <div className="navbar-2row-wrapper">
+    <div className={`navbar-2row-wrapper ${isScrolled ? 'is-scrolled' : ''}`}>
       {/* ================= MOBILE BAR HEADER (< 992px) ================= */}
       <div className={`navbar-mobile-header ${isScrolled ? 'is-scrolled' : ''}`}>
         {isScrolled ? (
