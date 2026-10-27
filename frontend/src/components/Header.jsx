@@ -36,12 +36,12 @@ function formatCollegeSettings(data) {
 }
 
 function formatFoundation(foundation) {
-  if (!foundation) return "Shri Pandurang Pratishthan, Pandharpur's"
+  if (!foundation) return "SHRI PANDURANG PRATISHTHAN'S"
   const f = String(foundation).trim()
   if (/^shri pandurang pratishthan/i.test(f)) {
-    return "Shri Pandurang Pratishthan, Pandharpur's"
+    return "SHRI PANDURANG PRATISHTHAN'S"
   }
-  return f
+  return f.toUpperCase()
 }
 
 function formatFounderCaption(name) {
@@ -56,9 +56,23 @@ function formatFounderCaption(name) {
 
 function renderSchoolTitle(name) {
   const cleanName = (name || 'Karmayogi Vidyaniketan').trim()
+  const parts = cleanName.split(/\s+/)
+  if (parts.length >= 2) {
+    const topWord = parts[0].toUpperCase()
+    const bottomWord = parts.slice(1).join(' ').toUpperCase()
+    return (
+      <Link to="/" className="header-title-link" aria-label={cleanName}>
+        <div className="brand-lockup-wrap">
+          <span className="brand-title-top">{topWord}</span>
+          <span className="brand-title-divider" aria-hidden="true" />
+          <span className="brand-title-bottom">{bottomWord}</span>
+        </div>
+      </Link>
+    )
+  }
   return (
-    <Link to="/" className="header-title-link">
-      <span className="brand-title-main">{cleanName.toUpperCase()}</span>
+    <Link to="/" className="header-title-link" aria-label={cleanName}>
+      <span className="brand-title-top">{cleanName.toUpperCase()}</span>
     </Link>
   )
 }

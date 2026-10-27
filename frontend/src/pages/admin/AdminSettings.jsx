@@ -184,34 +184,39 @@ export default function AdminSettings() {
                 fontFamily: "Arial, 'Helvetica Neue', sans-serif",
                 fontSize: 13,
                 fontWeight: 700,
-                letterSpacing: '0.4px',
+                letterSpacing: '0.8px',
+                textTransform: 'uppercase',
                 marginBottom: 3
               }}>
-                {settings.foundation_name || "Shri Pandurang Pratishthan, Pandharpur's"}
+                {String(settings.foundation_name || "SHRI PANDURANG PRATISHTHAN'S").toUpperCase()}
               </div>
-              <h2 style={{
-                margin: '1px 0 3px',
-                fontFamily: "'Oswald', 'Montserrat', 'Arial Black', Impact, -apple-system, sans-serif",
-                color: '#ffffff',
-                fontSize: 'clamp(19px, 2.35vw, 32px)',
-                fontWeight: 700,
-                letterSpacing: '0.8px',
-                lineHeight: 1.15,
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap'
-              }}>
-                {settings.college_name || 'Karmayogi Vidyaniketan'}
-              </h2>
+              {(() => {
+                const parts = (settings.college_name || 'Karmayogi Vidyaniketan').trim().split(/\s+/)
+                if (parts.length >= 2) {
+                  return (
+                    <div className="brand-lockup-wrap" style={{ margin: '1px 0 3px' }}>
+                      <span className="brand-title-top">{parts[0].toUpperCase()}</span>
+                      <span className="brand-title-divider" aria-hidden="true" />
+                      <span className="brand-title-bottom">{parts.slice(1).join(' ').toUpperCase()}</span>
+                    </div>
+                  )
+                }
+                return (
+                  <h2 className="brand-title-top" style={{ margin: '1px 0 3px' }}>
+                    {(settings.college_name || 'Karmayogi Vidyaniketan').toUpperCase()}
+                  </h2>
+                )
+              })()}
               <div style={{
                 fontSize: '13px',
-                fontWeight: 700,
+                fontWeight: 500,
                 color: '#ffffff',
                 fontFamily: "Arial, 'Helvetica Neue', sans-serif",
-                letterSpacing: '0.4px',
-                marginTop: '2px',
+                letterSpacing: '0.3px',
+                marginTop: '3px',
                 opacity: 0.95
               }}>
-                {settings.school_subname || 'Karmayogi Public School'}
+                {settings.school_subname || 'Pre-Primary, Primary & Secondary School'}
               </div>
             </div>
 
