@@ -320,7 +320,7 @@ export default function DepartmentCard({ department }) {
               {/* Head of Department Card */}
               <div className="dept-modal-hod-card">
                 <div className="dept-modal-hod-avatar">
-                  <StethoscopeIcon size={24} color="#1d4da1" />
+                  <StethoscopeIcon size={24} color="#0842F7" />
                 </div>
                 <div>
                   <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.6px', color: '#64748b', textTransform: 'uppercase' }}>

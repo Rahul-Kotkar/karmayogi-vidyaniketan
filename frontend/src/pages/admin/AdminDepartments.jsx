@@ -670,7 +670,7 @@ export default function AdminDepartments() {
                                 />
                               )}
                               <div>
-                                <strong style={{ color: '#1d4da1', display: 'block' }}>{d.name}</strong>
+                                <strong style={{ color: '#0842F7', display: 'block' }}>{d.name}</strong>
                                 {d.tagline && (
                                   <div style={{ fontSize: 12, color: '#64748b', marginTop: 3 }}>
                                     {d.tagline}
@@ -806,7 +806,7 @@ export default function AdminDepartments() {
                                 />
                               )}
                               <div>
-                                <strong style={{ color: '#1d4da1', display: 'block' }}>{d.name}</strong>
+                                <strong style={{ color: '#0842F7', display: 'block' }}>{d.name}</strong>
                                 {d.tagline && (
                                   <div style={{ fontSize: 12, color: '#64748b', marginTop: 3 }}>
                                     {d.tagline}

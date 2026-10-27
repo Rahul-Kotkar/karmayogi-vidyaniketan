@@ -64,7 +64,7 @@ export default function EventCard({ event }) {
         <span className="event-badge-month" style={{ fontSize: 9.5, fontWeight: 700, color: '#1d4ed8', letterSpacing: 0.5, textTransform: 'uppercase', lineHeight: 1 }}>
           {b.month}
         </span>
-        <span className="event-badge-day" style={{ fontSize: 17, fontWeight: 800, color: '#1d4da1', lineHeight: 1.05, margin: '1px 0' }}>
+        <span className="event-badge-day" style={{ fontSize: 17, fontWeight: 800, color: '#0842F7', lineHeight: 1.05, margin: '1px 0' }}>
           {b.day}
         </span>
         <span className="event-badge-year" style={{ fontSize: 8.5, color: '#64748b', lineHeight: 1 }}>
@@ -109,7 +109,7 @@ export default function EventCard({ event }) {
             margin: '0 0 2px',
             fontSize: 13.5,
             fontWeight: 700,
-            color: '#1d4da1',
+            color: '#0842F7',
             lineHeight: 1.3,
             fontFamily: 'var(--body-font)'
           }}

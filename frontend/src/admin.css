@@ -5,13 +5,13 @@
 
 :root {
   --admin-bg: #f8fafc;
-  --admin-sidebar-bg: #1d4da1;            /* Matches institutional navy var(--navy-deep) */
-  --admin-sidebar-footer-bg: #143673;     /* Matches website footer-dark */
+  --admin-sidebar-bg: #0842F7;            /* Matches institutional navy var(--navy-deep) */
+  --admin-sidebar-footer-bg: #052694;     /* Matches website footer-dark */
   --admin-sidebar-border: rgba(255, 255, 255, 0.08);
   --admin-text-main: #0f172a;
   --admin-text-muted: #64748b;
-  --admin-primary-blue: #1d4da1;
-  --admin-primary-hover: #1d4da1;
+  --admin-primary-blue: #0842F7;
+  --admin-primary-hover: #0635c9;
   --admin-accent-blue: #0b63e5;
   --admin-accent-royal: #0284c7;
   --admin-accent-gold: #c9a227;
@@ -166,7 +166,7 @@
 .admin-nav a.active,
 .admin-nav-parent-link.active {
   background: #ffffff;
-  color: #1d4da1;
+  color: #0842F7;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
@@ -186,13 +186,13 @@
 }
 .admin-nav a.active .admin-nav-icon,
 .admin-nav-parent-link.active .admin-nav-icon {
-  color: #1d4da1;
+  color: #0842F7;
 }
 
 .admin-nav a .badge {
   margin-left: auto;
   background: #ffffff;
-  color: #1d4da1;
+  color: #0842F7;
   font-size: 11px;
   font-weight: 700;
   padding: 2px 7px;
@@ -225,7 +225,7 @@
 }
 
 .admin-nav-parent-link.active .admin-nav-caret {
-  color: #1d4da1;
+  color: #0842F7;
   opacity: 1;
 }
 
@@ -235,7 +235,7 @@
   opacity: 1;
 }
 .admin-nav-parent-link.active .admin-nav-caret.is-open {
-  color: #1d4da1;
+  color: #0842F7;
 }
 
 .admin-nav-submenu {
@@ -355,14 +355,14 @@
   border-radius: 6px;
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
-  color: #1d4da1;
+  color: #0842F7;
   cursor: pointer;
   padding: 0;
   transition: all 0.15s ease;
 }
 .admin-mobile-toggle:hover {
   background: #e2e8f0;
-  color: #1d4da1;
+  color: #0842F7;
 }
 @media (max-width: 900px) {
   .admin-mobile-toggle {
@@ -753,7 +753,7 @@
 .admin-stat-link {
   font-size: 12px;
   font-weight: 600;
-  color: #1d4da1;
+  color: #0842F7;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -1017,15 +1017,15 @@ label.admin-btn svg {
 
 .admin-btn-primary,
 label.admin-btn-primary {
-  background: #1d4da1;
+  background: #0842F7;
   color: #ffffff !important;
-  border: 1px solid #1d4da1;
+  border: 1px solid #0842F7;
   box-shadow: 0 1px 3px rgba(7, 29, 58, 0.25);
 }
 .admin-btn-primary:hover,
 label.admin-btn-primary:hover {
-  background: #1d4da1;
-  border-color: #1d4da1;
+  background: #0842F7;
+  border-color: #0842F7;
   color: #ffffff !important;
   text-decoration: none;
   box-shadow: 0 3px 8px rgba(7, 29, 58, 0.25);
@@ -1186,7 +1186,7 @@ label.admin-btn-sm,
 .admin-modal-title {
   font-size: 16px;
   font-weight: 700;
-  color: #1d4da1;
+  color: #0842F7;
   margin: 0;
   display: flex;
   align-items: center;
