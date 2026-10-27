@@ -22,6 +22,16 @@
 }
 
 @font-face {
+  font-family: 'Gotham-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Gotham Medium'), local('Gotham-Medium'),
+       url('/fonts/GothamMedium.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/62851/GothamMedium.woff') format('woff');
+}
+
+@font-face {
   font-family: 'Gotham';
   font-style: normal;
   font-weight: 700;
@@ -29,6 +39,16 @@
   src: local('Gotham Bold'), local('Gotham-Bold'), local('Gotham'),
        url('/fonts/GothamBold.woff') format('woff'),
        url('https://fonts.cdnfonts.com/s/62851/GothamBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gotham';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Gotham Medium'), local('Gotham-Medium'),
+       url('/fonts/GothamMedium.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/62851/GothamMedium.woff') format('woff');
 }
 
 @font-face {
@@ -718,10 +738,10 @@ img, video, iframe, embed, object {
 }
 .brand-title-bottom {
   display: block;
-  font-family: 'Gotham-Bold', 'Gotham', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Gotham-Medium', 'Gotham', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #ffffff;
   font-size: clamp(13px, 1.85vw, 24px);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: clamp(3.8px, 0.62vw, 9.8px);
   margin-right: calc(-1 * clamp(3.8px, 0.62vw, 9.8px));
   line-height: 1.1;
