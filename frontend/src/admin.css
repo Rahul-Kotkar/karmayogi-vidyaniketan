@@ -6,12 +6,12 @@
 :root {
   --admin-bg: #f8fafc;
   --admin-sidebar-bg: #0842F7;            /* Matches institutional navy var(--navy-deep) */
-  --admin-sidebar-footer-bg: #052694;     /* Matches website footer-dark */
+  --admin-sidebar-footer-bg: #143673;     /* Matches website footer-dark */
   --admin-sidebar-border: rgba(255, 255, 255, 0.08);
   --admin-text-main: #0f172a;
   --admin-text-muted: #64748b;
   --admin-primary-blue: #0842F7;
-  --admin-primary-hover: #0635c9;
+  --admin-primary-hover: #0842F7;
   --admin-accent-blue: #0b63e5;
   --admin-accent-royal: #0284c7;
   --admin-accent-gold: #c9a227;
