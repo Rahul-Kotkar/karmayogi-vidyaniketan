@@ -185,10 +185,9 @@ export default function AdminSettings() {
                 fontSize: 13,
                 fontWeight: 700,
                 letterSpacing: '0.8px',
-                textTransform: 'uppercase',
                 marginBottom: 3
               }}>
-                {String(settings.foundation_name || "SHRI PANDURANG PRATISHTHAN'S").toUpperCase()}
+                {String(settings.foundation_name || "Shri Pandurang Pratishthan's")}
               </div>
               {(() => {
                 const parts = (settings.college_name || 'Karmayogi Vidyaniketan').trim().split(/\s+/)

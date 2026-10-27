@@ -36,12 +36,8 @@ function formatCollegeSettings(data) {
 }
 
 function formatFoundation(foundation) {
-  if (!foundation) return "SHRI PANDURANG PRATISHTHAN'S"
-  const f = String(foundation).trim()
-  if (/^shri pandurang pratishthan/i.test(f)) {
-    return "SHRI PANDURANG PRATISHTHAN'S"
-  }
-  return f.toUpperCase()
+  if (!foundation) return "Shri Pandurang Pratishthan's"
+  return String(foundation).trim()
 }
 
 function formatFounderCaption(name) {

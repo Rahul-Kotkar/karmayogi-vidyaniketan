@@ -20,7 +20,7 @@ export {
 };
 
 export const COLLEGE = {
-  foundation: "SHRI PANDURANG PRATISHTHAN'S",
+  foundation: "Shri Pandurang Pratishthan's",
   name: "Karmayogi Vidyaniketan",
   subname: "Pre-Primary, Primary & Secondary School",
   founder_top_label: "Karmayogi",
