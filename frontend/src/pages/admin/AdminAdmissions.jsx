@@ -333,7 +333,7 @@ export default function AdminAdmissions() {
       {/* ===================================================================== */}
       {activeTab === 'overview' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
             Section 1: Admission Overview &amp; Welcome
           </h3>
           <p style={{ fontSize: 13, color: '#64748b', marginTop: -10, marginBottom: 20 }}>
@@ -383,7 +383,7 @@ export default function AdminAdmissions() {
           <div style={{ background: '#f8fafc', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0', marginTop: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
               <div>
-                <h4 style={{ margin: 0, fontSize: 16, color: '#0842F7', fontWeight: 700 }}>
+                <h4 style={{ margin: 0, fontSize: 16, color: '#1d4da1', fontWeight: 700 }}>
                   Admission Pillars (User-Side Highlights)
                 </h4>
                 <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
@@ -431,7 +431,7 @@ export default function AdminAdmissions() {
                       value={pillar.title || ''}
                       onChange={e => handlePillarChange(idx, 'title', e.target.value)}
                       placeholder="e.g. Strict Zero-Donation"
-                      style={{ width: '100%', padding: '8px 10px', fontSize: 13, border: '1px solid #cbd5e1', borderRadius: 6, fontWeight: 600, color: '#0842F7' }}
+                      style={{ width: '100%', padding: '8px 10px', fontSize: 13, border: '1px solid #cbd5e1', borderRadius: 6, fontWeight: 600, color: '#1d4da1' }}
                     />
                   </div>
 
@@ -461,7 +461,7 @@ export default function AdminAdmissions() {
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <h3 style={{ margin: 0, color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+              <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
                 Section 2: Step-by-Step Admission Procedure
               </h3>
               <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
@@ -509,7 +509,7 @@ export default function AdminAdmissions() {
                     width: 36,
                     height: 36,
                     borderRadius: '50%',
-                    background: '#0842F7',
+                    background: '#1d4da1',
                     color: '#fff',
                     fontWeight: 800,
                     display: 'flex',
@@ -521,7 +521,7 @@ export default function AdminAdmissions() {
                   {idx + 1}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: 15, color: '#0842F7' }}>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: '#1d4da1' }}>
                     {step.title}
                   </div>
                   <div style={{ fontSize: 13, color: '#64748b', marginTop: 3 }}>
@@ -584,7 +584,7 @@ export default function AdminAdmissions() {
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <h3 style={{ margin: 0, color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+              <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
                 Section 3: Eligibility Criteria Across School Levels
               </h3>
               <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
@@ -620,7 +620,7 @@ export default function AdminAdmissions() {
                 style={{
                   background: '#f8fafc',
                   border: '1px solid #e2e8f0',
-                  borderTop: '4px solid #0842F7',
+                  borderTop: '4px solid #1d4da1',
                   borderRadius: 8,
                   padding: 20,
                   display: 'flex',
@@ -629,10 +629,10 @@ export default function AdminAdmissions() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                   <div>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: '#0842F7', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#1d4da1', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
                       {prog.duration}
                     </span>
-                    <h4 style={{ margin: '4px 0 0', fontSize: 16, color: '#0842F7' }}>
+                    <h4 style={{ margin: '4px 0 0', fontSize: 16, color: '#1d4da1' }}>
                       {prog.degree}
                     </h4>
                   </div>
@@ -674,7 +674,7 @@ export default function AdminAdmissions() {
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <h3 style={{ margin: 0, color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+              <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
                 Section 4: Verification Checklist (Documents Required)
               </h3>
               <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
@@ -717,7 +717,7 @@ export default function AdminAdmissions() {
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <h4 style={{ margin: 0, fontSize: 15, color: '#0842F7', fontWeight: 700 }}>
+                  <h4 style={{ margin: 0, fontSize: 15, color: '#1d4da1', fontWeight: 700 }}>
                     {cat.title}
                   </h4>
                   <div style={{ display: 'flex', gap: 6 }}>
@@ -758,7 +758,7 @@ export default function AdminAdmissions() {
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <h3 style={{ margin: 0, color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+              <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
                 Section 5: Fee Structure &amp; Installment Guidelines
               </h3>
               <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
@@ -791,7 +791,7 @@ export default function AdminAdmissions() {
           <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: 8, marginBottom: 20 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13, minWidth: 700 }}>
               <thead>
-                <tr style={{ background: '#0842F7', color: '#ffffff' }}>
+                <tr style={{ background: '#1d4da1', color: '#ffffff' }}>
                   <th style={{ padding: '12px 14px' }}>Class / Standard</th>
                   <th style={{ padding: '12px 14px' }}>Admission Fee (One-Time)</th>
                   <th style={{ padding: '12px 14px' }}>Tuition Fee (Annual)</th>
@@ -804,7 +804,7 @@ export default function AdminAdmissions() {
               <tbody>
                 {(data.fees_table || []).map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0', background: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
-                    <td style={{ padding: '12px 14px', fontWeight: 700, color: '#0842F7' }}>
+                    <td style={{ padding: '12px 14px', fontWeight: 700, color: '#1d4da1' }}>
                       {row.category}
                     </td>
                     <td style={{ padding: '12px 14px', color: '#334155' }}>
@@ -816,7 +816,7 @@ export default function AdminAdmissions() {
                     <td style={{ padding: '12px 14px', color: '#334155' }}>
                       {row.term_fee || row.dev_fee || 'Included'}
                     </td>
-                    <td style={{ padding: '12px 14px', color: '#0842F7', fontWeight: 700 }}>
+                    <td style={{ padding: '12px 14px', color: '#1d4da1', fontWeight: 700 }}>
                       {row.total_fee || 'As per Prospectus'}
                     </td>
                     <td style={{ padding: '12px 14px', color: '#166534', fontWeight: 600 }}>
@@ -868,14 +868,14 @@ export default function AdminAdmissions() {
 
           {/* Payment Modes & Installment Facilities Editor */}
           <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid #e2e8f0' }}>
-            <h4 style={{ margin: '0 0 16px', color: '#0842F7', fontSize: 16 }}>
+            <h4 style={{ margin: '0 0 16px', color: '#1d4da1', fontSize: 16 }}>
               Payment Facilities &amp; Installments Rules (User-Side Cards)
             </h4>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
               {/* Card 1: Accepted Payment Modes */}
               <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: 18 }}>
-                <label style={{ display: 'block', fontWeight: 700, fontSize: 13.5, color: '#0842F7', marginBottom: 6 }}>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: 13.5, color: '#1d4da1', marginBottom: 6 }}>
                   💳 Accepted Payment Modes (One per line)
                 </label>
                 <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 10px' }}>
@@ -899,7 +899,7 @@ export default function AdminAdmissions() {
 
               {/* Card 2: Installment Facilities */}
               <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: 18 }}>
-                <label style={{ display: 'block', fontWeight: 700, fontSize: 13.5, color: '#0842F7', marginBottom: 6 }}>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: 13.5, color: '#1d4da1', marginBottom: 6 }}>
                   📅 Installment Facilities &amp; Terms
                 </label>
                 <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 10px' }}>
@@ -965,7 +965,7 @@ export default function AdminAdmissions() {
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <h3 style={{ margin: 0, color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+              <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
                 Section 6: Admission FAQs (Frequently Asked Questions)
               </h3>
               <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0' }}>
@@ -994,7 +994,7 @@ export default function AdminAdmissions() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: 15, color: '#0842F7' }}>
+                    <div style={{ fontWeight: 700, fontSize: 15, color: '#1d4da1' }}>
                       Q: {faq.q}
                     </div>
                     <div style={{ fontSize: 13.5, color: '#475569', marginTop: 6, lineHeight: 1.6 }}>
@@ -1036,7 +1036,7 @@ export default function AdminAdmissions() {
       {/* ===================================================================== */}
       {activeTab === 'helpdesk' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
             Section 7: Admission Helpdesk &amp; In-Person Inquiry Desk
           </h3>
           <p style={{ fontSize: 13, color: '#64748b', marginTop: -10, marginBottom: 20 }}>
@@ -1100,7 +1100,7 @@ export default function AdminAdmissions() {
           <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0' }}>
             <span style={{ fontSize: 13, color: '#475569' }}>
               💡 <strong>Online Enquiries:</strong> Online admission form submissions are received instantly in the{' '}
-              <Link to="/admin/messages?filter=admission" style={{ color: '#0842F7', fontWeight: 700 }}>
+              <Link to="/admin/messages?filter=admission" style={{ color: '#1d4da1', fontWeight: 700 }}>
                 Messages &amp; Enquiries
               </Link>{' '}
               inbox.
@@ -1116,7 +1116,7 @@ export default function AdminAdmissions() {
         <div className="admin-modal-backdrop" onClick={closeModal}>
           <div className="admin-modal" style={{ maxWidth: 560 }} onClick={e => e.stopPropagation()}>
             <div className="admin-modal-header">
-              <h3 style={{ margin: 0, fontSize: 17, color: '#0842F7' }}>
+              <h3 style={{ margin: 0, fontSize: 17, color: '#1d4da1' }}>
                 {editingIndex !== null ? 'Edit' : 'Add'} {
                   modalType === 'step' ? 'Admission Step' :
                   modalType === 'eligibility' ? 'Eligibility Program' :

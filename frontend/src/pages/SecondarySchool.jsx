@@ -120,7 +120,7 @@ export default function SecondarySchool() {
             ].map((f, i) => (
               <div key={i} style={{ background: '#ffffff', padding: 20, borderRadius: 8, border: '1px solid #e2e8f0' }}>
                 <strong style={{ color: 'var(--navy-header)', fontSize: '15px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                  <CheckIcon size={14} color="#0842F7" strokeWidth={2.8} />
+                  <CheckIcon size={14} color="#1d4da1" strokeWidth={2.8} />
                   <span>{f.title}</span>
                 </strong>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>

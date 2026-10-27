@@ -92,7 +92,7 @@ export default function AdminContact() {
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <div>
-              <h3 style={{ margin: 0, color: 'var(--navy-header, #0842F7)', fontSize: 18 }}>
+              <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>
                 Published Contact &amp; Desk Information
               </h3>
               <p style={{ margin: '4px 0 0', fontSize: 13, color: '#64748b' }}>

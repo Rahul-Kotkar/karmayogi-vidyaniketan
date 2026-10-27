@@ -144,19 +144,19 @@ export default function SportsFacilities() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
             <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', textAlign: 'center' }}>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#0842F7' }}>400m</div>
+              <div style={{ fontSize: 24, fontWeight: 900, color: '#1d4da1' }}>400m</div>
               <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Standard Running Track</div>
             </div>
             <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', textAlign: 'center' }}>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#0842F7' }}>3 Nets</div>
+              <div style={{ fontSize: 24, fontWeight: 900, color: '#1d4da1' }}>3 Nets</div>
               <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Cricket Practice Bays</div>
             </div>
             <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', textAlign: 'center' }}>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#0842F7' }}>6+ Sports</div>
+              <div style={{ fontSize: 24, fontWeight: 900, color: '#1d4da1' }}>6+ Sports</div>
               <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Dedicated Arenas &amp; Courts</div>
             </div>
             <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8, border: '1px solid #e2e8f0', textAlign: 'center' }}>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#0842F7' }}>100% Safe</div>
+              <div style={{ fontSize: 24, fontWeight: 900, color: '#1d4da1' }}>100% Safe</div>
               <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Enclosed &amp; Supervised</div>
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function SportsFacilities() {
                     {item.badge}
                   </span>
                   <span style={{ position: 'absolute', bottom: 12, right: 12, background: 'rgba(255, 255, 255, 0.92)', color: '#0f172a', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                    <MapPinIcon size={12} color="#0842F7" /> {item.campus}
+                    <MapPinIcon size={12} color="#1d4da1" /> {item.campus}
                   </span>
                 </div>
 
@@ -224,7 +224,7 @@ export default function SportsFacilities() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
             <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
               <div style={{ width: 36, height: 36, borderRadius: 8, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                <BandageIcon size={18} color="#0842F7" />
+                <BandageIcon size={18} color="#1d4da1" />
               </div>
               <h4 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: '0 0 6px' }}>On-Field First Aid Station</h4>
               <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.5, margin: 0 }}>
@@ -234,7 +234,7 @@ export default function SportsFacilities() {
 
             <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
               <div style={{ width: 36, height: 36, borderRadius: 8, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                <DropletIcon size={18} color="#0842F7" />
+                <DropletIcon size={18} color="#1d4da1" />
               </div>
               <h4 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: '0 0 6px' }}>RO Hydration Stations</h4>
               <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.5, margin: 0 }}>
@@ -244,7 +244,7 @@ export default function SportsFacilities() {
 
             <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
               <div style={{ width: 36, height: 36, borderRadius: 8, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                <ShieldIcon size={18} color="#0842F7" />
+                <ShieldIcon size={18} color="#1d4da1" />
               </div>
               <h4 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: '0 0 6px' }}>Certified Equipment Standard</h4>
               <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.5, margin: 0 }}>
@@ -254,7 +254,7 @@ export default function SportsFacilities() {
 
             <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 18, background: '#f8fafc' }}>
               <div style={{ width: 36, height: 36, borderRadius: 8, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                <SproutIcon size={18} color="#0842F7" />
+                <SproutIcon size={18} color="#1d4da1" />
               </div>
               <h4 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: '0 0 6px' }}>Turf &amp; Clay Upkeep</h4>
               <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.5, margin: 0 }}>
@@ -266,7 +266,7 @@ export default function SportsFacilities() {
 
         {/* 6. Facility Incharge & Hours Information Card */}
         <div style={{
-          background: '#0842F7',
+          background: '#1d4da1',
           borderRadius: 12,
           padding: '28px 32px',
           color: '#ffffff',
@@ -297,7 +297,7 @@ export default function SportsFacilities() {
                 padding: '10px 22px',
                 borderRadius: 8,
                 background: '#ffffff',
-                color: '#0842F7',
+                color: '#1d4da1',
                 fontSize: 13.5,
                 fontWeight: 700,
                 textDecoration: 'none'
