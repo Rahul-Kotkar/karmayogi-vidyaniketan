@@ -83,7 +83,7 @@ export default function AdmissionEnquiry() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
-              color: '#2050a4',
+              color: '#1d4da1',
               fontWeight: 700,
               textDecoration: 'none'
             }}
@@ -92,7 +92,7 @@ export default function AdmissionEnquiry() {
           </Link>
           <div style={{ color: '#475569', fontSize: '13px' }}>
             <span>Admissions Helpline: </span>
-            <strong style={{ color: '#2050a4' }}>+91 94226 50742 / +91 94220 28652</strong>
+            <strong style={{ color: '#1d4da1' }}>+91 94226 50742 / +91 94220 28652</strong>
           </div>
         </div>
 
@@ -348,37 +348,37 @@ export default function AdmissionEnquiry() {
         {/* Quick Reference Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18 }}>
           <div style={{ background: '#ffffff', borderRadius: 12, padding: '22px 20px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
-            <h3 style={{ fontSize: '16px', color: '#2050a4', margin: '0 0 8px', fontWeight: 700 }}>
+            <h3 style={{ fontSize: '16px', color: '#1d4da1', margin: '0 0 8px', fontWeight: 700 }}>
               Documents Checklist
             </h3>
             <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 12px' }}>
               Birth Certificate, Aadhaar Card copy, previous school LC/TC, and passport size photographs are required upon confirmation.
             </p>
-            <Link to="/admissions#documents" style={{ fontSize: '13.5px', color: '#2050a4', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Link to="/admissions#documents" style={{ fontSize: '13.5px', color: '#1d4da1', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               View full documents list &rarr;
             </Link>
           </div>
 
           <div style={{ background: '#ffffff', borderRadius: 12, padding: '22px 20px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
-            <h3 style={{ fontSize: '16px', color: '#2050a4', margin: '0 0 8px', fontWeight: 700 }}>
+            <h3 style={{ fontSize: '16px', color: '#1d4da1', margin: '0 0 8px', fontWeight: 700 }}>
               Fee Structure &amp; Installments
             </h3>
             <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 12px' }}>
               Transparent, fee-regulated structure with zero capitation fee. Term installments and online digital payment available.
             </p>
-            <Link to="/admissions#fees" style={{ fontSize: '13.5px', color: '#2050a4', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Link to="/admissions#fees" style={{ fontSize: '13.5px', color: '#1d4da1', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               View detailed fee breakdown &rarr;
             </Link>
           </div>
 
           <div style={{ background: '#ffffff', borderRadius: 12, padding: '22px 20px', border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
-            <h3 style={{ fontSize: '16px', color: '#2050a4', margin: '0 0 8px', fontWeight: 700 }}>
+            <h3 style={{ fontSize: '16px', color: '#1d4da1', margin: '0 0 8px', fontWeight: 700 }}>
               Campus Visit Hours
             </h3>
             <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.6, margin: '0 0 12px' }}>
               Parents are welcome to tour our Isbavi and Shelve campuses Monday through Saturday from 9:00 AM to 5:00 PM.
             </p>
-            <Link to="/contact#map" style={{ fontSize: '13.5px', color: '#2050a4', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Link to="/contact#map" style={{ fontSize: '13.5px', color: '#1d4da1', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               Get directions &amp; campus maps &rarr;
             </Link>
           </div>

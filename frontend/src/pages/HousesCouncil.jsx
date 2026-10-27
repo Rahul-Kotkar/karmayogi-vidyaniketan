@@ -115,7 +115,7 @@ export default function HousesCouncil() {
         }}>
           <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             {meta.badge && (
-              <span style={{ fontSize: '11px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#1d4da1', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6 }}>
                 {meta.badge}
               </span>
             )}
@@ -136,7 +136,7 @@ export default function HousesCouncil() {
           </div>
           
           <div style={{
-            background: 'linear-gradient(135deg, #2050a4 0%, #173e82 100%)',
+            background: 'linear-gradient(135deg, #1d4da1 0%, #173e82 100%)',
             padding: '36px 32px',
             color: '#ffffff',
             display: 'flex',
@@ -175,7 +175,7 @@ export default function HousesCouncil() {
         {/* 2. The Four School Houses */}
         <section id="houses" style={{ scrollMarginTop: '130px' }}>
           <div style={{ textAlign: 'center', marginBottom: 26 }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#1d4da1', textTransform: 'uppercase', letterSpacing: '1px' }}>
               {meta.houses_section_badge || 'FOUR PILLARS OF CAMARADERIE'}
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '6px 0 8px' }}>
@@ -189,11 +189,11 @@ export default function HousesCouncil() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             {houses.map((house, idx) => {
               const theme = HOUSE_THEMES[house.name] || {
-                gradient: 'linear-gradient(135deg, #2050a4 0%, #173e82 100%)',
+                gradient: 'linear-gradient(135deg, #1d4da1 0%, #173e82 100%)',
                 bgLight: '#f8fafc',
                 borderColor: '#e2e8f0',
                 badgeBg: '#e0f2fe',
-                badgeText: '#2050a4',
+                badgeText: '#1d4da1',
                 symbol: '🛡️'
               }
               return (
@@ -236,7 +236,7 @@ export default function HousesCouncil() {
                       </span>
                     </div>
 
-                    <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#2050a4', margin: '0 0 6px' }}>
+                    <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#1d4da1', margin: '0 0 6px' }}>
                       {house.name}
                     </h3>
 
@@ -262,7 +262,7 @@ export default function HousesCouncil() {
         {/* 3. Student Council & Leadership Hierarchy */}
         <section id="council" style={{ scrollMarginTop: '130px' }}>
           <div style={{ textAlign: 'center', marginBottom: 26 }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#1d4da1', textTransform: 'uppercase', letterSpacing: '1px' }}>
               {meta.council_section_badge || 'DEMOCRATIC STUDENT GOVERNANCE'}
             </span>
             <h2 style={{ fontFamily: 'var(--heading-font, Merriweather, serif)', fontSize: '26px', color: 'var(--navy-header, #0f172a)', margin: '6px 0 8px' }}>
@@ -292,7 +292,7 @@ export default function HousesCouncil() {
                   height: 48,
                   borderRadius: '50%',
                   background: '#e0f2fe',
-                  color: '#2050a4',
+                  color: '#1d4da1',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -302,7 +302,7 @@ export default function HousesCouncil() {
                 </div>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                    <h4 style={{ fontSize: '17px', fontWeight: 700, color: '#2050a4', margin: 0 }}>
+                    <h4 style={{ fontSize: '17px', fontWeight: 700, color: '#1d4da1', margin: 0 }}>
                       {item.role}
                     </h4>
                   </div>
@@ -332,10 +332,10 @@ export default function HousesCouncil() {
           alignItems: 'center'
         }}>
           <div>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: '#2050a4', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#1d4da1', textTransform: 'uppercase', letterSpacing: '1px' }}>
               {meta.investiture_badge || 'CEREMONY & CODE OF HONOUR'}
             </span>
-            <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#2050a4', margin: '6px 0 12px' }}>
+            <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#1d4da1', margin: '6px 0 12px' }}>
               {meta.investiture_title || 'The Annual Investiture Ceremony'}
             </h3>
             <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.7, margin: '0 0 14px' }}>
@@ -356,11 +356,11 @@ export default function HousesCouncil() {
           </div>
 
           <div style={{ background: '#ffffff', borderRadius: 10, padding: 22, border: '1px solid #e2e8f0', boxShadow: 'var(--shadow-sm)' }}>
-            <h4 style={{ margin: '0 0 10px', fontSize: '16px', color: '#2050a4', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <FlagIcon size={18} color="#2050a4" />
+            <h4 style={{ margin: '0 0 10px', fontSize: '16px', color: '#1d4da1', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <FlagIcon size={18} color="#1d4da1" />
               {meta.pledge_heading || 'The Karmayogi Student Oath'}
             </h4>
-            <blockquote style={{ margin: 0, fontSize: '13px', color: '#475569', lineHeight: 1.7, fontStyle: 'italic', borderLeft: '3px solid #2050a4', paddingLeft: 12 }}>
+            <blockquote style={{ margin: 0, fontSize: '13px', color: '#475569', lineHeight: 1.7, fontStyle: 'italic', borderLeft: '3px solid #1d4da1', paddingLeft: 12 }}>
               "{meta.pledge_text || 'We solemnly pledge to serve Karmayogi Vidyaniketan with honor and devotion. We shall lead by personal example, defend the dignity of every classmate, respect the guidance of our teachers, and hold aloft the values of character, courage, and service.'}"
             </blockquote>
           </div>
@@ -379,7 +379,7 @@ export default function HousesCouncil() {
           border: '1px solid #e2e8f0'
         }}>
           <div>
-            <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#2050a4' }}>
+            <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#1d4da1' }}>
               Explore Other Student Corner Activities
             </div>
             <div style={{ fontSize: '13px', color: '#64748b' }}>

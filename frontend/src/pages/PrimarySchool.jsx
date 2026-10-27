@@ -135,7 +135,7 @@ export default function PrimarySchool() {
               Campus visits and student interactions are conducted Monday to Saturday.
             </p>
           </div>
-          <Link to="/admissions#process" className="btn btn-primary" style={{ background: '#2050a4', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
+          <Link to="/admissions#process" className="btn btn-primary" style={{ background: '#1d4da1', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
             Check Admission Process &rarr;
           </Link>
         </div>

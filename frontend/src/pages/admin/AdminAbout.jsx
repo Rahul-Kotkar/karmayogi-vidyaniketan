@@ -232,7 +232,7 @@ export default function AdminAbout() {
       {/* TAB 1: INSTITUTE OVERVIEW */}
       {activeTab === 'institute' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #2050a4)', fontSize: 18 }}>Section 1: Institute Overview</h3>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>Section 1: Institute Overview</h3>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, marginBottom: 16 }}>
             <div>
@@ -352,7 +352,7 @@ export default function AdminAbout() {
       {/* TAB 2: PARENT TRUST / SHRI PANDURANG PRATISHTHAN */}
       {activeTab === 'trust' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #2050a4)', fontSize: 18 }}>Section 2: Parent Trust (Shri Pandurang Pratishthan, Pandharpur)</h3>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>Section 2: Parent Trust (Shri Pandurang Pratishthan, Pandharpur)</h3>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 16 }}>
             <div>
@@ -406,7 +406,7 @@ export default function AdminAbout() {
       {/* TAB 3: VISION & MISSION */}
       {activeTab === 'vision' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
-          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #2050a4)', fontSize: 18 }}>Section 3: Vision &amp; Mission</h3>
+          <h3 style={{ margin: '0 0 16px', color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>Section 3: Vision &amp; Mission</h3>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, marginBottom: 16 }}>
             <div>
@@ -525,7 +525,7 @@ export default function AdminAbout() {
       {activeTab === 'leadership' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-header, #2050a4)', fontSize: 18 }}>Section 4: Leadership &amp; Institutional Desks</h3>
+            <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>Section 4: Leadership &amp; Institutional Desks</h3>
             <button
               type="button"
               onClick={() => setShowAddLeader(!showAddLeader)}
@@ -654,7 +654,7 @@ export default function AdminAbout() {
       {activeTab === 'council' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-header, #2050a4)', fontSize: 18 }}>Section 4: Governing Council &amp; School Leadership</h3>
+            <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>Section 4: Governing Council &amp; School Leadership</h3>
             <button
               type="button"
               onClick={() => setShowAddMember(!showAddMember)}
@@ -816,7 +816,7 @@ export default function AdminAbout() {
       {activeTab === 'approvals' && (
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-header, #2050a4)', fontSize: 18 }}>Section 5: Affiliations &amp; Curriculum Approvals Cards</h3>
+            <h3 style={{ margin: 0, color: 'var(--navy-header, #1d4da1)', fontSize: 18 }}>Section 5: Affiliations &amp; Curriculum Approvals Cards</h3>
             <button
               type="button"
               onClick={() => setShowAddApproval(!showAddApproval)}

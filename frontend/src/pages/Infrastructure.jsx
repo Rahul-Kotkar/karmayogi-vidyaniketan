@@ -95,7 +95,7 @@ export default function Infrastructure() {
             ].map((item, idx) => (
               <div key={idx} style={{ background: '#ffffff', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0' }}>
                 <strong style={{ color: 'var(--navy-header)', fontSize: '14.5px', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                  <CheckIcon size={14} color="#2050a4" strokeWidth={2.8} />
+                  <CheckIcon size={14} color="#1d4da1" strokeWidth={2.8} />
                   <span>{item.title}</span>
                 </strong>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>

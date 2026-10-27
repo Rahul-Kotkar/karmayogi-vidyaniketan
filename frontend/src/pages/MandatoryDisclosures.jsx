@@ -153,7 +153,7 @@ export default function MandatoryDisclosures() {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '12px 18px',
-                        background: '#2050a4',
+                        background: '#1d4da1',
                         color: '#ffffff',
                         borderRadius: '8px 8px 0 0',
                         fontWeight: 700,
