@@ -626,7 +626,7 @@ export default function AdminTrainingPlacement() {
                   </div>
                 </div>
 
-                <h4 style={{ fontSize: 15, fontWeight: 700, color: '#1d4da1', margin: '20px 0 12px' }}>
+                <h4 style={{ fontSize: 15, fontWeight: 700, color: '#134A98', margin: '20px 0 12px' }}>
                   Top 4 Placement Key Metric Cards
                 </h4>
                 <p style={{ fontSize: 13, color: '#64748b', marginBottom: 14 }}>

@@ -225,7 +225,7 @@ export default function AdminFaculty() {
                               width: 44,
                               height: 44,
                               borderRadius: 8,
-                              background: '#1d4da1',
+                              background: '#134A98',
                               color: '#fff',
                               display: 'flex',
                               alignItems: 'center',
@@ -238,7 +238,7 @@ export default function AdminFaculty() {
                           )}
                         </td>
                         <td>
-                          <strong style={{ color: '#1d4da1', fontSize: 14 }}>{f.name}</strong>
+                          <strong style={{ color: '#134A98', fontSize: 14 }}>{f.name}</strong>
                           <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 600 }}>{f.designation}</div>
                           {f.email && <div style={{ fontSize: 11.5, color: '#64748b' }}>{f.email}</div>}
                         </td>
@@ -312,10 +312,10 @@ export default function AdminFaculty() {
                                 borderRadius: 4,
                                 fontSize: 10,
                                 fontWeight: 700,
-                                background: hasScholar ? '#1d4da1' : '#f1f5f9',
+                                background: hasScholar ? '#134A98' : '#f1f5f9',
                                 color: hasScholar ? '#ffffff' : '#94a3b8',
                                 border: '1px solid',
-                                borderColor: hasScholar ? '#1d4da1' : '#e2e8f0'
+                                borderColor: hasScholar ? '#134A98' : '#e2e8f0'
                               }}
                             >
                               GS
@@ -443,7 +443,7 @@ export default function AdminFaculty() {
               <div className="admin-modal-body">
                 {/* Section 1: Core Details */}
                 <div style={{ marginBottom: 16 }}>
-                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#1d4da1', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>
+                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#134A98', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>
                     1. Basic Information & Role
                   </h4>
 
@@ -559,7 +559,7 @@ export default function AdminFaculty() {
 
                 {/* Section 2: Contact & Photograph */}
                 <div style={{ marginBottom: 16 }}>
-                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#1d4da1', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>
+                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#134A98', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>
                     2. Contact & Photograph
                   </h4>
 
@@ -621,7 +621,7 @@ export default function AdminFaculty() {
 
                 {/* Section 3: Research Interests & Biography */}
                 <div style={{ marginBottom: 16 }}>
-                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#1d4da1', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>
+                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#134A98', borderBottom: '1px solid #e2e8f0', paddingBottom: 6, margin: '0 0 12px' }}>
                     3. Research Interests & Bio
                   </h4>
 
@@ -651,7 +651,7 @@ export default function AdminFaculty() {
                 {/* Section 4: Academic & Professional Profiles (OPTIONAL) */}
                 <div style={{ marginBottom: 16, background: '#f8fafc', padding: 14, borderRadius: 8, border: '1px solid #e2e8f0' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                    <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#1d4da1', margin: 0 }}>
+                    <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.5, color: '#134A98', margin: 0 }}>
                       4. Academic Profiles & Resume (Optional)
                     </h4>
                     <span style={{ fontSize: 11, color: '#16a34a', fontWeight: 700, background: '#f0fdf4', padding: '2px 8px', borderRadius: 12, border: '1px solid #bbf7d0' }}>
@@ -765,7 +765,7 @@ export default function AdminFaculty() {
                       onChange={e => setForm({ ...form, is_active: e.target.checked ? 1 : 0 })}
                       style={{ width: 16, height: 16 }}
                     />
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#1d4da1' }}>Active & Visible on Public Website</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#134A98' }}>Active & Visible on Public Website</span>
                   </label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>Display Order:</span>

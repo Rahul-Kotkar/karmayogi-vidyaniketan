@@ -144,7 +144,7 @@ export default function AdmissionProcess() {
             Visit our admissions desk or apply online today. Our team is delighted to assist you.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/admission-enquiry" className="btn btn-primary" style={{ background: '#1d4da1', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
+            <Link to="/admission-enquiry" className="btn btn-primary" style={{ background: '#134A98', borderColor: 'rgba(255, 255, 255, 0.4)' }}>
               Apply for Admission →
             </Link>
             <Link to="/contact" className="btn btn-outline" style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.6)' }}>

@@ -119,8 +119,8 @@ export default function AdminMessages() {
             fontSize: 13.5,
             fontWeight: 700,
             cursor: 'pointer',
-            border: categoryFilter === 'all' ? '1px solid #1d4da1' : '1px solid #cbd5e1',
-            background: categoryFilter === 'all' ? '#1d4da1' : '#ffffff',
+            border: categoryFilter === 'all' ? '1px solid #134A98' : '1px solid #cbd5e1',
+            background: categoryFilter === 'all' ? '#134A98' : '#ffffff',
             color: categoryFilter === 'all' ? '#ffffff' : '#334155'
           }}
         >
@@ -135,8 +135,8 @@ export default function AdminMessages() {
             fontSize: 13.5,
             fontWeight: 700,
             cursor: 'pointer',
-            border: categoryFilter === 'admission' ? '1px solid #1d4da1' : '1px solid #cbd5e1',
-            background: categoryFilter === 'admission' ? '#1d4da1' : '#ffffff',
+            border: categoryFilter === 'admission' ? '1px solid #134A98' : '1px solid #cbd5e1',
+            background: categoryFilter === 'admission' ? '#134A98' : '#ffffff',
             color: categoryFilter === 'admission' ? '#ffffff' : '#334155'
           }}
         >
@@ -151,8 +151,8 @@ export default function AdminMessages() {
             fontSize: 13.5,
             fontWeight: 700,
             cursor: 'pointer',
-            border: categoryFilter === 'general' ? '1px solid #1d4da1' : '1px solid #cbd5e1',
-            background: categoryFilter === 'general' ? '#1d4da1' : '#ffffff',
+            border: categoryFilter === 'general' ? '1px solid #134A98' : '1px solid #cbd5e1',
+            background: categoryFilter === 'general' ? '#134A98' : '#ffffff',
             color: categoryFilter === 'general' ? '#ffffff' : '#334155'
           }}
         >
@@ -277,7 +277,7 @@ export default function AdminMessages() {
             <div className="admin-card-body">
               <div style={{ marginBottom: 16 }}>
                 <div style={{ fontSize: 12, color: '#5c6672', textTransform: 'uppercase' }}>From</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#1d4da1' }}>{selectedMessage.name}</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: '#134A98' }}>{selectedMessage.name}</div>
                 <div style={{ fontSize: 13, marginTop: 2 }}>
                   <b>Email:</b> <a href={`mailto:${selectedMessage.email}`}>{selectedMessage.email}</a> | <b>Phone:</b> {selectedMessage.phone || 'Not provided'}
                 </div>

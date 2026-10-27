@@ -156,7 +156,7 @@ export default function AdminSettings() {
         </div>
 
         {/* 2. Royal Blue Institutional Branding Banner Preview */}
-        <div style={{ background: '#1d4da1', padding: '18px 24px' }}>
+        <div style={{ background: '#134A98', padding: '18px 24px' }}>
           <div style={{
             maxWidth: 1180,
             margin: '0 auto',
@@ -285,7 +285,7 @@ export default function AdminSettings() {
                 Appears on the blue institutional header to the left of the school name.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
-                <div style={{ width: 85, height: 85, border: '1px solid #cbd5e1', borderRadius: 6, background: '#1d4da1', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div style={{ width: 85, height: 85, border: '1px solid #cbd5e1', borderRadius: 6, background: '#134A98', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                   <img
                     src={settings.college_logo_url || defaultCollegeLogo}
                     alt="School Logo Preview"
@@ -307,7 +307,7 @@ export default function AdminSettings() {
                       style={{ display: 'none' }}
                     />
                   </label>
-                  {uploadingLogo.college && <div style={{ fontSize: 11, color: '#1d4da1', marginTop: 4 }}>Uploading logo...</div>}
+                  {uploadingLogo.college && <div style={{ fontSize: 11, color: '#134A98', marginTop: 4 }}>Uploading logo...</div>}
                 </div>
               </div>
               <div className="admin-form-group" style={{ margin: 0 }}>
@@ -330,7 +330,7 @@ export default function AdminSettings() {
                 Portrait card and captions placed to the right of header identity banner.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
-                <div style={{ width: 72, height: 86, borderRadius: 8, background: '#1d4da1', padding: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }}>
+                <div style={{ width: 72, height: 86, borderRadius: 8, background: '#134A98', padding: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }}>
                   <img
                     src={settings.founder_photo_url || defaultFounderImg}
                     alt="Founder Preview"
@@ -352,7 +352,7 @@ export default function AdminSettings() {
                       style={{ display: 'none' }}
                     />
                   </label>
-                  {uploadingLogo.founder && <div style={{ fontSize: 11, color: '#1d4da1', marginTop: 4 }}>Uploading portrait...</div>}
+                  {uploadingLogo.founder && <div style={{ fontSize: 11, color: '#134A98', marginTop: 4 }}>Uploading portrait...</div>}
                 </div>
               </div>
               <div className="admin-form-group" style={{ margin: '0 0 10px' }}>

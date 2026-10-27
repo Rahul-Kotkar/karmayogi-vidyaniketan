@@ -118,7 +118,7 @@ export default function Contact() {
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
-                <MapPinIcon size={18} color="#1d4da1" />
+                <MapPinIcon size={18} color="#134A98" />
               </div>
               <div>
                 <h4 className="contact-card-title">School Campuses</h4>
@@ -135,7 +135,7 @@ export default function Contact() {
               </strong>
 
               <div style={{ marginTop: '12px', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#1d4da1', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#134A98', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   1. Foundation / Primary Campus:
                 </span>
                 <p style={{ fontSize: '13px', color: '#475569', marginTop: '4px', lineHeight: 1.4 }}>
@@ -144,7 +144,7 @@ export default function Contact() {
               </div>
 
               <div style={{ marginTop: '10px', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#1d4da1', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#134A98', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   2. High School &amp; Residential Campus:
                 </span>
                 <p style={{ fontSize: '13px', color: '#475569', marginTop: '4px', lineHeight: 1.4 }}>
@@ -169,7 +169,7 @@ export default function Contact() {
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
-                <PhoneIcon size={18} color="#1d4da1" />
+                <PhoneIcon size={18} color="#134A98" />
               </div>
               <div>
                 <h4 className="contact-card-title">Phone &amp; Email Inquiries</h4>
@@ -218,7 +218,7 @@ export default function Contact() {
           <div className="contact-card-box">
             <div className="contact-card-head">
               <div className="contact-icon-circle">
-                <ClockIcon size={18} color="#1d4da1" />
+                <ClockIcon size={18} color="#134A98" />
               </div>
               <div>
                 <h4 className="contact-card-title">Office &amp; Visiting Hours</h4>

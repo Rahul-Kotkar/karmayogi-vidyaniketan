@@ -467,7 +467,7 @@ export default function Faculty() {
                         title="ORCID Profile"
                       >
                         <svg width="14" height="14" viewBox="0 0 256 256" style={{ flexShrink: 0 }}>
-                          <circle cx="128" cy="128" r="128" fill="#1d4da1" className="orcid-circle" />
+                          <circle cx="128" cy="128" r="128" fill="#134A98" className="orcid-circle" />
                           <path fill="#ffffff" className="orcid-path" d="M86.3 186.2H70.9V79.1h15.4v107.1zM78.6 66.8c-5.2 0-9.4-4.2-9.4-9.4s4.2-9.4 9.4-9.4 9.4 4.2 9.4 9.4-4.2 9.4-9.4 9.4zm85.8 59.9c0 33.1-19.7 60.1-51.1 60.1h-33V79.1h33c31.4 0 51.1 27 51.1 60.1v-12.5zm-15.8 0c0-24.8-13.8-44.5-35.3-44.5h-17.5v89h17.5c21.5 0 35.3-19.7 35.3-44.5z"/>
                         </svg>
                         <span>ORCID</span>
@@ -541,7 +541,7 @@ export default function Faculty() {
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
                           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" fill="#f59e0b" />
                           <path d="M14 2v6h6" fill="#d97706" />
-                          <rect x="4.5" y="11.5" width="15" height="7" rx="1.5" fill="#1d4da1" />
+                          <rect x="4.5" y="11.5" width="15" height="7" rx="1.5" fill="#134A98" />
                           <text x="12" y="16.8" fill="#f59e0b" fontSize="5" fontWeight="900" fontFamily="system-ui, -apple-system, sans-serif" textAnchor="middle">PDF</text>
                         </svg>
                         <span>SEE RESUME (PDF)</span>
