@@ -211,10 +211,10 @@ export default function AdminSettings() {
                 fontSize: '13px',
                 fontWeight: 500,
                 color: '#ffffff',
-                fontFamily: "Arial, 'Helvetica Neue', sans-serif",
-                letterSpacing: '0.3px',
+                fontFamily: "'Gotham-Book', 'Gotham', sans-serif",
+                letterSpacing: '0.4px',
                 marginTop: '3px',
-                opacity: 0.95
+                opacity: 0.98
               }}>
                 {settings.school_subname || 'Pre-Primary, Primary & Secondary School'}
               </div>

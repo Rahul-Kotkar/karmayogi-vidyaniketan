@@ -12,6 +12,16 @@
 }
 
 @font-face {
+  font-family: 'Gotham-Book';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Gotham Book'), local('Gotham-Book'),
+       url('/fonts/GothamBook.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/62851/GothamBook.woff') format('woff');
+}
+
+@font-face {
   font-family: 'Gotham';
   font-style: normal;
   font-weight: 700;
@@ -19,6 +29,16 @@
   src: local('Gotham Bold'), local('Gotham-Bold'), local('Gotham'),
        url('/fonts/GothamBold.woff') format('woff'),
        url('https://fonts.cdnfonts.com/s/62851/GothamBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gotham';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Gotham Book'), local('Gotham-Book'),
+       url('/fonts/GothamBook.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/62851/GothamBook.woff') format('woff');
 }
 
 /* =====================================================
@@ -729,14 +749,14 @@ img, video, iframe, embed, object {
 }
 .affiliation-line {
   color: #ffffff;
-  font-family: Arial, 'Helvetica Neue', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(12px, 1.05vw, 14.5px);
-  font-weight: 500;
+  font-family: 'Gotham-Book', 'Gotham', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: clamp(12.5px, 1.1vw, 15px);
+  font-weight: 400;
   line-height: 1.4;
   margin: 0;
   text-align: center;
-  letter-spacing: 0.3px;
-  opacity: 0.96;
+  letter-spacing: 0.4px;
+  opacity: 0.98;
 }
 .header-founder-section {
   display: flex;
