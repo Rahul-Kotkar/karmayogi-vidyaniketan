@@ -683,11 +683,26 @@ img, video, iframe, embed, object {
 .header-foundation-name {
   color: #ffffff;
   font-family: Arial, 'Helvetica Neue', 'Plus Jakarta Sans', sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.foundation-line-1 {
   font-size: clamp(11.5px, 1.05vw, 14px);
   font-weight: 700;
   letter-spacing: 0.8px;
-  margin-bottom: 5px;
-  text-align: center;
+  display: block;
+  line-height: 1.2;
+}
+.foundation-line-2 {
+  font-size: clamp(10.5px, 0.95vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  display: block;
+  line-height: 1.2;
+  margin-bottom: 2px;
 }
 .header-college-title {
   margin: 0;
@@ -2662,31 +2677,148 @@ img, video, iframe, embed, object {
     display: none !important;
   }
   .main-college-header {
-    padding: 12px 0;
+    background: #003b95 !important;
+    padding: 8px 0 10px !important;
   }
   .header-inner-grid {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 0 16px;
-    align-items: center;
+    display: grid !important;
+    grid-template-columns: 52px 1fr 52px !important;
+    gap: 8px !important;
+    padding: 0 14px !important;
+    align-items: center !important;
+    max-width: 100% !important;
+  }
+  .header-brand-logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
   }
   .college-crest-img {
-    max-height: 75px;
-    max-width: 90px;
+    max-height: 52px !important;
+    max-width: 52px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
   }
-  .founder-portrait-img {
-    width: 60px;
-    height: 72px;
+  .header-center-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-width: 0 !important;
+  }
+  .header-foundation-name {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: 0 0 1px 0 !important;
+  }
+  .foundation-line-1 {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.25px !important;
+    line-height: 1.15 !important;
+    display: block !important;
+  }
+  .foundation-line-2 {
+    font-size: 9px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    line-height: 1.15 !important;
+    display: block !important;
+    margin-bottom: 1.5px !important;
+  }
+  .header-college-title {
+    margin: 0 !important;
+    line-height: 1 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .brand-lockup-wrap {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  .brand-title-top {
+    font-size: clamp(16px, 4.6vw, 21px) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+  .brand-title-divider {
+    height: 1.5px !important;
+    background: #ffffff !important;
+    margin: 2px 0 2.5px 0 !important;
+    width: 100% !important;
+    opacity: 0.9 !important;
+  }
+  .brand-title-bottom {
+    font-size: clamp(8.5px, 2.5vw, 11.5px) !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    letter-spacing: clamp(1.8px, 0.5vw, 3px) !important;
+    margin-right: calc(-1 * clamp(1.8px, 0.5vw, 3px)) !important;
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+  /* Affiliation lines hidden on mobile header matching reference */
+  .header-affiliations {
+    display: none !important;
+  }
+  .header-founder-section {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-left: 0 !important;
+  }
+  .founder-card-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
   }
   .founder-top-label {
-    font-size: 11px;
-    margin-bottom: 3px;
+    font-size: 9.5px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    margin-bottom: 2px !important;
+    line-height: 1 !important;
+  }
+  .founder-portrait-img,
+  .header-founder-portrait {
+    width: 46px !important;
+    height: 50px !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    padding: 2px !important;
+    object-fit: cover !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
   }
   .founder-caption-name {
-    font-size: 10px;
-    white-space: nowrap;
-    max-width: none;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    font-size: 8px !important;
+    line-height: 1.15 !important;
+    color: #ffffff !important;
+    margin-top: 2px !important;
+    max-width: 60px !important;
+  }
+  .founder-caption-l1,
+  .founder-caption-l2 {
+    display: block !important;
+    white-space: nowrap !important;
+    font-size: 8px !important;
+    font-weight: 500 !important;
+    line-height: 1.15 !important;
   }
 
   /* Desktop Navbar is hidden, Mobile Header & Drawer are enabled */
@@ -2713,17 +2845,17 @@ img, video, iframe, embed, object {
   /* ----------------------------------------------------
      STATE 1: TOP / UNSCROLLED (scrollY <= 40px)
      - Pure white (#ffffff) background, 1px #e2e8f0 border
-     - Height: 50px, Padding: 7px 12px
+     - Height: 56px, Padding: 7px 14px
      ---------------------------------------------------- */
   .navbar-mobile-header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px;
-    height: 50px !important;
-    min-height: 50px !important;
-    max-height: 50px !important;
-    padding: 7px 12px !important;
+    gap: 10px !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+    padding: 7px 14px !important;
     background: #ffffff !important;
     border-top: none !important;
     border-bottom: 1px solid #e2e8f0 !important;
@@ -2739,45 +2871,46 @@ img, video, iframe, embed, object {
     justify-content: center !important;
     text-decoration: none !important;
     min-width: 0 !important;
-    max-width: calc(100% - 94px) !important;
+    max-width: calc(100% - 105px) !important;
   }
   .navbar-mobile-title {
-    font-size: 16.5px !important;
+    font-size: 17px !important;
     font-weight: 800 !important;
     color: #003b95 !important;
-    line-height: 1.1 !important;
+    line-height: 1.15 !important;
     letter-spacing: 0.2px !important;
     margin: 0 !important;
+    font-family: var(--heading-font, 'Plus Jakarta Sans', sans-serif) !important;
   }
   .navbar-mobile-sub {
-    font-size: 11px !important;
+    font-size: 11.5px !important;
     font-weight: 600 !important;
     color: #134a98 !important;
     line-height: 1.2 !important;
-    margin: 0 !important;
+    margin: 1px 0 0 0 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
 
-  /* Right actions: Two 38x38px buttons with 8px gap */
+  /* Right actions: Two 42x42px buttons with 10px border-radius and 10px gap */
   .navbar-mobile-actions {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 10px !important;
     flex-shrink: 0 !important;
   }
 
   /* Phone call button (State 1) */
   .navbar-mobile-call-btn {
-    width: 38px !important;
-    height: 38px !important;
+    width: 42px !important;
+    height: 42px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     background: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 8px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 10px !important;
     color: #003b95 !important;
     text-decoration: none !important;
     box-sizing: border-box !important;
@@ -2785,8 +2918,8 @@ img, video, iframe, embed, object {
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   }
   .navbar-mobile-call-btn svg {
-    width: 17px !important;
-    height: 17px !important;
+    width: 19px !important;
+    height: 19px !important;
     stroke: #003b95 !important;
     display: block !important;
   }
@@ -2798,11 +2931,11 @@ img, video, iframe, embed, object {
 
   /* Hamburger toggle button (State 1) */
   .navbar-toggle-btn {
-    width: 38px !important;
-    height: 38px !important;
+    width: 42px !important;
+    height: 42px !important;
     background: #003b95 !important;
     border: none !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     color: #ffffff !important;
     display: flex !important;
     align-items: center !important;
@@ -2827,13 +2960,13 @@ img, video, iframe, embed, object {
      - Solid Royal Blue (#003b95)
      - Border-bottom: 1px solid rgba(255, 255, 255, 0.15)
      - Box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18)
-     - Height: 48px, Padding: 6px 12px
+     - Height: 50px, Padding: 6px 14px
      ---------------------------------------------------- */
   .navbar-mobile-header.is-scrolled {
-    height: 48px !important;
-    min-height: 48px !important;
-    max-height: 48px !important;
-    padding: 6px 12px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 6px 14px !important;
     background: #003b95 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
@@ -2852,7 +2985,7 @@ img, video, iframe, embed, object {
   .navbar-mobile-logo,
   .navbar-mobile-brand-scrolled .college-crest-img {
     max-height: 36px !important;
-    max-width: 90px !important;
+    max-width: 45px !important;
     width: auto !important;
     height: auto !important;
     object-fit: contain !important;
@@ -2880,11 +3013,11 @@ img, video, iframe, embed, object {
     display: none !important;
   }
 
-  /* Hamburger toggle button (State 2): 36x36px glass translucent */
+  /* Hamburger toggle button (State 2): 38x38px glass translucent */
   .navbar-mobile-header.is-scrolled .navbar-toggle-btn {
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 8px !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
     background: rgba(255, 255, 255, 0.14) !important;
     border: 1px solid rgba(255, 255, 255, 0.22) !important;
     color: #ffffff !important;
@@ -3502,72 +3635,17 @@ img, video, iframe, embed, object {
 
 
 
-  /* Main College Header */
+  /* Main College Header - inherited cleanly from 991px */
   .main-college-header {
-    padding: 8px 0;
+    padding: 8px 0 10px !important;
   }
   .header-inner-grid {
-    grid-template-columns: 56px 1fr auto;
-    gap: 10px;
-    padding: 0 12px;
-    align-items: center;
-  }
-  .college-crest-img {
-    max-height: 56px;
-    max-width: 56px;
-  }
-  .header-foundation-name {
-    font-size: 11px;
-    margin-bottom: 1px;
-    line-height: 1.25;
-  }
-  .header-college-title a {
-    font-size: clamp(13px, 3.8vw, 16.5px);
-    line-height: 1.2;
-    letter-spacing: 0.1px;
-  }
-  .brand-title-top {
-    font-size: clamp(18px, 5.2vw, 24px) !important;
-    letter-spacing: 0.3px !important;
-  }
-  .brand-title-divider {
-    height: 2px !important;
-    margin: 2px 0 3px !important;
-  }
-  .brand-title-bottom {
-    font-size: clamp(10px, 3.1vw, 14px) !important;
-    letter-spacing: clamp(2.5px, 0.65vw, 5.5px) !important;
-    margin-right: calc(-1 * clamp(2.5px, 0.65vw, 5.5px)) !important;
-  }
-  .brand-title-main {
-    font-size: clamp(13px, 3.8vw, 16.5px) !important;
-    letter-spacing: 0.3px !important;
-    line-height: 1.2 !important;
+    grid-template-columns: 50px 1fr 50px !important;
+    gap: 8px !important;
+    padding: 0 12px !important;
   }
   .header-affiliations {
-    margin-top: 2px;
-    gap: 1px;
-  }
-  .affiliation-line {
-    font-size: 10px;
-    line-height: 1.35;
-  }
-  .affiliation-line:nth-child(n+3) {
-    display: none; /* Show key affiliations, avoid filling entire screen height on mobile */
-  }
-  .header-founder-section {
-    margin-left: 0;
-    justify-self: end;
-  }
-  .founder-portrait-img {
-    width: 48px;
-    height: 48px;
-    border-width: 2.5px;
-  }
-  .founder-caption-name {
-    font-size: 9.5px;
-    line-height: 1.15;
-    margin-top: 2px;
+    display: none !important;
   }
 
   /* Hero Section */

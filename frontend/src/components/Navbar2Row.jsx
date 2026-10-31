@@ -337,7 +337,7 @@ export default function Navbar2Row() {
               aria-label={`Call School Helpdesk ${primaryPhone}`}
               title={`Call School Desk (${primaryPhone})`}
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="#003b95" strokeWidth="2.2" width="17" height="17">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#003b95" strokeWidth="2.2" width="19" height="19">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
             </a>
@@ -354,10 +354,10 @@ export default function Navbar2Row() {
                 <line x1="6" y1="18" x2="18" y2="6" strokeLinecap="round" />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.3" width={isScrolled ? '19' : '20'} height={isScrolled ? '19' : '20'}>
-                <line x1="3" y1="6" x2="21" y2="6" strokeLinecap="round" />
-                <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round" />
-                <line x1="3" y1="18" x2="21" y2="18" strokeLinecap="round" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.6" width={isScrolled ? '19' : '20'} height={isScrolled ? '19' : '20'}>
+                <line x1="3.5" y1="6" x2="20.5" y2="6" strokeLinecap="round" />
+                <line x1="3.5" y1="12" x2="20.5" y2="12" strokeLinecap="round" />
+                <line x1="3.5" y1="18" x2="20.5" y2="18" strokeLinecap="round" />
               </svg>
             )}
           </button>

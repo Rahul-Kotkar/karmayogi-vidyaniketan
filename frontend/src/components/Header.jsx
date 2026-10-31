@@ -35,19 +35,50 @@ function formatCollegeSettings(data) {
   }
 }
 
-function formatFoundation(foundation) {
-  if (!foundation) return "Shri Pandurang Pratishthan's"
-  return String(foundation).trim()
+function renderFoundation(foundation) {
+  const text = (foundation || "Shri Pandurang Pratishthan's").trim()
+  if (text.toLowerCase().includes("pratishthan")) {
+    return (
+      <div className="header-foundation-name">
+        <span className="foundation-line-1">Shri Pandurang Pratishthan</span>
+        <span className="foundation-line-2">Pandharpur's</span>
+      </div>
+    )
+  }
+  return (
+    <div className="header-foundation-name">
+      <span className="foundation-line-1">{text}</span>
+    </div>
+  )
 }
 
-function formatFounderCaption(name) {
-  if (!name) return "स्व. सुधाकरपंत परिचारक"
-  let clean = String(name).trim()
-  // Correct common Devanagari typo: "श्रध्येय" -> "श्रद्धेय"
-  clean = clean.replace(/श्रध्येय/g, 'श्रद्धेय')
-  // Remove unnecessary trailing dot after श्रद्धेय
-  clean = clean.replace(/श्रद्धेय\./g, 'श्रद्धेय')
-  return clean
+function renderFounderCaption(name) {
+  const clean = String(name || "Late Sudhakarpant Paricharak").trim()
+  if (clean.includes("Paricharak")) {
+    const parts = clean.split("Paricharak")
+    const prefix = parts[0].trim() || "Late Sudhakarpant"
+    return (
+      <div className="founder-caption-name">
+        <span className="founder-caption-l1">{prefix}</span>
+        <span className="founder-caption-l2">Paricharak</span>
+      </div>
+    )
+  }
+  if (clean.includes("परिचारक")) {
+    const parts = clean.split("परिचारक")
+    const prefix = parts[0].trim().replace(/श्रध्येय/g, 'श्रद्धेय') || "स्व. सुधाकरपंत"
+    return (
+      <div className="founder-caption-name">
+        <span className="founder-caption-l1">{prefix}</span>
+        <span className="founder-caption-l2">परिचारक</span>
+      </div>
+    )
+  }
+  return (
+    <div className="founder-caption-name">
+      <span className="founder-caption-l1">{clean}</span>
+    </div>
+  )
 }
 
 function renderSchoolTitle(name) {
@@ -153,9 +184,7 @@ export default function Header() {
 
           {/* Center: Foundation & School Name + Subtitle */}
           <div className="header-center-info">
-            <div className="header-foundation-name">
-              {formatFoundation(college.foundation)}
-            </div>
+            {renderFoundation(college.foundation)}
 
             <h1 className="header-college-title">
               {renderSchoolTitle(college.name)}
@@ -175,9 +204,7 @@ export default function Header() {
                 {college.founder_top_label || "Karmayogi"}
               </span>
               <FounderPortrait src={college.founder_photo_url} />
-              <div className="founder-caption-name">
-                {formatFounderCaption(college.founder_name)}
-              </div>
+              {renderFounderCaption(college.founder_name)}
             </div>
           </div>
         </div>
