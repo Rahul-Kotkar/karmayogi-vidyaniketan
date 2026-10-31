@@ -2697,159 +2697,211 @@ img, video, iframe, embed, object {
     position: sticky !important;
     top: 0 !important;
     z-index: 990 !important;
-    background: #f1f5f9 !important;
-    box-shadow: 0 3px 12px rgba(22, 61, 130, 0.09) !important;
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff !important;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
   }
   .navbar-2row-wrapper.is-scrolled {
-    background: #134A98 !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22) !important;
+    background: #003b95 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
   }
+
+  /* ==========================================================================
+     MOBILE DUAL-STATE STICKY NAVBAR (< 992px)
+     Matches engineering.karmayogi.org design pattern
+     ========================================================================== */
+
+  /* ----------------------------------------------------
+     STATE 1: TOP / UNSCROLLED (scrollY <= 40px)
+     - Pure white (#ffffff) background, 1px #e2e8f0 border
+     - Height: 50px, Padding: 7px 12px
+     ---------------------------------------------------- */
   .navbar-mobile-header {
     display: flex !important;
-    align-items: center;
-    justify-content: space-between;
+    align-items: center !important;
+    justify-content: space-between !important;
     gap: 8px;
-    padding: 6px 14px;
-    background: #f1f5f9;
-    border-top: none;
-    border-bottom: 1px solid var(--line);
-    min-height: 52px;
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 7px 12px !important;
+    background: #ffffff !important;
+    border-top: none !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    transition: background 0.25s ease, height 0.25s ease, padding 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
-  .navbar-mobile-header.is-scrolled {
-    background: #134A98 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22) !important;
-  }
-  .navbar-mobile-header.is-scrolled .navbar-mobile-college-name {
-    color: #ffffff !important;
-    font-family: 'Oswald', 'Montserrat', 'Arial Black', Impact, sans-serif !important;
-    font-size: clamp(14px, 3.8vw, 17.5px) !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
-    white-space: nowrap !important;
-    line-height: 1.2 !important;
-  }
+
+  /* Left branding: Title ("Menu") & Subtitle (Institution Name) */
   .navbar-mobile-brand {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 94px) !important;
   }
   .navbar-mobile-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--navy-header);
-    letter-spacing: 0.3px;
-    line-height: 1.2;
+    font-size: 16.5px !important;
+    font-weight: 800 !important;
+    color: #003b95 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.2px !important;
+    margin: 0 !important;
   }
   .navbar-mobile-sub {
-    font-size: 11px;
-    color: var(--blue-vibrant);
-    font-weight: 600;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #134a98 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
-  .navbar-mobile-brand.navbar-mobile-brand-logo {
-    flex-direction: row;
-    align-items: center;
-    line-height: 0;
-    flex-shrink: 0;
+
+  /* Right actions: Two 38x38px buttons with 8px gap */
+  .navbar-mobile-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
   }
-  .navbar-mobile-logo,
-  .navbar-mobile-brand-logo .college-crest-img {
-    max-height: 40px !important;
-    max-width: 110px !important;
-    width: auto !important;
-    object-fit: contain !important;
+
+  /* Phone call button (State 1) */
+  .navbar-mobile-call-btn {
+    width: 38px !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    color: #003b95 !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+  .navbar-mobile-call-btn svg {
+    width: 17px !important;
+    height: 17px !important;
+    stroke: #003b95 !important;
     display: block !important;
   }
-  .navbar-mobile-college-title {
-    flex: 1;
-    min-width: 0;
-    padding: 0 6px;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    animation: mobileTitleFadeIn 0.25s ease-out;
+  .navbar-mobile-call-btn:hover,
+  .navbar-mobile-call-btn:active {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
   }
-  @keyframes mobileTitleFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-3px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .navbar-mobile-college-name {
-    font-family: var(--heading-font, 'Plus Jakarta Sans', sans-serif);
-    font-size: clamp(11px, 3.2vw, 13px);
-    font-weight: 800;
-    color: var(--navy-header, #134A98);
-    text-transform: uppercase;
-    letter-spacing: 0.2px;
-    line-height: 1.25;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-  }
-  .navbar-mobile-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-  .navbar-mobile-call-btn {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eff6ff;
-    color: var(--blue-vibrant);
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .navbar-mobile-call-btn:hover {
-    background: #dbeafe;
-  }
+
+  /* Hamburger toggle button (State 1) */
   .navbar-toggle-btn {
-    width: 44px;
-    height: 44px;
-    background: var(--navy-header);
-    border: none;
-    color: #ffffff;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    width: 38px !important;
+    height: 38px !important;
+    background: #003b95 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease, width 0.25s ease, height 0.25s ease;
+  }
+  .navbar-toggle-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    stroke: #ffffff !important;
+    display: block !important;
   }
   .navbar-toggle-btn:hover {
-    background: var(--blue-hover);
+    background: #002d72 !important;
   }
+
+  /* ----------------------------------------------------
+     STATE 2: AFTER SCROLL (scrollY > 40px)
+     - Solid Royal Blue (#003b95)
+     - Border-bottom: 1px solid rgba(255, 255, 255, 0.15)
+     - Box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18)
+     - Height: 48px, Padding: 6px 12px
+     ---------------------------------------------------- */
+  .navbar-mobile-header.is-scrolled {
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    padding: 6px 12px !important;
+    background: #003b95 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* Left branding (State 2): Shield/Crest logo + Single-line Uppercase Bold Name */
+  .navbar-mobile-brand-scrolled {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+    overflow: hidden !important;
+  }
+  .navbar-mobile-logo,
+  .navbar-mobile-brand-scrolled .college-crest-img {
+    max-height: 36px !important;
+    max-width: 90px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+  }
+  .navbar-mobile-college-name {
+    color: #ffffff !important;
+    font-family: var(--heading-font, 'Plus Jakarta Sans', sans-serif) !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  /* Right actions (State 2): Phone button is HIDDEN */
+  .navbar-mobile-header.is-scrolled .navbar-mobile-call-btn {
+    display: none !important;
+  }
+
+  /* Hamburger toggle button (State 2): 36x36px glass translucent */
   .navbar-mobile-header.is-scrolled .navbar-toggle-btn {
-    background: #ffffff !important;
-    color: #134A98 !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
   }
   .navbar-mobile-header.is-scrolled .navbar-toggle-btn svg {
-    stroke: #134A98 !important;
-    color: #134A98 !important;
+    width: 19px !important;
+    height: 19px !important;
+    stroke: #ffffff !important;
+    color: #ffffff !important;
   }
   .navbar-mobile-header.is-scrolled .navbar-toggle-btn:hover {
-    background: #f1f5f9 !important;
-    color: #134A98 !important;
+    background: rgba(255, 255, 255, 0.24) !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
   }
   .navbar-mobile-header.is-scrolled .navbar-toggle-btn:hover svg {
-    stroke: #134A98 !important;
+    stroke: #ffffff !important;
   }
 
   /* Mobile Drawer Backdrop */

@@ -302,27 +302,31 @@ export default function Navbar2Row() {
     return cleanDigits ? `tel:${cleanDigits}` : 'tel:+918459863477'
   }, [primaryPhone])
 
+  const institutionName = useMemo(() => {
+    return collegeSettings?.college_name || COLLEGE.name || 'Karmayogi Vidyaniketan'
+  }, [collegeSettings])
+
   return (
     <div className={`navbar-2row-wrapper ${isScrolled ? 'is-scrolled' : ''}`}>
       {/* ================= MOBILE BAR HEADER (< 992px) ================= */}
       <div className={`navbar-mobile-header ${isScrolled ? 'is-scrolled' : ''}`}>
         {isScrolled ? (
-          <Link to="/" className="navbar-mobile-brand navbar-mobile-brand-logo" onClick={() => handleNavClick('/')} aria-label="Karmayogi Vidyaniketan Home">
+          <Link
+            to="/"
+            className="navbar-mobile-brand-scrolled"
+            onClick={() => handleNavClick('/')}
+            aria-label={institutionName}
+          >
             <CollegeLogo src={collegeSettings?.college_logo_url} className="navbar-mobile-logo" />
+            <span className="navbar-mobile-college-name">
+              {institutionName}
+            </span>
           </Link>
         ) : (
           <Link to="/" className="navbar-mobile-brand" onClick={() => handleNavClick('/')}>
             <span className="navbar-mobile-title">Menu</span>
-            <span className="navbar-mobile-sub">Karmayogi Vidyaniketan</span>
+            <span className="navbar-mobile-sub">{institutionName}</span>
           </Link>
-        )}
-
-        {isScrolled && (
-          <div className="navbar-mobile-college-title">
-            <span className="navbar-mobile-college-name">
-              {collegeSettings?.college_name || "Karmayogi Vidyaniketan"}
-            </span>
-          </div>
         )}
 
         <div className="navbar-mobile-actions">
@@ -333,27 +337,27 @@ export default function Navbar2Row() {
               aria-label={`Call School Helpdesk ${primaryPhone}`}
               title={`Call School Desk (${primaryPhone})`}
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#003b95" strokeWidth="2.2" width="17" height="17">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
             </a>
           )}
           <button
-            className="navbar-toggle-btn"
+            className={`navbar-toggle-btn ${isScrolled ? 'is-scrolled-btn' : ''}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
             {mobileOpen ? (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" width={isScrolled ? '19' : '20'} height={isScrolled ? '19' : '20'}>
+                <line x1="18" y1="6" x2="6" y2="18" strokeLinecap="round" />
+                <line x1="6" y1="18" x2="18" y2="6" strokeLinecap="round" />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.3" width={isScrolled ? '19' : '20'} height={isScrolled ? '19' : '20'}>
+                <line x1="3" y1="6" x2="21" y2="6" strokeLinecap="round" />
+                <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round" />
+                <line x1="3" y1="18" x2="21" y2="18" strokeLinecap="round" />
               </svg>
             )}
           </button>
