@@ -120,7 +120,7 @@ export default function Footer() {
             © 2026 {brandName}. All Rights Reserved. | Shri Pandurang Pratishthan, Pandharpur
           </div>
           <div className="footer-bottom-right">
-            Shri Pandurang Pratishthan, Pandharpur
+            Designed &amp; Developed by <strong className="dev-credit-names">Rahul &amp; Pratik</strong>
           </div>
         </div>
       </div>
