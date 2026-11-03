@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PageShell from '../components/PageShell.jsx'
-import { DEFAULT_FACULTY } from '../data/collegeData.js'
-import { facultyService, getCachedFaculty } from '../services/endpoints.js'
+import { facultyService, getCachedFaculty, setCachedFaculty, clearLocalCache } from '../services/endpoints.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 import { SearchIcon } from '../components/Icons.jsx'
 
@@ -20,10 +19,24 @@ function formatExp(exp) {
   return `${trimmed} Years`
 }
 
-export default function Faculty() {
+// Invalidate legacy hardcoded mock faculty if present in client localStorage
+function getValidCachedFaculty() {
   const cached = getCachedFaculty()
-  const [faculty, setFaculty] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
-  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
+  if (Array.isArray(cached)) {
+    const hasMock = cached.some(f => f.name === 'Mrs. Sunita S. Kadam' || f.name === 'Mr. Ramesh D. More')
+    if (hasMock) {
+      clearLocalCache('faculty')
+      return null
+    }
+    return cached.length > 0 ? cached : null
+  }
+  return null
+}
+
+export default function Faculty() {
+  const cached = getValidCachedFaculty()
+  const [faculty, setFaculty] = useState(() => (Array.isArray(cached) ? cached : null))
+  const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [selectedDept, setSelectedDept] = useState('ALL')
   const [selectedFaculty, setSelectedFaculty] = useState(null)
@@ -32,20 +45,22 @@ export default function Faculty() {
     let mounted = true
     facultyService.getAll().then(res => {
       if (mounted) {
-        if (res && Array.isArray(res) && res.length > 0) {
+        if (Array.isArray(res)) {
           setFaculty(res)
+          setCachedFaculty(res)
           setSelectedFaculty(prev => {
             if (!prev) return null
-            return res.find(f => f.id === prev.id) || prev
+            return res.find(f => f.id === prev.id) || null
           })
         } else {
-          setFaculty(DEFAULT_FACULTY)
+          setFaculty([])
+          setCachedFaculty([])
         }
         setLoading(false)
       }
     }).catch(() => {
       if (mounted) {
-        setFaculty(prev => prev || DEFAULT_FACULTY)
+        setFaculty(prev => (Array.isArray(prev) ? prev : []))
         setLoading(false)
       }
     })
@@ -72,19 +87,19 @@ export default function Faculty() {
   if (loading && (!faculty || faculty.length === 0)) {
     return (
       <PageShell title="Our Esteemed Faculty">
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '70px 20px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '90px 20px', textAlign: 'center' }}>
           <div style={{
             display: 'inline-block',
-            width: 36,
-            height: 36,
-            border: '3px solid #e2e8f0',
+            width: 42,
+            height: 42,
+            border: '3.5px solid #e2e8f0',
             borderTopColor: '#134A98',
             borderRadius: '50%',
             animation: 'spin 0.75s linear infinite',
-            marginBottom: 16
+            marginBottom: 18
           }} />
           <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
-          <p style={{ color: '#64748b', fontSize: 15, fontWeight: 500, margin: 0 }}>
+          <p style={{ color: '#475569', fontSize: 16, fontWeight: 600, margin: 0 }}>
             Loading Faculty Members...
           </p>
         </div>
@@ -93,6 +108,45 @@ export default function Faculty() {
   }
 
   const safeFaculty = faculty || []
+
+  // Clean empty state if database has 0 faculty members
+  if (!loading && safeFaculty.length === 0) {
+    return (
+      <PageShell title="Our Esteemed Faculty">
+        <div style={{
+          maxWidth: 680,
+          margin: '60px auto',
+          padding: '50px 30px',
+          textAlign: 'center',
+          background: '#f8fafc',
+          borderRadius: 16,
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)'
+        }}>
+          <div style={{
+            width: 60,
+            height: 60,
+            borderRadius: '50%',
+            background: '#e0e7ff',
+            color: '#134A98',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 18px',
+            fontSize: 26
+          }}>
+            👨‍🏫
+          </div>
+          <h3 style={{ fontSize: 20, fontWeight: 700, color: '#1e293b', margin: '0 0 8px' }}>
+            No Faculty Records Found
+          </h3>
+          <p style={{ fontSize: 14, color: '#64748b', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
+            Faculty profiles are currently being updated in the system. They will appear here once added in the administrative portal.
+          </p>
+        </div>
+      </PageShell>
+    )
+  }
 
   // Collect unique departments
   const departments = ['ALL', ...new Set(
