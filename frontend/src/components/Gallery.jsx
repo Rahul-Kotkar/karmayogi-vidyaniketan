@@ -5,7 +5,9 @@ import { CameraIcon } from './Icons.jsx'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function Gallery({ limit }) {
-  const [albums, setAlbums] = useState(() => getCachedAlbums() || FALLBACK_ALBUMS)
+  const cached = getCachedAlbums()
+  const [albums, setAlbums] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
+  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
   const [selectedAlbum, setSelectedAlbum] = useState(null)
   const [cat, setCat] = useState('All')
   const [lb, setLb] = useState(null)
@@ -15,8 +17,14 @@ export default function Gallery({ limit }) {
       if (data && data.length > 0) {
         setAlbums(data)
         setCachedAlbums(data)
+      } else {
+        setAlbums(FALLBACK_ALBUMS)
       }
-    }).catch(() => {})
+      setLoading(false)
+    }).catch(() => {
+      setAlbums(prev => prev || FALLBACK_ALBUMS)
+      setLoading(false)
+    })
   }
 
   useEffect(() => {
@@ -25,11 +33,32 @@ export default function Gallery({ limit }) {
     return () => window.removeEventListener('gallery_updated', fetchAlbums)
   }, [])
 
+  if (loading && (!albums || albums.length === 0)) {
+    return (
+      <div style={{ padding: '40px 0', textAlign: 'center' }}>
+        <div style={{
+          display: 'inline-block',
+          width: 32,
+          height: 32,
+          border: '3px solid #e2e8f0',
+          borderTopColor: '#134A98',
+          borderRadius: '50%',
+          animation: 'spin 0.75s linear infinite',
+          marginBottom: 12
+        }} />
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+        <p style={{ color: '#64748b', fontSize: 14 }}>Loading Gallery Albums...</p>
+      </div>
+    )
+  }
+
+  const safeAlbums = albums || []
+
   // Extract distinct categories
-  const categories = ['All', ...new Set(albums.map(a => a.category_name).filter(Boolean))]
+  const categories = ['All', ...new Set(safeAlbums.map(a => a.category_name).filter(Boolean))]
 
   // Filtered albums
-  const filteredAlbums = (cat === 'All' ? albums : albums.filter(a => a.category_name === cat))
+  const filteredAlbums = (cat === 'All' ? safeAlbums : safeAlbums.filter(a => a.category_name === cat))
   const displayedAlbums = limit ? filteredAlbums.slice(0, limit) : filteredAlbums
 
   // Photos of the currently selected album

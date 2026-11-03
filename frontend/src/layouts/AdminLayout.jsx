@@ -347,6 +347,26 @@ export default function AdminLayout() {
       ]
     },
     {
+      id: 'clubs',
+      label: 'CLUBS',
+      path: '/admin/clubs',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      ),
+      children: [
+        { id: 'club_overview', label: 'Overview of Clubs', path: '/admin/clubs' },
+        { id: 'club_cultural', label: 'Cultural Club', path: '/admin/clubs?tab=cultural-club' },
+        { id: 'club_computer', label: 'Computer Lab Committee', path: '/admin/clubs?tab=computer-lab-committee' },
+        { id: 'club_technical', label: 'Technical Committee', path: '/admin/clubs?tab=technical-committee' },
+        { id: 'club_sports', label: 'Sports Committee', path: '/admin/clubs?tab=sports-committee' }
+      ]
+    },
+    {
       id: 'admission_enquiry',
       label: 'ADMISSION ENQUIRY',
       path: '/admin/messages?filter=admission',

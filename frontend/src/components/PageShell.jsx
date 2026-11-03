@@ -56,7 +56,7 @@ export default function PageShell({
   const heroStyle = {}
   if (banner) {
     const resolvedBanner = resolveMediaUrl(banner)
-    heroStyle.backgroundImage = `linear-gradient(135deg, rgba(4, 18, 36, 0.92) 0%, rgba(7, 59, 115, 0.88) 60%, rgba(10, 45, 92, 0.85) 100%), url("${resolvedBanner}")`
+    heroStyle.backgroundImage = `linear-gradient(135deg, rgba(19, 74, 152, 0.92) 0%, rgba(22, 61, 130, 0.88) 60%, rgba(18, 51, 110, 0.85) 100%), url("${resolvedBanner}")`
     heroStyle.backgroundSize = 'cover'
     heroStyle.backgroundPosition = 'center'
   }

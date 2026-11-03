@@ -21,25 +21,35 @@ function formatExp(exp) {
 }
 
 export default function Faculty() {
-  const [faculty, setFaculty] = useState(() => {
-    const cached = getCachedFaculty()
-    return Array.isArray(cached) && cached.length > 0 ? cached : DEFAULT_FACULTY
-  })
-  const [loading, setLoading] = useState(false)
+  const cached = getCachedFaculty()
+  const [faculty, setFaculty] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
+  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
   const [search, setSearch] = useState('')
   const [selectedDept, setSelectedDept] = useState('ALL')
   const [selectedFaculty, setSelectedFaculty] = useState(null)
 
   useEffect(() => {
+    let mounted = true
     facultyService.getAll().then(res => {
-      if (res && Array.isArray(res) && res.length > 0) {
-        setFaculty(res)
-        setSelectedFaculty(prev => {
-          if (!prev) return null
-          return res.find(f => f.id === prev.id) || prev
-        })
+      if (mounted) {
+        if (res && Array.isArray(res) && res.length > 0) {
+          setFaculty(res)
+          setSelectedFaculty(prev => {
+            if (!prev) return null
+            return res.find(f => f.id === prev.id) || prev
+          })
+        } else {
+          setFaculty(DEFAULT_FACULTY)
+        }
+        setLoading(false)
       }
-    }).catch(() => {})
+    }).catch(() => {
+      if (mounted) {
+        setFaculty(prev => prev || DEFAULT_FACULTY)
+        setLoading(false)
+      }
+    })
+    return () => { mounted = false }
   }, [])
 
   // Lock body scroll and handle Escape key when modal is open
@@ -59,15 +69,40 @@ export default function Faculty() {
     }
   }, [selectedFaculty])
 
+  if (loading && (!faculty || faculty.length === 0)) {
+    return (
+      <PageShell title="Our Esteemed Faculty">
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '70px 20px', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block',
+            width: 36,
+            height: 36,
+            border: '3px solid #e2e8f0',
+            borderTopColor: '#134A98',
+            borderRadius: '50%',
+            animation: 'spin 0.75s linear infinite',
+            marginBottom: 16
+          }} />
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+          <p style={{ color: '#64748b', fontSize: 15, fontWeight: 500, margin: 0 }}>
+            Loading Faculty Members...
+          </p>
+        </div>
+      </PageShell>
+    )
+  }
+
+  const safeFaculty = faculty || []
+
   // Collect unique departments
   const departments = ['ALL', ...new Set(
-    faculty
+    safeFaculty
       .map(f => f.department_name || f.specialization || '')
       .filter(Boolean)
       .map(d => d.replace(/Physiotherapy/i, '').trim())
   )]
 
-  const filtered = faculty.filter(f => {
+  const filtered = safeFaculty.filter(f => {
     const deptString = (f.department_name || f.specialization || '').toLowerCase()
     const matchesDept = selectedDept === 'ALL' || deptString.includes(selectedDept.toLowerCase())
 

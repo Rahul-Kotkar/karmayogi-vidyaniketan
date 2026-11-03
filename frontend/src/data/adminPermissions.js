@@ -79,6 +79,18 @@ export const ADMIN_PERMISSION_GROUPS = [
         ]
       },
       {
+        id: 'clubs',
+        label: 'Clubs & Committees',
+        path: '/admin/clubs',
+        submenus: [
+          { id: 'club_overview', label: 'Overview of Clubs', path: '/admin/clubs' },
+          { id: 'club_cultural', label: 'Cultural Club', path: '/admin/clubs?tab=cultural-club' },
+          { id: 'club_computer', label: 'Computer Lab Committee', path: '/admin/clubs?tab=computer-lab-committee' },
+          { id: 'club_technical', label: 'Technical Committee', path: '/admin/clubs?tab=technical-committee' },
+          { id: 'club_sports', label: 'Sports Committee', path: '/admin/clubs?tab=sports-committee' }
+        ]
+      },
+      {
         id: 'committees',
         label: 'Institutional Committees',
         path: '/admin/committees',

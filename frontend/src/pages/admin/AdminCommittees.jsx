@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { pagesService, uploadService, setCachedCommitteesData } from '../../services/endpoints.js'
+import { pagesService, uploadService, setCachedCommitteesData, getCachedCommitteesData } from '../../services/endpoints.js'
 import { DEFAULT_COMMITTEES_DATA } from '../../data/collegeData.js'
 import { resolveMediaUrl } from '../../utils/mediaUrl.js'
 
 export default function AdminCommittees() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [committees, setCommittees] = useState(DEFAULT_COMMITTEES_DATA)
+  const [committees, setCommittees] = useState(() => getCachedCommitteesData() || DEFAULT_COMMITTEES_DATA)
   const [selectedIdx, setSelectedIdx] = useState(0)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)

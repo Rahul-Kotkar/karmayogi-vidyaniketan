@@ -1648,7 +1648,8 @@ if ($resource === 'pages') {
             'committees'            => "Institutional Committees",
             'iqac-naac'             => "IQAC & NAAC Records",
             'mandatory-disclosures' => "Mandatory Disclosures",
-            'navigation_visibility' => "Row 2 Menu Visibility"
+            'navigation_visibility' => "Row 2 Menu Visibility",
+            'clubs'                 => "Clubs & Committees"
         ];
         $label = $pageLabels[$slug] ?? ($b['title'] ?? ucfirst(str_replace(['-', '_'], ' ', $slug)));
         ActivityLogger::log($admin, 'UPDATE', 'pages', $slug, "Updated {$label}");

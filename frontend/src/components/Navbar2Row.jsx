@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
-import { ROW_1_NAV, ROW_2_NAV, COLLEGE } from '../data/collegeData.js'
+import { ROW_1_NAV, ROW_2_NAV, COLLEGE, DEFAULT_CLUBS_DATA } from '../data/collegeData.js'
 import { CollegeLogo } from './Logo.jsx'
-import { getCachedNavVisibility, settingsService, getCachedSettings, facilitiesService, getCachedFacilities } from '../services/endpoints.js'
+import { getCachedNavVisibility, settingsService, getCachedSettings, facilitiesService, getCachedFacilities, clubsService, getCachedClubsData, pagesService, getCachedCommitteesData, setCachedCommitteesData } from '../services/endpoints.js'
 
 export default function Navbar2Row() {
   const [activeDropdown, setActiveDropdown] = useState(null)
@@ -11,6 +11,8 @@ export default function Navbar2Row() {
   const [navVisibility, setNavVisibility] = useState(() => getCachedNavVisibility() || { hiddenMenus: [], hiddenSubmenus: {} })
   const [collegeSettings, setCollegeSettings] = useState(() => getCachedSettings() || null)
   const [facilities, setFacilities] = useState(() => getCachedFacilities() || null)
+  const [clubs, setClubs] = useState(() => getCachedClubsData() || null)
+  const [committees, setCommittees] = useState(() => getCachedCommitteesData() || null)
   const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
 
@@ -111,6 +113,50 @@ export default function Navbar2Row() {
     }
   }, [])
 
+  // Dynamically synchronize clubs from backend/cache
+  useEffect(() => {
+    let mounted = true
+    const loadClubs = () => {
+      clubsService.getAll().then(data => {
+        if (mounted && Array.isArray(data)) {
+          setClubs(data)
+        }
+      }).catch(() => {})
+    }
+
+    loadClubs()
+    window.addEventListener('clubs_updated', loadClubs)
+    return () => {
+      mounted = false
+      window.removeEventListener('clubs_updated', loadClubs)
+    }
+  }, [])
+
+  // Dynamically synchronize committees from backend/cache
+  useEffect(() => {
+    let mounted = true
+    const loadCommittees = () => {
+      pagesService.getBySlug('committees').then(page => {
+        if (mounted && page && page.content_html) {
+          try {
+            const parsed = JSON.parse(page.content_html)
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setCommittees(parsed)
+              setCachedCommitteesData(parsed)
+            }
+          } catch {}
+        }
+      }).catch(() => {})
+    }
+
+    loadCommittees()
+    window.addEventListener('committees_updated', loadCommittees)
+    return () => {
+      mounted = false
+      window.removeEventListener('committees_updated', loadCommittees)
+    }
+  }, [])
+
   // Compute dropdown items for Facilities based only on added and active facilities
   const dynamicFacilityChildren = useMemo(() => {
     const overviewItem = { label: 'Facilities Overview', path: '/facilities#overview' }
@@ -137,7 +183,46 @@ export default function Navbar2Row() {
     return [overviewItem]
   }, [facilities])
 
-  // Desktop Row 2 Navigation with dynamic facilities
+  // Compute dropdown items for Clubs based on CMS or default dataset
+  const dynamicClubsChildren = useMemo(() => {
+    const overviewItem = { label: 'Overview of Clubs', path: '/clubs' }
+    if (Array.isArray(clubs) && clubs.length > 0) {
+      const activeItems = clubs.map(c => {
+        const slug = c.id || c.slug || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+        return {
+          label: c.name,
+          path: `/clubs/${slug}`
+        }
+      })
+      return [overviewItem, ...activeItems]
+    }
+    return [overviewItem]
+  }, [clubs])
+
+  // Compute dropdown items for Committees based on CMS or default dataset
+  const dynamicCommitteesChildren = useMemo(() => {
+    const overviewItem = { label: 'Overview of Committees', path: '/committees' }
+    if (Array.isArray(committees) && committees.length > 0) {
+      const activeItems = committees.map(c => {
+        const slug = c.id || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+        return {
+          label: c.name,
+          path: `/committees/${slug}`
+        }
+      })
+      return [overviewItem, ...activeItems]
+    }
+    return [
+      overviewItem,
+      { label: 'School Managing Committee (SMC)', path: '/committees/smc' },
+      { label: 'Parent-Teacher Association (PTA)', path: '/committees/pta' },
+      { label: 'Child Safety & Protection (POCSO)', path: '/committees/pocso-safety' },
+      { label: 'Anti-Bullying & Disciplinary', path: '/committees/anti-bullying' },
+      { label: 'Academic Quality Council', path: '/committees/academic-council' }
+    ]
+  }, [committees])
+
+  // Desktop Row 2 Navigation with dynamic facilities, clubs, and committees
   const desktopRow2Nav = useMemo(() => {
     return ROW_2_NAV.map(group => {
       if (group.label === 'FACILITIES' || group.path === '/facilities') {
@@ -146,9 +231,21 @@ export default function Navbar2Row() {
           children: dynamicFacilityChildren
         }
       }
+      if (group.label === 'CLUBS' || group.path === '/clubs') {
+        return {
+          ...group,
+          children: dynamicClubsChildren
+        }
+      }
+      if (group.label === 'COMMITTEES' || group.path === '/committees') {
+        return {
+          ...group,
+          children: dynamicCommitteesChildren
+        }
+      }
       return group
     })
-  }, [dynamicFacilityChildren])
+  }, [dynamicFacilityChildren, dynamicClubsChildren, dynamicCommitteesChildren])
 
   const toggleMobileGroup = (groupKey) => {
     setMobileExpanded(prev => ({
@@ -262,17 +359,16 @@ export default function Navbar2Row() {
       ]
     },
     {
+      key: 'clubs',
+      label: 'CLUBS',
+      path: '/clubs',
+      children: dynamicClubsChildren
+    },
+    {
       key: 'committees',
       label: 'COMMITTEES',
       path: '/committees',
-      children: [
-        { label: 'Overview of Committees', path: '/committees' },
-        { label: 'School Managing Committee (SMC)', path: '/committees/smc' },
-        { label: 'Parent-Teacher Association (PTA)', path: '/committees/pta' },
-        { label: 'Child Safety & Protection (POCSO)', path: '/committees/pocso-safety' },
-        { label: 'Anti-Bullying & Disciplinary', path: '/committees/anti-bullying' },
-        { label: 'Academic Quality Council', path: '/committees/academic-council' }
-      ]
+      children: dynamicCommitteesChildren
     },
     {
       key: 'mandatory-disclosures',
@@ -287,7 +383,7 @@ export default function Navbar2Row() {
       ]
     },
     { key: 'admissions-apply', label: 'ADMISSION ENQUIRY', path: '/admission-enquiry' }
-  ], [dynamicFacilityChildren])
+  ], [dynamicFacilityChildren, dynamicClubsChildren])
 
   // Extract 1st school contact number and sanitize for native mobile dialer
   const primaryPhone = useMemo(() => {

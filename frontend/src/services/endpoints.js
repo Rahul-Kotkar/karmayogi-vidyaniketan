@@ -8,7 +8,8 @@ import {
   FACILITIES as FALLBACK_FACILITIES,
   GALLERY as FALLBACK_GALLERY,
   ALBUMS as FALLBACK_ALBUMS,
-  COLLEGE as FALLBACK_COLLEGE
+  COLLEGE as FALLBACK_COLLEGE,
+  DEFAULT_CLUBS_DATA
 } from '../data/collegeData.js'
 
 // --------------------------------------------------------
@@ -87,11 +88,43 @@ export function setCachedResearchData(data) {
 }
 
 export function getCachedCommitteesData() {
-  return getLocalCache('committees_data', null)
+  const direct = getLocalCache('committees_data', null)
+  if (Array.isArray(direct) && direct.length > 0) return direct
+  const pageObj = getLocalCache('page_committees', null)
+  if (pageObj && pageObj.content_html) {
+    try {
+      const parsed = JSON.parse(pageObj.content_html)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        setLocalCache('committees_data', parsed)
+        return parsed
+      }
+    } catch {}
+  }
+  return null
 }
 
 export function setCachedCommitteesData(data) {
   setLocalCache('committees_data', data)
+}
+
+export function getCachedClubsData() {
+  const direct = getLocalCache('clubs_data', null)
+  if (Array.isArray(direct) && direct.length > 0) return direct
+  const pageObj = getLocalCache('page_clubs', null)
+  if (pageObj && pageObj.content_html) {
+    try {
+      const parsed = JSON.parse(pageObj.content_html)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        setLocalCache('clubs_data', parsed)
+        return parsed
+      }
+    } catch {}
+  }
+  return null
+}
+
+export function setCachedClubsData(data) {
+  setLocalCache('clubs_data', data)
 }
 
 export function getCachedPlacementData() {
@@ -535,6 +568,7 @@ export const pagesService = {
             if (slug === 'academic_years') setCachedAcademicYears(parsed)
             if (slug === 'navigation_visibility') setCachedNavVisibility(parsed)
             if (slug === 'iqac-naac') setCachedIQACData(parsed)
+            if (slug === 'clubs') setCachedClubsData(parsed)
           } catch {}
         }
         return res.data
@@ -571,12 +605,45 @@ export const pagesService = {
           if (data.slug === 'academic_years') setCachedAcademicYears(parsed)
           if (data.slug === 'navigation_visibility') setCachedNavVisibility(parsed)
           if (data.slug === 'iqac-naac') setCachedIQACData(parsed)
+          if (data.slug === 'clubs') setCachedClubsData(parsed)
         } catch {}
       }
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('page_updated', { detail: data }))
         window.dispatchEvent(new CustomEvent(`page_${data.slug}_updated`, { detail: data }))
       }
+    }
+    return res
+  }
+}
+
+// --------------------------------------------------------
+// Clubs & Committees Endpoint (School Co-Curricular & Lab Bodies)
+// --------------------------------------------------------
+export const clubsService = {
+  getAll: async () => {
+    try {
+      const page = await pagesService.getBySlug('clubs')
+      if (page && page.content_html) {
+        const parsed = JSON.parse(page.content_html)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setCachedClubsData(parsed)
+          return parsed
+        }
+      }
+    } catch {}
+    return getCachedClubsData() || DEFAULT_CLUBS_DATA
+  },
+  save: async (clubsList) => {
+    const res = await pagesService.save({
+      slug: 'clubs',
+      title: 'Clubs & Committees',
+      content_html: JSON.stringify(clubsList),
+      excerpt: 'Student clubs and co-curricular committees of Karmayogi Vidyaniketan.'
+    })
+    setCachedClubsData(clubsList)
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('clubs_updated', { detail: clubsList }))
     }
     return res
   }

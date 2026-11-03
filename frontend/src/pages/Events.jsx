@@ -21,13 +21,11 @@ function parseEventDate(rawDate) {
 }
 
 export default function Events() {
-  const [events, setEvents] = useState(() => {
-    const cached = getCachedEvents()
-    return Array.isArray(cached) && cached.length > 0 ? cached : DEFAULT_EVENTS
-  })
+  const cached = getCachedEvents()
+  const [events, setEvents] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
   const [search, setSearch] = useState('')
   const [selectedType, setSelectedType] = useState('ALL')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
   const [expandedEvents, setExpandedEvents] = useState({})
 
   const toggleEvent = (id) => {
@@ -38,12 +36,16 @@ export default function Events() {
     const fetchEvents = () => {
       eventsService.getAll()
         .then(res => {
-          if (res && Array.isArray(res)) {
+          if (res && Array.isArray(res) && res.length > 0) {
             setEvents(res)
             setCachedEvents(res)
+          } else {
+            setEvents(DEFAULT_EVENTS)
           }
         })
-        .catch(() => {})
+        .catch(() => {
+          setEvents(prev => prev || DEFAULT_EVENTS)
+        })
         .finally(() => setLoading(false))
     }
 
@@ -52,9 +54,34 @@ export default function Events() {
     return () => window.removeEventListener('events_updated', fetchEvents)
   }, [])
 
-  const types = ['ALL', ...new Set(events.map(e => (e.event_type || e.type || 'Event').toUpperCase()))]
+  if (loading && (!events || events.length === 0)) {
+    return (
+      <PageShell title="Campus Events">
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '70px 20px', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block',
+            width: 36,
+            height: 36,
+            border: '3px solid #e2e8f0',
+            borderTopColor: '#134A98',
+            borderRadius: '50%',
+            animation: 'spin 0.75s linear infinite',
+            marginBottom: 16
+          }} />
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+          <p style={{ color: '#64748b', fontSize: 15, fontWeight: 500, margin: 0 }}>
+            Loading Events...
+          </p>
+        </div>
+      </PageShell>
+    )
+  }
 
-  const filtered = events.filter(e => {
+  const safeEvents = events || []
+
+  const types = ['ALL', ...new Set(safeEvents.map(e => (e.event_type || e.type || 'Event').toUpperCase()))]
+
+  const filtered = safeEvents.filter(e => {
     const eventType = (e.event_type || e.type || 'Event').toUpperCase()
     const matchType = selectedType === 'ALL' || eventType === selectedType
     const matchSearch =

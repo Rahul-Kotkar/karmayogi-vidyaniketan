@@ -122,6 +122,13 @@ export const ROW_2_NAV = [
     ]
   },
   {
+    label: "CLUBS",
+    path: "/clubs",
+    children: [
+      { label: "Overview of Clubs", path: "/clubs" }
+    ]
+  },
+  {
     label: "COMMITTEES",
     path: "/committees",
     children: [
@@ -992,6 +999,70 @@ export const DEFAULT_COMMITTEES_DATA = [
       { name: 'Science & STEM Coordinator', role: 'Member', contact: 'stem@karmayogividyaniketan.com' },
       { name: 'Languages Department Head', role: 'Member', contact: 'languages@karmayogividyaniketan.com' },
       { name: 'Mathematics Department Head', role: 'Member', contact: 'maths@karmayogividyaniketan.com' }
+    ]
+  }
+];
+
+export const DEFAULT_CLUBS_DATA = [
+  {
+    id: 'cultural-club',
+    name: 'Cultural Club',
+    subtitle: 'Celebrating Art, Music, Dance, Theatrical Drama & Heritage Festivals',
+    photo_url: '/assets/about_students.png',
+    photo_caption: 'Cultural Club Committee Members and Performing Arts Ensembles (Academic Year 2026-27)',
+    info: 'The Cultural Club at Karmayogi Vidyaniketan offers students a creative avenue to explore, nurture, and showcase their talents in performing arts, music, classical dance, drama, and fine arts. The committee is responsible for staging traditional celebrations such as Shiv Jayanti, Ashadhi Dindi, Independence Day, and our grand annual cultural gala Karmotsav.',
+    members: [
+      { srno: 1, name: 'Mrs. Sunita Deshmukh', designation: 'Faculty In-Charge / Coordinator' },
+      { srno: 2, name: 'Aditya Patil', designation: 'Student President' },
+      { srno: 3, name: 'Pooja Kulkarni', designation: 'Vice President' },
+      { srno: 4, name: 'Rohan Shinde', designation: 'Secretary' },
+      { srno: 5, name: 'Ananya Jadhav', designation: 'Cultural Event In-Charge' },
+      { srno: 6, name: 'Pranav Joshi', designation: 'Student Member' }
+    ]
+  },
+  {
+    id: 'computer-lab-committee',
+    name: 'Computer Lab Committee',
+    subtitle: 'Computing Infrastructure, Digital Literacy & Network Resource Oversight',
+    photo_url: '/assets/hero_building.png',
+    photo_caption: 'Computer Laboratory Oversight Committee, Technical Staff & Student IT Leads',
+    info: 'The Computer Lab Committee oversees the operational readiness, modern computing workstations, high-speed networking, and software frameworks in the school computer laboratories. The committee ensures safe cyber practices, equitable workstation access for all grade levels, coding and multimedia projects, and technical assistance during computer practical assessments.',
+    members: [
+      { srno: 1, name: 'Mr. Vikram Kadam', designation: 'Computer Lab In-Charge' },
+      { srno: 2, name: 'Mrs. Meera Gaikwad', designation: 'System Administrator' },
+      { srno: 3, name: 'Rajesh Nalawade', designation: 'Hardware & Network Technician' },
+      { srno: 4, name: 'Siddharth More', designation: 'Student IT Coordinator' },
+      { srno: 5, name: 'Snehal Chavan', designation: 'Student Member' }
+    ]
+  },
+  {
+    id: 'technical-committee',
+    name: 'Technical Committee',
+    subtitle: 'STEM Innovations, Robotics, Audio-Visual & Digital Campus Systems',
+    photo_url: '/assets/img_3117.png',
+    photo_caption: 'Technical Committee Mentors, Smart Classroom Technicians & Student Innovators',
+    info: 'The Technical Committee drives digital classroom innovations, interactive smart-board technologies, auditorium acoustics, and STEM robotics laboratories. The committee mentors students in designing science models, robotics projects, block programming, and preparing entries for state and national science congresses and technical olympiads.',
+    members: [
+      { srno: 1, name: 'Mr. Sandeep Shinde', designation: 'Technical Head & STEM Mentor' },
+      { srno: 2, name: 'Mr. Nitin Pawar', designation: 'A/V & Electronics In-Charge' },
+      { srno: 3, name: 'Tanmay Shinde', designation: 'Lead Student Coordinator' },
+      { srno: 4, name: 'Divya Sonawane', designation: 'Robotics Lead' },
+      { srno: 5, name: 'Omkar Salunkhe', designation: 'Technical Member' }
+    ]
+  },
+  {
+    id: 'sports-committee',
+    name: 'Sports Committee',
+    subtitle: 'Physical Education, Athletic Championships & Inter-School Sports Governance',
+    photo_url: '/assets/tpo_officer.jpg',
+    photo_caption: 'Sports Committee Council, Physical Directors & House Athletic Captains',
+    info: 'The Sports Committee spearheads athletic excellence, sportsmanship, and physical wellness across Karmayogi Vidyaniketan. Managing expansive playgrounds for cricket, volleyball, football, running tracks, and indoor sports facilities (table tennis, chess, carrom), the committee organizes inter-house tournaments and guides athletes toward district and state level school games.',
+    members: [
+      { srno: 1, name: 'Mr. Santosh Patil', designation: 'Director of Physical Education & Sports' },
+      { srno: 2, name: 'Mrs. Vaishali Mohite', designation: 'Sports Coach' },
+      { srno: 3, name: 'Harshwardhan Kadam', designation: 'Sports Captain (Boys)' },
+      { srno: 4, name: 'Sakshi Tambe', designation: 'Sports Captain (Girls)' },
+      { srno: 5, name: 'Karan Jagtap', designation: 'Student Sports Secretary' }
     ]
   }
 ];

@@ -2,20 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import PageShell from '../components/PageShell.jsx'
 import { DEFAULT_COMMITTEES_DATA } from '../data/collegeData.js'
-import { pagesService, getCachedCommitteesData } from '../services/endpoints.js'
+import { pagesService, getCachedCommitteesData, setCachedCommitteesData } from '../services/endpoints.js'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function Committees() {
   const { subpage } = useParams()
 
-  // Prehydrated state from cache or default institutional dataset
-  const [committees, setCommittees] = useState(() => {
-    const cached = getCachedCommitteesData()
-    if (Array.isArray(cached) && cached.length > 0) {
-      return cached
-    }
-    return DEFAULT_COMMITTEES_DATA
-  })
+  // Prehydrated state from cache; do not flash default static data while fetching real data
+  const cached = getCachedCommitteesData()
+  const [committees, setCommittees] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
+  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
 
   // Normalize current subpage slug
   let currentSlug = (subpage || '').toLowerCase().trim()
@@ -33,20 +29,59 @@ export default function Committees() {
 
   // Fetch live dynamic committees from CMS pages
   useEffect(() => {
+    let mounted = true
     pagesService.getBySlug('committees').then(page => {
-      if (page && page.content_html) {
-        try {
-          const parsed = JSON.parse(page.content_html)
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setCommittees(parsed)
-          }
-        } catch {}
+      if (mounted) {
+        if (page && page.content_html) {
+          try {
+            const parsed = JSON.parse(page.content_html)
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setCommittees(parsed)
+              setCachedCommitteesData(parsed)
+              setLoading(false)
+              return
+            }
+          } catch {}
+        }
+        setCommittees(DEFAULT_COMMITTEES_DATA)
+        setLoading(false)
       }
-    }).catch(() => {})
+    }).catch(() => {
+      if (mounted) {
+        setCommittees(prev => prev || DEFAULT_COMMITTEES_DATA)
+        setLoading(false)
+      }
+    })
+    return () => { mounted = false }
   }, [])
 
+  if (loading && (!committees || committees.length === 0)) {
+    return (
+      <PageShell title="Institutional Committees">
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '70px 20px', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block',
+            width: 36,
+            height: 36,
+            border: '3px solid #e2e8f0',
+            borderTopColor: '#134A98',
+            borderRadius: '50%',
+            animation: 'spin 0.75s linear infinite',
+            marginBottom: 16
+          }} />
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+          <p style={{ color: '#64748b', fontSize: 15, fontWeight: 500, margin: 0 }}>
+            Loading Institutional Committees...
+          </p>
+        </div>
+      </PageShell>
+    )
+  }
+
+  const safeCommittees = committees || []
+
   // Build submenu list dynamically from the committees array
-  const committeeSubmenus = committees.map(c => {
+  const committeeSubmenus = safeCommittees.map(c => {
     const slug = c.id || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
     return {
       label: c.name,
@@ -57,7 +92,7 @@ export default function Committees() {
   })
 
   // Find active committee
-  const activeCommittee = committees.find(c => {
+  const activeCommittee = safeCommittees.find(c => {
     const slug = (c.id || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')).toLowerCase()
     return slug === currentSlug
   })

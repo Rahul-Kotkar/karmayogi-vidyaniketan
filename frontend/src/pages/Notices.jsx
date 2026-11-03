@@ -8,20 +8,23 @@ import { FilePdfIcon } from '../components/Icons.jsx'
 import { resolveMediaUrl } from '../utils/mediaUrl.js'
 
 export default function Notices() {
-  const [notices, setNotices] = useState(() => {
-    const cached = getCachedNotices()
-    return Array.isArray(cached) && cached.length > 0 ? cached : DEFAULT_NOTICES
-  })
-  const [loading, setLoading] = useState(false)
+  const cached = getCachedNotices()
+  const [notices, setNotices] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
+  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
   const [params] = useSearchParams()
   const openId = params.get('n')
 
   const fetchNotices = () => {
     noticesService.getAll().then(data => {
-      setNotices(data)
-      setCachedNotices(data)
+      if (Array.isArray(data) && data.length > 0) {
+        setNotices(data)
+        setCachedNotices(data)
+      } else {
+        setNotices(DEFAULT_NOTICES)
+      }
       setLoading(false)
     }).catch(() => {
+      setNotices(prev => prev || DEFAULT_NOTICES)
       setLoading(false)
     })
   }
@@ -32,7 +35,31 @@ export default function Notices() {
     return () => window.removeEventListener('notices_updated', fetchNotices)
   }, [])
 
-  const open = notices.find(n => String(n.id) === openId)
+  if (loading && (!notices || notices.length === 0)) {
+    return (
+      <PageShell title="Notices">
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '70px 20px', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block',
+            width: 36,
+            height: 36,
+            border: '3px solid #e2e8f0',
+            borderTopColor: '#134A98',
+            borderRadius: '50%',
+            animation: 'spin 0.75s linear infinite',
+            marginBottom: 16
+          }} />
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+          <p style={{ color: '#64748b', fontSize: 15, fontWeight: 500, margin: 0 }}>
+            Loading Notices...
+          </p>
+        </div>
+      </PageShell>
+    )
+  }
+
+  const safeNotices = notices || []
+  const open = safeNotices.find(n => String(n.id) === openId)
   return (
     <PageShell title="Notices">
       {open && (
@@ -58,16 +85,10 @@ export default function Notices() {
           </div>
         </div>
       )}
-      {loading && notices.length === 0 ? (
-        <div style={{ display: 'grid', gap: 16 }}>
-          <div style={{ background: '#f8fafc', height: 72, borderRadius: 8, border: '1px solid #e2e8f0' }} />
-          <div style={{ background: '#f8fafc', height: 72, borderRadius: 8, border: '1px solid #e2e8f0' }} />
-          <div style={{ background: '#f8fafc', height: 72, borderRadius: 8, border: '1px solid #e2e8f0' }} />
-        </div>
-      ) : notices.length === 0 ? (
+      {safeNotices.length === 0 ? (
         <p style={{ textAlign: 'center', color: '#64748b', padding: '36px 0' }}>No notices published yet.</p>
       ) : (
-        notices.map(n => <NoticeCard key={n.id} notice={n} />)
+        safeNotices.map(n => <NoticeCard key={n.id} notice={n} />)
       )}
     </PageShell>
   )

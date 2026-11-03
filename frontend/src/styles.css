@@ -210,11 +210,11 @@ body::-webkit-scrollbar {
 
 .page-institutional-hero {
   position: relative;
-  background: linear-gradient(135deg, #041224 0%, #073B73 55%, #0a2d5c 100%);
+  background: #134A98;
   color: #ffffff;
   padding: 24px 0 20px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(4, 18, 36, 0.15);
+  box-shadow: 0 4px 20px rgba(19, 74, 152, 0.16);
 }
 
 .page-institutional-hero::before {
@@ -224,8 +224,8 @@ body::-webkit-scrollbar {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 85% 20%, rgba(233, 174, 53, 0.12) 0%, transparent 45%),
-              radial-gradient(circle at 10% 80%, rgba(7, 86, 163, 0.25) 0%, transparent 55%);
+  background: radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 45%),
+              radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -2677,7 +2677,7 @@ img, video, iframe, embed, object {
     display: none !important;
   }
   .main-college-header {
-    background: #003b95 !important;
+    background: #134A98 !important;
     padding: 8px 0 10px !important;
   }
   .header-inner-grid {
@@ -2833,7 +2833,7 @@ img, video, iframe, embed, object {
     transition: background 0.25s ease, box-shadow 0.25s ease;
   }
   .navbar-2row-wrapper.is-scrolled {
-    background: #003b95 !important;
+    background: #134A98 !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
   }
 
@@ -15565,6 +15565,59 @@ label.admin-btn svg {
   color: #059669;
   flex-shrink: 0;
 }
+
+/* ========================================================
+   School Clubs & Activity Committees Styles
+   ======================================================== */
+.clubs-single-page {
+  width: 100%;
+}
+
+.club-group-photo-center-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.club-group-photo-img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.club-photo-caption {
+  font-size: 13.5px;
+  color: #475569;
+  font-style: italic;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .club-header-block {
+    padding: 18px 16px !important;
+  }
+  .club-info-card,
+  .club-members-card {
+    padding: 20px 16px !important;
+  }
+  .club-tabs-nav {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 10px !important;
+  }
+  .club-tabs-nav a {
+    flex-shrink: 0 !important;
+    font-size: 12.5px !important;
+    padding: 6px 12px !important;
+  }
+}
+
 
 
 

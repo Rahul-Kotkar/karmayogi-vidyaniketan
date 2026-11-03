@@ -43,6 +43,7 @@ import Contact from './pages/Contact.jsx'
 import IQAC from './pages/IQAC.jsx'
 import MandatoryDisclosures from './pages/MandatoryDisclosures.jsx'
 import Committees from './pages/Committees.jsx'
+import Clubs from './pages/Clubs.jsx'
 
 // Admin Pages
 import AdminLogin from './pages/admin/AdminLogin.jsx'
@@ -76,6 +77,7 @@ import AdminSettings from './pages/admin/AdminSettings.jsx'
 import AdminNews from './pages/admin/AdminNews.jsx'
 import AdminAchievements from './pages/admin/AdminAchievements.jsx'
 import AdminCommittees from './pages/admin/AdminCommittees.jsx'
+import AdminClubs from './pages/admin/AdminClubs.jsx'
 import AdminActivityLogs from './pages/admin/AdminActivityLogs.jsx'
 import AdminNavigationVisibility from './pages/admin/AdminNavigationVisibility.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
@@ -128,6 +130,7 @@ export default function App() {
           <Route path="research" element={<AdminAccessGuard permissionId="research"><AdminResearch /></AdminAccessGuard>} />
           <Route path="facilities" element={<AdminAccessGuard permissionId="facilities"><AdminFacilities /></AdminAccessGuard>} />
           <Route path="training-placement" element={<AdminAccessGuard permissionId="placement"><AdminTrainingPlacement /></AdminAccessGuard>} />
+          <Route path="clubs" element={<AdminAccessGuard permissionId="clubs"><AdminClubs /></AdminAccessGuard>} />
           <Route path="committees" element={<AdminAccessGuard permissionId="committees"><AdminCommittees /></AdminAccessGuard>} />
           <Route path="rnd" element={<AdminAccessGuard permissionId="research"><AdminRnd /></AdminAccessGuard>} />
           <Route path="iqac-naac" element={<AdminAccessGuard permissionId="iqac_naac"><AdminIQAC /></AdminAccessGuard>} />
@@ -203,6 +206,8 @@ export default function App() {
 
           {/* Faculty, Student & Community */}
           <Route path="/faculty" element={<Faculty />} />
+          <Route path="/clubs" element={<Clubs />} />
+          <Route path="/clubs/:subpage" element={<Clubs />} />
           <Route path="/committees" element={<Committees />} />
           <Route path="/committees/:subpage" element={<Committees />} />
           <Route path="/student-corner" element={<StudentLife />} />

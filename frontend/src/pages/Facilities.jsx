@@ -147,15 +147,23 @@ const SCHOOL_FACILITY_METADATA = {
 export default function Facilities() {
   const { subpage } = useParams()
   const location = useLocation()
-  const [facilities, setFacilities] = useState(() => getCachedFacilities() || CANONICAL_FACILITIES)
+  const cached = getCachedFacilities()
+  const [facilities, setFacilities] = useState(() => (Array.isArray(cached) && cached.length > 0 ? cached : null))
+  const [loading, setLoading] = useState(() => !cached || cached.length === 0)
 
   const loadFacilities = () => {
     facilitiesService.getAll().then(list => {
       if (Array.isArray(list) && list.length > 0) {
         setFacilities(list)
         setCachedFacilities(list)
+      } else {
+        setFacilities(CANONICAL_FACILITIES)
       }
-    }).catch(() => {})
+      setLoading(false)
+    }).catch(() => {
+      setFacilities(prev => prev || CANONICAL_FACILITIES)
+      setLoading(false)
+    })
   }
 
   useEffect(() => {
@@ -302,6 +310,29 @@ export default function Facilities() {
       hours: dbMatch?.hours || meta?.hours || '8:00 AM to 2:00 PM (Monday to Saturday)'
     }
   }, [subpage, facilities])
+
+  if (loading && (!facilities || facilities.length === 0)) {
+    return (
+      <PageShell title="Campus Facilities">
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '70px 20px', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block',
+            width: 36,
+            height: 36,
+            border: '3px solid #e2e8f0',
+            borderTopColor: '#134A98',
+            borderRadius: '50%',
+            animation: 'spin 0.75s linear infinite',
+            marginBottom: 16
+          }} />
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+          <p style={{ color: '#64748b', fontSize: 15, fontWeight: 500, margin: 0 }}>
+            Loading Campus Facilities...
+          </p>
+        </div>
+      </PageShell>
+    )
+  }
 
   // Subpage View Rendering (executed only after ALL hooks have run)
   if (subpage) {

@@ -109,9 +109,9 @@ function renderWhyIcon(icon) {
 export default function Home() {
   const [homeData, setHomeData] = useState(() => getCachedHomeData())
   const [aboutData, setAboutData] = useState(() => getCachedAboutData())
-  const [notices, setNotices] = useState(() => getCachedNotices() || DEFAULT_NOTICES)
-  const [events, setEvents] = useState(() => getCachedEvents() || DEFAULT_EVENTS)
-  const [facilities, setFacilities] = useState(() => getCachedFacilities() || DEFAULT_FACILITIES)
+  const [notices, setNotices] = useState(() => getCachedNotices() || null)
+  const [events, setEvents] = useState(() => getCachedEvents() || null)
+  const [facilities, setFacilities] = useState(() => getCachedFacilities() || null)
   const [isHomeLoading, setIsHomeLoading] = useState(() => !getCachedHomeData())
   const [principalExpanded, setPrincipalExpanded] = useState(false)
   const [canExpandPrincipal, setCanExpandPrincipal] = useState(true)
@@ -138,20 +138,38 @@ export default function Home() {
   useEffect(() => {
     const loadNotices = () => {
       noticesService.getAll().then(data => {
-        if (Array.isArray(data) && data.length > 0) setNotices(data)
-      }).catch(() => {})
+        if (Array.isArray(data) && data.length > 0) {
+          setNotices(data)
+        } else {
+          setNotices(DEFAULT_NOTICES)
+        }
+      }).catch(() => {
+        setNotices(prev => prev || DEFAULT_NOTICES)
+      })
     }
 
     const loadEvents = () => {
       eventsService.getAll().then(data => {
-        if (Array.isArray(data) && data.length > 0) setEvents(data)
-      }).catch(() => {})
+        if (Array.isArray(data) && data.length > 0) {
+          setEvents(data)
+        } else {
+          setEvents(DEFAULT_EVENTS)
+        }
+      }).catch(() => {
+        setEvents(prev => prev || DEFAULT_EVENTS)
+      })
     }
 
     const loadFacilities = () => {
       facilitiesService.getAll().then(data => {
-        if (Array.isArray(data) && data.length > 0) setFacilities(data)
-      }).catch(() => {})
+        if (Array.isArray(data) && data.length > 0) {
+          setFacilities(data)
+        } else {
+          setFacilities(DEFAULT_FACILITIES)
+        }
+      }).catch(() => {
+        setFacilities(prev => prev || DEFAULT_FACILITIES)
+      })
     }
 
     const loadAbout = () => {
@@ -557,9 +575,15 @@ export default function Home() {
             title="School Facilities"
           />
           <div className="grid grid-4 facilities-grid">
-            {facilities.slice(0, 8).map((f, i) => (
-              <FacilityCard key={f.id || f.slug || i} facility={f} />
-            ))}
+            {facilities === null ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} style={{ height: 220, background: '#ffffff', borderRadius: 8, border: '1px solid #e2e8f0', opacity: 0.6 }} />
+              ))
+            ) : (
+              (facilities || []).slice(0, 8).map((f, i) => (
+                <FacilityCard key={f.id || f.slug || i} facility={f} />
+              ))
+            )}
           </div>
           <div style={{ textAlign: 'center', marginTop: 28 }}>
             <Link className="btn btn-primary" to="/facilities">View All School Facilities →</Link>
@@ -749,9 +773,17 @@ export default function Home() {
 
               <div className="home-dual-col-content">
                 <div className="home-dual-items-list">
-                  {notices.slice(0, 3).map((n, i) => (
-                    <NoticeCard key={n.id || i} notice={n} />
-                  ))}
+                  {notices === null ? (
+                    <div style={{ display: 'grid', gap: 12 }}>
+                      <div style={{ height: 60, background: '#f1f5f9', borderRadius: 8 }} />
+                      <div style={{ height: 60, background: '#f1f5f9', borderRadius: 8 }} />
+                      <div style={{ height: 60, background: '#f1f5f9', borderRadius: 8 }} />
+                    </div>
+                  ) : (
+                    (notices || []).slice(0, 3).map((n, i) => (
+                      <NoticeCard key={n.id || i} notice={n} />
+                    ))
+                  )}
                 </div>
               </div>
 
@@ -778,9 +810,17 @@ export default function Home() {
 
               <div className="home-dual-col-content">
                 <div className="home-dual-items-list home-events-grid">
-                  {events.slice(0, 3).map((e, i) => (
-                    <EventCard key={e.id || i} event={e} />
-                  ))}
+                  {events === null ? (
+                    <div style={{ display: 'grid', gap: 12 }}>
+                      <div style={{ height: 60, background: '#f1f5f9', borderRadius: 8 }} />
+                      <div style={{ height: 60, background: '#f1f5f9', borderRadius: 8 }} />
+                      <div style={{ height: 60, background: '#f1f5f9', borderRadius: 8 }} />
+                    </div>
+                  ) : (
+                    (events || []).slice(0, 3).map((e, i) => (
+                      <EventCard key={e.id || i} event={e} />
+                    ))
+                  )}
                 </div>
               </div>
 
