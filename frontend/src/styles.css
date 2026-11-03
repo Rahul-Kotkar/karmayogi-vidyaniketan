@@ -2515,14 +2515,15 @@ img, video, iframe, embed, object {
 }
 .footer-bottom-right {
   text-align: right;
-  color: #94a3b8;
-  font-weight: 500;
+  color: #8bb4e8;
+  font-size: 13px;
+  font-weight: 400;
   letter-spacing: 0.2px;
 }
 .footer-bottom-right .dev-credit-names {
   font-weight: 700;
   font-size: inherit;
-  color: #ffffff;
+  color: #ffffff !important;
 }
 @media (max-width: 768px) {
   .footer-bottom-container {

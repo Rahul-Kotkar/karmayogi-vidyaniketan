@@ -119,8 +119,8 @@ export default function Footer() {
           <div className="footer-bottom-left">
             © 2026 {brandName}. All Rights Reserved. | Shri Pandurang Pratishthan, Pandharpur
           </div>
-          <div className="footer-bottom-right">
-            Designed &amp; Developed by <strong className="dev-credit-names">Rahul &amp; Pratik</strong>
+          <div className="footer-bottom-right" style={{ fontSize: '13px', color: '#8bb4e8', fontWeight: 400 }}>
+            Designed &amp; Developed by <strong className="dev-credit-names" style={{ color: '#ffffff', fontWeight: 700, marginLeft: '3px' }}>Rahul &amp; Pratik</strong>
           </div>
         </div>
       </div>
